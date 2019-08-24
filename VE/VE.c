@@ -18,10 +18,10 @@
 
 *********************************************************************/
 
-void me_main(void);
+void ve_main(void);
 
 
-void me_main(void)
+void ve_main(void)
 {
 
 }

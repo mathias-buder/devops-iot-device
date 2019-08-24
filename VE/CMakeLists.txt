@@ -18,7 +18,7 @@
 #
 # *********************************************************************/
 
-set(COMPONENT_SRCS "ME.c")
+set(COMPONENT_SRCS "VE.c")
 set(COMPONENT_ADD_INCLUDEDIRS ".")
 
 register_component()
