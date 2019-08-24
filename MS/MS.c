@@ -1,10 +1,10 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        $URL: file:///C:/Users/Nano/Desktop/TestRepo/main/hello_world_main.c $
-        $Revision: 6 $
-        $Author: Nano $
-        $Date: 2019-08-24 10:31:10 +0200 (Sat, 24 Aug 2019) $
+        $URL$
+        $Revision$
+        $Author$
+        $Date$
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
