@@ -20,5 +20,5 @@
 
 set(COMPONENT_SRCS "os_main.c")
 set(COMPONENT_ADD_INCLUDEDIRS "")
-
+# set(COMPONENT_REQUIRES "TS") # seems to be not required as of now
 register_component()

@@ -24,5 +24,9 @@ void ts_main(void);
 
 void ts_main(void)
 {
+    int a = 5;
+    int b = 10;
+    int c;
 
+    c = a + b;
 }

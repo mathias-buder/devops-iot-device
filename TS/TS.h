@@ -21,6 +21,10 @@
 #ifndef TS_TS_H_
 #define TS_TS_H_
 
+#include "Interface/ts_input_interface.h"
+#include "Interface/ts_output_interface.h"
+
+
 extern void ts_main(void);
 
 #endif /* TS_TS_H_ */

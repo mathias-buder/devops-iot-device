@@ -18,7 +18,10 @@
 #
 # *********************************************************************/
 
-set(COMPONENT_SRCS "TS.c")
-set(COMPONENT_ADD_INCLUDEDIRS ".")
-
-register_component()
+idf_component_register(SRCS "Config/ts_fsr_preproc_Cfg.c"
+                            "Core/ts_database.c"
+                            "Core/ts_fsr_preproc.c"
+                            "Interface/ts_input_interface.c"
+                            "Interface/ts_output_interface.c"
+                            "TS.c"
+                       INCLUDE_DIRS ".")

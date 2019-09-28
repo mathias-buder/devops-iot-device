@@ -25,11 +25,16 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
+#include "../TS/TS.h"
+
 
 void app_main()
 {
     printf("Hello world!\n");
 
+
+    ts_main();
+    ts_acquire_sensor_data();
 
     /* Print chip information */
     esp_chip_info_t chip_info;
