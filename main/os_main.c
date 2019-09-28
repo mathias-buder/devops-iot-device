@@ -26,6 +26,7 @@
 #include "esp_spi_flash.h"
 
 #include "../TS/TS.h"
+#include "../DD/DD.h"
 
 
 void app_main()
@@ -35,6 +36,9 @@ void app_main()
 
     ts_main();
     ts_acquire_sensor_data();
+
+    dd_main();
+    dd_acquire_sensor_data();
 
     /* Print chip information */
     esp_chip_info_t chip_info;
