@@ -19,17 +19,18 @@
 *********************************************************************/
 
 /**
- * @file dd_icm-20600_Cfg.h
+ * @file dd_icm-20600.h
  * @details Some detailed description
  */
 
-#ifndef DD_ICM_20600_CFG_H
-#define DD_ICM_20600_CFG_H
+#ifndef DD_MAX_30102_H
+#define DD_MAX_30102_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
+#include "../Config/dd_max-30102_Cfg.h"
+#include "../Config/dd_types_Cfg.h"
 
 
 /*************************************************************/
@@ -43,4 +44,4 @@
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
 
-#endif /* DD_ICM_20600_CFG_H */
+#endif /* DD_MAX_30102_H */

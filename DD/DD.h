@@ -22,6 +22,7 @@
 #define DD_H
 
 #include "Interface/dd_icm-20600_oif.h"
+#include "Interface/dd_max-30102_oif.h"
 
 
 extern void dd_main(void);

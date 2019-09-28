@@ -23,8 +23,8 @@
  * @details Some detailed description
  */
 
-#ifndef DD_ICM_20600_CFG_H
-#define DD_ICM_20600_CFG_H
+#ifndef DD_MAX_30102_CFG_H
+#define DD_MAX_30102_CFG_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -43,4 +43,4 @@
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
 
-#endif /* DD_ICM_20600_CFG_H */
+#endif /* DD_MAX_30102_CFG_H */

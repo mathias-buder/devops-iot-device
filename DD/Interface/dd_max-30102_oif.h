@@ -19,12 +19,12 @@
 *********************************************************************/
 
 /**
- * @file dd_icm-20600_Cfg.h
+ * @file dd_icm-20600_oif.h
  * @details Some detailed description
  */
 
-#ifndef DD_ICM_20600_CFG_H
-#define DD_ICM_20600_CFG_H
+#ifndef DD_MAX_30102_OIF_H
+#define DD_MAX_30102_OIF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -42,5 +42,6 @@
  * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
+void dd_max_30102_acquire_sensor_data(void);
 
-#endif /* DD_ICM_20600_CFG_H */
+#endif /* DD_MAX_30102_OIF_H */
