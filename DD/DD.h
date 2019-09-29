@@ -23,6 +23,7 @@
 
 #include "Interface/dd_icm-20600_oif.h"
 #include "Interface/dd_max-30102_oif.h"
+#include "Interface/dd_xr-18910_oif.h"
 
 
 extern void dd_main(void);
