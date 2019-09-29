@@ -40,6 +40,7 @@ void app_main()
     dd_main();
     dd_icm_20600_acquire_sensor_data();
     dd_max_30102_acquire_sensor_data();
+    dd_max_30102_acquire_sensor_data();
 
     /* Print chip information */
     esp_chip_info_t chip_info;

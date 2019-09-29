@@ -20,10 +20,13 @@
 
 idf_component_register(SRCS "Config/dd_icm-20600_Cfg.c"
                             "Config/dd_max-30102_Cfg.c"
+                            "Config/dd_xr-18910_Cfg.c"
                             "Core/dd_database.c"
                             "Core/dd_icm-20600.c"
                             "Core/dd_max-30102.c"
+                            "Core/dd_xr-18910.c"
                             "Interface/dd_icm-20600_oif.c"
                             "Interface/dd_max-30102_oif.c"
+                            "Interface/dd_xr-18910_oif.c"
                             "DD.c"
                        INCLUDE_DIRS ".")
