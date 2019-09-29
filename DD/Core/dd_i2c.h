@@ -19,20 +19,20 @@
 *********************************************************************/
 
 /**
- * @file dd_icm-20600.h
+ * @file dd_i2c.h
  * @details Some detailed description
  */
 
-#ifndef DD_ICM_20600_H
-#define DD_ICM_20600_H
+#ifndef DD_I2C_H
+#define DD_I2C_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../Config/dd_icm-20600_Cfg.h"
+#include "../Config/dd_i2c_Cfg.h"
 #include "../Config/dd_types_Cfg.h"
 
-#include "../Interface/dd_icm-20600_interface.h"
+#include "../Interface/dd_i2c_interface.h"
 
 
 /*************************************************************/
@@ -46,4 +46,4 @@
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
 
-#endif /* DD_ICM_20600_H */
+#endif /* DD_I2C_H */

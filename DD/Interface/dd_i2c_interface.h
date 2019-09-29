@@ -19,20 +19,17 @@
 *********************************************************************/
 
 /**
- * @file dd_icm-20600.h
+ * @file dd_icm-20600_oif.h
  * @details Some detailed description
  */
 
-#ifndef DD_ICM_20600_H
-#define DD_ICM_20600_H
+#ifndef DD_I2C_IF_H
+#define DD_I2C_IF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../Config/dd_icm-20600_Cfg.h"
-#include "../Config/dd_types_Cfg.h"
 
-#include "../Interface/dd_icm-20600_interface.h"
 
 
 /*************************************************************/
@@ -45,5 +42,6 @@
  * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
+void dd_i2c_setup(void);
 
-#endif /* DD_ICM_20600_H */
+#endif /* DD_I2C_IF_H */
