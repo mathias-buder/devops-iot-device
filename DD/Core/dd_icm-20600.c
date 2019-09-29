@@ -22,10 +22,10 @@
 /*      INCLUDES                                                     */
 /*********************************************************************/
 
+#include <Interface/dd_icm-20600_interface.h>
 #include <stdio.h>
 
 #include "dd_icm-20600.h"
-#include "../Interface/dd_icm-20600_oif.h"
 
 
 /*********************************************************************/

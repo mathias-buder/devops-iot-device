@@ -21,9 +21,10 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include "dd_max-30102_interface.h"
+
 #include <stdio.h>
 
-#include "dd_xr-18910_oif.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
@@ -43,7 +44,7 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-void dd_xr_18910_acquire_sensor_data(void)
+void dd_max_30102_acquire_sensor_data(void)
 {
-    printf("Calling dd_xr_18910_acquire_sensor_data() ... \n");
+    printf("Calling dd_max_30102_acquire_sensor_data() ... \n");
 }
