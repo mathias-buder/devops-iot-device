@@ -24,7 +24,7 @@
 #include "Interface/dd_icm-20600_interface.h"
 #include "Interface/dd_max-30102_interface.h"
 #include "Interface/dd_xr-18910_interface.h"
-#include "Interface/dd_i2c_interface.h"
+#include "Interface/dd_i2c_interface.h" /* shall be removed after testing, no external component shall be able to access it */
 
 
 extern void dd_main(void);

@@ -98,6 +98,9 @@
             U8      flag_byte;
         } __attribute__ ((packed)) t_flag_type ;
 
+    #ifndef PRIVATE
+        #define PRIVATE    static
+    #endif
 
     #ifndef NULL
         #define NULL    (void *)0
