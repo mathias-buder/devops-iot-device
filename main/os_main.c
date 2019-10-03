@@ -37,11 +37,12 @@ void app_main()
     ts_main();
     ts_acquire_sensor_data();
 
-    dd_main();
+    dd_i2c_init();
     dd_icm_20600_acquire_sensor_data();
     dd_max_30102_acquire_sensor_data();
     dd_xr_18910_acquire_sensor_data();
-    dd_i2c_setup();
+
+    dd_main();
 
     /* Print chip information */
     esp_chip_info_t chip_info;

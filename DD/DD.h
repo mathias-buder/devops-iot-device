@@ -26,7 +26,10 @@
 #include "Interface/dd_xr-18910_interface.h"
 #include "Interface/dd_i2c_interface.h" /* shall be removed after testing, no external component shall be able to access it */
 
+#include "Core/dd_i2c.h"
 
+
+extern void dd_init(void);
 extern void dd_main(void);
 
 #endif /* DD_H */

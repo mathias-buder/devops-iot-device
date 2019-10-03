@@ -44,32 +44,6 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-
-#define I2C_SDA_PORT gpioPortA
-#define I2C_SDA_PIN 0
-#define I2C_SDA_MODE gpioModeWiredAnd
-#define I2C_SDA_DOUT 1
-
-#define I2C_SCL_PORT gpioPortA
-#define I2C_SCL_PIN 1
-#define I2C_SCL_MODE gpioModeWiredAnd
-#define I2C_SCL_DOUT 1
-
-#define I2CDEV_DEFAULT_READ_TIMEOUT 1000
-
-#define DD_I2C_IF_NUM   I2C_NUM_0
-
-
-#define I2C_MASTER_SCL_IO CONFIG_I2C_MASTER_SCL               /*!< gpio number for I2C master clock */
-#define I2C_MASTER_SDA_IO CONFIG_I2C_MASTER_SDA               /*!< gpio number for I2C master data  */
-#define I2C_MASTER_NUM I2C_NUMBER(CONFIG_I2C_MASTER_PORT_NUM) /*!< I2C port number for master dev */
-#define I2C_MASTER_FREQ_HZ CONFIG_I2C_MASTER_FREQUENCY        /*!< I2C master clock frequency */
-#define I2C_MASTER_TX_BUF_DISABLE 0                           /*!< I2C master doesn't need buffer */
-#define I2C_MASTER_RX_BUF_DISABLE 0                           /*!< I2C master doesn't need buffer */
-
-
-
-
 /**
  * @details This function returns pointer to the osl object for the given id
  * of the linked environment object.
@@ -77,7 +51,30 @@
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
 
-esp_err_t dd_i2c_init();
+BOOLEAN dd_i2c_init();
+
+BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
+                             U8 register_addr_u8,
+                             U8 data_u8 );
+
+BOOLEAN dd_i2c_write_burst( U8  device_addr_u8,
+                            U8  register_addr_u8,
+                            U8 *p_data_u8,
+                            U8  data_size_u8 );
+
+U8 dd_i2c_read_burst( U8  device_addr_u8,
+                      U8  register_addr_u8,
+                      U8* p_data_u8,
+                      U8  data_size_u8 );
+
+BOOLEAN dd_i2c_read_bit( U8  device_addr_u8,
+                         U8  register_addr_u8,
+                         U8  bit_position_u8 );
+
+BOOLEAN dd_i2c_read_modify_write( U8 device_addr_u8,
+                                  U8 register_addr_u8,
+                                  U8 bit_position_u8,
+                                  BOOLEAN bit_value_b );
 
 
 #endif /* DD_I2C_H */

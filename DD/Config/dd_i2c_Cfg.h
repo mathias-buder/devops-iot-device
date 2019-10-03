@@ -29,18 +29,38 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <driver/i2c.h>
+#include <driver/gpio.h>
+#include <freertos/FreeRTOS.h>
 
+#include "../../types.h"
 
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+
+#define DD_I2C_OPERATION_MODE                       I2C_MODE_MASTER
+
+#define DD_I2C_PORT_NUM                             I2C_NUM_0
+
+#define DD_I2C_SDA_IO_NUM                           GPIO_NUM_21
+
+#define DD_I2C_SCL_IO_NUM                           GPIO_NUM_22
+
+#define DD_I2C_SDA_PULLUP_CFG                       GPIO_PULLUP_ENABLE
+
+#define DD_I2C_SCL_PULLUP_CFG                       GPIO_PULLUP_ENABLE
+
+#define DD_I2C_SCL_FREQ                             (100000)  /*  100 kHz  */
+
+#define DD_I2C_SCL_MASTER_ACK_CHECK                 TRUE
+
+#define DD_I2C_BUS_BUSY_TIME_OUT                    (1000 / portTICK_PERIOD_MS)
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
+
 
 #endif /* DD_I2C_CFG_H */

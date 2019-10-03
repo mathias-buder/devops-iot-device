@@ -43,10 +43,3 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-void dd_i2c_setup(void)
-{
-    printf("Calling dd_i2c_setup() ... \n");
-
-    dd_i2c_init();
-
-}
