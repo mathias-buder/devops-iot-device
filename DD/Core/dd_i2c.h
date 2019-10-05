@@ -37,40 +37,121 @@
 #include "../Config/dd_i2c_Cfg.h"
 #include "../Config/dd_types_Cfg.h"
 
-#include "../Interface/dd_i2c_interface.h"
-
-
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
+
 /**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
+ * @details This function initialized the I2C interface
  */
+void dd_i2c_init(void);
 
-BOOLEAN dd_i2c_init();
 
+/**
+ * @details This function reads the content of an 8-bit register.
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] data_u8 Pointer to storage of register content
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
+BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
+                            U8  register_addr_u8,
+                            U8* data_u8 );
+
+
+/**
+ * @details This function reads N-Byte of data starting at the address given by register_addr_u8.
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] data_u8 Pointer to storage of register content
+ * @param[in] data_size_u8 Size in byte of data_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
+BOOLEAN dd_i2c_read_burst( U8  device_addr_u8,
+                           U8  register_addr_u8,
+                           U8* p_data_u8,
+                           U8  data_size_u8 );
+
+
+/**
+ * @details This function reads the value of an bit within the register given by register_addr_u8
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] bit_position_u8 Position of requested bit within the register given by register_addr_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
+BOOLEAN dd_i2c_read_bit( U8  device_addr_u8,
+                         U8  register_addr_u8,
+                         U8  bit_position_u8 );
+
+
+/**
+ * @details This function reads the value of N-bits within the register given by register_addr_u8
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] start_bit_u8 Start position of first bit
+ * @param[in] length_u8 Total number of bits to be read
+ * @param[in] p_data_u8 Pointer to the storage of requested bits to be read
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
+BOOLEAN dd_i2c_read_bits( U8  device_addr_u8,
+                          U8  regisetr_addr_u8,
+                          U8  start_bit_u8,
+                          U8  length_u8,
+                          U8* p_data_u8 );
+
+
+/**
+ * @details This function writes the content of an 8-bit register.
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] data_u8 Pointer to the data to be written to the register given by register_addr_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
 BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
                              U8 register_addr_u8,
                              U8 data_u8 );
 
+
+/**
+ * @details This function reads N-Byte of data starting at the address given by register_addr_u8.
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] data_u8 Pointer to the data to be written starting a address given by register_addr_u8
+ * @param[in] data_size_u8 Size in byte of data_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
 BOOLEAN dd_i2c_write_burst( U8  device_addr_u8,
                             U8  register_addr_u8,
                             U8 *p_data_u8,
                             U8  data_size_u8 );
 
-U8 dd_i2c_read_burst( U8  device_addr_u8,
-                      U8  register_addr_u8,
-                      U8* p_data_u8,
-                      U8  data_size_u8 );
 
-BOOLEAN dd_i2c_read_bit( U8  device_addr_u8,
-                         U8  register_addr_u8,
-                         U8  bit_position_u8 );
+/**
+ * @details This function writes the value of N-bits within the register given by register_addr_u8
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] start_bit_u8 Start position of first bit
+ * @param[in] length_u8 Total number of bits to be written
+ * @param[in] data_u8 Bits to be written to the register given by register_addr_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
+BOOLEAN dd_i2c_write_bits( U8 device_addr_u8,
+                           U8 register_addr_u8,
+                           U8 bit_start_u8,
+                           U8 length_u8,
+                           U8 data_u8 );
 
+/**
+ * @details This function reads the an register given by register_addr_u8 and modifies the bit given by
+ * bit_position_u8 with the value given by bit_value_b
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] bit_position_u8 Position of the bit to be modified
+ * @param[in] bit_value_b Value to be written to the bit given by bit_position_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
 BOOLEAN dd_i2c_read_modify_write( U8 device_addr_u8,
                                   U8 register_addr_u8,
                                   U8 bit_position_u8,
