@@ -30,6 +30,5 @@ idf_component_register(SRCS "Config/dd_icm-20600_Cfg.c"
                             "Interface/dd_icm-20600_interface.c"
                             "Interface/dd_max-30102_interface.c"
                             "Interface/dd_xr-18910_interface.c"
-                            "Interface/dd_i2c_interface.c"
                             "DD.c"
                        INCLUDE_DIRS ".")
