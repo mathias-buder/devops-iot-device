@@ -18,9 +18,9 @@
 
 *********************************************************************/
 /**
- * @file osl_aeb_types.h
+ * @file dd_types.h
  * @details This files defines the domain specific types
- * used in the Object Selection domain.
+ * used in the device driver domain.
  */
 
 #ifndef DD_TYPES_H
@@ -29,6 +29,9 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <esp_err.h>
+
+#include "../../types.h"
 #include "../Config/dd_types_Cfg.h"
 #include "../Interface/dd_public_types.h"
 
@@ -38,52 +41,65 @@
 /*************************************************************/
 
 /**
- * @details enumerator of impeding objects.
+ * @details enumerator of ...
  */
-//typedef enum OSL_AEB_IMPEDING_OBJECT_TYPE_TAG
-//{
-//    OSL_AEB_IMPEDING_OBJECT_MCP,        /**< @details Most Critical Pedestrian */
-//    OSL_AEB_IMPEDING_OBJECT_MCB,        /**< @details Most Critical Bicyclist  */
-//    OSL_AEB_IMPEDING_OBJECT_MCV,        /**< @details Most Critical Vehicle    */
-//    OSL_AEB_IMPEDING_OBJECT_DIMENSION   /**< @details Dimension, last entry, number of impeding object types. */
-//} OSL_AEB_IMPEDING_OBJECT_TYPE;
+typedef enum DD_ICM_20600_SCALE_A_TAG
+{
+    DD_ICM_20600_AFS_2G = 0,        /**< @details ... */
+    DD_ICM_20600_AFS_4G,            /**< @details ... */
+    DD_ICM_20600_AFS_8G,            /**< @details ... */
+    DD_ICM_20600_AFS_16G,            /**< @details ... */
+    DD_ICM_20600_SCALE_A_SIZE
+}DD_ICM_20600_SCALE_A;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_SCALE_G_TAG
+{
+    DD_ICM_20600_GFS_250DPS = 0,    /**< @details ... */
+    DD_ICM_20600_GFS_500DPS,        /**< @details ... */
+    DD_ICM_20600_GFS_1000DPS,       /**< @details ... */
+    DD_ICM_20600_GFS_2000DPS,        /**< @details ... */
+    DD_ICM_20600_SCALE_G_SIZE
+}DD_ICM_20600_SCALE_G;
+
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_ACCEL_TYPE_TAG
+{
+    DD_ICM_20600_ACCEL_X = 0,    /**< @details ... */
+    DD_ICM_20600_ACCEL_Y,    /**< @details ... */
+    DD_ICM_20600_ACCEL_Z,    /**< @details ... */
+    DD_ICM_20600_ACCEL_SIZE
+}DD_ICM_20600_ACCEL_TYPE;
+
 
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
 
 /**
- * @brief   Object Selection Input Interface Vehicle Structure
- * @details The Object Selection Input Interface Vehicle Structure gathers vehicle related
-            information such as car characteristics and dynamics.
- * @ingroup VehiStructs
- * @sa      TRACK/declar.h
- * @sa      CVD/lp_off.h
- * @sa      INFOBASE/INFOBASE.h
- * @sa      FUSION/Config/osl_aeb_input_interface.h
+ * @brief   ICM-20600 Output Interface Data Structure
+ * @details ICM-20600 Output Interface Data Structure gathers all required
+            motion information such as pitch, roll, yaw, ...
+ * @ingroup SensorStructures
+
  */
-//typedef struct OSL_AEB_INPUT_VEHICLE_DATA_TAG
-//{
-//    F32             yawrate_cc_f32;             /**< @details ego yaw rate, positive to left [rad/s] */
-//    F32             pt2_acceleration_f32;       /**< @details ego acceleration [m/s^2]*/
-//    F32             speed_f32;                  /**< @details ego speed [m/s] */
-//} OSL_AEB_INPUT_VEHICLE_DATA;
+typedef struct DD_ICM_20600_DATA_TYPE_TAG
+{
+    F32 temperature_f32;                /** @details Internal core (die) temperature */
 
-/**
- * @details struct type defining the attributes for Object Input from Object fusion.
- */
-//typedef struct OSL_AEB_INPUT_OBJ_STRUCT_TAG   /*  osl input object struct */
-//{
-//    U8                                  env_id_u8;
-//    OF_CLASS                            class_e;                                                    /** @details object class (pedestrian, truck, ...) */
-//    STATE_STRUCT                        Kalman_state_s;                                             /** @details structure containing the state of the object's associated Kalman model*/
-//    F32                                 width_f32;                                                  /** @details width state. */
-//    BOOLEAN                             is_oncoming_b;                                              /** @details indicates whether the object is oncoming or not */
-//    F32                                 video_confidence_f32;                                       /** @details objects video confidence                             */
-//    F32                                 radar_confidence_f32;                                       /** @details objects radar confidence                             */
-//    OSL_AEB_INTEGRITY_LEVEL             last_integrity_level_e;                                     /** @details objects integrity level of previous cycle            */
-//} OSL_AEB_INPUT_OBJECT_STRUCT;
+} DD_ICM_20600_DATA_TYPE;
 
 
+typedef struct DD_I2C_ERROR_TYPE_TAG
+{
+    esp_err_t current_t;
+    esp_err_t last_t;
+    BOOLEAN   state_b;
+}DD_I2C_ERROR_TYPE;
 
 #endif /* DD_TYPES_H */
