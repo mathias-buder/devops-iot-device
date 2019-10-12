@@ -82,11 +82,13 @@ BOOLEAN dd_i2c_read_burst( U8  device_addr_u8,
  * @param[in] device_addr_u8 I2C slave device address
  * @param[in] register_addr_u8 Register address to read from
  * @param[in] bit_position_u8 Position of requested bit within the register given by register_addr_u8
+ * @param[in] bit_value_b Pointer to the bit value
  * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
  */
-BOOLEAN dd_i2c_read_bit( U8  device_addr_u8,
-                         U8  register_addr_u8,
-                         U8  bit_position_u8 );
+BOOLEAN dd_i2c_read_bit( U8       device_addr_u8,
+                         U8       register_addr_u8,
+                         U8       bit_position_u8,
+                         BOOLEAN* bit_value_b );
 
 
 /**

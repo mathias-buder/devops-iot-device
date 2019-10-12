@@ -40,6 +40,19 @@
 /*      ENUMERATORS                                          */
 /*************************************************************/
 
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_I2C_ERROR_TAG
+{
+    DD_I2C_ERROR_FAIL         = ESP_FAIL,             /*!< Generic esp_err_t code indicating failure */
+    DD_I2C_ERROR_OK           = ESP_OK,               /*!< esp_err_t value indicating success (no error) */
+    DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE,
+    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG
+}DD_I2C_ERROR;
+
+
 /**
  * @details enumerator of ...
  */
@@ -97,9 +110,9 @@ typedef struct DD_ICM_20600_DATA_TYPE_TAG
 
 typedef struct DD_I2C_ERROR_TYPE_TAG
 {
-    esp_err_t current_t;
-    esp_err_t last_t;
-    BOOLEAN   state_b;
+    DD_I2C_ERROR current_t;
+    DD_I2C_ERROR previous_t;
+    BOOLEAN      state_b;
 }DD_I2C_ERROR_TYPE;
 
 #endif /* DD_TYPES_H */
