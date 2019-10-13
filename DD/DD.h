@@ -18,18 +18,50 @@
 
 *********************************************************************/
 
+
+/**
+ * @file dd_icm-20600_Cfg.h
+ * @details Some detailed description
+ */
+
 #ifndef DD_H
 #define DD_H
 
+
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "Interface/dd_public_types.h"
 #include "Interface/dd_icm-20600_interface.h"
 #include "Interface/dd_max-30102_interface.h"
 #include "Interface/dd_xr-18910_interface.h"
-#include "Interface/dd_i2c_interface.h" /* shall be removed after testing, no external component shall be able to access it */
-
-#include "Core/dd_i2c.h"
 
 
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+
+
+/*************************************************************/
+/*      GLOBAL VARIABLES                                     */
+/*************************************************************/
+
+
+/*********************************************************************/
+/*   FUNCTION PROTOTYPES                                             */
+/*********************************************************************/
+
+/**
+ * @details This function initializes the entire Device Driver (DD) domain
+ * and shall by only called once.
+ */
 extern void dd_init(void);
+
+
+/**
+ * @details This function executes all Device Driver (DD) domain related
+ * functions and shall be called in a cyclic fashon.
+ */
 extern void dd_main(void);
 
 #endif /* DD_H */

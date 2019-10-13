@@ -18,49 +18,101 @@
 
 *********************************************************************/
 
+/*********************************************************************/
+/*      INCLUDES                                                     */
+/*********************************************************************/
 #include "DD.h"
 
-#define DEVICE_ADDR   0x68
-#define REGISTER_ADDR 0x41
+#include "Core/dd_i2c.h"
+#include "Core/dd_icm-20600.h"
+#include "Core/dd_database.h"
 
-U8 p_data_u8[] = { 0x01, 0x02, 0x03, 0x01, 0x02, 0x03, 0x01, 0x02, 0x03, 0x01, 0x02, 0x03          };
+/* Need to be removed later, only for testing purpose */
+#include "Config/dd_icm-20600_Cfg.h"
 
-U8 data_u8 = 0x12;
+/*********************************************************************/
+/*      GLOBAL VARIABLES                                             */
+/*********************************************************************/
+#define REGISTER_ADDR   0x1A
+#define REGISTER_VAL    0xAA
 
-U8 register_data_u8;
+#define BIT_NO          2
+#define LENGTH          3
+
+U8 reg_val = 0U;
+
+
+/*********************************************************************/
+/*      PRIVATE FUNCTION DECLARATIONS                                */
+/*********************************************************************/
+
+/*********************************************************************/
+/*   FUNCTION DEFINITIONS                                            */
+/*********************************************************************/
 
 void dd_init(void)
 {
+    /* Initialize I2C basic device driver */
     dd_i2c_init();
 }
 
 
 void dd_main(void)
 {
+//    BOOLEAN bit_b = FALSE;
+//    U8 register_value_u8 = 0U;
+//    U8 bit_data_u8 = 0U;
+    DD_I2C_ERROR_TYPE* i2c_error_s;
 
 
+//    dd_i2c_read_single( DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, &register_value_u8 );
+//
+//    printf( "Register 0x%x: 0x%x\n", REGISTER_ADDR, register_value_u8 );
+//
+//
+//    dd_i2c_write_single(DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, reg_val);
+//
+//
+//
+//    dd_i2c_read_single( DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, &register_value_u8 );
+//
+//    printf( "Register 0x%x: 0x%x (0x%x)\n", REGISTER_ADDR, register_value_u8, reg_val);
+//
+//
+//    bit_b = dd_i2c_read_bit(DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, BIT_NO);
+//
+//
+//    printf( "Register 0x%x, BIT%i=%i\n", REGISTER_ADDR, BIT_NO, bit_b);
+//
+//
+//    dd_i2c_read_modify_write(DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, BIT_NO, TRUE);
+//
+//
+//    dd_i2c_read_single( DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, &register_value_u8 );
+//
+//    printf( "Register 0x%x: 0x%x\n", REGISTER_ADDR, register_value_u8 );
 
-    while(1)
-    {
-        for (int i = 1; i >= 0; i--)
-        {
-            printf("Restarting in %d seconds...\n", i);
 
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
-        }
+//    /* Bit position seems to be wrong, BIT0 is currently at position of BIT1 */
+//    dd_i2c_read_bits(DD_ICM_20600_I2C_ADDR, REGISTER_ADDR, BIT_NO, LENGTH, &bit_data_u8);
+//
+//    printf( "Register 0x%x, BIT%i-%i=0x%x\n", REGISTER_ADDR, BIT_NO, BIT_NO + LENGTH - 1, bit_data_u8);
 
-        // dd_i2c_write_single(0x68, 0x43, 0x01);
+   // reg_val++;
 
-        // dd_i2c_write_burst( 0x10, 0x20, p_data_u8, sizeof(p_data_u8) );
 
-        dd_i2c_write_burst( DEVICE_ADDR, 0x20, &data_u8, sizeof(data_u8) );
+    // printf( "ICM-20600 identity valid: 0x%x\n", dd_icm_20600_who_am_i_read() );
+//
 
-        dd_i2c_read_burst(DEVICE_ADDR, REGISTER_ADDR, &register_data_u8, sizeof(register_data_u8) );
+    i2c_error_s = dd_i2c_get_error();
 
-        // dd_i2c_read_bit(DEVICE_ADDR, REGISTER_ADDR, )
+    /* Read all required sensor data form ICM-20600 */
+    dd_icm_20600_acquire_sensor_data();
 
-        printf("Device 0x%x, Register: 0x%x, Value %x\n", DEVICE_ADDR, REGISTER_ADDR, register_data_u8);
-    }
+    printf( "Temperature: %0.2f °C, i2c-state: %s \n", dd_icm_20600_output_s.temperature_deg_f32, esp_err_to_name( i2c_error_s->current_t ));
+
+
+    printf("X: %i, Y: %i, Z: %i\n", dd_icm_20600_output_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X], dd_icm_20600_output_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y], dd_icm_20600_output_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z]);
 
 
 }

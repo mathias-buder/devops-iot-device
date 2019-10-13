@@ -22,7 +22,7 @@
 /*      INCLUDES                                                     */
 /*********************************************************************/
 #include "dd_icm-20600_interface.h"
-
+#include "../Core/dd_database.h"
 #include <stdio.h>
 
 
@@ -46,5 +46,13 @@
 
 void dd_icm_20600_acquire_sensor_data(void)
 {
+
     printf("Calling dd_icm_20600_acquire_sensor_data() ... \n");
+
+    /* Read temperature */
+    dd_icm_20600_temperature_read();
+
+    dd_icm_20600_accel_data_read_raw();
+
+
 }

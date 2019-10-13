@@ -103,7 +103,10 @@ typedef enum DD_ICM_20600_ACCEL_TYPE_TAG
  */
 typedef struct DD_ICM_20600_DATA_TYPE_TAG
 {
-    F32 temperature_f32;                /** @details Internal core (die) temperature */
+    U8  chip_id_u8;
+    F32 temperature_deg_f32;                /** @details Internal core (die) temperature */
+    U16 temperature_raw_u16;
+    U16 accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];
 
 } DD_ICM_20600_DATA_TYPE;
 

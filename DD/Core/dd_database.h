@@ -29,19 +29,17 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
+#include "dd_types.h"
 
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
+extern DD_ICM_20600_DATA_TYPE dd_icm_20600_output_s;
+
+
+
 
 
 #endif /* DD_DATABASE_H */

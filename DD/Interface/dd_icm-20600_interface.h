@@ -23,13 +23,13 @@
  * @details Some detailed description
  */
 
-#ifndef DD_ICM_20600_OIF_H
-#define DD_ICM_20600_OIF_H
+#ifndef DD_ICM_20600_IF_H
+#define DD_ICM_20600_IF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
+#include "../Core/dd_icm-20600.h"
 
 
 /*************************************************************/
@@ -42,6 +42,7 @@
  * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
+
 void dd_icm_20600_acquire_sensor_data(void);
 
-#endif /* DD_ICM_20600_OIF_H */
+#endif /* DD_ICM_20600_IF_H */
