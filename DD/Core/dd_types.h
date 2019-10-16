@@ -143,9 +143,9 @@ typedef struct DD_ICM_20600_DATA_TAG
     U16 accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];   /** @details Acceleration raw data */
     U16 gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];     /** @details Acceleration raw data */
     DD_ICM_20600_QUATERNION Quaternion_s;              /** @details Acceleration raw data */
-    F32 self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];
-    F32 factory_trim_vu8[DD_ICM_20600_SELF_TEST_SIZE];
-    F32 fac_trim_deviation_vu8[DD_ICM_20600_SELF_TEST_SIZE];
+    F32 self_test_vf32[DD_ICM_20600_SELF_TEST_SIZE];
+    F32 factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];
+    F32 fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE];
 } DD_ICM_20600_DATA;
 
 

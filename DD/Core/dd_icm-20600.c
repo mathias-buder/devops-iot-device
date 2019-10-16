@@ -385,13 +385,13 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
         for( idx_u8 = 0; idx_u8 < DD_ICM_20600_SELF_TEST_SIZE; idx_u8++ )
         {
             /* Store self test data */
-            p_input_data_s->self_test_vu8[idx_u8] = self_test_vu8[idx_u8];
+            p_input_data_s->self_test_vf32[idx_u8] = self_test_vu8[idx_u8];
 
             /* Store factory trim data */
-            p_input_data_s->factory_trim_vu8[idx_u8] = factory_trim_vu8[idx_u8];
+            p_input_data_s->factory_trim_vf32[idx_u8] = factory_trim_vu8[idx_u8];
 
             /* Calculate deviation of factory trim values in percent, +/- 14 or less deviation is a pass */
-            p_input_data_s->fac_trim_deviation_vu8[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vu8[idx_u8] ) / factory_trim_vu8[idx_u8]; // Report percent differences
+            p_input_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vu8[idx_u8] ) / factory_trim_vu8[idx_u8]; // Report percent differences
         }
     }
     while(FALSE);
