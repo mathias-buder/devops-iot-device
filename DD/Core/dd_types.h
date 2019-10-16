@@ -90,25 +90,63 @@ typedef enum DD_ICM_20600_ACCEL_TYPE_TAG
 }DD_ICM_20600_ACCEL_TYPE;
 
 
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_GYRO_TYPE_TAG
+{
+    DD_ICM_20600_GYRO_X = 0,    /**< @details ... */
+    DD_ICM_20600_GYRO_Y,    /**< @details ... */
+    DD_ICM_20600_GYRO_Z,    /**< @details ... */
+    DD_ICM_20600_GYRO_SIZE
+}DD_ICM_20600_GYRO_TYPE;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_SELF_TEST_TAG
+{
+    DD_ICM_20600_SELF_TEST_XA = 0,    /**< @details ... */
+    DD_ICM_20600_SELF_TEST_YA,    /**< @details ... */
+    DD_ICM_20600_SELF_TEST_ZA,    /**< @details ... */
+    DD_ICM_20600_SELF_TEST_XG,
+    DD_ICM_20600_SELF_TEST_YG,
+    DD_ICM_20600_SELF_TEST_ZG,
+    DD_ICM_20600_SELF_TEST_SIZE
+}DD_ICM_20600_SELF_TEST;
+
+
+
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
+
+typedef struct DD_ICM_20600_QUATERNION_TAG
+{
+    F32 Q1_f32;
+    F32 Q2_f32;
+    F32 Q3_f32;
+    F32 Q4_f32;
+}DD_ICM_20600_QUATERNION;
 
 /**
  * @brief   ICM-20600 Output Interface Data Structure
  * @details ICM-20600 Output Interface Data Structure gathers all required
             motion information such as pitch, roll, yaw, ...
  * @ingroup SensorStructures
-
  */
-typedef struct DD_ICM_20600_DATA_TYPE_TAG
+typedef struct DD_ICM_20600_DATA_TAG
 {
-    U8  chip_id_u8;
-    F32 temperature_deg_f32;                /** @details Internal core (die) temperature */
-    U16 temperature_raw_u16;
-    U16 accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];
-
-} DD_ICM_20600_DATA_TYPE;
+    U8  chip_id_u8;                                    /** @details Unique chip id */
+    F32 temperature_deg_f32;                           /** @details Internal core (die) temperature @unit °C */
+    U16 temperature_raw_u16;                           /** @details Internal core (die) temperature raw data */
+    U16 accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];   /** @details Acceleration raw data */
+    U16 gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];     /** @details Acceleration raw data */
+    DD_ICM_20600_QUATERNION Quaternion_s;              /** @details Acceleration raw data */
+    F32 self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];
+    F32 factory_trim_vu8[DD_ICM_20600_SELF_TEST_SIZE];
+    F32 fac_trim_deviation_vu8[DD_ICM_20600_SELF_TEST_SIZE];
+} DD_ICM_20600_DATA;
 
 
 typedef struct DD_I2C_ERROR_TYPE_TAG

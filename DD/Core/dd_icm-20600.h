@@ -38,13 +38,13 @@
 
 /* ICM-20600 Register Map*/
 
-#define DD_ICM_20600_XGOFFS_TC                      0x00 // Bit 7 PWR_MODE, bits 6:1 XG_OFFS_TC, bit 0 OTP_BNK_VLD
+#define DD_ICM_20600_XGOFFS_TC                      0x00        // Bit 7 PWR_MODE, bits 6:1 XG_OFFS_TC, bit 0 OTP_BNK_VLD
 #define DD_ICM_20600_YGOFFS_TC                      0x01
 #define DD_ICM_20600_ZGOFFS_TC                      0x02
-#define DD_ICM_20600_X_FINE_GAIN                    0x03 // [7:0] fine gain
+#define DD_ICM_20600_X_FINE_GAIN                    0x03        // [7:0] fine gain
 #define DD_ICM_20600_Y_FINE_GAIN                    0x04
 #define DD_ICM_20600_Z_FINE_GAIN                    0x05
-#define DD_ICM_20600_XA_OFFSET_H                    0x06 // User-defined trim values for accelerometer
+#define DD_ICM_20600_XA_OFFSET_H                    0x06        // User-defined trim values for accelerometer
 #define DD_ICM_20600_XA_OFFSET_L_TC                 0x07
 #define DD_ICM_20600_YA_OFFSET_H                    0x08
 #define DD_ICM_20600_YA_OFFSET_L_TC                 0x09
@@ -54,7 +54,7 @@
 #define DD_ICM_20600_SELF_TEST_Y                    0x0E
 #define DD_ICM_20600_SELF_TEST_Z                    0x0F
 #define DD_ICM_20600_SELF_TEST_A                    0x10
-#define DD_ICM_20600_XG_OFFS_USRH                   0x13  // User-defined trim values for gyroscope; supported in MPU-6050?
+#define DD_ICM_20600_XG_OFFS_USRH                   0x13        // User-defined trim values for gyroscope; supported in MPU-6050?
 #define DD_ICM_20600_XG_OFFS_USRL                   0x14
 #define DD_ICM_20600_YG_OFFS_USRH                   0x15
 #define DD_ICM_20600_YG_OFFS_USRL                   0x16
@@ -64,12 +64,12 @@
 #define DD_ICM_20600_CONFIG                         0x1A
 #define DD_ICM_20600_GYRO_CONFIG                    0x1B
 #define DD_ICM_20600_ACCEL_CONFIG                   0x1C
-#define DD_ICM_20600_FF_THR                         0x1D  // Free-fall
-#define DD_ICM_20600_FF_DUR                         0x1E  // Free-fall
-#define DD_ICM_20600_MOT_THR                        0x1F  // Motion detection threshold bits [7:0]
-#define DD_ICM_20600_MOT_DUR                        0x20  // Duration counter threshold for motion interrupt generation, 1 kHz rate, LSB = 1 ms
-#define DD_ICM_20600_ZMOT_THR                       0x21  // Zero-motion detection threshold bits [7:0]
-#define DD_ICM_20600_ZRMOT_DUR                      0x22  // Duration counter threshold for zero motion interrupt generation, 16 Hz rate, LSB = 64 ms
+#define DD_ICM_20600_FF_THR                         0x1D        // Free-fall
+#define DD_ICM_20600_FF_DUR                         0x1E        // Free-fall
+#define DD_ICM_20600_MOT_THR                        0x1F        // Motion detection threshold bits [7:0]
+#define DD_ICM_20600_MOT_DUR                        0x20        // Duration counter threshold for motion interrupt generation, 1 kHz rate, LSB = 1 ms
+#define DD_ICM_20600_ZMOT_THR                       0x21        // Zero-motion detection threshold bits [7:0]
+#define DD_ICM_20600_ZRMOT_DUR                      0x22        // Duration counter threshold for zero motion interrupt generation, 16 Hz rate, LSB = 64 ms
 #define DD_ICM_20600_FIFO_EN                        0x23
 #define DD_ICM_20600_I2C_MST_CTRL                   0x24
 #define DD_ICM_20600_I2C_SLV0_ADDR                  0x25
@@ -92,7 +92,7 @@
 #define DD_ICM_20600_I2C_MST_STATUS                 0x36
 #define DD_ICM_20600_INT_PIN_CFG                    0x37
 #define DD_ICM_20600_INT_ENABLE                     0x38
-#define DD_ICM_20600_DMP_INT_STATUS                 0x39  // Check DMP interrupt
+#define DD_ICM_20600_DMP_INT_STATUS                 0x39        // Check DMP interrupt
 #define DD_ICM_20600_INT_STATUS                     0x3A
 #define DD_ICM_20600_ACCEL_XOUT_H                   0x3B
 #define DD_ICM_20600_ACCEL_XOUT_L                   0x3C
@@ -140,12 +140,12 @@
 #define DD_ICM_20600_I2C_MST_DELAY_CTRL             0x67
 #define DD_ICM_20600_SIGNAL_PATH_RESET              0x68
 #define DD_ICM_20600_MOT_DETECT_CTRL                0x69
-#define DD_ICM_20600_USER_CTRL                      0x6A  // Bit 7 enable DMP, bit 3 reset DMP
-#define DD_ICM_20600_PWR_MGMT_1                     0x6B // Device defaults to the SLEEP mode
+#define DD_ICM_20600_USER_CTRL                      0x6A        // Bit 7 enable DMP, bit 3 reset DMP
+#define DD_ICM_20600_PWR_MGMT_1                     0x6B        // Device defaults to the SLEEP mode
 #define DD_ICM_20600_PWR_MGMT_2                     0x6C
-#define DD_ICM_20600_DMP_BANK                       0x6D  // Activates a specific bank in the DMP
-#define DD_ICM_20600_DMP_RW_PNT                     0x6E  // Set read/write pointer to a specific start address in specified DMP bank
-#define DD_ICM_20600_DMP_REG                        0x6F  // Register in DMP from which to read or to which to write
+#define DD_ICM_20600_DMP_BANK                       0x6D        // Activates a specific bank in the DMP
+#define DD_ICM_20600_DMP_RW_PNT                     0x6E        // Set read/write pointer to a specific start address in specified DMP bank
+#define DD_ICM_20600_DMP_REG                        0x6F        // Register in DMP from which to read or to which to write
 #define DD_ICM_20600_DMP_REG_1                      0x70
 #define DD_ICM_20600_DMP_REG_2                      0x71
 #define DD_ICM_20600_FIFO_COUNTH                    0x72
@@ -163,7 +163,7 @@
 
 
 #define DD_ICM_20600_TEMP_SENSITIVITY               326.8F /* LSB / °C */
-#define DD_ICM_20600_TEMP_SENSITIVITY_INV           ( 1.0F / 326.8F)
+#define DD_ICM_20600_TEMP_SENSITIVITY_INV           ( 1.0F / 326.8F )
 #define DD_ICM_20600_TEMP_ROOM_OFFSET               25.0F  /* °C */
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
@@ -178,11 +178,17 @@
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
 
-void dd_icm_20600_reset_soft(void);
-void dd_icm_20600_who_am_i_read(void);
+BOOLEAN dd_icm_20600_reset_soft(void);
 
-void dd_icm_20600_temperature_read(void);
 
-void dd_icm_20600_accel_data_read_raw(void);
+BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
+
+
+BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
+
+
+BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+
+BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
 
 #endif /* DD_ICM_20600_H */

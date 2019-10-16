@@ -47,12 +47,14 @@
 void dd_icm_20600_acquire_sensor_data(void)
 {
 
-    printf("Calling dd_icm_20600_acquire_sensor_data() ... \n");
+    //printf("Calling dd_icm_20600_acquire_sensor_data() ... \n");
 
     /* Read temperature */
-    dd_icm_20600_temperature_read();
+    dd_icm_20600_temperature_read( &dd_icm_20600_output_s );
 
-    dd_icm_20600_accel_data_read_raw();
+    dd_icm_20600_accel_data_read_raw( &dd_icm_20600_output_s );
+
+    dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_output_s );
 
 
 }
