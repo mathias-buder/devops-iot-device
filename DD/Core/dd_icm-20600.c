@@ -315,7 +315,7 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
     U8      idx_u8;
     U8      register_data_vu8[4];
     U8      self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];
-    F32     factory_trim_vu8[DD_ICM_20600_SELF_TEST_SIZE];
+    F32     factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];
 
     do
     {
@@ -367,12 +367,12 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
         self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] = register_data_vu8[2]  & 0x1F ; // ZG_TEST result is a five-bit unsigned integer
 
         /* Process results to allow final comparison with factory set values */
-        factory_trim_vu8[DD_ICM_20600_SELF_TEST_XA] = (4096.0F*0.34F) * (pow( (0.92F/0.34F) , ((self_test_vu8[DD_ICM_20600_SELF_TEST_XA] - 1.0F)/30.0F))); // FT[Xa] factory trim calculation
-        factory_trim_vu8[DD_ICM_20600_SELF_TEST_YA] = (4096.0F*0.34F) * (pow( (0.92F/0.34F) , ((self_test_vu8[DD_ICM_20600_SELF_TEST_YA] - 1.0F)/30.0F))); // FT[Ya] factory trim calculation
-        factory_trim_vu8[DD_ICM_20600_SELF_TEST_ZA] = (4096.0F*0.34F) * (pow( (0.92F/0.34F) , ((self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] - 1.0F)/30.0F))); // FT[Za] factory trim calculation
-        factory_trim_vu8[DD_ICM_20600_SELF_TEST_XG] = ( 25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_XG] - 1.0F) ));               // FT[Xg] factory trim calculation
-        factory_trim_vu8[DD_ICM_20600_SELF_TEST_YG] = (-25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_YG] - 1.0F) ));               // FT[Yg] factory trim calculation
-        factory_trim_vu8[DD_ICM_20600_SELF_TEST_ZG] = ( 25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] - 1.0F) ));               // FT[Zg] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA] = (4096.0F*0.34F) * (pow( (0.92F/0.34F) , ((self_test_vu8[DD_ICM_20600_SELF_TEST_XA] - 1.0F)/30.0F))); // FT[Xa] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA] = (4096.0F*0.34F) * (pow( (0.92F/0.34F) , ((self_test_vu8[DD_ICM_20600_SELF_TEST_YA] - 1.0F)/30.0F))); // FT[Ya] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA] = (4096.0F*0.34F) * (pow( (0.92F/0.34F) , ((self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] - 1.0F)/30.0F))); // FT[Za] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG] = ( 25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_XG] - 1.0F) ));               // FT[Xg] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG] = (-25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_YG] - 1.0F) ));               // FT[Yg] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG] = ( 25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] - 1.0F) ));               // FT[Zg] factory trim calculation
 
         //  Output self-test results and factory trim calculation if desired
         //  Serial.println(self_test_vu8[0]); Serial.println(self_test_vu8[1]); Serial.println(self_test_vu8[2]);
@@ -385,13 +385,13 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
         for( idx_u8 = 0; idx_u8 < DD_ICM_20600_SELF_TEST_SIZE; idx_u8++ )
         {
             /* Store self test data */
-            p_input_data_s->self_test_vf32[idx_u8] = self_test_vu8[idx_u8];
+            p_input_data_s->self_test_vu8[idx_u8] = self_test_vu8[idx_u8];
 
             /* Store factory trim data */
-            p_input_data_s->factory_trim_vf32[idx_u8] = factory_trim_vu8[idx_u8];
+            p_input_data_s->factory_trim_vf32[idx_u8] = factory_trim_vf32[idx_u8];
 
             /* Calculate deviation of factory trim values in percent, +/- 14 or less deviation is a pass */
-            p_input_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vu8[idx_u8] ) / factory_trim_vu8[idx_u8]; // Report percent differences
+            p_input_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vf32[idx_u8] ) / factory_trim_vf32[idx_u8]; // Report percent differences
         }
     }
     while(FALSE);
