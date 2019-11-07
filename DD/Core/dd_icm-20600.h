@@ -151,7 +151,7 @@
 #define DD_ICM_20600_FIFO_COUNTH                    0x72
 #define DD_ICM_20600_FIFO_COUNTL                    0x73
 #define DD_ICM_20600_FIFO_R_W                       0x74
-#define DD_ICM_20600_WHO_AM_I                       0x75 // Should return 0x68
+#define DD_ICM_20600_WHO_AM_I                       0x75        // Should return 0x68
 
 
 #define DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B      0x80
@@ -161,6 +161,12 @@
 #define DD_ICM_20600_PWR_MGMT_1_TEMP_DIS_B          0x08
 #define DD_ICM_20600_PWR_MGMT_1_CLKSEL_B            0x07
 
+
+#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_BIT_MASK    0x18
+#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_250_DPS     0x00
+#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_500_DPS     0x01
+#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_1000_DPS    0x02
+#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_2000_DPS    0x03
 
 #define DD_ICM_20600_TEMP_SENSITIVITY               326.8F /* LSB / °C */
 #define DD_ICM_20600_TEMP_SENSITIVITY_INV           ( 1.0F / 326.8F )

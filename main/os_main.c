@@ -31,18 +31,8 @@
 
 void app_main()
 {
+
     printf("Hello world!\n");
-
-
-    ts_main();
-    ts_acquire_sensor_data();
-
-    dd_i2c_init();
-    dd_icm_20600_acquire_sensor_data();
-    dd_max_30102_acquire_sensor_data();
-    dd_xr_18910_acquire_sensor_data();
-
-    dd_main();
 
     /* Print chip information */
     esp_chip_info_t chip_info;
@@ -56,6 +46,26 @@ void app_main()
 
     printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+
+    /* Initialize all components */
+    dd_init();
+
+
+
+    //dd_main();
+
+    while(1)
+    {
+        /* Schedule every 100 ms */
+
+        /* Schedule Device Driver (DD) main function */
+        dd_main();
+
+        /* Wait - System Call */
+        vTaskDelay(10 * portTICK_PERIOD_MS);
+    }
+
+
 
 //    for (int i = 10; i >= 0; i--) {
 //        printf("Restarting in %d seconds...\n", i);
