@@ -46,9 +46,6 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s );
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-
-
-
 BOOLEAN dd_icm_20600_init(void)
 {
 
@@ -204,7 +201,6 @@ BOOLEAN dd_icm_20600_reset_soft(void)
 }
 
 
-
 BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
 {
     BOOLEAN state_b = FALSE;
@@ -333,124 +329,6 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
 }
 
 
-BOOLEAN dd_icm_20600_quaternion_update( DD_ICM_20600_QUATERNION* p_input_data_s,
-                                        F32                      accel_x_f32,
-                                        F32                      accel_y_f32,
-                                        F32                      accel_z_f32,
-                                        F32                      gyro_x_f32,
-                                        F32                      gyro_y_f32,
-                                        F32                      gyro_z_f32,
-                                        F32                      delta_t_f32,
-                                        F32                      zeta_f32,
-                                        F32                      beta_f32 )
-{
-    BOOLEAN state_b = FALSE;
-
-    /* Short name local variable for readability */
-    F32 q1_f32 = p_input_data_s->Q1_f32;
-    F32 q2_f32 = p_input_data_s->Q2_f32;
-    F32 q3_f32 = p_input_data_s->Q3_f32;
-    F32 q4_f32 = p_input_data_s->Q4_f32;
-
-    /* Vector norm */
-    F32 norm_f32;
-
-    /* Objective function elements */
-    F32 f1_f32, f2_f32, f3_f32;
-
-    /* Objective function Jacobian elements */
-    F32 J_11or24_f32, J_12or23_f32, J_13or22_f32, J_14or21_f32, J_32_f32, J_33_f32;
-
-    F32 qDot1_f32, qDot2_f32, qDot3_f32, qDot4_f32;
-
-    F32 hatDot1_f32, hatDot2_f32, hatDot3_f32, hatDot4_f32;
-
-    /* Gyro bias error */
-    F32 gyro_error_x_f32, gyro_error_y_f32, gyro_error_z_f32, gyro_bias_x_f32, gyro_bias_y_f32, gyro_bias_z_f32;
-
-    /* Auxiliary variables to avoid repeated arithmetic */
-    F32 half_q1_f32 = 0.5F * q1_f32;
-    F32 half_q2_f32 = 0.5F * q2_f32;
-    F32 half_q3_f32 = 0.5F * q3_f32;
-    F32 half_q4_f32 = 0.5F * q4_f32;
-    F32 two_q1_f32  = 2.0F * q1_f32;
-    F32 two_q2_f32  = 2.0F * q2_f32;
-    F32 two_q3_f32  = 2.0F * q3_f32;
-    F32 two_q4_f32  = 2.0F * q4_f32;
-
-    /* Normalize accelerometer measurement */
-    norm_f32 = sqrt( accel_x_f32 * accel_x_f32 + accel_y_f32 * accel_y_f32 + accel_z_f32 * accel_z_f32 );
-
-    /* Check for devision by zero */
-    if( SMALL_NUMBER < norm_f32 )
-    {
-        norm_f32 = 1.0F / norm_f32;
-        accel_x_f32 *= norm_f32;
-        accel_y_f32 *= norm_f32;
-        accel_z_f32 *= norm_f32;
-
-        /* Compute the objective function and Jacobian */
-        f1_f32 = two_q2_f32 * q4_f32 - two_q1_f32 * q3_f32 - accel_x_f32;
-        f2_f32 = two_q1_f32 * q2_f32 + two_q3_f32 * q4_f32 - accel_y_f32;
-        f3_f32 = 1.0F - two_q2_f32 * q2_f32 - two_q3_f32 * q3_f32 - accel_z_f32;
-        J_11or24_f32 = two_q3_f32;
-        J_12or23_f32 = two_q4_f32;
-        J_13or22_f32 = two_q1_f32;
-        J_14or21_f32 = two_q2_f32;
-        J_32_f32 = 2.0F * J_14or21_f32;
-        J_33_f32 = 2.0F * J_11or24_f32;
-
-        /* Compute the gradient (matrix multiplication) */
-        hatDot1_f32 = J_14or21_f32 * f2_f32 - J_11or24_f32 * f1_f32;
-        hatDot2_f32 = J_12or23_f32 * f1_f32 + J_13or22_f32 * f2_f32 - J_32_f32 * f3_f32;
-        hatDot3_f32 = J_12or23_f32 * f2_f32 - J_33_f32 *f3_f32 - J_13or22_f32 * f1_f32;
-        hatDot4_f32 = J_14or21_f32 * f1_f32 + J_11or24_f32 * f2_f32;
-
-        /* Normalize the gradient */
-        norm_f32 = sqrt( hatDot1_f32 * hatDot1_f32 + hatDot2_f32 * hatDot2_f32 + hatDot3_f32 * hatDot3_f32 + hatDot4_f32 * hatDot4_f32 );
-        hatDot1_f32 /= norm_f32;
-        hatDot2_f32 /= norm_f32;
-        hatDot3_f32 /= norm_f32;
-        hatDot4_f32 /= norm_f32;
-
-        /* Compute estimated gyroscope biases */
-        gyro_error_x_f32 = two_q1_f32 * hatDot2_f32 - two_q2_f32 * hatDot1_f32 - two_q3_f32 * hatDot4_f32 + two_q4_f32 * hatDot3_f32;
-        gyro_error_y_f32 = two_q1_f32 * hatDot3_f32 + two_q2_f32 * hatDot4_f32 - two_q3_f32 * hatDot1_f32 - two_q4_f32 * hatDot2_f32;
-        gyro_error_z_f32 = two_q1_f32 * hatDot4_f32 - two_q2_f32 * hatDot3_f32 + two_q3_f32 * hatDot2_f32 - two_q4_f32 * hatDot1_f32;
-
-        /* Compute and remove gyroscope biases */
-        gyro_bias_x_f32 += gyro_error_x_f32 * delta_t_f32 * zeta_f32;
-        gyro_bias_y_f32 += gyro_error_y_f32 * delta_t_f32 * zeta_f32;
-        gyro_bias_z_f32 += gyro_error_z_f32 * delta_t_f32 * zeta_f32;
-
-        /* Compute the quaternion derivative */
-        qDot1_f32 = -half_q2_f32 * gyro_x_f32 - half_q3_f32 * gyro_y_f32 - half_q4_f32 * gyro_z_f32;
-        qDot2_f32 =  half_q1_f32 * gyro_x_f32 + half_q3_f32 * gyro_z_f32 - half_q4_f32 * gyro_y_f32;
-        qDot3_f32 =  half_q1_f32 * gyro_y_f32 - half_q2_f32 * gyro_z_f32 + half_q4_f32 * gyro_x_f32;
-        qDot4_f32 =  half_q1_f32 * gyro_z_f32 + half_q2_f32 * gyro_y_f32 - half_q3_f32 * gyro_x_f32;
-
-        /* Compute then integrate estimated quaternion derivative */
-        q1_f32 += (qDot1_f32 -(beta_f32 * hatDot1_f32)) * delta_t_f32;
-        q2_f32 += (qDot2_f32 -(beta_f32 * hatDot2_f32)) * delta_t_f32;
-        q3_f32 += (qDot3_f32 -(beta_f32 * hatDot3_f32)) * delta_t_f32;
-        q4_f32 += (qDot4_f32 -(beta_f32 * hatDot4_f32)) * delta_t_f32;
-
-        /* Normalize the quaternion */
-        norm_f32 = sqrt( q1_f32 * q1_f32 + q2_f32 * q2_f32 + q3_f32 * q3_f32 + q4_f32 * q4_f32 );
-        norm_f32 = 1.0F / norm_f32;
-        p_input_data_s->Q1_f32 = q1_f32 * norm_f32;
-        p_input_data_s->Q2_f32 = q2_f32 * norm_f32;
-        p_input_data_s->Q3_f32 = q3_f32 * norm_f32;
-        p_input_data_s->Q4_f32 = q4_f32 * norm_f32;
-
-        state_b = TRUE;
-    }
-
-    return state_b;
-
-}
-
-
 /* Accelerometer and gyroscope self test; check calibration wrt factory settings
    Should return percent deviation from factory trim values, +/- 14 or less deviation is a pass */
 PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
@@ -508,7 +386,7 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
             self_test_vu8[DD_ICM_20600_SELF_TEST_YA] = (register_data_vu8[1] >> 3) | (register_data_vu8[3] & 0x0C) >> 2; // YA_TEST result is a five-bit unsigned integer
             self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] = (register_data_vu8[2] >> 3) | (register_data_vu8[3] & 0x03) >> 0; // ZA_TEST result is a five-bit unsigned integer
 
-            /* Extract the gyration test results first */
+            /* Extract the gyration test results */
             self_test_vu8[DD_ICM_20600_SELF_TEST_XG] = register_data_vu8[0]  & 0x1F ; // XG_TEST result is a five-bit unsigned integer
             self_test_vu8[DD_ICM_20600_SELF_TEST_YG] = register_data_vu8[1]  & 0x1F ; // YG_TEST result is a five-bit unsigned integer
             self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] = register_data_vu8[2]  & 0x1F ; // ZG_TEST result is a five-bit unsigned integer
@@ -521,11 +399,25 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
             factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG] = (-25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_YG] - 1.0F) ));               // FT[Yg] factory trim calculation
             factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG] = ( 25.0F*131.0F) * (pow( 1.046F , (self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] - 1.0F) ));               // FT[Zg] factory trim calculation
 
-            //  Output self-test results and factory trim calculation if desired
-            //  Serial.println(self_test_vu8[0]); Serial.println(self_test_vu8[1]); Serial.println(self_test_vu8[2]);
-            //  Serial.println(self_test_vu8[3]); Serial.println(self_test_vu8[4]); Serial.println(self_test_vu8[5]);
-            //  Serial.println(factory_trim_vu8[0]); Serial.println(factory_trim_vu8[1]); Serial.println(factory_trim_vu8[2]);
-            //  Serial.println(factory_trim_vu8[3]); Serial.println(factory_trim_vu8[4]); Serial.println(factory_trim_vu8[5]);
+            /* Output self-test results and factory trim calculation if desired */
+            printf("Self Test Result:\n");
+            printf("---------------------------------------\n");
+            printf("Acceleration:\nX: %i\n,Y: %i\n,Z: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XA],
+                                                             self_test_vu8[DD_ICM_20600_SELF_TEST_YA],
+                                                             self_test_vu8[DD_ICM_20600_SELF_TEST_ZA]);
+
+            printf("---------------------------------------\n");
+            printf("Gyration:\nX: %i\n,Y: %i\n,Z: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XG],
+                                                         self_test_vu8[DD_ICM_20600_SELF_TEST_YG],
+                                                         self_test_vu8[DD_ICM_20600_SELF_TEST_ZG]);
+
+            printf("---------------------------------------\n");
+            printf("Factory trim calculation:\nXA: %f\n,YA: %f\n,ZA: %f\nXG: %f\n,YG: %f\n,ZG: %f\n", factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA],
+                                                                                                      factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA],
+                                                                                                      factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA],
+                                                                                                      factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG],
+                                                                                                      factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG],
+                                                                                                      factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG]);
 
             /* Report results as a ratio of (STR - FT)/FT; the change from Factory Trim of the Self-Test Response
                To get to percent, must multiply by 100 and subtract result from 100 */
@@ -539,6 +431,8 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
 
                 /* Calculate deviation of factory trim values in percent, +/- 14 or less deviation is a pass */
                 p_input_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vf32[idx_u8] ) / factory_trim_vf32[idx_u8];
+
+                printf("Factory trim deviation [+/- 14 or less deviation is a pass] %i: %f\n", idx_u8, p_input_data_s->fac_trim_deviation_vf32[idx_u8]);
             }
         }
         while(FALSE);
@@ -550,6 +444,10 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
 
     return state_b;
 }
+
+
+
+
 
 
 
@@ -698,6 +596,149 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
 //   dest2[1] = (float)accel_bias[1]/(float)accelsensitivity;
 //   dest2[2] = (float)accel_bias[2]/(float)accelsensitivity;
 //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BOOLEAN dd_icm_20600_quaternion_update( DD_ICM_20600_QUATERNION* p_input_data_s,
+                                        F32                      accel_x_f32,
+                                        F32                      accel_y_f32,
+                                        F32                      accel_z_f32,
+                                        F32                      gyro_x_f32,
+                                        F32                      gyro_y_f32,
+                                        F32                      gyro_z_f32,
+                                        F32                      delta_t_f32,
+                                        F32                      zeta_f32,
+                                        F32                      beta_f32 )
+{
+    BOOLEAN state_b = FALSE;
+
+    /* Short name local variable for readability */
+    F32 q1_f32 = p_input_data_s->Q1_f32;
+    F32 q2_f32 = p_input_data_s->Q2_f32;
+    F32 q3_f32 = p_input_data_s->Q3_f32;
+    F32 q4_f32 = p_input_data_s->Q4_f32;
+
+    /* Vector norm */
+    F32 norm_f32;
+
+    /* Objective function elements */
+    F32 f1_f32, f2_f32, f3_f32;
+
+    /* Objective function Jacobian elements */
+    F32 J_11or24_f32, J_12or23_f32, J_13or22_f32, J_14or21_f32, J_32_f32, J_33_f32;
+
+    F32 qDot1_f32, qDot2_f32, qDot3_f32, qDot4_f32;
+
+    F32 hatDot1_f32, hatDot2_f32, hatDot3_f32, hatDot4_f32;
+
+    /* Gyro bias error */
+    F32 gyro_error_x_f32, gyro_error_y_f32, gyro_error_z_f32, gyro_bias_x_f32, gyro_bias_y_f32, gyro_bias_z_f32;
+
+    /* Auxiliary variables to avoid repeated arithmetic */
+    F32 half_q1_f32 = 0.5F * q1_f32;
+    F32 half_q2_f32 = 0.5F * q2_f32;
+    F32 half_q3_f32 = 0.5F * q3_f32;
+    F32 half_q4_f32 = 0.5F * q4_f32;
+    F32 two_q1_f32  = 2.0F * q1_f32;
+    F32 two_q2_f32  = 2.0F * q2_f32;
+    F32 two_q3_f32  = 2.0F * q3_f32;
+    F32 two_q4_f32  = 2.0F * q4_f32;
+
+    /* Normalize accelerometer measurement */
+    norm_f32 = sqrt( accel_x_f32 * accel_x_f32 + accel_y_f32 * accel_y_f32 + accel_z_f32 * accel_z_f32 );
+
+    /* Check for devision by zero */
+    if( SMALL_NUMBER < norm_f32 )
+    {
+        norm_f32 = 1.0F / norm_f32;
+        accel_x_f32 *= norm_f32;
+        accel_y_f32 *= norm_f32;
+        accel_z_f32 *= norm_f32;
+
+        /* Compute the objective function and Jacobian */
+        f1_f32 = two_q2_f32 * q4_f32 - two_q1_f32 * q3_f32 - accel_x_f32;
+        f2_f32 = two_q1_f32 * q2_f32 + two_q3_f32 * q4_f32 - accel_y_f32;
+        f3_f32 = 1.0F - two_q2_f32 * q2_f32 - two_q3_f32 * q3_f32 - accel_z_f32;
+        J_11or24_f32 = two_q3_f32;
+        J_12or23_f32 = two_q4_f32;
+        J_13or22_f32 = two_q1_f32;
+        J_14or21_f32 = two_q2_f32;
+        J_32_f32 = 2.0F * J_14or21_f32;
+        J_33_f32 = 2.0F * J_11or24_f32;
+
+        /* Compute the gradient (matrix multiplication) */
+        hatDot1_f32 = J_14or21_f32 * f2_f32 - J_11or24_f32 * f1_f32;
+        hatDot2_f32 = J_12or23_f32 * f1_f32 + J_13or22_f32 * f2_f32 - J_32_f32 * f3_f32;
+        hatDot3_f32 = J_12or23_f32 * f2_f32 - J_33_f32 *f3_f32 - J_13or22_f32 * f1_f32;
+        hatDot4_f32 = J_14or21_f32 * f1_f32 + J_11or24_f32 * f2_f32;
+
+        /* Normalize the gradient */
+        norm_f32 = sqrt( hatDot1_f32 * hatDot1_f32 + hatDot2_f32 * hatDot2_f32 + hatDot3_f32 * hatDot3_f32 + hatDot4_f32 * hatDot4_f32 );
+        hatDot1_f32 /= norm_f32;
+        hatDot2_f32 /= norm_f32;
+        hatDot3_f32 /= norm_f32;
+        hatDot4_f32 /= norm_f32;
+
+        /* Compute estimated gyroscope biases */
+        gyro_error_x_f32 = two_q1_f32 * hatDot2_f32 - two_q2_f32 * hatDot1_f32 - two_q3_f32 * hatDot4_f32 + two_q4_f32 * hatDot3_f32;
+        gyro_error_y_f32 = two_q1_f32 * hatDot3_f32 + two_q2_f32 * hatDot4_f32 - two_q3_f32 * hatDot1_f32 - two_q4_f32 * hatDot2_f32;
+        gyro_error_z_f32 = two_q1_f32 * hatDot4_f32 - two_q2_f32 * hatDot3_f32 + two_q3_f32 * hatDot2_f32 - two_q4_f32 * hatDot1_f32;
+
+        /* Compute and remove gyroscope biases */
+        gyro_bias_x_f32 += gyro_error_x_f32 * delta_t_f32 * zeta_f32;
+        gyro_bias_y_f32 += gyro_error_y_f32 * delta_t_f32 * zeta_f32;
+        gyro_bias_z_f32 += gyro_error_z_f32 * delta_t_f32 * zeta_f32;
+
+        /* Compute the quaternion derivative */
+        qDot1_f32 = -half_q2_f32 * gyro_x_f32 - half_q3_f32 * gyro_y_f32 - half_q4_f32 * gyro_z_f32;
+        qDot2_f32 =  half_q1_f32 * gyro_x_f32 + half_q3_f32 * gyro_z_f32 - half_q4_f32 * gyro_y_f32;
+        qDot3_f32 =  half_q1_f32 * gyro_y_f32 - half_q2_f32 * gyro_z_f32 + half_q4_f32 * gyro_x_f32;
+        qDot4_f32 =  half_q1_f32 * gyro_z_f32 + half_q2_f32 * gyro_y_f32 - half_q3_f32 * gyro_x_f32;
+
+        /* Compute then integrate estimated quaternion derivative */
+        q1_f32 += (qDot1_f32 -(beta_f32 * hatDot1_f32)) * delta_t_f32;
+        q2_f32 += (qDot2_f32 -(beta_f32 * hatDot2_f32)) * delta_t_f32;
+        q3_f32 += (qDot3_f32 -(beta_f32 * hatDot3_f32)) * delta_t_f32;
+        q4_f32 += (qDot4_f32 -(beta_f32 * hatDot4_f32)) * delta_t_f32;
+
+        /* Normalize the quaternion */
+        norm_f32 = sqrt( q1_f32 * q1_f32 + q2_f32 * q2_f32 + q3_f32 * q3_f32 + q4_f32 * q4_f32 );
+        norm_f32 = 1.0F / norm_f32;
+        p_input_data_s->Q1_f32 = q1_f32 * norm_f32;
+        p_input_data_s->Q2_f32 = q2_f32 * norm_f32;
+        p_input_data_s->Q3_f32 = q3_f32 * norm_f32;
+        p_input_data_s->Q4_f32 = q4_f32 * norm_f32;
+
+        state_b = TRUE;
+    }
+
+    return state_b;
+
+}
+
+
+
+
 
 
 
