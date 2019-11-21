@@ -118,9 +118,9 @@ BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
         ESP_ERROR_CHECK( i2c_master_stop( p_i2c_command ) );
 
 
-        i2c_error_t = i2c_master_cmd_begin(  DD_I2C_PORT_NUM,
-                                             p_i2c_command,
-                                             DD_I2C_BUS_BUSY_TIME_OUT );
+        i2c_error_t = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
+                                            p_i2c_command,
+                                            DD_I2C_BUS_BUSY_TIME_OUT );
 
         i2c_cmd_link_delete( p_i2c_command );
     }
@@ -130,7 +130,9 @@ BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
         assert( NULL != p_i2c_command );
     }
 
-    return dd_i2c_handle_error( i2c_error_t );;
+    /* Temporary hard-coded return value to "TRUE" because function i2c_master_cmd_begin()
+     * currently returns DD_I2C_ERROR_TIMEOUT which brakes the I2C communication. */
+    return TRUE;
 }
 
 
