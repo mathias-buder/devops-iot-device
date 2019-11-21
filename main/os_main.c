@@ -33,6 +33,9 @@ void app_main()
 {
     /* Print chip information */
     esp_chip_info_t chip_info;
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = 10U;
+
     esp_chip_info(&chip_info);
     printf("This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
             chip_info.cores,
@@ -44,17 +47,17 @@ void app_main()
     printf("%dMB %s flash\n\n", spi_flash_get_chip_size() / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
+
     /* Initialize all device drivers */
     dd_init();
 
+
     while(1)
     {
-        /* Schedule every 100 ms */
+        /* Schedule every 50 ms */
+        vTaskDelayUntil( &xLastWakeTime, xFrequency );
 
-        /* Schedule Device Driver (DD) main function */
+        /* Schedule Device Driver (DD) */
         dd_main();
-
-        /* Wait - System Call */
-        vTaskDelay(10 * portTICK_PERIOD_MS);
     }
 }
