@@ -113,6 +113,8 @@ BOOLEAN dd_icm_20600_init(void)
                                        DD_ICM_20600_GYRO_CONFIG,
                                       &register_u8 );
 
+
+
         /* Check for error during I2C operation */
         if( TRUE != state_b )
         {
@@ -287,18 +289,18 @@ BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s )
     BOOLEAN state_b             = FALSE;
     U16     temperature_raw_u16 = 0xFFFF;
     F32     temperature_deg_f32 = -1000.0F;
-    U8      register_data_v8[2];
+    U8      register_data_vu8[2];
 
     if( NULL != p_input_data_s)
     {
         state_b = dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR,
                                      DD_ICM_20600_TEMP_OUT_H,
-                                     register_data_v8,
-                                     sizeof(register_data_v8) );
+                                     register_data_vu8,
+                                     sizeof(register_data_vu8) );
         /* Check for I2C error */
         if( FALSE != state_b )
         {
-            temperature_raw_u16 = ( register_data_v8[0] << 8U ) | register_data_v8[1];
+            temperature_raw_u16 = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
             temperature_deg_f32 = ( temperature_raw_u16 * DD_ICM_20600_TEMP_SENSITIVITY_INV ) + DD_ICM_20600_TEMP_ROOM_OFFSET;
         }
 
