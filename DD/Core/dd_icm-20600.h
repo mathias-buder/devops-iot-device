@@ -178,30 +178,13 @@
 
 
 /**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
+ * @details Some details ...
+ * @param[in]
+ * @return
  */
 
 BOOLEAN dd_icm_20600_init(void);
 
 void dd_icm_20600_main(void);
-
-BOOLEAN dd_icm_20600_reset_soft(void);
-
-
-BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
-
-
-BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
-
-
-BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-
-BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-
-BOOLEAN dd_icm_20600_calibrate (F32* p_gyro_bias_f32,
-                                F32* p_accel_bias_f32 );
 
 #endif /* DD_ICM_20600_H */

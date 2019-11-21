@@ -35,11 +35,12 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 
-#define DD_ICM_20600_I2C_ADDR              0x68 /* with address pin low (GND) */
-#define DD_ICM_20600_DEVICE_ID             0x73
+#define DD_ICM_20600_I2C_ADDR               0x68 /* addr-pin low (GND): 0x68, addr-pin high (VCC): 0x69 */
+#define DD_ICM_20600_DEVICE_ID              0x73 /* Unique device id */
 
-#define DD_ICM_20600_A_SCALSE              DD_ICM_20600_AFS_2G
-#define DD_ICM_20600_G_SCALSE              DD_ICM_20600_GFS_250DPS
+#define DD_ICM_20600_A_SCALSE               DD_ICM_20600_AFS_2G
+#define DD_ICM_20600_G_SCALSE               DD_ICM_20600_GFS_250DPS
+#define DD_ICM_20600_ALLOWED_FAC_DEVIATION  (1.0F) /* % */
 
 
 /*************************************************************/

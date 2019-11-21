@@ -39,8 +39,33 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
+
+
+BOOLEAN dd_icm_20600_reset_soft(void);
+
+BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
+
+BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
+
+BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+
+BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+
 PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s );
 
+BOOLEAN dd_icm_20600_calibrate (F32* p_gyro_bias_f32,
+                                F32* p_accel_bias_f32 );
+
+BOOLEAN dd_icm_20600_quaternion_update( DD_ICM_20600_QUATERNION* p_quaternion_s,
+                                        F32                      accel_x_f32,
+                                        F32                      accel_y_f32,
+                                        F32                      accel_z_f32,
+                                        F32                      gyro_x_f32,
+                                        F32                      gyro_y_f32,
+                                        F32                      gyro_z_f32,
+                                        F32                      delta_t_f32,
+                                        F32                      zeta_f32,
+                                        F32                      beta_f32 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -54,6 +79,24 @@ BOOLEAN dd_icm_20600_init(void)
 
     do
     {
+        /* Check for matching device id */
+        if(    ( TRUE                   != dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s ) )
+            || ( DD_ICM_20600_DEVICE_ID != dd_icm_20600_data_s.chip_id_u8                     ) )
+        {
+            state_b = FALSE;
+            break;
+        }
+
+        /* Perform self test */
+        state_b = dd_icm_20600_self_test( &dd_icm_20600_data_s );
+
+        /* Check for self-test result */
+        if( TRUE != state_b )
+        {
+            break;
+        }
+
+
         /* Clear sleep mode bit (6), enable all sensors */
         state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
                                        DD_ICM_20600_PWR_MGMT_1,
@@ -112,8 +155,6 @@ BOOLEAN dd_icm_20600_init(void)
         state_b = dd_i2c_read_single(  DD_ICM_20600_I2C_ADDR,
                                        DD_ICM_20600_GYRO_CONFIG,
                                       &register_u8 );
-
-
 
         /* Check for error during I2C operation */
         if( TRUE != state_b )
@@ -183,6 +224,11 @@ BOOLEAN dd_icm_20600_init(void)
         state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
                                        DD_ICM_20600_INT_ENABLE,
                                        0x01 );
+
+
+
+
+
     }
     while(FALSE);
 
@@ -191,25 +237,8 @@ BOOLEAN dd_icm_20600_init(void)
 
 
 
-
-
-
-
 void dd_icm_20600_main(void)
 {
-
-    /* Check ICM-20600 chip id */
-    // dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s );
-
-    /* Initialize ICM-2600 motion subsystem */
-//    if( TRUE != dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s ) )
-//    {
-//        printf( "dd_icm_20600_who_am_i_read() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
-//
-//    }
-//
-//
-//    printf( "ICM-20600 chip id: %i\n", dd_icm_20600_data_s.chip_id_u8 );
 
 
     /* Read all required sensor data form ICM-20600 */
@@ -219,24 +248,14 @@ void dd_icm_20600_main(void)
 
     printf("Temperature %0.2f\n", dd_icm_20600_data_s.temperature_deg_f32 );
 
-    printf("X: %i, Y: %i, Z: %i\nX: %i, Y: %i, Z: %i\n", dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
-                                                         dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
-                                                         dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
-                                                         dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
-                                                         dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
-                                                         dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
+    printf("AX: %i, AY: %i, AZ: %i\nGX: %i, GY: %i, GZ: %i\n", dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
+                                                               dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
+                                                               dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
+                                                               dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
+                                                               dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
+                                                               dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -455,22 +474,24 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
             /* Output self-test results and factory trim calculation if desired */
             printf("Self Test Result:\n");
             printf("---------------------------------------\n");
-            printf("Acceleration:\nX: %i\n,Y: %i\n,Z: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XA],
+            printf("Acceleration:\nX: %i\nY: %i\nZ: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XA],
                                                              self_test_vu8[DD_ICM_20600_SELF_TEST_YA],
                                                              self_test_vu8[DD_ICM_20600_SELF_TEST_ZA]);
 
             printf("---------------------------------------\n");
-            printf("Gyration:\nX: %i\n,Y: %i\n,Z: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XG],
+            printf("Gyration:\nX: %i\nY: %i\nZ: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XG],
                                                          self_test_vu8[DD_ICM_20600_SELF_TEST_YG],
                                                          self_test_vu8[DD_ICM_20600_SELF_TEST_ZG]);
 
             printf("---------------------------------------\n");
-            printf("Factory trim calculation:\nXA: %f\n,YA: %f\n,ZA: %f\nXG: %f\n,YG: %f\n,ZG: %f\n", factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA],
+            printf("Factory trim calculation:\nXA: %f\nYA: %f\nZA: %f\nXG: %f\nYG: %f\nZG: %f\n", factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA],
                                                                                                       factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA],
                                                                                                       factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA],
                                                                                                       factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG],
                                                                                                       factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG],
                                                                                                       factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG]);
+
+            printf("---------------------------------------\n");
 
             /* Report results as a ratio of (STR - FT)/FT; the change from Factory Trim of the Self-Test Response
                To get to percent, must multiply by 100 and subtract result from 100 */
@@ -485,7 +506,21 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
                 /* Calculate deviation of factory trim values in percent, +/- 14 or less deviation is a pass */
                 p_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vf32[idx_u8] ) / factory_trim_vf32[idx_u8];
 
-                printf("Factory trim deviation [+/- 14 or less deviation is a pass] %i: %f\n", idx_u8, p_data_s->fac_trim_deviation_vf32[idx_u8]);
+                printf("Factory trim deviation [+/- 14 or less deviation is a pass] %i: %0.2f\n", idx_u8, p_data_s->fac_trim_deviation_vf32[idx_u8]);
+            }
+
+            printf("---------------------------------------\n");
+
+            /* Check if all factory deviations are below DD_ICM_20600_ALLOWED_FAC_DEVIATION */
+            if(    (p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_XA] > DD_ICM_20600_ALLOWED_FAC_DEVIATION )
+                || (p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_YA] > DD_ICM_20600_ALLOWED_FAC_DEVIATION )
+                || (p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZA] > DD_ICM_20600_ALLOWED_FAC_DEVIATION )
+                || (p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_XG] > DD_ICM_20600_ALLOWED_FAC_DEVIATION )
+                || (p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_YG] > DD_ICM_20600_ALLOWED_FAC_DEVIATION )
+                || (p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZG] > DD_ICM_20600_ALLOWED_FAC_DEVIATION ) )
+            {
+                state_b = FALSE;
+                break;
             }
         }
         while(FALSE);

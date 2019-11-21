@@ -48,14 +48,11 @@ void dd_init(void)
     dd_i2c_init();
 
     /* Initialize ICM-2600 motion subsystem */
-//    if( TRUE != dd_icm_20600_init() )
-//    {
-//        printf( "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
-//
-//    }
+    if( TRUE != dd_icm_20600_init() )
+    {
+        printf( "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
 
-    //dd_icm_20600_main();
-
+    }
 }
 
 
