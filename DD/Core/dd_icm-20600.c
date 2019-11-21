@@ -39,7 +39,7 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s );
+PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s );
 
 
 /*********************************************************************/
@@ -188,6 +188,57 @@ BOOLEAN dd_icm_20600_init(void)
 }
 
 
+
+
+
+
+
+void dd_icm_20600_main(void)
+{
+
+    /* Check ICM-20600 chip id */
+    // dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s );
+
+    /* Initialize ICM-2600 motion subsystem */
+//    if( TRUE != dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s ) )
+//    {
+//        printf( "dd_icm_20600_who_am_i_read() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
+//
+//    }
+//
+//
+//    printf( "ICM-20600 chip id: %i\n", dd_icm_20600_data_s.chip_id_u8 );
+
+
+    /* Read all required sensor data form ICM-20600 */
+    dd_icm_20600_temperature_read( &dd_icm_20600_data_s );
+    dd_icm_20600_accel_data_read_raw( &dd_icm_20600_data_s );
+    dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_data_s );
+
+    printf("Temperature %0.2f\n", dd_icm_20600_data_s.temperature_deg_f32 );
+
+    printf("X: %i, Y: %i, Z: %i\nX: %i, Y: %i, Z: %i\n", dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
+                                                         dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
+                                                         dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
+                                                         dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
+                                                         dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
+                                                         dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 BOOLEAN dd_icm_20600_reset_soft(void)
 {
     BOOLEAN state_b = FALSE;
@@ -331,7 +382,7 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
 
 /* Accelerometer and gyroscope self test; check calibration wrt factory settings
    Should return percent deviation from factory trim values, +/- 14 or less deviation is a pass */
-PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
+PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
 {
     BOOLEAN state_b = FALSE;
     U8      idx_u8;
@@ -340,7 +391,7 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
     F32     factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];
 
     /* Check NULL pointer */
-    if( NULL != p_input_data_s )
+    if( NULL != p_data_s )
     {
         do
         {
@@ -424,22 +475,22 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
             for( idx_u8 = 0; idx_u8 < DD_ICM_20600_SELF_TEST_SIZE; idx_u8++ )
             {
                 /* Store self test data */
-                p_input_data_s->self_test_vu8[idx_u8] = self_test_vu8[idx_u8];
+                p_data_s->self_test_vu8[idx_u8] = self_test_vu8[idx_u8];
 
                 /* Store factory trim data */
-                p_input_data_s->factory_trim_vf32[idx_u8] = factory_trim_vf32[idx_u8];
+                p_data_s->factory_trim_vf32[idx_u8] = factory_trim_vf32[idx_u8];
 
                 /* Calculate deviation of factory trim values in percent, +/- 14 or less deviation is a pass */
-                p_input_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vf32[idx_u8] ) / factory_trim_vf32[idx_u8];
+                p_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vf32[idx_u8] ) / factory_trim_vf32[idx_u8];
 
-                printf("Factory trim deviation [+/- 14 or less deviation is a pass] %i: %f\n", idx_u8, p_input_data_s->fac_trim_deviation_vf32[idx_u8]);
+                printf("Factory trim deviation [+/- 14 or less deviation is a pass] %i: %f\n", idx_u8, p_data_s->fac_trim_deviation_vf32[idx_u8]);
             }
         }
         while(FALSE);
     }
     else
     {
-        assert( NULL != p_input_data_s );
+        assert( NULL != p_data_s );
     }
 
     return state_b;
@@ -454,23 +505,23 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_input_data_s )
 
 // Function which accumulates gyro and accelerometer data after device initialization. It calculates the average
 // of the at-rest readings and then loads the resulting offsets into accelerometer and gyro bias registers.
-PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
+BOOLEAN dd_icm_20600_calibrate ( F32* p_gyro_bias_f32,
+                                 F32* p_accel_bias_f32 )
 {
-    BOOLEAN state_b = FALSE;
-
-    U8  register_data_vu8[12];           /* data array to hold accelerometer and gyro x, y, z, data */
+    BOOLEAN state_b            = FALSE;
+    U8  register_data_vu8[12];                      /* data array to hold accelerometer and gyro x, y, z, data */
     U16 idx_u16;
     U16 packet_cnt_u16;
     U16 fifo_cnt_u16;
     S32 gyro_bias_vs32[3]      = {0U, 0U, 0U};
     S32 accel_bias_vs32[3]     = {0U, 0U, 0U};
-    S16 accel_temp_vs32[3]     = {0, 0, 0};
-    S16 gyro_temp_vs32[3]      = {0, 0, 0};
-    U16 gyro_sensitivity_u16  = 131U;        /* = 131 LSB/degrees/sec */
-    U16 accel_sensitivity_u16 = 16384U;      /* = 16384 LSB/g */
-    S32 accel_bias_reg_vs32[3] = {0, 0, 0}; // A place to hold the factory accelerometer trim biases
-    U32 mask_u32 = 1uL; // Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers
-    U8  mask_bit_vu8[3] = {0, 0, 0}; // Define array to hold mask bit for each accelerometer bias axis
+    S16 accel_temp_vs32[3]     = {0U, 0U, 0U};
+    S16 gyro_temp_vs32[3]      = {0U, 0U, 0U};
+    U16 gyro_sensitivity_u16   = 131U;              /* = 131 LSB/degrees/sec */
+    U16 accel_sensitivity_u16  = 16384U;            /* = 16384 LSB/g */
+    S32 accel_bias_reg_vs32[3] = {0U, 0U, 0U};      /* A place to hold the factory accelerometer trim biases */
+    U32 mask_u32               = 1UL;               /* Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers */
+    U8  mask_bit_vu8[3]        = {0U, 0U, 0U};      /* Define array to hold mask bit for each accelerometer bias axis */
 
 
     /* Reset device, reset all registers, clear gyro and accelerometer bias registers.
@@ -495,8 +546,9 @@ PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
     vTaskDelay(2 * portTICK_PERIOD_MS);
 
 
-    /* Configure device for bias calculation,
-     * Disable all interrupts */
+    /* Configure device for bias calculation */
+
+    /* Disable all interrupts */
     state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
                                    DD_ICM_20600_INT_ENABLE,
                                    0x00 );
@@ -616,7 +668,7 @@ PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
     gyro_bias_vs32[2]  /= (S32) packet_cnt_u16;
 
     /* Remove gravity from the z-axis accelerometer bias calculation */
-    if(accel_bias_vs32[2] > 0L)
+    if( accel_bias_vs32[2] > 0L )
     {
       accel_bias_vs32[2] -= (S32) accel_sensitivity_u16;
     }
@@ -626,8 +678,13 @@ PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
     }
 
     /* Construct the gyro biases for push to the hardware gyro bias registers, which are reset to zero upon device startup */
-    register_data_vu8[0] = ( ( -gyro_bias_vs32[0] / 4 ) >> 8 ) & 0xFF; // Divide by 4 to get 32.9 LSB per deg/s to conform to expected bias input format
-    register_data_vu8[1] = (   -gyro_bias_vs32[0] / 4 )        & 0xFF; // Biases are additive, so change sign on calculated average gyro biases
+
+    /* Divide by 4 to get 32.9 LSB per deg/s to conform to expected bias input format */
+    register_data_vu8[0] = ( ( -gyro_bias_vs32[0] / 4 ) >> 8 ) & 0xFF;
+
+    /* Biases are additive, so change sign on calculated average gyro biases */
+    register_data_vu8[1] = (   -gyro_bias_vs32[0] / 4 )        & 0xFF;
+
     register_data_vu8[2] = ( ( -gyro_bias_vs32[1] / 4 ) >> 8 ) & 0xFF;
     register_data_vu8[3] = (   -gyro_bias_vs32[1] / 4 )        & 0xFF;
     register_data_vu8[4] = ( ( -gyro_bias_vs32[2] / 4 ) >> 8 ) & 0xFF;
@@ -639,16 +696,16 @@ PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
                                   &register_data_vu8[0],
                                   6U );
 
-    /* construct gyro bias in deg/s for later manual subtraction */
-    dest1[0] = (F32) gyro_bias_vs32[0] / (F32) gyro_sensitivity_u16;
-    dest1[1] = (F32) gyro_bias_vs32[1] / (F32) gyro_sensitivity_u16;
-    dest1[2] = (F32) gyro_bias_vs32[2] / (F32) gyro_sensitivity_u16;
+    /* Construct gyro bias in deg/s for later manual subtraction */
+    p_gyro_bias_f32[0] = (F32) gyro_bias_vs32[0] / (F32) gyro_sensitivity_u16;
+    p_gyro_bias_f32[1] = (F32) gyro_bias_vs32[1] / (F32) gyro_sensitivity_u16;
+    p_gyro_bias_f32[2] = (F32) gyro_bias_vs32[2] / (F32) gyro_sensitivity_u16;
 
     /* Construct the accelerometer biases for push to the hardware accelerometer bias registers. These registers contain
-     * factory trim values which must be added to the calculated accelerometer biases; on boot up these registers will hold
-     * non-zero values. In addition, bit 0 of the lower byte must be preserved since it is used for temperature
-     * compensation calculations. Accelerometer bias registers expect bias input as 2048 LSB per g, so that
-     * the accelerometer biases calculated above must be divided by 8. */
+     * factory trim values which must be added to the calculated accelerometer biases; on boot up these registers will
+     * hold non-zero values. In addition, bit 0 of the lower byte must be preserved since it is used for temperature
+     * compensation calculations. Accelerometer bias registers expect bias input as 2048 LSB/g, so that the accelerometer
+     * biases calculated above must be divided by 8. */
 
     /* Read factory accelerometer trim values */
     state_b = dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR,
@@ -660,12 +717,12 @@ PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
     accel_bias_reg_vs32[1] = (U16) ( (U16) register_data_vu8[2] << 8 ) | register_data_vu8[3];
     accel_bias_reg_vs32[2] = (U16) ( (U16) register_data_vu8[4] << 8 ) | register_data_vu8[5];
 
-
-    for( idx_u16 = 0; idx_u16 < 3; idx_u16++ )
+    for( idx_u16 = 0; idx_u16 < 3U; idx_u16++ )
     {
-        if(accel_bias_reg_vs32[idx_u16] & mask_u32)
+        /* If temperature compensation bit is set, record that fact in mask_bit */
+        if( accel_bias_reg_vs32[idx_u16] & mask_u32 )
         {
-            mask_bit_vu8[idx_u16] = 0x01; // If temperature compensation bit is set, record that fact in mask_bit
+            mask_bit_vu8[idx_u16] = 0x01;
         }
     }
 
@@ -677,25 +734,31 @@ PRIVATE BOOLEAN dd_icm_20600_calibrate(F32 * dest1, F32 * dest2)
 
     register_data_vu8[0] = ( accel_bias_reg_vs32[0] >> 8U ) & 0xFF;
     register_data_vu8[1] = ( accel_bias_reg_vs32[0] )      & 0xFF;
-    register_data_vu8[1] =   register_data_vu8[1] | mask_bit_vu8[0]; /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+
+    /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+    register_data_vu8[1] =   register_data_vu8[1] | mask_bit_vu8[0];
     register_data_vu8[2] = ( accel_bias_reg_vs32[1] >> 8U ) & 0xFF;
     register_data_vu8[3] = ( accel_bias_reg_vs32[1] )      & 0xFF;
-    register_data_vu8[3] =   register_data_vu8[3] | mask_bit_vu8[1]; /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+
+    /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+    register_data_vu8[3] =   register_data_vu8[3] | mask_bit_vu8[1];
     register_data_vu8[4] = ( accel_bias_reg_vs32[2] >> 8U ) & 0xFF;
     register_data_vu8[5] = ( accel_bias_reg_vs32[2] )      & 0xFF;
-    register_data_vu8[5] =   register_data_vu8[5] | mask_bit_vu8[2]; /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+
+    /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+    register_data_vu8[5] =   register_data_vu8[5] | mask_bit_vu8[2];
 
 
     /* Push accelerometer biases to hardware registers */
     state_b = dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR,
-                                DD_ICM_20600_XA_OFFSET_H,
-                                &register_data_vu8[0],
-                                6U );
+                                  DD_ICM_20600_XA_OFFSET_H,
+                                  &register_data_vu8[0],
+                                  6U );
 
     /*  Output scaled accelerometer biases for manual subtraction in the main program */
-    dest2[0] = (F32)accel_bias_vs32[0] / (F32)accel_sensitivity_u16;
-    dest2[1] = (F32)accel_bias_vs32[1] / (F32)accel_sensitivity_u16;
-    dest2[2] = (F32)accel_bias_vs32[2] / (F32)accel_sensitivity_u16;
+    p_accel_bias_f32[0] = (F32)accel_bias_vs32[0] / (F32)accel_sensitivity_u16;
+    p_accel_bias_f32[1] = (F32)accel_bias_vs32[1] / (F32)accel_sensitivity_u16;
+    p_accel_bias_f32[2] = (F32)accel_bias_vs32[2] / (F32)accel_sensitivity_u16;
 
     return state_b;
 }
@@ -817,24 +880,3 @@ BOOLEAN dd_icm_20600_quaternion_update( DD_ICM_20600_QUATERNION* p_quaternion_s,
     return state_b;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -42,7 +42,8 @@
  * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
-
-void dd_icm_20600_acquire_sensor_data(void);
+F32 dd_icm_20600_get_yaw(void);
+F32 dd_icm_20600_get_pitch(void);
+F32 dd_icm_20600_get_roll(void);
 
 #endif /* DD_ICM_20600_IF_H */

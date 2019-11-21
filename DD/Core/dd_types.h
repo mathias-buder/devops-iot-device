@@ -49,7 +49,8 @@ typedef enum DD_I2C_ERROR_TAG
     DD_I2C_ERROR_FAIL         = ESP_FAIL,             /*!< Generic esp_err_t code indicating failure */
     DD_I2C_ERROR_OK           = ESP_OK,               /*!< esp_err_t value indicating success (no error) */
     DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE,
-    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG
+    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG,
+    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT       /*!< Operation timed out */
 }DD_I2C_ERROR;
 
 

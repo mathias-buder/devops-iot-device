@@ -294,9 +294,9 @@ BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
         ESP_ERROR_CHECK( i2c_master_stop( p_i2c_command) );
 
         /* Start command sequence transmission */
-        ESP_ERROR_CHECK( i2c_master_cmd_begin( DD_I2C_PORT_NUM,
-                                               p_i2c_command,
-                                               DD_I2C_BUS_BUSY_TIME_OUT ) );
+        i2c_error_t = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
+                                             p_i2c_command,
+                                             DD_I2C_BUS_BUSY_TIME_OUT );
 
         /* Delete command sequence and release/return I2C resource */
         i2c_cmd_link_delete( p_i2c_command );

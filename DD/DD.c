@@ -27,9 +27,6 @@
 #include "Core/dd_icm-20600.h"
 #include "Core/dd_database.h"
 
-/* Need to be removed later, only for testing purpose */
-#include "Config/dd_icm-20600_Cfg.h"
-
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
@@ -43,27 +40,26 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
+
 void dd_init(void)
 {
+
     /* Initialize I2C basic device driver */
     dd_i2c_init();
+
+    /* Initialize ICM-2600 motion subsystem */
+//    if( TRUE != dd_icm_20600_init() )
+//    {
+//        printf( "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
+//
+//    }
+
+    //dd_icm_20600_main();
+
 }
 
 
 void dd_main(void)
 {
-
-    /* Read all required sensor data form ICM-20600 */
-    dd_icm_20600_acquire_sensor_data();
-
-    printf("Temperature %0.2f\n", dd_icm_20600_output_s.temperature_deg_f32 );
-
-    printf("X: %i, Y: %i, Z: %i\nX: %i, Y: %i, Z: %i\n", dd_icm_20600_output_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
-                                                         dd_icm_20600_output_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
-                                                         dd_icm_20600_output_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
-                                                         dd_icm_20600_output_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
-                                                         dd_icm_20600_output_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
-                                                         dd_icm_20600_output_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
-
-
+    dd_icm_20600_main();
 }

@@ -21,9 +21,12 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include <stdio.h>
+#include <math.h>
+
 #include "dd_icm-20600_interface.h"
 #include "../Core/dd_database.h"
-#include <stdio.h>
+
 
 
 /*********************************************************************/
@@ -44,17 +47,47 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-void dd_icm_20600_acquire_sensor_data(void)
+F32 dd_icm_20600_get_yaw(void)
 {
+    F32 yaw_f32 = 0.0F;
 
-    //printf("Calling dd_icm_20600_acquire_sensor_data() ... \n");
+    yaw_f32 = atan2( 2.0F * (   ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q3_f32 )
+                              + ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ),
+                            (   ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q1_f32 )
+                              + ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q2_f32 )
+                              - ( dd_icm_20600_data_s.Quaternion_s.Q3_f32 * dd_icm_20600_data_s.Quaternion_s.Q3_f32 )
+                              - ( dd_icm_20600_data_s.Quaternion_s.Q4_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ) );
 
-    /* Read temperature */
-    dd_icm_20600_temperature_read( &dd_icm_20600_output_s );
-
-    dd_icm_20600_accel_data_read_raw( &dd_icm_20600_output_s );
-
-    dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_output_s );
-
-
+    return ( yaw_f32 * RAD_TO_DEG );
 }
+
+F32 dd_icm_20600_get_pitch(void)
+{
+    F32 pitch_f32 = 0.0F;
+
+    pitch_f32 = -asin( 2.0F * (   ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 )
+                                - ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q3_f32 ) ) );
+
+    return ( pitch_f32 * RAD_TO_DEG );
+}
+
+F32 dd_icm_20600_get_roll(void)
+{
+    F32 roll_f32 = 0.0F;
+
+    roll_f32 = atan2( 2.0F * (   ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q2_f32 )
+                               + ( dd_icm_20600_data_s.Quaternion_s.Q3_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ),
+                             (   ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q1_f32 )
+                               + ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q1_f32 )
+                               - ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q2_f32 )
+                               - ( dd_icm_20600_data_s.Quaternion_s.Q4_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ) );
+
+    return ( roll_f32 * RAD_TO_DEG );
+}
+
+
+
+
+
+
+

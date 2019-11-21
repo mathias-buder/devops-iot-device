@@ -36,7 +36,7 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-extern DD_ICM_20600_DATA dd_icm_20600_output_s;
+extern DD_ICM_20600_DATA dd_icm_20600_data_s;
 
 
 
