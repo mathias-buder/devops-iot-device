@@ -169,7 +169,7 @@
 #define DD_ICM_20600_GYRO_CONFIG_FS_SEL_2000_DPS    0x03
 
 #define DD_ICM_20600_TEMP_SENSITIVITY               326.8F /* LSB / °C */
-#define DD_ICM_20600_TEMP_SENSITIVITY_INV           ( 1.0F / 326.8F )
+#define DD_ICM_20600_TEMP_SENSITIVITY_INV           ( 0.00305997552019583843F ) /* 1.0F / 326.8F */
 #define DD_ICM_20600_TEMP_ROOM_OFFSET               25.0F  /* °C */
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
