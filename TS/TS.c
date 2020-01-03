@@ -1,10 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        $URL$
-        $Revision$
-        $Author$
-        $Date$
+        File: TS.c
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
