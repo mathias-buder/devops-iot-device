@@ -12,5 +12,9 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS "VE.c"
+idf_component_register(SRCS "Config/ve_cfg.c"
+                            "Core/ve_database.c"
+                            "Interface/ve_input_interface.c"
+                            "Interface/ve_output_interface.c"
+                            "VE.c"
                        INCLUDE_DIRS ".")
