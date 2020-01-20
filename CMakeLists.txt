@@ -1,5 +1,4 @@
 # *********************************************************************
-#
 #       SEWELA owns the copyright in this document and associated
 #       documents and all rights are reserved. These documents must
 #       not be used for any purpose other than that for which they
@@ -22,6 +21,7 @@ set(EXTRA_COMPONENT_DIRS "TS"
                          "DD"
                          "SENSE"
                          "VE" )
+                         "DLG" )
 
 # Add IDF specific environment
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
