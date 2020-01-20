@@ -1,10 +1,4 @@
 # *********************************************************************
-#   MODULE SPECIFICATION:
-#
-#       $URL$
-#       $Revision$
-#       $Author$
-#       $Date$
 #
 #       SEWELA owns the copyright in this document and associated
 #       documents and all rights are reserved. These documents must
@@ -14,11 +8,9 @@
 #       Any copy of this drawing or document made by any method
 #       must also include a copy of this legend.
 #
-#       (c) SEWELA 2019
+#       (c) SEWELA 2020
 #
 # *********************************************************************/
 
-set(COMPONENT_SRCS "VE.c")
-set(COMPONENT_ADD_INCLUDEDIRS ".")
-
-register_component()
+idf_component_register(SRCS "VE.c"
+                       INCLUDE_DIRS ".")

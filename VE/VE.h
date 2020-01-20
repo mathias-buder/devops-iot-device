@@ -21,6 +21,10 @@
 #ifndef TS_TS_H_
 #define TS_TS_H_
 
-extern void me_main(void);
+
+void ve_init(void);
+
+void ve_main(void);
+
 
 #endif /* TS_TS_H_ */
