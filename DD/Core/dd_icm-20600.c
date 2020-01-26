@@ -286,7 +286,7 @@ BOOLEAN dd_icm_20600_reset_soft(void)
 {
     BOOLEAN state_b = FALSE;
 
-    state_b = dd_i2c_read_modify_write( DD_ICM_20600_I2C_ADDR,
+    state_b = dd_i2c_read_modify_write_bit( DD_ICM_20600_I2C_ADDR,
                                         DD_ICM_20600_PWR_MGMT_1,
                                         DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B,
                                         TRUE );
