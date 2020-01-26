@@ -31,128 +31,146 @@
 /*************************************************************/
 
 // Status Registers
-#define DD_MAX_30105_INTSTAT1                   0x00
-#define DD_MAX_30105_INTSTAT2                   0x01
-#define DD_MAX_30105_INTENABLE1                 0x02
-#define DD_MAX_30105_INTENABLE2                 0x03
+#define DD_MAX_30102_INT_STAT_1                 0x00
+#define DD_MAX_30102_INT_STAT_2                 0x01
+#define DD_MAX_30102_INT_ENABLE_1               0x02
+#define DD_MAX_30102_INT_ENABLE_2               0x03
 
 // FIFO Registers
-#define DD_MAX_30105_FIFOWRITEPTR               0x04
-#define DD_MAX_30105_FIFOOVERFLOW               0x05
-#define DD_MAX_30105_FIFOREADPTR                0x06
-#define DD_MAX_30105_FIFODATA                   0x07
+#define DD_MAX_30102_FIFO_WRITE_PTR             0x04
+#define DD_MAX_30102_FIFO_OVER_FLOW             0x05
+#define DD_MAX_30102_FIFO_READ_PTR              0x06
+#define DD_MAX_30102_FIFO_DATA                  0x07
 
 // Configuration Registers
-#define DD_MAX_30105_FIFOCONFIG                 0x08
-#define DD_MAX_30105_MODECONFIG                 0x09
-#define DD_MAX_30105_PARTICLECONFIG             0x0A    // Note, sometimes listed as "SPO2" config in datasheet (pg. 11)
-#define DD_MAX_30105_LED1_PULSEAMP              0x0C
-#define DD_MAX_30105_LED2_PULSEAMP              0x0D
-#define DD_MAX_30105_LED3_PULSEAMP              0x0E
-#define DD_MAX_30105_LED_PROX_AMP               0x10
-#define DD_MAX_30105_MULTILEDCONFIG1            0x11
-#define DD_MAX_30105_MULTILEDCONFIG2            0x12
+#define DD_MAX_30102_FIFO_CONFIG                0x08
+#define DD_MAX_30102_MODE_CONFIG                0x09
+#define DD_MAX_30102_SPO2_CONFIG                0x0A
+#define DD_MAX_30102_LED1_PULSE_AMP             0x0C
+#define DD_MAX_30102_LED2_PULSE_AMP             0x0D
+#define DD_MAX_30102_LED_PROX_AMP               0x10
+#define DD_MAX_30102_MULTI_LED_CONFIG_1         0x11
+#define DD_MAX_30102_MULTI_LED_CONFIG_2         0x12
 
 // Die Temperature Registers
-#define DD_MAX_30105_DIETEMPINT                 0x1F
-#define DD_MAX_30105_DIETEMPFRAC                0x20
-#define DD_MAX_30105_DIETEMPCONFIG              0x21
+#define DD_MAX_30102_DIE_TEMP_INT               0x1F
+#define DD_MAX_30102_DIE_TEMP_FRAC              0x20
+#define DD_MAX_30102_DIE_TEMP_CONFIG            0x21
 
 // Proximity Function Registers
-#define DD_MAX_30105_PROXINTTHRESH              0x30
+#define DD_MAX_30102_PROX_INT_THRESH            0x30
 
 // Part ID Registers
-#define DD_MAX_30105_REVISIONID                 0xFE
-#define DD_MAX_30105_PARTID                     0xFF    // Should always be 0x15. Identical to MAX30102.
+#define DD_MAX_30102_REVISION_ID                0xFE
+#define DD_MAX_30102_PART_ID                    0xFF    // Should always be 0x15. Identical to MAX30102.
 
-// DD_MAX_30105 Commands
-// Interrupt configuration (pg 13, 14)
-#define DD_MAX_30105_INT_A_FULL_MASK            0x7F /* (byte)~0b10000000 */
-#define DD_MAX_30105_INT_A_FULL_ENABLE          0x80
-#define DD_MAX_30105_INT_A_FULL_DISABLE         0x00
+/* Interrupt configuration for Interrupt Status 1
+ * and Interrupt Status 2*/
 
-#define DD_MAX_30105_INT_DATA_RDY_MASK          0xBF /* (byte)~0b01000000 */
-#define DD_MAX_30105_INT_DATA_RDY_ENABLE        0x40
-#define DD_MAX_30105_INT_DATA_RDY_DISABLE       0x00
+/* A_FULL: FIFO Almost Full Flag */
+#define DD_MAX_30102_INT_A_FULL_MASK            0x7F /* (byte)~0b10000000 */
+#define DD_MAX_30102_INT_A_FULL_ENABLE          0x80
+#define DD_MAX_30102_INT_A_FULL_DISABLE         0x00
 
-#define DD_MAX_30105_INT_ALC_OVF_MASK           0xDF /*(byte)~0b00100000 */
-#define DD_MAX_30105_INT_ALC_OVF_ENABLE         0x20
-#define DD_MAX_30105_INT_ALC_OVF_DISABLE        0x00
+/* PPG_RDY: New FIFO Data Ready */
+#define DD_MAX_30102_INT_PPG_RDY_MASK           0xBF /* (byte)~0b01000000 */
+#define DD_MAX_30102_INT_PPG_RDY_ENABLE         0x40
+#define DD_MAX_30102_INT_PPG_RDY_DISABLE        0x00
 
-#define DD_MAX_30105_INT_PROX_INT_MASK          0xEF /* (byte)~0b00010000 */
-#define DD_MAX_30105_INT_PROX_INT_ENABLE        0x10
-#define DD_MAX_30105_INT_PROX_INT_DISABLE       0x00
+/* ALC_OVF: Ambient Light Cancellation Overflow */
+#define DD_MAX_30102_INT_ALC_OVF_MASK           0xDF /*(byte)~0b00100000 */
+#define DD_MAX_30102_INT_ALC_OVF_ENABLE         0x20
+#define DD_MAX_30102_INT_ALC_OVF_DISABLE        0x00
 
-#define DD_MAX_30105_INT_DIE_TEMP_RDY_MASK      0xFD /* (byte)~0b00000010 */
-#define DD_MAX_30105_INT_DIE_TEMP_RDY_ENABLE    0x02
-#define DD_MAX_30105_INT_DIE_TEMP_RDY_DISABLE   0x00
+/* PROX_INT: Proximity Threshold Triggered */
+#define DD_MAX_30102_INT_PROX_INT_MASK          0xEF /* (byte)~0b00010000 */
+#define DD_MAX_30102_INT_PROX_INT_ENABLE        0x10
+#define DD_MAX_30102_INT_PROX_INT_DISABLE       0x00
 
-#define DD_MAX_30105_SAMPLEAVG_MASK             0x1F /* (byte)~0b11100000 */
-#define DD_MAX_30105_SAMPLEAVG_1                0x00
-#define DD_MAX_30105_SAMPLEAVG_2                0x20
-#define DD_MAX_30105_SAMPLEAVG_4                0x40
-#define DD_MAX_30105_SAMPLEAVG_8                0x60
-#define DD_MAX_30105_SAMPLEAVG_16               0x80
-#define DD_MAX_30105_SAMPLEAVG_32               0xA0
+/* PWR_RDY: Power Ready Flag */
+#define DD_MAX_30102_INT_PWR_RDY_MASK           0xFE /* (byte)~0b00000001 */
+#define DD_MAX_30102_INT_PWR_RDY_ENABLE         0x01
+#define DD_MAX_30102_INT_PWR_RDY_DISABLE        0x00
 
-#define DD_MAX_30105_ROLLOVER_MASK              0xEF
-#define DD_MAX_30105_ROLLOVER_ENABLE            0x10
-#define DD_MAX_30105_ROLLOVER_DISABLE           0x00
+/* DIE_TEMP_RDY: Internal Temperature Ready Flag */
+#define DD_MAX_30102_INT_DIE_TEMP_RDY_MASK      0xFD /* (byte)~0b00000010 */
+#define DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE    0x02
+#define DD_MAX_30102_INT_DIE_TEMP_RDY_DISABLE   0x00
 
-#define DD_MAX_30105_A_FULL_MASK                0xF0
+/* Sample Averaging (SMP_AVE) */
+#define DD_MAX_30102_SMP_AVG_MASK               0x1F /* (byte)~0b11100000 */
+#define DD_MAX_30102_SMP_AVG_1                  0x00
+#define DD_MAX_30102_SMP_AVG_2                  0x20
+#define DD_MAX_30102_SMP_AVG_4                  0x40
+#define DD_MAX_30102_SMP_AVG_8                  0x60
+#define DD_MAX_30102_SMP_AVG_16                 0x80
+#define DD_MAX_30102_SMP_AVG_32                 0xA0
 
-// Mode configuration commands (page 19)
-#define DD_MAX_30105_SHUTDOWN_MASK              0x7F
-#define DD_MAX_30105_SHUTDOWN                   0x80
-#define DD_MAX_30105_WAKEUP                     0x00
+/* FIFO Rolls on Full (FIFO_ROLLOVER_EN) */
+#define DD_MAX_30102_ROLL_OVER_MASK             0xEF /* (byte)~0b00010000 */
+#define DD_MAX_30102_ROLL_OVER_ENABLE           0x10
+#define DD_MAX_30102_ROLL_OVER_DISABLE          0x00
 
-#define DD_MAX_30105_RESET_MASK                 0xBF
-#define DD_MAX_30105_RESET                      0x40
+/* FIFO Almost Full Value (FIFO_A_FULL) */
+#define DD_MAX_30102_A_FULL_MASK                0xF0 /* (byte)~0b00001111 */
+#define DD_MAX_30102_A_FULL_MAX_VAL             0x0F /* See datasheet, pg. 17 */
 
-#define DD_MAX_30105_MODE_MASK                  0xF8
-#define DD_MAX_30105_MODE_REDONLY               0x02
-#define DD_MAX_30105_MODE_REDIRONLY             0x03
-#define DD_MAX_30105_MODE_MULTILED              0x07
+/* Mode configuration commands */
 
-// Particle sensing configuration commands (pgs 19-20)
-#define DD_MAX_30105_ADCRANGE_MASK              0x9F
-#define DD_MAX_30105_ADCRANGE_2048              0x00
-#define DD_MAX_30105_ADCRANGE_4096              0x20
-#define DD_MAX_30105_ADCRANGE_8192              0x40
-#define DD_MAX_30105_ADCRANGE_16384             0x60
+/* Shutdown Control (SHDN) */
+#define DD_MAX_30102_SHUTDOWN_MASK              0x7F
+#define DD_MAX_30102_SHUTDOWN                   0x80
+#define DD_MAX_30102_WAKEUP                     0x00
 
-#define DD_MAX_30105_SAMPLERATE_MASK            0xE3
-#define DD_MAX_30105_SAMPLERATE_50              0x00
-#define DD_MAX_30105_SAMPLERATE_100             0x04
-#define DD_MAX_30105_SAMPLERATE_200             0x08
-#define DD_MAX_30105_SAMPLERATE_400             0x0C
-#define DD_MAX_30105_SAMPLERATE_800             0x10
-#define DD_MAX_30105_SAMPLERATE_1000            0x14
-#define DD_MAX_30105_SAMPLERATE_1600            0x18
-#define DD_MAX_30105_SAMPLERATE_3200            0x1C
+/* Reset Control (RESET) */
+#define DD_MAX_30102_RESET_MASK                 0xBF
+#define DD_MAX_30102_RESET                      0x40
 
-#define DD_MAX_30105_PULSEWIDTH_MASK            0xFC
-#define DD_MAX_30105_PULSEWIDTH_69              0x00
-#define DD_MAX_30105_PULSEWIDTH_118             0x01
-#define DD_MAX_30105_PULSEWIDTH_215             0x02
-#define DD_MAX_30105_PULSEWIDTH_411             0x03
+/* Mode Control */
+#define DD_MAX_30102_MODE_MASK                  0xF8
+#define DD_MAX_30102_MODE_LED_RED               0x02
+#define DD_MAX_30102_MODE_LED_RED_IR            0x03
+#define DD_MAX_30102_MODE_LED_MULTI             0x07
 
-//Multi-LED Mode configuration (pg 22)
-#define DD_MAX_30105_SLOT1_MASK                 0xF8
-#define DD_MAX_30105_SLOT2_MASK                 0x8F
-#define DD_MAX_30105_SLOT3_MASK                 0xF8
-#define DD_MAX_30105_SLOT4_MASK                 0x8F
+/* SpO2 Configuration */
 
-#define DD_MAX_30105_SLOT_NONE                  0x00
-#define DD_MAX_30105_SLOT_RED_LED               0x01
-#define DD_MAX_30105_SLOT_IR_LED                0x02
-#define DD_MAX_30105_SLOT_GREEN_LED             0x03
-#define DD_MAX_30105_SLOT_NONE_PILOT            0x04
-#define DD_MAX_30105_SLOT_RED_PILOT             0x05
-#define DD_MAX_30105_SLOT_IR_PILOT              0x06
-#define DD_MAX_30105_SLOT_GREEN_PILOT           0x07
+/* SpO2 ADC Range Control */
+#define DD_MAX_30102_SPO2_ADC_RANGE_MASK        0x9F
+#define DD_MAX_30102_SPO2_ADC_RANGE_2048        0x00
+#define DD_MAX_30102_SPO2_ADC_RANGE_4096        0x20
+#define DD_MAX_30102_SPO2_ADC_RANGE_8192        0x40
+#define DD_MAX_30102_SPO2_ADC_RANGE_16384       0x60
 
-#define MAX_30105_EXPECTEDPARTID                0x15
+/* SpO2 Sample Rate Control */
+#define DD_MAX_30102_SPO2_SMP_RATE_MASK         0xE3
+#define DD_MAX_30102_SPO2_SMP_RATE_50           0x00
+#define DD_MAX_30102_SPO2_SMP_RATE_100          0x04
+#define DD_MAX_30102_SPO2_SMP_RATE_200          0x08
+#define DD_MAX_30102_SPO2_SMP_RATE_400          0x0C
+#define DD_MAX_30102_SPO2_SMP_RATE_800          0x10
+#define DD_MAX_30102_SPO2_SMP_RATE_1000         0x14
+#define DD_MAX_30102_SPO2_SMP_RATE_1600         0x18
+#define DD_MAX_30102_SPO2_SMP_RATE_3200         0x1C
+
+/* LED Pulse Width Control and ADC Resolution */
+#define DD_MAX_30102_LED_PULSE_WIDTH_69         0x00
+#define DD_MAX_30102_LED_PULSE_WIDTH_118        0x01
+#define DD_MAX_30102_LED_PULSE_WIDTH_215        0x02
+#define DD_MAX_30102_LED_PULSE_WIDTH_411        0x03
+
+/* Multi-LED Mode Control */
+#define DD_MAX_30102_SLOT_1_MASK                0xF8
+#define DD_MAX_30102_SLOT_2_MASK                0x8F
+#define DD_MAX_30102_SLOT_3_MASK                0xF8
+#define DD_MAX_30102_SLOT_4_MASK                0x8F
+
+#define DD_MAX_30102_SLOT_NONE                  0x00
+#define DD_MAX_30102_SLOT_RED_LED               0x01
+#define DD_MAX_30102_SLOT_IR_LED                0x02
+#define DD_MAX_30102_SLOT_NONE_PILOT            0x03 /* and 0x04*/
+#define DD_MAX_30102_SLOT_RED_PILOT             0x05
+#define DD_MAX_30102_SLOT_IR_PILOT              0x06
+
 
 
 /*************************************************************/
