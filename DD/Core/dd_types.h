@@ -176,7 +176,102 @@ typedef struct DD_ICM_20600_DATA_TAG
     BOOLEAN                 is_calibrated_b;
     F32                     factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];
     F32                     fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE];
-    DD_DEV_STATE            dev_state_s;                                 /** @details main icm-20600 device state */
+    DD_DEV_STATE            dev_state_s; /** @details main icm-20600 device state */
 } DD_ICM_20600_DATA;
+
+/*************************************************************/
+/*                        DD_MAX_30102                       */
+/*************************************************************/
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_MAX_30102_PTR_TYPE_TAG
+{
+    DD_MAX_30102_PTR_TYPE_READ = 0U,   /**< @details ... */
+    DD_MAX_30102_PTR_TYPE_WRITE,        /**< @details ... */
+    DD_MAX_30102_PTR_TYPE_SIZE
+} DD_MAX_30102_PTR_TYPE;
+
+typedef enum DD_MAX_30102_LED_TYPE_TAG
+{
+    DD_MAX_30102_LED_TYPE_RED = 0U,   /**< @details ... */
+    DD_MAX_30102_LED_TYPE_IR,        /**< @details ... */
+    DD_MAX_30102_LED_TYPE_PROX,
+    DD_MAX_30102_LED_TYPE_SIZE
+} DD_MAX_30102_LED_TYPE;
+
+
+typedef enum DD_MAX_30102_SLOT_TAG
+{
+    DD_MAX_30102_SLOT_1 = 0U,   /**< @details ... */
+    DD_MAX_30102_SLOT_2,        /**< @details ... */
+    DD_MAX_30102_SLOT_3,
+    DD_MAX_30102_SLOT_4,
+    DD_MAX_30102_SLOT_SIZE
+} DD_MAX_30102_SLOT;
+
+typedef enum DD_MAX_30102_SLOT_MODE_TAG
+{
+    DD_MAX_30102_SLOT_MODE_NONE      = 0U,  /**< @details ... */
+    DD_MAX_30102_SLOT_MODE_LED_RED,         /**< @details ... */
+    DD_MAX_30102_SLOT_MODE_LED_IR,          /**< @details ... */
+    DD_MAX_30102_SLOT_MONE_PILOT,
+    DD_MAX_30102_SLOT_MODE_LED_RED_PILOT,
+    DD_MAX_30102_SLOT_MODE_LED_IR_PILOT,
+    DD_MAX_30102_SLOT_MODE_SIZE
+} DD_MAX_30102_SLOT_MODE;
+
+
+typedef enum DD_MAX_30102_MODE_TAG
+{
+    DD_MAX_30102_MODE_RED = 0U,   /**< @details ... */
+    DD_MAX_30102_MODE_RED_IR,    /**< @details ... */
+    DD_MAX_30102_MODE_MULTI_LED, /**< @details ... */
+    DD_MAX_30102_MODE_SIZE
+} DD_MAX_30102_LED_MODE;
+
+typedef enum DD_MAX_30102_ADC_RANGE_TAG
+{
+    DD_MAX_30102_ADC_RANGE_2048 = 0U, /**< @details ... */
+    DD_MAX_30102_ADC_RANGE_4096,     /**< @details ... */
+    DD_MAX_30102_ADC_RANGE_8192,     /**< @details ... */
+    DD_MAX_30102_ADC_RANGE_16384,
+    DD_MAX_30102_ADC_RANGE_SIZE
+} DD_MAX_30102_ADC_RANGE;
+
+typedef enum DD_MAX_30102_SAMPLE_RATE_TAG
+{
+    DD_MAX_30102_SAMPLE_RATE_50 = 0U, /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_100,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_200,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_400,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_800,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_1000,   /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_1600,   /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_3200,   /**< @details ... */
+    DD_MAX_30102_SAMPLE_RATE_SIZE
+} DD_MAX_30102_SAMPLE_RATE;
+
+typedef enum DD_MAX_30102_PULSE_WIDTH_TAG
+{
+    DD_MAX_30102_PULSE_WIDTH_69 = 0, /**< @details ... */
+    DD_MAX_30102_PULSE_WIDTH_118,    /**< @details ... */
+    DD_MAX_30102_PULSE_WIDTH_215,    /**< @details ... */
+    DD_MAX_30102_PULSE_WIDTH_411,    /**< @details ... */
+    DD_MAX_30102_PULSE_WIDTH_SIZE
+} DD_MAX_30102_PULSE_WIDTH;
+
+
+typedef enum DD_MAX_30102_SAMPLE_AVG_TAG
+{
+    DD_MAX_30102_SAMPLE_AVG_1 = 0U, /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_2,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_4,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_8,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_16,    /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_32,   /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_SIZE
+} DD_MAX_30102_SAMPLE_AVG;
 
 #endif /* DD_TYPES_H */

@@ -151,10 +151,24 @@ BOOLEAN dd_i2c_write_bits( U8 device_addr_u8,
  * @param[in] bit_value_b Value to be written to the bit given by bit_position_u8
  * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
  */
-BOOLEAN dd_i2c_read_modify_write( U8 device_addr_u8,
-                                  U8 register_addr_u8,
-                                  U8 bit_position_u8,
-                                  BOOLEAN bit_value_b );
+BOOLEAN dd_i2c_read_modify_write_bit( U8      device_addr_u8,
+                                      U8      register_addr_u8,
+                                      U8      bit_position_u8,
+                                      BOOLEAN bit_value_b );
+
+/**
+ * @details This function reads the an register given by register_addr_u8 and modifies the bit given by
+ * bit_position_u8 with the value given by bit_value_b
+ * @param[in] device_addr_u8 I2C slave device address
+ * @param[in] register_addr_u8 Register address to read from
+ * @param[in] mask_u8 Bitmask to mask out the required bit-region
+ * @param[in] value_u8 Value to be written to the registers bit-region masked out with mask_u8
+ * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
+ */
+BOOLEAN dd_i2c_read_modify_write_mask( U8 device_addr_u8,
+                                       U8 register_addr_u8,
+                                       U8 mask_u8,
+                                       U8 value_u8 );
 
 /**
  * @details This function performs a read/write test on the specified I2C device to make sure the
