@@ -387,10 +387,10 @@ BOOLEAN dd_i2c_write_bits( U8 device_addr_u8,
     return state_b;
 }
 
-BOOLEAN dd_i2c_read_modify_write( U8      device_addr_u8,
-                                  U8      register_addr_u8,
-                                  U8      bit_position_u8,
-                                  BOOLEAN bit_value_b )
+BOOLEAN dd_i2c_read_modify_write_bit( U8      device_addr_u8,
+                                      U8      register_addr_u8,
+                                      U8      bit_position_u8,
+                                      BOOLEAN bit_value_b )
 {
     BOOLEAN status_b          = FALSE;
     U8      register_value_u8 = 0U;
@@ -407,6 +407,33 @@ BOOLEAN dd_i2c_read_modify_write( U8      device_addr_u8,
         status_b = dd_i2c_write_single( device_addr_u8,
                                         register_addr_u8,
                                         register_value_u8 );
+    }
+
+    return status_b;
+}
+
+BOOLEAN dd_i2c_read_modify_write_mask( U8 device_addr_u8,
+                                       U8 register_addr_u8,
+                                       U8 mask_u8,
+                                       U8 value_u8 )
+{
+    BOOLEAN status_b          = FALSE;
+    U8      register_value_u8 = 0U;
+
+    status_b = dd_i2c_read_single( device_addr_u8,
+                                   register_addr_u8,
+                                   &register_value_u8 );
+
+    /* Check for error in read cycle */
+    if ( FALSE != status_b )
+    {
+        /* Zero-out the register portions to be written */
+        register_value_u8 &= mask_u8;
+
+        /* Update register content */
+        status_b = dd_i2c_write_single( device_addr_u8,
+                                        register_addr_u8,
+                                        ( register_value_u8 | value_u8 ) );
     }
 
     return status_b;

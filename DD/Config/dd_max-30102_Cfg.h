@@ -28,7 +28,7 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 
-#define DD_MAX_30105_I2C_ADDR               0xAE /* addr-pin low (GND): 0x68, addr-pin high (VCC): 0x69 */
+#define DD_MAX_30105_I2C_ADDR               0xAE /* Write Address */
 #define DD_MAX_30105_DEVICE_ID              0x15 /* Unique device id */
 
 
