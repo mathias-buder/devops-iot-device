@@ -871,6 +871,33 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
     return state_b;
 }
 
+BOOLEAN dd_max_30102_get_part_id( U8* p_register_u8 )
+{
+    BOOLEAN state_b = FALSE;
+
+    if ( NULL != p_register_u8 )
+    {
+        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
+                                      DD_MAX_30102_PART_ID,
+                                      p_register_u8 );
+    }
+
+    return state_b;
+}
+
+BOOLEAN dd_max_30102_get_rev_id( U8* p_register_u8 )
+{
+    BOOLEAN state_b = FALSE;
+
+    if ( NULL != p_register_u8 )
+    {
+        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
+                                      DD_MAX_30102_REVISION_ID,
+                                      p_register_u8 );
+    }
+
+    return state_b;
+}
 
 PRIVATE BOOLEAN dd_max_30102_read_temperature( F32* const p_value_f32 )
 {
