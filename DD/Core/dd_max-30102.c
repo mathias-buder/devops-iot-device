@@ -22,8 +22,6 @@
 #include "dd_i2c.h"
 #include "dd_database.h"
 
-#include "../Config/dd_max-30102_Cfg.h"
-
 
 
 /*********************************************************************/
@@ -37,26 +35,77 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-
-
+PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 );
+PRIVATE BOOLEAN dd_max_30102_get_int2( U8* const p_register_u8 );
+PRIVATE BOOLEAN dd_max_30102_set_int_a_full( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_data_ready( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_alc_ovf( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_prox_int( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_die_temp_ready( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_soft_reset( void );
+PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e );
+PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e );
+PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e );
+PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e );
+PRIVATE BOOLEAN dd_max_30102_set_amplitude_set( const DD_MAX_30102_LED_TYPE type_e, const U8 amplitude_u8 );
+PRIVATE BOOLEAN dd_max_30102_set_proximity_threshold( const U8 threshold_u8 );
+PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT slot_e, const DD_MAX_30102_SLOT_MODE mode_e );
+PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG average_e );
+PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 );
+PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void );
+PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
+PRIVATE BOOLEAN dd_max_30102_read_temperature( F32* const p_value_f32 );
+PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 );
+PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const  p_register_u8 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-BOOLEAN dd_max_30102_init(void)
+BOOLEAN dd_max_30102_init( void )
 {
     BOOLEAN state_b = FALSE;
 
+    dd_max_30102_soft_reset();
+
+    /********* FIFO Configuration *********/
+    /* The chip will average multiple samples of same type together */
+    dd_max_30102_set_sample_average( dd_max_30102_sample_average_e );
+
+    /* Set to 30 samples to trigger an 'Almost Full' interrupt */
+    dd_max_30102_set_fifo_a_full_value( 2U );
+    dd_max_30102_set_fifo_roll_over( TRUE );
+
+    /********* MODE Configuration *********/
+    dd_max_30102_set_led_mode( dd_max_30102_mode_e );
+
+    /********* SAMPLE Configuration *********/
+    dd_max_30102_set_adc_range( dd_max_30102_adc_range_e );
+    dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_e );
+
+    /****** LED Pulse Amplitude Configuration ******/
+    dd_max_30102_set_amplitude_set( DD_MAX_30102_LED_TYPE_RED,
+                                    dd_max_30102_led_amplitude_u8 );
+
+    dd_max_30102_set_amplitude_set( DD_MAX_30102_LED_TYPE_IR,
+                                    dd_max_30102_led_amplitude_u8 );
+
+    dd_max_30102_set_amplitude_set( DD_MAX_30102_LED_TYPE_PROX,
+                                    dd_max_30102_led_amplitude_u8 );
+
+    /* Reset the FIFO before checking the sensor */
+    dd_max_30102_set_fifo_clear();
+
     return state_b;
 }
-
 
 void dd_max_30102_main(void)
 {
 
 }
 
-BOOLEAN dd_max_30102_get_int1( U8* p_register_u8 )
+PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 )
 {
     BOOLEAN state_b = FALSE;
 
@@ -70,7 +119,7 @@ BOOLEAN dd_max_30102_get_int1( U8* p_register_u8 )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_get_int2( U8* p_register_u8 )
+PRIVATE BOOLEAN dd_max_30102_get_int2( U8* const p_register_u8 )
 {
     BOOLEAN state_b = FALSE;
 
@@ -84,7 +133,7 @@ BOOLEAN dd_max_30102_get_int2( U8* p_register_u8 )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_int_a_full( BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_int_a_full( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -106,8 +155,7 @@ BOOLEAN dd_max_30102_set_int_a_full( BOOLEAN enable_b )
     return state_b;
 }
 
-
-BOOLEAN dd_max_30102_set_data_ready( BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_data_ready( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -129,7 +177,7 @@ BOOLEAN dd_max_30102_set_data_ready( BOOLEAN enable_b )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_alc_ovf( BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_alc_ovf( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -152,7 +200,7 @@ BOOLEAN dd_max_30102_set_alc_ovf( BOOLEAN enable_b )
 }
 
 
-BOOLEAN dd_max_30102_set_prox_int( BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_prox_int( BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -175,7 +223,7 @@ BOOLEAN dd_max_30102_set_prox_int( BOOLEAN enable_b )
 }
 
 
-BOOLEAN dd_max_30102_set_die_temp_ready( BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_die_temp_ready( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -197,31 +245,53 @@ BOOLEAN dd_max_30102_set_die_temp_ready( BOOLEAN enable_b )
     return state_b;
 }
 
-
-
-
-
-BOOLEAN dd_max_30102_soft_reset( void )
+PRIVATE BOOLEAN dd_max_30102_soft_reset( void )
 {
 
-    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                            DD_MAX_30102_MODE_CONFIG,
-                                            DD_MAX_30102_RESET_MASK,
-                                            DD_MAX_30102_RESET ) );
+    BOOLEAN state_b         = FALSE;
+    U8      time_out_cnt_u8 = 100U;
+    U8      register_value_u8;
 
-    //    // Poll for bit to clear, reset is then complete
-    //    // Timeout after 100ms
-    //    unsigned long startTime = millis();
-    //    while (millis() - startTime < 100)
-    //    {
-    //      uint8_t response = readRegister8(_i2caddr, MAX30105_MODECONFIG);
-    //      if ((response & MAX30105_RESET) == 0) break; //We're done!
-    //      delay(1); //Let's not over burden the I2C bus
-    //    }
+    state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                             DD_MAX_30102_MODE_CONFIG,
+                                             DD_MAX_30102_RESET_MASK,
+                                             DD_MAX_30102_RESET );
+
+    /* Check for I2C error */
+    if ( TRUE != state_b )
+    {
+        return FALSE;
+    }
+
+    /* Poll DD_MAX_30102_RESET interrupt register */
+    while ( --time_out_cnt_u8 )
+    {
+        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
+                                      DD_MAX_30102_MODE_CONFIG,
+                                      &register_value_u8 );
+
+        /* Check for I2C error */
+        if ( TRUE != state_b )
+        {
+            return FALSE;
+        }
+
+        /* Check to see if DD_MAX_30102_RESET interrupt is set */
+        else if ( ( register_value_u8 & DD_MAX_30102_RESET ) == 0U )
+        {
+            /* Exit function in case reset is completed */
+            return TRUE;
+        }
+
+        /* Delay for some time to not over burden the I2C bus */
+        vTaskDelay( 100U );
+    }
+
+    /* Will be reached in case time_out_cnt_u8 is elapsed */
+    return FALSE;
 }
 
-
-BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -243,7 +313,7 @@ BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e )
+PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e )
 {
     BOOLEAN state_b = FALSE;
     U8      mode_u8 = 0xFF;
@@ -293,7 +363,7 @@ BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e )
 
 
 
-BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e )
+PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e )
 {
     BOOLEAN state_b  = FALSE;
     U8      range_u8 = 0xFF;
@@ -348,7 +418,7 @@ BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e )
 
 
 
-BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e )
+PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e )
 {
     BOOLEAN state_b  = FALSE;
     U8      rate_u8 = 0xFF;
@@ -424,7 +494,7 @@ BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e )
 
 
 
-BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e )
+PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e )
 {
     BOOLEAN state_b  = FALSE;
     U8      width_u8 = 0xFF;
@@ -477,8 +547,8 @@ BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_amplitude_set( const DD_MAX_30102_LED_TYPE type_e,
-                                        const U8                    amplitude_u8 )
+PRIVATE BOOLEAN dd_max_30102_set_amplitude_set( const DD_MAX_30102_LED_TYPE type_e,
+                                                const U8                    amplitude_u8 )
 {
     BOOLEAN state_b          = FALSE;
     U8      type_reg_addr_u8 = 0xFF;
@@ -525,15 +595,15 @@ BOOLEAN dd_max_30102_set_amplitude_set( const DD_MAX_30102_LED_TYPE type_e,
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_proximity_threshold( U8 threshold_u8 )
+PRIVATE BOOLEAN dd_max_30102_set_proximity_threshold( const U8 threshold_u8 )
 {
     return ( dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
                                   DD_MAX_30102_PROX_INT_THRESH,
                                   threshold_u8 ) );
 }
 
-BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
-                                 const DD_MAX_30102_SLOT_MODE mode_e )
+PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
+                                         const DD_MAX_30102_SLOT_MODE mode_e )
 {
     BOOLEAN state_b          = FALSE;
     U8      slot_mask_u8     = 0xFF;
@@ -637,7 +707,7 @@ BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG average_e )
+PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG average_e )
 {
     BOOLEAN state_b    = FALSE;
     U8      average_u8 = 0xFF;
@@ -701,7 +771,7 @@ BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG average_e
 }
 
 
-BOOLEAN dd_max_30102_set_fifo_roll_over( BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
@@ -723,7 +793,7 @@ BOOLEAN dd_max_30102_set_fifo_roll_over( BOOLEAN enable_b )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 )
+PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( const U8 value_u8 )
 {
     BOOLEAN state_b = FALSE;
 
@@ -738,8 +808,42 @@ BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
-                                                  U8*                   p_value_u8 )
+
+PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
+{
+    BOOLEAN state_b = FALSE;
+
+    state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
+                                   DD_MAX_30102_FIFO_READ_PTR,
+                                   0U );
+
+    /* Check for I2C transmission error */
+    if(FALSE == state_b)
+    {
+        return state_b;
+    }
+
+    state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
+                                   DD_MAX_30102_FIFO_OVER_FLOW,
+                                   0U );
+
+    /* Check for I2C transmission error */
+    if(FALSE == state_b)
+    {
+        return state_b;
+    }
+
+    state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
+                                   DD_MAX_30102_FIFO_READ_PTR,
+                                   0U );
+
+    return state_b;
+}
+
+
+
+PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
+                                                    U8* const                   p_value_u8 )
 {
     BOOLEAN state_b         = FALSE;
     U8      ptr_reg_addr_u8 = 0xFF;
@@ -784,7 +888,7 @@ BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type
 }
 
 
-BOOLEAN dd_max_30102_read_temperature( F32* p_value_f32 )
+PRIVATE BOOLEAN dd_max_30102_read_temperature( F32* const p_value_f32 )
 {
     BOOLEAN state_b             = FALSE;
     U8      time_out_cnt_u8     = 10U;
@@ -872,7 +976,7 @@ BOOLEAN dd_max_30102_read_temperature( F32* p_value_f32 )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_get_part_id( U8* p_register_u8 )
+PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 )
 {
     BOOLEAN state_b = FALSE;
 
@@ -886,7 +990,7 @@ BOOLEAN dd_max_30102_get_part_id( U8* p_register_u8 )
     return state_b;
 }
 
-BOOLEAN dd_max_30102_get_rev_id( U8* p_register_u8 )
+PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 )
 {
     BOOLEAN state_b = FALSE;
 
