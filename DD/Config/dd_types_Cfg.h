@@ -22,19 +22,10 @@
 #define DD_TYPES_CFG_H
 
 /*************************************************************/
-/*      ENUMS                                                */
+/*      INCLUDES                                             */
 /*************************************************************/
+#include "../Core/dd_types.h"
 
-
-/*************************************************************/
-/*      STRUCTURES                                              */
-/*************************************************************/
-
-/**
- * @details Constant parameter to define the max no. of objects that can
- * be acquired in Object Selection input interface.
- */
-// #define OSL_AEB_MAX_NUMBER_OBJECTS              FU_MAX_NUMBER_OBJECTS
 
 
 #endif /* DD_TYPES_CFG_H */
