@@ -58,7 +58,7 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void );
 PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
 PRIVATE BOOLEAN dd_max_30102_read_temperature( F32* const p_value_f32 );
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 );
-PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const  p_register_u8 );
+PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -102,7 +102,21 @@ BOOLEAN dd_max_30102_init( void )
 
 void dd_max_30102_main(void)
 {
+    U8 part_id_u8 = 0U;
+    U8 rev_id_u8  = 0U;
 
+
+
+    /* Get part id*/
+    if (    ( TRUE == dd_max_30102_get_part_id( &part_id_u8 ) )
+         && ( TRUE == dd_max_30102_get_rev_id( &rev_id_u8 ) ) )
+    {
+        printf( "MAX30102 part id: %i\nMAX30102 revision: %i\n", part_id_u8, rev_id_u8);
+    }
+    else
+    {
+        printf( "Error in I2C transmission.\n" );
+    }
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 )
@@ -135,46 +149,19 @@ PRIVATE BOOLEAN dd_max_30102_get_int2( U8* const p_register_u8 )
 
 PRIVATE BOOLEAN dd_max_30102_set_int_a_full( const BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
 
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_A_FULL_MASK,
-                                                 DD_MAX_30102_INT_A_FULL_ENABLE );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_A_FULL_MASK,
-                                                 DD_MAX_30102_INT_A_FULL_DISABLE );
-    }
-
-    return state_b;
+    return( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                             DD_MAX_30102_INT_ENABLE_1,
+                                             DD_MAX_30102_INT_A_FULL_MASK,
+                                             ( (TRUE == enable_b) ? DD_MAX_30102_INT_A_FULL_ENABLE : DD_MAX_30102_INT_A_FULL_DISABLE ) ) );
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_data_ready( const BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
-
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_PPG_RDY_MASK,
-                                                 DD_MAX_30102_INT_PPG_RDY_ENABLE );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_PPG_RDY_MASK,
-                                                 DD_MAX_30102_INT_PPG_RDY_DISABLE );
-    }
-
-    return state_b;
+    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                            DD_MAX_30102_INT_ENABLE_1,
+                                            DD_MAX_30102_INT_PPG_RDY_MASK,
+                                            ( ( TRUE == enable_b ) ? DD_MAX_30102_INT_PPG_RDY_ENABLE : DD_MAX_30102_INT_PPG_RDY_DISABLE ) ) );
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_alc_ovf( const BOOLEAN enable_b )
@@ -808,19 +795,18 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( const U8 value_u8 )
     return state_b;
 }
 
-
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
 {
     BOOLEAN state_b = FALSE;
 
     state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
-                                   DD_MAX_30102_FIFO_READ_PTR,
+                                   DD_MAX_30102_FIFO_WRITE_PTR,
                                    0U );
 
     /* Check for I2C transmission error */
-    if(FALSE == state_b)
+    if ( FALSE == state_b )
     {
-        return state_b;
+        return FALSE;
     }
 
     state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
@@ -828,9 +814,9 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
                                    0U );
 
     /* Check for I2C transmission error */
-    if(FALSE == state_b)
+    if ( FALSE == state_b )
     {
-        return state_b;
+        return FALSE;
     }
 
     state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
@@ -839,8 +825,6 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
 
     return state_b;
 }
-
-
 
 PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
                                                     U8* const                   p_value_u8 )
@@ -880,8 +864,8 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
     }
     else
     {
-        assert( (DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e )
-                (NULL                      != p_value_u8 ) );
+        assert(    ( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e )
+                || ( NULL != p_value_u8 ) );
     }
 
     return state_b;
