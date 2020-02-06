@@ -184,5 +184,7 @@
  * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
+BOOLEAN dd_max_30102_init( void );
+void    dd_max_30102_main( void );
 
 #endif /* DD_MAX_30102_H */
