@@ -30,7 +30,7 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 
-#define DD_MAX_30105_I2C_ADDR               0xAE /* Write Address */
+#define DD_MAX_30105_I2C_ADDR               0x57 /* Write Address */
 #define DD_MAX_30105_DEVICE_ID              0x15 /* Unique device id */
 
 
