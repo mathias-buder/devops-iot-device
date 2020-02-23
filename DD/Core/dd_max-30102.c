@@ -48,7 +48,7 @@ PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e );
 PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e );
 PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e );
 PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e );
-PRIVATE BOOLEAN dd_max_30102_set_amplitude_set( const DD_MAX_30102_LED_TYPE type_e, const U8 amplitude_u8 );
+PRIVATE BOOLEAN dd_max_30102_set_amplitude( const DD_MAX_30102_LED_TYPE type_e, const U8 amplitude_u8 );
 PRIVATE BOOLEAN dd_max_30102_set_proximity_threshold( const U8 threshold_u8 );
 PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT slot_e, const DD_MAX_30102_SLOT_MODE mode_e );
 PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG average_e );
@@ -85,14 +85,14 @@ BOOLEAN dd_max_30102_init( void )
     dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_e );
 
     /****** LED Pulse Amplitude Configuration ******/
-    dd_max_30102_set_amplitude_set( DD_MAX_30102_LED_TYPE_RED,
-                                    dd_max_30102_led_amplitude_u8 );
+    dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED,
+                                dd_max_30102_led_amplitude_u8 );
 
-    dd_max_30102_set_amplitude_set( DD_MAX_30102_LED_TYPE_IR,
-                                    dd_max_30102_led_amplitude_u8 );
+    dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR,
+                                dd_max_30102_led_amplitude_u8 );
 
-    dd_max_30102_set_amplitude_set( DD_MAX_30102_LED_TYPE_PROX,
-                                    dd_max_30102_led_amplitude_u8 );
+    dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_PROX,
+                                dd_max_30102_led_amplitude_u8 );
 
     /* Reset the FIFO before checking the sensor */
     dd_max_30102_set_fifo_clear();
@@ -534,7 +534,7 @@ PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH wid
     return state_b;
 }
 
-PRIVATE BOOLEAN dd_max_30102_set_amplitude_set( const DD_MAX_30102_LED_TYPE type_e,
+PRIVATE BOOLEAN dd_max_30102_set_amplitude( const DD_MAX_30102_LED_TYPE type_e,
                                                 const U8                    amplitude_u8 )
 {
     BOOLEAN state_b          = FALSE;
