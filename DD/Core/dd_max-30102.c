@@ -507,10 +507,10 @@ PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH wid
             break;
 
         default:
-            assert(    ( width_e == DD_MAX_30102_ADC_RANGE_2048 )
-                    || ( width_e == DD_MAX_30102_ADC_RANGE_4096 )
-                    || ( width_e == DD_MAX_30102_ADC_RANGE_8192 )
-                    || ( width_e == DD_MAX_30102_ADC_RANGE_16384 ) );
+            assert(    ( width_e == DD_MAX_30102_PULSE_WIDTH_69 )
+                    || ( width_e == DD_MAX_30102_PULSE_WIDTH_118 )
+                    || ( width_e == DD_MAX_30102_PULSE_WIDTH_215 )
+                    || ( width_e == DD_MAX_30102_PULSE_WIDTH_411 ) );
             break;
         }
 
@@ -757,34 +757,6 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG a
     return state_b;
 }
 
-BOOLEAN dd_max_30102_get_part_id( U8* p_register_u8 )
-{
-    BOOLEAN state_b = FALSE;
-
-    if ( NULL != p_register_u8 )
-    {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_PART_ID,
-                                      p_register_u8 );
-    }
-
-    return state_b;
-}
-
-BOOLEAN dd_max_30102_get_rev_id( U8* p_register_u8 )
-{
-    BOOLEAN state_b = FALSE;
-
-    if ( NULL != p_register_u8 )
-    {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_REVISION_ID,
-                                      p_register_u8 );
-    }
-
-    return state_b;
-}
-
 PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
@@ -893,34 +865,6 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
     {
         assert(    ( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e )
                 || ( NULL != p_value_u8 ) );
-    }
-
-    return state_b;
-}
-
-BOOLEAN dd_max_30102_get_part_id( U8* p_register_u8 )
-{
-    BOOLEAN state_b = FALSE;
-
-    if ( NULL != p_register_u8 )
-    {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_PART_ID,
-                                      p_register_u8 );
-    }
-
-    return state_b;
-}
-
-BOOLEAN dd_max_30102_get_rev_id( U8* p_register_u8 )
-{
-    BOOLEAN state_b = FALSE;
-
-    if ( NULL != p_register_u8 )
-    {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_REVISION_ID,
-                                      p_register_u8 );
     }
 
     return state_b;
