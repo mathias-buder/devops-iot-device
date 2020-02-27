@@ -41,7 +41,7 @@ PRIVATE BOOLEAN dd_max_30102_set_int_a_full( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_data_ready( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_alc_ovf( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_prox_int( const BOOLEAN enable_b );
-PRIVATE BOOLEAN dd_max_30102_set_die_temp_ready( const BOOLEAN enable_b );
+PRIVATE BOOLEAN dd_max_30102_set_die_temp_rdy_int( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_soft_reset( void );
 PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e );
@@ -71,31 +71,33 @@ BOOLEAN dd_max_30102_init( void )
 
     /********* FIFO Configuration *********/
     /* The chip will average multiple samples of same type together */
-    dd_max_30102_set_sample_average( dd_max_30102_sample_average_e );
+    dd_max_30102_set_sample_average( dd_max_30102_sample_avg_cfg_e );
 
     /* Set to 30 samples to trigger an 'Almost Full' interrupt */
     dd_max_30102_set_fifo_a_full_value( 2U );
     dd_max_30102_set_fifo_roll_over( TRUE );
 
-    /********* MODE Configuration *********/
-    dd_max_30102_set_led_mode( dd_max_30102_mode_e );
-
     /********* SAMPLE Configuration *********/
-    dd_max_30102_set_adc_range( dd_max_30102_adc_range_e );
-    dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_e );
+    dd_max_30102_set_adc_range( dd_max_30102_adc_range_cfg_e );
+    dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_cfg_e );
 
     /****** LED Pulse Amplitude Configuration ******/
     dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED,
-                                dd_max_30102_led_amplitude_u8 );
+                                dd_max_30102_led_amplitude_cfg_u8 );
 
     dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR,
-                                dd_max_30102_led_amplitude_u8 );
+                                dd_max_30102_led_amplitude_cfg_u8 );
 
     dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_PROX,
-                                dd_max_30102_led_amplitude_u8 );
+                                dd_max_30102_led_amplitude_cfg_u8 );
+
+    dd_max_30102_set_die_temp_rdy_int( TRUE );
 
     /* Reset the FIFO before checking the sensor */
     dd_max_30102_set_fifo_clear();
+
+    /********* MODE Configuration *********/
+    dd_max_30102_set_led_mode( dd_max_30102_mode_cfg_e );
 
     return state_b;
 }
@@ -104,6 +106,7 @@ void dd_max_30102_main(void)
 {
     U8 part_id_u8 = 0U;
     U8 rev_id_u8  = 0U;
+    F32 temperature_f32 = 0.0F;
 
 
 
@@ -116,6 +119,15 @@ void dd_max_30102_main(void)
     else
     {
         printf( "Error in I2C transmission.\n" );
+    }
+
+    if ( TRUE == dd_max_30102_get_temperature( &temperature_f32 ) )
+    {
+        printf( "MAX30102 temperature: %0.3f\n", temperature_f32 );
+    }
+    else
+    {
+        printf( "Temperature read error.\n" );
     }
 }
 
@@ -210,21 +222,21 @@ PRIVATE BOOLEAN dd_max_30102_set_prox_int( BOOLEAN enable_b )
 }
 
 
-PRIVATE BOOLEAN dd_max_30102_set_die_temp_ready( const BOOLEAN enable_b )
+PRIVATE BOOLEAN dd_max_30102_set_die_temp_rdy_int( const BOOLEAN enable_b )
 {
     BOOLEAN state_b = FALSE;
 
     if ( TRUE == enable_b )
     {
         state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
+                                                 DD_MAX_30102_INT_ENABLE_2,
                                                  DD_MAX_30102_INT_DIE_TEMP_RDY_MASK,
                                                  DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE );
     }
     else
     {
         state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
+                                                 DD_MAX_30102_INT_ENABLE_2,
                                                  DD_MAX_30102_INT_DIE_TEMP_RDY_MASK,
                                                  DD_MAX_30102_INT_DIE_TEMP_RDY_DISABLE );
     }
@@ -872,9 +884,8 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
 
 PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
 {
-    BOOLEAN state_b             = FALSE;
-    U8      time_out_cnt_u8     = 10U;
-    BOOLEAN time_out_b          = TRUE;
+    BOOLEAN time_out_b      = TRUE;
+    U8      time_out_cnt_u8 = dd_max_30102_temp_time_out_cnt_cfg_u8;
     U8      register_value_1_u8;
     U8      register_value_2_u8;
 
@@ -883,62 +894,43 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
         /* DIE_TEMP_RDY interrupt must be enabled */
         /* See issue 19: https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/issues/19 */
 
-        /* Step 1: Configure die temperature register to take 1 temperature sample */
-        state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
-                                       DD_MAX_30102_DIE_TEMP_CONFIG,
-                                       0x01 );
-
-        /* Check for I2C error */
-        if ( TRUE != state_b )
+        /* Step 1: Configure die temperature register to take 1 temperature sample*/
+        if ( FALSE == dd_i2c_write_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_CONFIG, 0x01 ) )
         {
-            return state_b;
+            return FALSE;
         }
 
         while ( --time_out_cnt_u8 )
         {
-            state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                          DD_MAX_30102_INT_STAT_2,
-                                          &register_value_1_u8 );
-
-            /* Check for I2C error */
-            if ( TRUE != state_b )
+            /* Read die DIE_TEMP_RDY interrupt register content */
+            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_INT_STAT_2, &register_value_1_u8 ) )
             {
-                break;
+                return FALSE;
             }
 
             /* Check to see if DIE_TEMP_RDY interrupt is set */
-            else if ( ( register_value_1_u8 & DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE ) > 0U )
+            if ( ( register_value_1_u8 & DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE ) > 0U )
             {
                 time_out_b = FALSE;
                 break;
             }
 
             /* Delay for some time to not over burden the I2C bus */
-            vTaskDelay( 100U );
+            vTaskDelay( (TickType_t) dd_max_30102_temp_delay_ticks_cfg_u8 );
         }
 
         /* In case no time out occurred */
-        if ( TRUE != time_out_b )
+        if ( FALSE == time_out_b )
         {
             /* Step 2: Read die temperature register (integer) */
-            state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                          DD_MAX_30102_DIE_TEMP_INT,
-                                          &register_value_1_u8 );
-
-            /* Check for I2C error */
-            if ( TRUE != state_b )
+            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, &register_value_1_u8 ) )
             {
-                return state_b;
+                return FALSE;
             }
 
-            state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                          DD_MAX_30102_DIE_TEMP_FRAC,
-                                          &register_value_2_u8 );
-
-            /* Check for I2C error */
-            if ( TRUE != state_b )
+            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_FRAC, &register_value_2_u8 ) )
             {
-                return state_b;
+                return FALSE;
             }
 
             /* Step 3: Calculate temperature (datasheet pg. 22) */
@@ -955,7 +947,7 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
         assert( NULL != p_value_f32 );
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 )

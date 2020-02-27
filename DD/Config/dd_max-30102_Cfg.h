@@ -38,11 +38,13 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-extern DD_MAX_30102_SAMPLE_AVG  dd_max_30102_sample_average_e;
-extern DD_MAX_30102_LED_MODE    dd_max_30102_mode_e;
-extern DD_MAX_30102_ADC_RANGE   dd_max_30102_adc_range_e;
-extern DD_MAX_30102_SAMPLE_RATE dd_max_30102_sample_rate_e;
-extern U8                       dd_max_30102_led_amplitude_u8;
+extern DD_MAX_30102_SAMPLE_AVG  dd_max_30102_sample_avg_cfg_e;
+extern DD_MAX_30102_LED_MODE    dd_max_30102_mode_cfg_e;
+extern DD_MAX_30102_ADC_RANGE   dd_max_30102_adc_range_cfg_e;
+extern DD_MAX_30102_SAMPLE_RATE dd_max_30102_sample_rate_cfg_e;
+extern U8                       dd_max_30102_led_amplitude_cfg_u8;
+extern U8                       dd_max_30102_temp_time_out_cnt_cfg_u8;
+extern U8                       dd_max_30102_temp_delay_ticks_cfg_u8;
 
 /**
  * @details This function returns pointer to the osl object for the given id
