@@ -56,7 +56,7 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 );
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void );
 PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
-PRIVATE BOOLEAN dd_max_30102_read_temperature( F32* const p_value_f32 );
+PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 );
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 );
 
@@ -870,7 +870,7 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
     return state_b;
 }
 
-PRIVATE BOOLEAN dd_max_30102_read_temperature( F32* const p_value_f32 )
+PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
 {
     BOOLEAN state_b             = FALSE;
     U8      time_out_cnt_u8     = 10U;
