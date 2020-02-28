@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_fsr_preproc.c
+        File: sense_hr_spo2.c
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -15,19 +15,16 @@
 
 *********************************************************************/
 
+/**
+ * @file sense_hr_spo2.c
+ * @details Put details here ...
+ */
+
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include <stdio.h>
 
-#include "ts_fsr_preproc.h"
-#include "../Interface/ts_input_interface.h"
-
-// #include "../../TRACK/TRACK.h"
-// #include "../../VIDEO/VIDEO.h"
-// #include "../../OF/OF.h"
-
-// #include "../Core/osl_aeb_database.h"
+#include "sense_hr_spo2.h"
 
 
 /*********************************************************************/

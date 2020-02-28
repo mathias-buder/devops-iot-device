@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_fsr_preproc.h
+        File: sense_database.h
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,33 +11,27 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
 
 *********************************************************************/
 
 /**
- * @file ts_fsr_preproc.h
+ * @file sense_database.h
  * @details Some detailed description
  */
 
-#ifndef TS_FSR_PREPROC_H
-#define TS_FSR_PREPROC_H
+#ifndef SENSE_CORE_DATABASE_H_
+#define SENSE_CORE_DATABASE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "ts_fsr_preproc.h"
 
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
 
-#endif /* TS_FSR_PREPROC_H */
+
+#endif /* SENSE_CORE_DATABASE_H_ */

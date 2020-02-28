@@ -12,9 +12,10 @@
 
 *********************************************************************/
 
-#ifndef MS_MS_H_
-#define MS_MS_H_
+void sense_main(void);
 
-extern void ms_main(void);
 
-#endif /* MS_MS_H_ */
+void sense_main(void)
+{
+
+}

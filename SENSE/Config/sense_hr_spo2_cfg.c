@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_database.c
+        File: sense_hr_spo2_cfg.c
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,21 +11,19 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
 
 *********************************************************************/
+
+/**
+ * @file sense_hr_spo2_cfg.c
+ * @details Some detailed description
+ */
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "ts_database.h"
-
-// #include "../../TRACK/TRACK.h"
-// #include "../../VIDEO/VIDEO.h"
-// #include "../../OF/OF.h"
-
-// #include "../Core/osl_aeb_database.h"
-
+#include "sense_hr_spo2_cfg.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
@@ -38,8 +36,6 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-
-
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */

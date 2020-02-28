@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_input_interface.h
+        File: sense_fsr.h
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -15,4 +15,24 @@
 
 *********************************************************************/
 
+/**
+ * @file sense_fsr.h
+ * @details Some detailed description
+ */
 
+#ifndef SENSE_CORE_FSR_H_
+#define SENSE_CORE_FSR_H_
+
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "sense_fsr.h"
+
+
+/*************************************************************/
+/*      GLOBAL VARIABLES                                     */
+/*************************************************************/
+
+
+
+#endif /* SENSE_CORE_FSR_H_ */

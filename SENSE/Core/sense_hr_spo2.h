@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_fsr_preproc_Cfg.h
+        File: sense_fsr.h
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -16,28 +16,22 @@
 *********************************************************************/
 
 /**
- * @file ts_fsr_preproc.h
+ * @file sense_fsr.h
  * @details Some detailed description
  */
 
-#ifndef TS_FSR_PREPROC_CFG_H
-#define TS_FSR_PREPROC_CFG_H
+#ifndef SENSE_CORE_HR_SPO2_H_
+#define SENSE_CORE_HR_SPO2_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
 
 
-
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
 
-#endif /* TS_FSR_PREPROC_CFG_H */
+
+#endif /* SENSE_CORE_HR_SPO2_H_ */

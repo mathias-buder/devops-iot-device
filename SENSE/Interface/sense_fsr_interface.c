@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_input_interface.c
+        File: sense_fsr_interface.c
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,28 +11,19 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
 
 *********************************************************************/
 
 /**
- * @file  ts_input_interface.c
- * @brief Declaration of touch sensor data acquisition routine
- *        and subroutines.
+ * @file  sense_fsr_interface.c
+ * @brief Put details here ...
  */
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
-#include "ts_input_interface.h"
-#include "ts_output_interface.h"
-
-// #include "../../TRACK/TRACK.h"
-// #include "../../VIDEO/VIDEO.h"
-// #include "../../OF/OF.h"
-
-// #include "../Core/osl_aeb_database.h"
+#include "sense_fsr_interface.h"
 
 
 /*************************************************************/
@@ -46,7 +37,6 @@
 /*************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                        */
 /*************************************************************/
-// PRIVATE void osl_aeb_acquire_vehicle_data(void);
 
 
 /*************************************************************/

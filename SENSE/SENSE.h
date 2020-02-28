@@ -1,7 +1,4 @@
 /*********************************************************************
-    MODULE SPECIFICATION:
-
-        File: TS.c
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,19 +8,13 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
 
 *********************************************************************/
 
-void ts_main(void);
+#ifndef SENSE_SENSE_H_
+#define SENSE_SENSE_H_
 
+extern void sense_main(void);
 
-
-void ts_main(void)
-{
-    int a = 5;
-    int b = 10;
-    int c;
-
-    c = a + b;
-}
+#endif /* SENSE_SENSE_H_ */

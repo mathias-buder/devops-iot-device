@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_fsr_preproc_Cfg.c
+        File: sense_fsr.c
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -15,10 +15,17 @@
 
 *********************************************************************/
 
+/**
+ * @file sense_fsr.c
+ * @details Put details here ...
+ */
+
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "ts_fsr_preproc_Cfg.h"
+
+#include "sense_fsr.h"
+
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */

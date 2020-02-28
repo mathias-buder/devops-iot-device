@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_types_Cfg.h
+        File: sense_types_cfg.h
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -16,28 +16,20 @@
 *********************************************************************/
 
 /**
- * @file ts_types_Cfg.h
- * @details This files lists type specific defines and array sizes
- * for types used in the Touch Sensor domain.
+ * @file sense_types_cfg.h
+ * @details Put details here ...
  */
 
-#ifndef TS_TYPES_CFG_H
-#define TS_TYPES_CFG_H
+#ifndef SENSE_CONFIG_TYPES_CFG_H_
+#define SENSE_CONFIG_TYPES_CFG_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
 
-
 /*************************************************************/
 /*      DEFINES                                              */
 /*************************************************************/
 
-/**
- * @details Constant parameter to define the max no. of objects that can
- * be acquired in Object Selection input interface.
- */
-// #define OSL_AEB_MAX_NUMBER_OBJECTS              FU_MAX_NUMBER_OBJECTS
 
-
-#endif /* TS_TYPES_CFG_H */
+#endif /* SENSE_CONFIG_TYPES_CFG_H_ */

@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_database.h
+        File: sense_types.h
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,34 +11,32 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
 
 *********************************************************************/
-
 /**
- * @file ts_fsr_preproc.h
- * @details Some detailed description
+ * @file osl_aeb_types.h
+ * @details This files defines the domain specific types
+ * used in the Object Selection domain.
  */
 
-#ifndef TS_FSR_DATABASE_H
-#define TS_FSR_DATABASE_H
+#ifndef SENSE_CORE_TYPES_H_
+#define SENSE_CORE_TYPES_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
 
 
+/*************************************************************/
+/*      ENUMERATORS                                          */
+/*************************************************************/
+
 
 /*************************************************************/
-/*      GLOBAL VARIABLES                                     */
+/*      STRUCTURES                                           */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
 
 
-#endif /* TS_FSR_DATABASE_H */
+#endif /* SENSE_CORE_TYPES_H_ */

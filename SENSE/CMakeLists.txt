@@ -12,7 +12,13 @@
 #
 # *********************************************************************/
 
-set(COMPONENT_SRCS "MS.c")
-set(COMPONENT_ADD_INCLUDEDIRS ".")
 
-register_component()
+idf_component_register(SRCS "Config/sense_fsr_proc_cfg.c"
+                            "Config/sense_hr_spo2_cfg.c"
+                            "Core/sense_database.c"
+                            "Core/sense_fsr.c"
+                            "Core/sense_hr_spo2.c"
+                            "Interface/sense_fsr_interface.c"
+                            "Interface/sense_hr_spo2_interface.c"
+                            "SENSE.c"
+                       INCLUDE_DIRS ".")

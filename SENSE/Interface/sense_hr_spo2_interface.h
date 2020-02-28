@@ -1,7 +1,7 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: ts_output_interface.h
+        File: sense_hr_spo2_interface.h
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,34 +11,27 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
 
 *********************************************************************/
 
 /**
- * @file ts_output_interface.h
+ * @file sense_hr_spo2_interface.h
  * @details Some detailed description
  */
 
-#ifndef TS_OUTPUT_INTERFACE_H
-#define TS_OUTPUT_INTERFACE_H
+#ifndef SENSE_INTERFACE_HR_SPO2_INTERFACE_H_
+#define SENSE_INTERFACE_HR_SPO2_INTERFACE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
 
 
-
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
-void ts_acquire_sensor_data(void);
 
-#endif /* TS_OUTPUT_INTERFACE_H */
+
+#endif /* SENSE_INTERFACE_HR_SPO2_INTERFACE_H_ */
