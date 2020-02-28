@@ -19,8 +19,8 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
-#include "../TS/TS.h"
 #include "../DD/DD.h"
+#include "../SENSE/SENSE.h"
 
 
 void app_main()

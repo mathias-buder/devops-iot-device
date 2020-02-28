@@ -13,7 +13,7 @@
 # *********************************************************************/
 
 
-idf_component_register(SRCS "Config/sense_fsr_proc_cfg.c"
+idf_component_register(SRCS "Config/sense_fsr_cfg.c"
                             "Config/sense_hr_spo2_cfg.c"
                             "Core/sense_database.c"
                             "Core/sense_fsr.c"

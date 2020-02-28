@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 3.5)
 # Set custom component directories
 set(EXTRA_COMPONENT_DIRS "TS"
                          "DD"
+                         "SENSE"
                          "VE" )
 
 # Add IDF specific environment
