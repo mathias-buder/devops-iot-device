@@ -13,12 +13,15 @@
 # *********************************************************************/
 
 
-idf_component_register(SRCS "Config/sense_fsr_cfg.c"
-                            "Config/sense_hr_spo2_cfg.c"
+idf_component_register(SRCS "Config/sense_ts_cfg.c"
+                            "Config/sense_hr_cfg.c"
+                            "Config/sense_spo2_cfg.c"
                             "Core/sense_database.c"
-                            "Core/sense_fsr.c"
-                            "Core/sense_hr_spo2.c"
-                            "Interface/sense_fsr_interface.c"
-                            "Interface/sense_hr_spo2_interface.c"
+                            "Core/sense_ts.c"
+                            "Core/sense_hr.c"
+                            "Core/sense_spo2.c"
+                            "Interface/sense_ts_interface.c"
+                            "Interface/sense_hr_interface.c"
+                            "Interface/sense_spo2_interface.c"
                             "SENSE.c"
                        INCLUDE_DIRS ".")

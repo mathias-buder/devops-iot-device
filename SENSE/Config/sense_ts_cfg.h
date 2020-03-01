@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_hr_spo2_cfg.h
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -11,17 +9,14 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
+
+        @file sense_ts_cfg.h
+        @details Some detailed description
 
 *********************************************************************/
-
-/**
- * @file sense_hr_spo2_cfg.h
- * @details Some detailed description
- */
-
-#ifndef SENSE_CONFIG_HR_SPO2_CFG_H_
-#define SENSE_CONFIG_HR_SPO2_CFG_H_
+#ifndef SENSE_CONFIG_TS_CFG_H_
+#define SENSE_CONFIG_TS_CFG_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -33,4 +28,4 @@
 /*************************************************************/
 
 
-#endif /* SENSE_CONFIG_HR_SPO2_CFG_H_ */
+#endif /* SENSE_CONFIG_TS_CFG_H_ */

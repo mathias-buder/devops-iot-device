@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_fsr.c
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -11,20 +9,17 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
+
+        @file sense_ts.h
+        @details Some detailed description
 
 *********************************************************************/
-
-/**
- * @file sense_fsr.c
- * @details Put details here ...
- */
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-
-#include "sense_fsr.h"
+#include "sense_ts.h"
 
 
 /*********************************************************************/

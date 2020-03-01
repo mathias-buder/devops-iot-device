@@ -11,12 +11,12 @@
 
         (c) SEWELA 2020
 
-        @file sense_database.h
+        @file sense_spo2_cfg.h
         @details Some detailed description
 
 *********************************************************************/
-#ifndef SENSE_CORE_DATABASE_H_
-#define SENSE_CORE_DATABASE_H_
+#ifndef SENSE_CONFIG_SPO2_CFG_H_
+#define SENSE_CONFIG_SPO2_CFG_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -28,5 +28,4 @@
 /*************************************************************/
 
 
-
-#endif /* SENSE_CORE_DATABASE_H_ */
+#endif /* SENSE_CONFIG_SPO2_CFG_H_ */

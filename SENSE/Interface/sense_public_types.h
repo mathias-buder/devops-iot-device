@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_public_types.h
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -13,12 +11,10 @@
 
         (c) SEWELA 2020
 
-*********************************************************************/
+        @file sense_public_types.h
+        @details Some detailed description
 
-/**
- * @file sense_public_types.h
- * @details Put details here ...
- */
+*********************************************************************/
 
 #ifndef SENSE_INTERFACE_PUBLIC_TYPES_H_
 #define SENSE_INTERFACE_PUBLIC_TYPES_H_

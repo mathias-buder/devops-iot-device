@@ -1,4 +1,5 @@
 /*********************************************************************
+    MODULE SPECIFICATION:
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -9,6 +10,9 @@
         must also include a copy of this legend.
 
         (c) SEWELA 2020
+
+        @file SENSE.c
+        @details Some detailed description
 
 *********************************************************************/
 

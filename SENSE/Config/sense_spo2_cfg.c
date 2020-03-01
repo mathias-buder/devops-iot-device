@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_fsr_cfg.c
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -13,17 +11,15 @@
 
         (c) SEWELA 2020
 
-*********************************************************************/
+        @file sense_spo2_cfg.c
+        @details Some detailed description
 
-/**
- * @file sense_fsr_cfg.c
- * @details Some detailed description
- */
+*********************************************************************/
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "sense_fsr_cfg.h"
+#include "sense_spo2_cfg.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */

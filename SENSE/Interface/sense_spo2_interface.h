@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_fsr_interface.h
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -13,15 +11,13 @@
 
         (c) SEWELA 2020
 
+        @file sense_spo2_interface.h
+        @details Some detailed description
+
 *********************************************************************/
 
-/**
- * @file sense_fsr_interface.h
- * @details Some detailed description
- */
-
-#ifndef SENSE_INTERFACE_FSR_INTERFACE_H_
-#define SENSE_INTERFACE_FSR_INTERFACE_H_
+#ifndef SENSE_INTERFACE_SPO2_INTERFACE_H_
+#define SENSE_INTERFACE_SPO2_INTERFACE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -34,4 +30,4 @@
 
 
 
-#endif /* SENSE_INTERFACE_FSR_INTERFACE_H_ */
+#endif /* SENSE_INTERFACE_SPO2_INTERFACE_H_ */

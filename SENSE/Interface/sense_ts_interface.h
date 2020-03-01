@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_fsr_interface.c
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -13,35 +11,23 @@
 
         (c) SEWELA 2020
 
+        @file sense_ts_interface.h
+        @details Some detailed description
+
 *********************************************************************/
 
-/**
- * @file  sense_fsr_interface.c
- * @brief Put details here ...
- */
+#ifndef SENSE_INTERFACE_TS_INTERFACE_H_
+#define SENSE_INTERFACE_TS_INTERFACE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "sense_fsr_interface.h"
 
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/*************************************************************/
-/*      LOCAL VARIABLES                                      */
-/*************************************************************/
-
-/*************************************************************/
-/*      PRIVATE FUNCTION DECLARATIONS                        */
-/*************************************************************/
 
 
-/*************************************************************/
-/*   FUNCTION DEFINITIONS                                    */
-/*************************************************************/
-
-
-
+#endif /* SENSE_INTERFACE_TS_INTERFACE_H_ */

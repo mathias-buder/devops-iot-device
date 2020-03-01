@@ -11,12 +11,13 @@
 
         (c) SEWELA 2020
 
-        @file sense_database.h
+        @file sense_hr_interface.h
         @details Some detailed description
 
 *********************************************************************/
-#ifndef SENSE_CORE_DATABASE_H_
-#define SENSE_CORE_DATABASE_H_
+
+#ifndef SENSE_INTERFACE_HR_INTERFACE_H_
+#define SENSE_INTERFACE_HR_INTERFACE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -29,4 +30,4 @@
 
 
 
-#endif /* SENSE_CORE_DATABASE_H_ */
+#endif /* SENSE_INTERFACE_HR_INTERFACE_H_ */

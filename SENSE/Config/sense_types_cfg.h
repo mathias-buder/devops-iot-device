@@ -1,8 +1,6 @@
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        File: sense_types_cfg.h
-
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
@@ -11,15 +9,12 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        (c) SEWELA 2020
+
+        @file sense_types_cfg.h
+        @details Some detailed description
 
 *********************************************************************/
-
-/**
- * @file sense_types_cfg.h
- * @details Put details here ...
- */
-
 #ifndef SENSE_CONFIG_TYPES_CFG_H_
 #define SENSE_CONFIG_TYPES_CFG_H_
 
