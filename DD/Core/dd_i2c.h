@@ -27,9 +27,9 @@
 #include <driver/gpio.h>
 #include <esp_log.h>
 #include <esp_err.h>
+#include "../Config/dd_i2c_cfg.h"
+#include "../Config/dd_types_cfg.h"
 
-#include "../Config/dd_i2c_Cfg.h"
-#include "../Config/dd_types_Cfg.h"
 #include "dd_types.h"
 
 /*************************************************************/

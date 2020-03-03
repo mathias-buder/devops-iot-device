@@ -26,7 +26,7 @@
 #include <esp_err.h>
 
 #include "../../types.h"
-#include "../Config/dd_types_Cfg.h"
+#include "../Config/dd_types_cfg.h"
 #include "../Interface/dd_public_types.h"
 
 
