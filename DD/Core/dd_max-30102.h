@@ -57,6 +57,7 @@
 #define DD_MAX_30102_DIE_TEMP_INT               0x1F
 #define DD_MAX_30102_DIE_TEMP_FRAC              0x20
 #define DD_MAX_30102_DIE_TEMP_CONFIG            0x21
+#define DD_MAX_30102_DIE_TEMP_FRAC_RES          0.0625F
 
 // Proximity Function Registers
 #define DD_MAX_30102_PROX_INT_THRESH            0x30

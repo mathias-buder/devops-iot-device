@@ -201,7 +201,6 @@ typedef enum DD_MAX_30102_LED_TYPE_TAG
     DD_MAX_30102_LED_TYPE_SIZE
 } DD_MAX_30102_LED_TYPE;
 
-
 typedef enum DD_MAX_30102_SLOT_TAG
 {
     DD_MAX_30102_SLOT_1 = 0U,   /**< @details ... */
@@ -273,5 +272,12 @@ typedef enum DD_MAX_30102_SAMPLE_AVG_TAG
     DD_MAX_30102_SAMPLE_AVG_32,   /**< @details ... */
     DD_MAX_30102_SAMPLE_AVG_SIZE
 } DD_MAX_30102_SAMPLE_AVG;
+
+typedef enum DD_MAX_30102_TEMP_COMP_TAG
+{
+    DD_MAX_30102_TEMP_COMP_INT = 0U, /**< @details ... */
+    DD_MAX_30102_TEMP_COMP_FRAC,     /**< @details ... */
+    DD_MAX_30102_TEMP_COMP_SIZE
+} DD_MAX_30102_TEMP_COMP;
 
 #endif /* DD_TYPES_H */

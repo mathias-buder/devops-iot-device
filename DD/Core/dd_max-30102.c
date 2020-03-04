@@ -771,24 +771,10 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG a
 
 PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( const BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
-
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_FIFO_CONFIG,
-                                                 DD_MAX_30102_ROLL_OVER_MASK,
-                                                 DD_MAX_30102_ROLL_OVER_ENABLE );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_FIFO_CONFIG,
-                                                 DD_MAX_30102_ROLL_OVER_MASK,
-                                                 DD_MAX_30102_ROLL_OVER_DISABLE );
-    }
-
-    return state_b;
+    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                            DD_MAX_30102_FIFO_CONFIG,
+                                            DD_MAX_30102_ROLL_OVER_MASK,
+                                            ( TRUE == enable_b ) ? DD_MAX_30102_ROLL_OVER_ENABLE : DD_MAX_30102_ROLL_OVER_DISABLE ) );
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( const U8 value_u8 )
@@ -808,33 +794,14 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( const U8 value_u8 )
 
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
 {
-    BOOLEAN state_b = FALSE;
-
-    state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
-                                   DD_MAX_30102_FIFO_WRITE_PTR,
-                                   0U );
-
-    /* Check for I2C transmission error */
-    if ( FALSE == state_b )
+    if (    ( FALSE == dd_i2c_write_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_FIFO_WRITE_PTR, 0U ) )
+         || ( FALSE == dd_i2c_write_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_FIFO_OVER_FLOW, 0U ) )
+         || ( FALSE == dd_i2c_write_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_FIFO_READ_PTR,  0U ) ) )
     {
         return FALSE;
     }
 
-    state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
-                                   DD_MAX_30102_FIFO_OVER_FLOW,
-                                   0U );
-
-    /* Check for I2C transmission error */
-    if ( FALSE == state_b )
-    {
-        return FALSE;
-    }
-
-    state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
-                                   DD_MAX_30102_FIFO_READ_PTR,
-                                   0U );
-
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
@@ -884,13 +851,16 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
 
 PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
 {
-    BOOLEAN time_out_b      = TRUE;
     U8      time_out_cnt_u8 = dd_max_30102_temp_time_out_cnt_cfg_u8;
-    U8      register_value_1_u8;
-    U8      register_value_2_u8;
+    U8      register_value_vu8[DD_MAX_30102_TEMP_COMP_SIZE];
+    U8      register_value_u8;
+
 
     if ( NULL != p_value_f32 )
     {
+        /* Initialize temperature value to BIG_NUMBER */
+        *p_value_f32 = BIG_NUMBER;
+
         /* DIE_TEMP_RDY interrupt must be enabled */
         /* See issue 19: https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/issues/19 */
 
@@ -903,48 +873,40 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
         while ( --time_out_cnt_u8 )
         {
             /* Read die DIE_TEMP_RDY interrupt register content */
-            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_INT_STAT_2, &register_value_1_u8 ) )
+            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_INT_STAT_2, &register_value_u8 ) )
             {
                 return FALSE;
             }
 
             /* Check to see if DIE_TEMP_RDY interrupt is set */
-            if ( ( register_value_1_u8 & DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE ) > 0U )
+            if ( ( register_value_u8 & DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE ) > 0U )
             {
-                time_out_b = FALSE;
+                /* Step 2: Read die temperature register ( integer + fraction ) */
+                if ( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, &register_value_vu8[0], sizeof( register_value_vu8 ) ) )
+                {
+                    return FALSE;
+                }
+
+                /* Step 3: Calculate temperature (datasheet pg. 22)
+                 * Register DD_MAX_30102_DIE_TEMP_INT stores the integer temperature data in 2’s complement format, where each bit
+                 * corresponds to 1°C. The value read by the I2C driver is in U8 format by default and need to be converted by casting
+                 * it to type S8 ( signed char ) */
+                *p_value_f32 = (F32)   ( (S8) register_value_vu8[DD_MAX_30102_TEMP_COMP_INT] )
+                                     + ( ( (F32) register_value_vu8[DD_MAX_30102_TEMP_COMP_FRAC] ) * DD_MAX_30102_DIE_TEMP_FRAC_RES );
+
                 break;
             }
-
             /* Delay for some time to not over burden the I2C bus */
             vTaskDelay( (TickType_t) dd_max_30102_temp_delay_ticks_cfg_u8 );
-        }
-
-        /* In case no time out occurred */
-        if ( FALSE == time_out_b )
-        {
-            /* Step 2: Read die temperature register (integer) */
-            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, &register_value_1_u8 ) )
-            {
-                return FALSE;
-            }
-
-            if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_FRAC, &register_value_2_u8 ) )
-            {
-                return FALSE;
-            }
-
-            /* Step 3: Calculate temperature (datasheet pg. 22) */
-            *p_value_f32 = ( (F32) register_value_1_u8 ) + ( ( (F32) register_value_2_u8 ) * 0.0625F );
-        }
-        else
-        {
-            /* Set temperature value to BIG_NUMBER */
-            *p_value_f32 = BIG_NUMBER;
         }
     }
     else
     {
+        /* Check for NULL pointer */
         assert( NULL != p_value_f32 );
+
+       /* Return FALSE to indicate error */
+        return FALSE;
     }
 
     return TRUE;
