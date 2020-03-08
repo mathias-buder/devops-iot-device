@@ -20,8 +20,9 @@ cmake_minimum_required(VERSION 3.5)
 set(EXTRA_COMPONENT_DIRS "TS"
                          "DD"
                          "SENSE"
-                         "VE" )
-                         "DLG" )
+                         "VE"
+                         #"DLG"
+                         )
 
 # Add IDF specific environment
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
