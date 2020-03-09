@@ -28,4 +28,5 @@ idf_component_register(SRCS "Config/dd_icm-20600_Cfg.c"
                             "Interface/dd_xr-18910_interface.c"
                             "Interface/dd_sd_interface.c"
                             "DD.c"
-                       INCLUDE_DIRS ".")
+                       INCLUDE_DIRS "."
+                       REQUIRES fatfs)

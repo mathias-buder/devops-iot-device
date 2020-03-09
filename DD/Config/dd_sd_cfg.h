@@ -23,16 +23,17 @@
 /*************************************************************/
 #include "dd_types_cfg.h"
 
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+#define DD_SD_MISO_PIN      2U
+#define DD_SD_MOSI_PIN      15U
+#define DD_SD_CLK_PIN       14U
+#define DD_CD_CS_PIN        13U
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
 
 #endif /* DD_SD_CFG_H */
