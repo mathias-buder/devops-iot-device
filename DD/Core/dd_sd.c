@@ -50,14 +50,17 @@ static const char *TAG = "example";
 
 BOOLEAN dd_sd_init( void )
 {
-    ESP_LOGI(TAG, "Initializing SD card");
+    ESP_LOGI( DD_SD_LOG_MSG_TAG, "Initializing SD card ..." );
 
-    sdmmc_host_t        host        = SDSPI_HOST_DEFAULT();
-    sdspi_slot_config_t slot_config = SDSPI_SLOT_CONFIG_DEFAULT();
-    slot_config.gpio_miso           = DD_SD_MISO_PIN;
-    slot_config.gpio_mosi           = DD_SD_MOSI_PIN;
-    slot_config.gpio_sck            = DD_SD_CLK_PIN;
-    slot_config.gpio_cs             = DD_CD_CS_PIN;
+    /* */
+    esp_err_t           status_t;
+    sdmmc_card_t*       p_sd_card_info_s;
+    sdmmc_host_t        sd_host_desc_s   = SDSPI_HOST_DEFAULT();
+    sdspi_slot_config_t sd_slot_config_s = SDSPI_SLOT_CONFIG_DEFAULT();
+    sd_slot_config_s.gpio_miso           = DD_SD_MISO_PIN;
+    sd_slot_config_s.gpio_mosi           = DD_SD_MOSI_PIN;
+    sd_slot_config_s.gpio_sck            = DD_SD_CLK_PIN;
+    sd_slot_config_s.gpio_cs             = DD_SD_CS_PIN;
 
     // Options for mounting the filesystem.
     // If format_if_mount_failed is set to true, SD card will be partitioned and
@@ -72,22 +75,27 @@ BOOLEAN dd_sd_init( void )
     // Note: esp_vfs_fat_sdmmc_mount is an all-in-one convenience function.
     // Please check its source code and implement error recovery when developing
     // production applications.
-    sdmmc_card_t* card;
-    esp_err_t ret = esp_vfs_fat_sdmmc_mount("/sdcard", &host, &slot_config, &mount_config, &card);
+    status_t = esp_vfs_fat_sdmmc_mount("/sdcard", &sd_host_desc_s, &sd_slot_config_s, &mount_config, &p_sd_card_info_s);
 
-    if (ret != ESP_OK) {
-        if (ret == ESP_FAIL) {
-            ESP_LOGE(TAG, "Failed to mount filesystem. "
-                "If you want the card to be formatted, set format_if_mount_failed = true.");
-        } else {
-            ESP_LOGE(TAG, "Failed to initialize the card (%s). "
-                "Make sure SD card lines have pull-up resistors in place.", esp_err_to_name(ret));
+    if ( ESP_OK != status_t )
+    {
+        if ( ESP_FAIL == status_t )
+        {
+            ESP_LOGE( TAG, "Failed to mount filesystem. If you want the card to be formatted, set format_if_mount_failed = true." );
         }
-        return;
+        else
+        {
+            ESP_LOGE( TAG, "Failed to initialize the card (%s). Make sure SD card lines have pull-up resistors in place.", esp_err_to_name( status_t ) );
+        }
+
+        /* Abort SD card initialization in case of mounting error */
+        return FALSE;
     }
 
+    ESP_LOGI( DD_SD_LOG_MSG_TAG, "SD card mounted successfully" );
+
     // Card has been initialized, print its properties
-    sdmmc_card_print_info(stdout, card);
+    sdmmc_card_print_info( stdout, p_sd_card_info_s );
 
     // Use POSIX and C standard library functions to work with files.
     // First create a file.
@@ -95,9 +103,9 @@ BOOLEAN dd_sd_init( void )
     FILE* f = fopen("/sdcard/hello.txt", "w");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for writing");
-        return;
+        return FALSE;
     }
-    fprintf(f, "Hello %s!\n", card->cid.name);
+    fprintf(f, "Hello %s!\n", p_sd_card_info_s->cid.name);
     fclose(f);
     ESP_LOGI(TAG, "File written");
 
@@ -112,7 +120,7 @@ BOOLEAN dd_sd_init( void )
     ESP_LOGI(TAG, "Renaming file");
     if (rename("/sdcard/hello.txt", "/sdcard/foo.txt") != 0) {
         ESP_LOGE(TAG, "Rename failed");
-        return;
+        return FALSE;
     }
 
     // Open renamed file for reading
@@ -120,7 +128,7 @@ BOOLEAN dd_sd_init( void )
     f = fopen("/sdcard/foo.txt", "r");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for reading");
-        return;
+        return FALSE;
     }
     char line[64];
     fgets(line, sizeof(line), f);
@@ -135,6 +143,8 @@ BOOLEAN dd_sd_init( void )
     // All done, unmount partition and disable SDMMC or SPI peripheral
     esp_vfs_fat_sdmmc_unmount();
     ESP_LOGI(TAG, "Card unmounted");
+
+   return TRUE;
 }
 
 

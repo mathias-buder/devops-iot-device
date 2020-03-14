@@ -21,15 +21,19 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <driver/gpio.h>
 #include "dd_types_cfg.h"
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
-#define DD_SD_MISO_PIN      2U
-#define DD_SD_MOSI_PIN      15U
-#define DD_SD_CLK_PIN       14U
-#define DD_CD_CS_PIN        13U
+#define DD_SD_LOG_MSG_TAG           "DD_SD"
+
+/* Hard-wired pins to SD card */
+#define DD_SD_MISO_PIN              GPIO_NUM_2
+#define DD_SD_MOSI_PIN              GPIO_NUM_15
+#define DD_SD_CLK_PIN               GPIO_NUM_14
+#define DD_SD_CS_PIN                GPIO_NUM_13
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
