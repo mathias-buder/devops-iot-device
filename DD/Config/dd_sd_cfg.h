@@ -27,13 +27,24 @@
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
-#define DD_SD_LOG_MSG_TAG           "DD_SD"
+/* Log message TAG string */
+#define DD_SD_LOG_MSG_TAG               "DD_SD"
 
 /* Hard-wired pins to SD card */
-#define DD_SD_MISO_PIN              GPIO_NUM_19
-#define DD_SD_MOSI_PIN              GPIO_NUM_23
-#define DD_SD_CLK_PIN               GPIO_NUM_18
-#define DD_SD_CS_PIN                GPIO_NUM_5
+#define DD_SD_MISO_PIN                  GPIO_NUM_19
+#define DD_SD_MOSI_PIN                  GPIO_NUM_23
+#define DD_SD_CLK_PIN                   GPIO_NUM_18
+#define DD_SD_CS_PIN                    GPIO_NUM_5
+
+/* File system properties */
+#define DD_SD_MOUNT_POINT               "/sdcard"
+#define DD_SD_FORMAT_ON_FAILED_MOUNT    FALSE
+#define DD_SD_MAX_OPEN_FILES            5U
+#define DD_SD_ALLOC_UNIT_SIZE           ( 16U * 1024 )
+#define DD_SD_MAX_FILE_PATH_LENGTH      128U
+
+
+
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */

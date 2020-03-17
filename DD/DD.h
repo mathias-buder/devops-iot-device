@@ -29,12 +29,13 @@
 #include "Interface/dd_icm-20600_interface.h"
 #include "Interface/dd_max-30102_interface.h"
 #include "Interface/dd_xr-18910_interface.h"
+#include "Interface/dd_sd_interface.h"
 
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
-
+#define DD_LOG_MSG_TAG "DD"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */

@@ -29,11 +29,7 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
 extern DD_ICM_20600_DATA dd_icm_20600_data_s;
-
-
-
-
+extern DD_SD_DATA        dd_sd_data_s;
 
 #endif /* DD_DATABASE_H */

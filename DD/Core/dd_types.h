@@ -26,7 +26,10 @@
 #include <esp_err.h>
 
 #include "../../types.h"
+
 #include "../Config/dd_types_cfg.h"
+#include "../Config/dd_sd_cfg.h"
+
 #include "../Interface/dd_public_types.h"
 
 
@@ -161,7 +164,7 @@ typedef struct DD_ICM_20600_QUATERNION_TAG
  * @brief   ICM-20600 Output Interface Data Structure
  * @details ICM-20600 Output Interface Data Structure gathers all required
             motion information such as pitch, roll, yaw, ...
- * @ingroup SensorStructures
+ * @ingroup DriverStructures
  */
 typedef struct DD_ICM_20600_DATA_TAG
 {
@@ -178,5 +181,34 @@ typedef struct DD_ICM_20600_DATA_TAG
     F32                     fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE];
     DD_DEV_STATE            dev_state_s;                                 /** @details main icm-20600 device state */
 } DD_ICM_20600_DATA;
+
+
+/*************************************************************/
+/*                           DD_SD                           */
+/*************************************************************/
+
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+/**
+ * @brief  SD-Card Output Interface Data Structure
+ * @details
+ * @ingroup DriverStructures
+ */
+typedef struct DD_SD_DATA_TAG
+{
+    FILE*   p_file;
+    char    file_path_vc[DD_SD_MAX_FILE_PATH_LENGTH];
+    U32     file_size_u32;
+
+    BOOLEAN is_file_open_b;
+    BOOLEAN is_fs_mounted_b;
+
+
+} DD_SD_DATA;
+
+
 
 #endif /* DD_TYPES_H */

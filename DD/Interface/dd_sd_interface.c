@@ -18,8 +18,13 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "dd_sd_interface.h"
+#include <stdio.h>
+#include <string.h>
+
 #include "../Core/dd_database.h"
+#include "../Core/dd_sd.h"
+#include "dd_sd_interface.h"
+
 
 
 /*********************************************************************/
@@ -35,14 +40,58 @@
 /*********************************************************************/
 
 
-
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
+BOOLEAN dd_sd_create_file( FILE**      pp_file,
+                           const char* p_file_name_c )
+{
+    char file_path_vc[DD_SD_MAX_FILE_PATH_LENGTH];
 
+    U8 file_path_length_u8 =   strlen( DD_SD_MOUNT_POINT )
+                             + strlen( p_file_name_c )
+                             + 2U; /* 2 Byte: "/" + "\0" */
 
+    if (    ( NULL != p_file_name_c )
+         && ( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 ) )
+    {
+        /* Create full file path */
+        strcpy( file_path_vc, DD_SD_MOUNT_POINT );
+        strcat( file_path_vc, "/" );
+        strcat( file_path_vc, p_file_name_c );
+        strcat( file_path_vc, "\0");
+                                                                                                         /* 1 Byte: "\0" */
+        ESP_LOGI( DD_SD_LOG_MSG_TAG, "Creating file %s [ %i / %i ]", file_path_vc, strlen( file_path_vc ) + 1U, file_path_length_u8 );
 
+        /* Create file */
+        //        p_file = fopen( "/sdcard/test.txt", "w");
+        *pp_file = fopen( file_path_vc, "w" );
 
+        /* Check for failure during file creation */
+        if ( NULL == *pp_file )
+        {
+            ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to open file %s for writing", file_path_vc );
+            return FALSE;
+        }
 
+          printf( "dd_sd_create_file 1 : p_log_file: %p\n", *pp_file );
+//
+//        fprintf( p_file, "Printing line %i!\n", 1000U );
+//        fclose( p_file );
+    }
+    else
+    {
+        ESP_LOGE( DD_SD_LOG_MSG_TAG, "Pointer to p_file_name_c is NULL" );
 
+        assert( NULL != p_file_name_c );
+        assert( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 );
 
+        return FALSE;
+    }
+
+    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created", file_path_vc );
+
+    printf( "dd_sd_create_file 2 : p_log_file: %p\n", *pp_file );
+
+    return TRUE;
+}
