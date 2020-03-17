@@ -30,8 +30,9 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-FILE*   p_log_file;
 BOOLEAN file_written_b = FALSE;
+U32     idx_u32         = 50000U;
+U32     time_in_ms_u32;
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
@@ -39,63 +40,90 @@ BOOLEAN file_written_b = FALSE;
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-
 void dd_init(void)
 {
-
     /* Initialize I2C basic device driver */
     dd_i2c_init();
 
     dd_sd_init();
 
-    dd_sd_create_file( &p_log_file, "my_log_file.txt" );
+    dd_sd_create_file( "my_new_log_file.csv" );
 
-    printf("dd_init : p_log_file: %p\n", p_log_file);
-
+    printf("dd_init : p_log_file: %p\n", dd_sd_data_s.p_file);
 
     /* Initialize ICM-2600 motion subsystem */
-//    if( TRUE != dd_icm_20600_init() )
-//    {
-//        printf( "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
-//    }
-
+    if( FALSE == dd_icm_20600_init() )
+    {
+        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
+    }
 }
-
 
 void dd_main(void)
 {
-   // dd_icm_20600_main();
+  // U32 idx_32;
 
-   U32 idx_32;
+   // printf("dd_main : p_log_file: %p\n", dd_sd_data_s.p_file);
 
-   printf("dd_main : p_log_file: %p\n", p_log_file);
+    if (    ( NULL != dd_sd_data_s.p_file )
+         && ( FALSE == file_written_b     ) )
+    {
+        dd_icm_20600_main();
 
-   if ( FALSE == file_written_b )
-   {
-       if ( NULL  != p_log_file )
+       if ( idx_u32 > 0 )
        {
-           ESP_LOGI( DD_LOG_MSG_TAG, "Writing to file" );
+           fprintf( dd_sd_data_s.p_file, "%i, %i, %i, %i, %0.3f\n", time_in_ms_u32,
+                                                                    dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
+                                                                    dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
+                                                                    dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
+                                                                    dd_icm_20600_data_s.temperature_deg_f32 );
+           --idx_u32;
 
-           for ( idx_32 = 0U; idx_32 < 500U; ++idx_32 )
-           {
-               fprintf(p_log_file, " This is a Test This is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a Test\n");
-               // ESP_LOGI( DD_LOG_MSG_TAG, "Printing line %i!\n", idx_32 );
-           }
-
-           if (0U == fclose( p_log_file ) )
-           {
-               ESP_LOGI( DD_LOG_MSG_TAG, "File closed" );
-               file_written_b = TRUE;
-           }
-           else
-           {
-               ESP_LOGE( DD_LOG_MSG_TAG, "File couln't be closed" );
-           }
+           ESP_LOGI( DD_LOG_MSG_TAG, "Logging data to file %s @ time %i ms [step: %i]", dd_sd_data_s.file_path_vc, time_in_ms_u32, idx_u32 );
        }
        else
        {
-           ESP_LOGE( DD_LOG_MSG_TAG, "Error while trying to write to file" );
+            if ( 0U == fclose( dd_sd_data_s.p_file ) )
+            {
+              ESP_LOGI( DD_LOG_MSG_TAG, "File closed" );
+              file_written_b = TRUE;
+            }
+            else
+            {
+              ESP_LOGE( DD_LOG_MSG_TAG, "File couln't be closed" );
+            }
        }
-   }
+    }
+
+    time_in_ms_u32 += 100U;
+
+
+
+
+//   if ( FALSE == file_written_b )
+//   {
+//       if ( NULL != dd_sd_data_s.p_file )
+//       {
+//           ESP_LOGI( DD_LOG_MSG_TAG, "Writing to file" );
+//
+//           for ( idx_32 = 0U; idx_32 < 500U; ++idx_32 )
+//           {
+//               fprintf( dd_sd_data_s.p_file, " This is a Test This is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a TestThis is a Test\n" );
+//               // ESP_LOGI( DD_LOG_MSG_TAG, "Printing line %i!\n", idx_32 );
+//           }
+//
+//           if ( 0U == fclose( dd_sd_data_s.p_file ) )
+//           {
+//               ESP_LOGI( DD_LOG_MSG_TAG, "File closed" );
+//               file_written_b = TRUE;
+//           }
+//           else
+//           {
+//               ESP_LOGE( DD_LOG_MSG_TAG, "File couln't be closed" );
+//           }
+//       }
+//       else
+//       {
+//           ESP_LOGE( DD_LOG_MSG_TAG, "Error while trying to write to file" );
+//       }
+//   }
 }

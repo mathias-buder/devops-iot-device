@@ -60,19 +60,19 @@ BOOLEAN dd_sd_init( void )
     sd_slot_config_s.gpio_sck            = DD_SD_CLK_PIN;
     sd_slot_config_s.gpio_cs             = DD_SD_CS_PIN;
 
-    // Options for mounting the filesystem.
-    // If format_if_mount_failed is set to true, SD card will be partitioned and
-    // formatted in case when mounting fails.
+    /* Options for mounting the filesystem.
+     * If format_if_mount_failed is set to true, SD card will be partitioned and
+     * formatted in case when mounting fails. */
     esp_vfs_fat_sdmmc_mount_config_t mount_config_s = {
         .format_if_mount_failed = DD_SD_FORMAT_ON_FAILED_MOUNT,
         .max_files              = DD_SD_MAX_OPEN_FILES,
         .allocation_unit_size   = DD_SD_ALLOC_UNIT_SIZE
     };
 
-    // Use settings defined above to initialize SD card and mount FAT filesystem.
-    // Note: esp_vfs_fat_sdmmc_mount is an all-in-one convenience function.
-    // Please check its source code and implement error recovery when developing
-    // production applications.
+    /* Use settings defined above to initialize SD card and mount FAT filesystem.
+     * Note: esp_vfs_fat_sdmmc_mount is an all-in-one convenience function.
+     * Please check its source code and implement error recovery when developing
+     * production applications. */
     status_t = esp_vfs_fat_sdmmc_mount( DD_SD_MOUNT_POINT, &sd_host_desc_s, &sd_slot_config_s, &mount_config_s, &p_sd_card_info_s );
 
     if ( ESP_OK != status_t )
@@ -92,12 +92,11 @@ BOOLEAN dd_sd_init( void )
 
     ESP_LOGI( DD_SD_LOG_MSG_TAG, "SD card mounted successfully" );
 
-    // Card has been initialized, print its properties
+    /* Card has been initialized, print its properties */
     sdmmc_card_print_info( stdout, p_sd_card_info_s );
 
     return TRUE;
 }
-
 
 BOOLEAN dd_sd_deinit( void )
 {

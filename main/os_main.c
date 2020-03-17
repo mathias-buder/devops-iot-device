@@ -41,17 +41,15 @@ void app_main()
     printf("%dMB %s flash\n\n", spi_flash_get_chip_size() / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
-
     /* Initialize all device drivers */
     dd_init();
 
-
     while(1)
     {
-        /* Schedule every 50 ms */
-        vTaskDelayUntil( &xLastWakeTime, xFrequency );
-
         /* Schedule Device Driver (DD) */
         dd_main();
+
+        /* Schedule every 50 ms */
+        vTaskDelayUntil( &xLastWakeTime, xFrequency );
     }
 }
