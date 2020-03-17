@@ -21,8 +21,7 @@ set(EXTRA_COMPONENT_DIRS "TS"
                          "DD"
                          "SENSE"
                          "VE"
-                         #"DLG"
-                         )
+                         "DLG" )
 
 # Add IDF specific environment
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)

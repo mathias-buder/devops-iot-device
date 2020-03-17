@@ -31,7 +31,7 @@
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
 BOOLEAN file_written_b = FALSE;
-U32     idx_u32         = 50000U;
+U32     idx_u32         = 100U;
 U32     time_in_ms_u32;
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */

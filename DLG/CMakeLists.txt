@@ -1,6 +1,5 @@
 # *********************************************************************
-#   MODULE SPECIFICATION:
-
+#
 #       SEWELA owns the copyright in this document and associated
 #       documents and all rights are reserved. These documents must
 #       not be used for any purpose other than that for which they
@@ -12,9 +11,9 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-
-idf_component_register( SRCS "file_server/server.c"
-                             "wifi/connect.c"
-                        INCLUDE_DIRS "."
-                        EMBED_FILES "file_server/favicon.ico"
-                                    "file_server/upload_script.html" )
+idf_component_register(SRCS "Config/dlg_log_cfg.c"
+                            "Core/dlg_database.c"
+                            "Core/dlg_log.c"
+                            "Interface/dlg_log_interface.c"
+                            "DLG.c"
+                       INCLUDE_DIRS ".")
