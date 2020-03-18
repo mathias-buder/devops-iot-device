@@ -1,0 +1,103 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: DLG
+VAL_TABLE_ DD_DEV_STATE 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
+
+
+BO_ 262 DD_ICM_20600_general: 8 Vector__XXX
+ SG_ DD_ICM_20600_chip_id : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_ICM_20600_self_test_passed : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DD_ICM_20600_is_calibrated : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DD_ICM_20600_device_state : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 261 DD_ICM_20600_factory_trim_dev: 8 Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_dev_zg : 40|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_dev_za : 50|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_dev_yg : 30|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_dev_ya : 20|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_dev_xa : 10|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_dev_ag : 0|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+
+BO_ 260 DD_ICM_20600_factory_trim: 8 Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_zg : 50|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_za : 40|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_yg : 30|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_ya : 20|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_xg : 10|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_xa : 0|10@1- (0.01,0) [-5.12|5.11] "" Vector__XXX
+
+BO_ 259 DD_ICM_20600_selt_test: 8 Vector__XXX
+ SG_ DD_ICM_20600_self_test_zg : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_ICM_20600_self_test_za : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_ICM_20600_self_test_yg : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_ICM_20600_self_test_ya : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_ICM_20600_self_test_xg : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_ICM_20600_self_test_xa : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 258 DD_ICM_20600_temperature: 8 DLG
+ SG_ DD_ICM_20600_temperature_deg : 16|10@1- (0.1,41.2) [-10|92.3] "DEG" Vector__XXX
+ SG_ DD_ICM_20600_temperature_raw : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 257 DD_ICM_20600_gyro: 8 DLG
+ SG_ DD_ICM_20600_gyro_z : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ICM_20600_gyro_y : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ICM_20600_gyro_x : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 256 DD_ICM_20600_accel: 8 DLG
+ SG_ DD_ICM_20600_accel_z : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ICM_20600_accel_y : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ICM_20600_accel_x : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+
+
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "BusType" "";
+BA_ "BusType" "CAN";
+BA_ "DBName" "DLG";
+VAL_ 262 DD_ICM_20600_device_state 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
+
