@@ -29,6 +29,8 @@
 /*************************************************************/
 BOOLEAN dd_sd_init( void );
 BOOLEAN dd_sd_deinit( void );
-BOOLEAN dd_sd_create_file( const char* p_file_name_c );
+BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
+                         const DD_SD_FILE_MODE file_mode_e,
+                         BOOLEAN               overwrite_b );
 
 #endif /* DD_DATABASE_H */

@@ -23,14 +23,12 @@
 /*************************************************************/
 #include "esp_log.h"
 
-#include "../Core/dd_types.h"
-#include "../Core/dd_sd.h"
-
+#include "dd_public_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
-
+FILE*              dd_sd_create_file( const char* p_file_name_c );
+BOOLEAN            dd_sd_close_file( void );
 
 #endif /* DD_SD_IF_H */

@@ -87,10 +87,12 @@ BOOLEAN dd_sd_init( void )
         }
 
         /* Abort SD card initialization in case of mounting error */
+        dd_sd_data_s.is_fs_mounted_b = FALSE;
         return FALSE;
     }
 
     ESP_LOGI( DD_SD_LOG_MSG_TAG, "SD card mounted successfully" );
+    dd_sd_data_s.is_fs_mounted_b = TRUE;
 
     /* Card has been initialized, print its properties */
     sdmmc_card_print_info( stdout, p_sd_card_info_s );
@@ -108,16 +110,89 @@ BOOLEAN dd_sd_deinit( void )
 
     if( ESP_OK == status_t )
     {
+        dd_sd_data_s.is_fs_mounted_b = FALSE;
         ESP_LOGI( DD_SD_LOG_MSG_TAG, "SDMMC unmounted" );
         return TRUE;
     }
 
     ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to unmount SD card (%s)",  esp_err_to_name( status_t ) );
+    dd_sd_data_s.is_fs_mounted_b = TRUE;
 
     return FALSE;
 }
 
+BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
+                         const DD_SD_FILE_MODE file_mode_e,
+                         BOOLEAN               overwrite_b )
+{
+    struct stat file_info_s;
+    U8          file_path_length_u8 =  strlen( DD_SD_MOUNT_POINT )
+                                     + strlen( p_file_name_c )
+                                     + 2U; /* 2 Byte: "/" + "\0" */
 
+    if (    ( FALSE == dd_sd_data_s.is_file_open_b )
+         && ( NULL != p_file_name_c )
+         && ( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 ) )
+    {
+        /* Create full file path */
+        strcpy( dd_sd_data_s.file_path_vc, DD_SD_MOUNT_POINT );
+        strcat( dd_sd_data_s.file_path_vc, "/" );
+        strcat( dd_sd_data_s.file_path_vc, p_file_name_c );
 
+        ESP_LOGI( DD_SD_LOG_MSG_TAG, "Creating file %s [ %i / %i ]",
+                                      dd_sd_data_s.file_path_vc,
+                                      strlen( dd_sd_data_s.file_path_vc ) + 1U, /* + 1 Byte for "\0" */
+                                      file_path_length_u8 );
 
+        /* Check if file exists */
+        if ( 0U == stat( dd_sd_data_s.file_path_vc, &file_info_s ) )
+        {
+            /* Check if file shall be overwritten*/
+            if ( FALSE == overwrite_b )
+            {
+                ESP_LOGW( DD_SD_LOG_MSG_TAG, "File %s exists already and won't be overwritten", dd_sd_data_s.file_path_vc );
+                return FALSE;
+            }
+            else
+            {
+                ESP_LOGW( DD_SD_LOG_MSG_TAG, "File %s exists already and will be overwritten", dd_sd_data_s.file_path_vc );
+            }
+        }
 
+        /* Create file */
+        switch ( file_mode_e )
+        {
+        case DD_SD_FILE_MODE_WRITE:
+            dd_sd_data_s.p_file = fopen( dd_sd_data_s.file_path_vc, "w" );
+            break;
+
+        case DD_SD_FILE_MODE_WRITE_BINARY:
+            dd_sd_data_s.p_file = fopen( dd_sd_data_s.file_path_vc, "wb" );
+            break;
+
+        default:
+            assert( DD_SD_FILE_MODE_WRITE        == file_mode_e );
+            assert( DD_SD_FILE_MODE_WRITE_BINARY == file_mode_e );
+            break;
+        }
+
+        if ( NULL == dd_sd_data_s.p_file )
+        {
+            ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to open file %s for writing", dd_sd_data_s.file_path_vc );
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_file_name_c );
+        assert( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 );
+        return FALSE;
+    }
+
+    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created", dd_sd_data_s.file_path_vc );
+
+    /* Set file open flag to TRUE when this point is reached */
+    dd_sd_data_s.is_file_open_b = TRUE;
+
+    return TRUE;
+}

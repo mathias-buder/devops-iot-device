@@ -26,7 +26,6 @@
 #include "dd_sd_interface.h"
 
 
-
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
@@ -43,45 +42,30 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-BOOLEAN dd_sd_create_file( const char* p_file_name_c )
+FILE* dd_sd_create_file( const char* p_file_name_c )
 {
-    U8 file_path_length_u8 =   strlen( DD_SD_MOUNT_POINT )
-                             + strlen( p_file_name_c )
-                             + 2U; /* 2 Byte: "/" + "\0" */
-
-    if (    ( NULL != p_file_name_c )
-         && ( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 ) )
+    /* NULL pointer check of p_file_name_c is handled within
+     * function dd_sd_open_file() */
+    if ( TRUE == dd_sd_open_file( p_file_name_c, DD_SD_FILE_MODE_WRITE, TRUE ) )
     {
-        /* Create full file path */
-        strcpy( dd_sd_data_s.file_path_vc, DD_SD_MOUNT_POINT );
-        strcat( dd_sd_data_s.file_path_vc, "/" );
-        strcat( dd_sd_data_s.file_path_vc, p_file_name_c );
-
-        ESP_LOGI( DD_SD_LOG_MSG_TAG, "Creating file %s [ %i / %i ]",
-                  dd_sd_data_s.file_path_vc,
-                  strlen( dd_sd_data_s.file_path_vc ) + 1U, /* + 1 Byte for "\0" */
-                  file_path_length_u8 );
-
-        /* Create file */
-        dd_sd_data_s.p_file =  fopen( dd_sd_data_s.file_path_vc, "w" );
-
-        if ( NULL == dd_sd_data_s.p_file )
-        {
-            ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to open file %s for writing", dd_sd_data_s.file_path_vc );
-            return FALSE;
-        }
-    }
-    else
-    {
-        ESP_LOGE( DD_SD_LOG_MSG_TAG, "Pointer to p_file_name_c is NULL" );
-
-        assert( NULL != p_file_name_c );
-        assert( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 );
-
-        return FALSE;
+        return dd_sd_data_s.p_file;
     }
 
-    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created", dd_sd_data_s.file_path_vc );
-
-    return TRUE;
+    return NULL;
 }
+
+BOOLEAN dd_sd_close_file( void )
+{
+    if ( 0U == fclose( dd_sd_data_s.p_file ) )
+    {
+      ESP_LOGI( DD_SD_LOG_MSG_TAG, "File closed" );
+      dd_sd_data_s.is_file_open_b = FALSE;
+      return TRUE;
+    }
+
+    ESP_LOGE( DD_SD_LOG_MSG_TAG, "File couln't be closed" );
+    return FALSE;
+}
+
+
+

@@ -10,32 +10,201 @@
 
         (c) SEWELA 2020
 
+        @file dd_public_types.h
+        @details Some detailed description
+
 *********************************************************************/
-
-/**
- * @file dd_public_types.h
- * @details
- */
-
 #ifndef DD_PUBLIC_TYPES_H
 #define DD_PUBLIC_TYPES_H
 
-/* INCLUDES */
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include <esp_err.h>
 
-/* TYPES */
+#include "../../types.h"
+#include "../Core/dd_types.h"
+
+/*************************************************************/
+/*                      ENUMERATORS                           */
+/*************************************************************/
+
+/*************************************************************/
+/*                          DD                              */
+/*************************************************************/
 
 /**
- * @details Integrity level as interface to AEB control.
+ * @details enumerator of ...
  */
-//typedef enum OSL_AEB_INTEGRITY_LEVEL_TAG
-//{
-//    OSL_AEB_CANCEL_INTERVENTION_IMMEDIATELY = 255,  /**< @details cancel intervention           */
-//    OSL_AEB_NO_INTERVENTION_ALLOWED         = 0,    /**< @details no intervention               */
-//    OSL_AEB_WARNING_ALLOWED,                        /**< @details warning                       */
-//    OSL_AEB_PARTIAL_BRAKING_ALLOWED,                /**< @details weak/partial braking          */
-//    OSL_AEB_EMERGENCY_BRAKING_ALLOWED               /**< @details emergency braking             */
-//} OSL_AEB_INTEGRITY_LEVEL;
+typedef enum DD_STATE_TAG
+{
+    DD_STATE_INIT = 0, /**< @details ... */
+    DD_STATE_TEST,     /**< @details ... */
+    DD_STATE_CALIB,    /**< @details ... */
+    DD_STATE_RUN,      /**< @details ... */
+    DD_STATE_SIZE      /**< @details ... */
+} DD_STATE;
 
+typedef struct DD_DEV_STATE_TAG
+{
+    DD_STATE state_e; /**< @details ... */
+} DD_DEV_STATE;
+
+/*************************************************************/
+/*                          DD_I2C                           */
+/*************************************************************/
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_I2C_ERROR_TAG
+{
+    DD_I2C_ERROR_FAIL         = ESP_FAIL, /*!< Generic esp_err_t code indicating failure */
+    DD_I2C_ERROR_OK           = ESP_OK,   /*!< esp_err_t value indicating success (no error) */
+    DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE,
+    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG,
+    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT /*!< Operation timed out */
+} DD_I2C_ERROR;
+
+/**
+ * @details enumerator of ...
+ */
+typedef struct DD_I2C_ERROR_TYPE_TAG
+{
+    DD_I2C_ERROR current_t;
+    DD_I2C_ERROR previous_t;
+    BOOLEAN      state_b;
+} DD_I2C_ERROR_TYPE;
+
+/*************************************************************/
+/*                        DD_ICM_20600                       */
+/*************************************************************/
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_SCALE_A_TAG
+{
+    DD_ICM_20600_AFS_2G = 0,  /**< @details ... */
+    DD_ICM_20600_AFS_4G,      /**< @details ... */
+    DD_ICM_20600_AFS_8G,      /**< @details ... */
+    DD_ICM_20600_AFS_16G,     /**< @details ... */
+    DD_ICM_20600_SCALE_A_SIZE /**< @details ... */
+} DD_ICM_20600_SCALE_A;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_SCALE_G_TAG
+{
+    DD_ICM_20600_GFS_250DPS = 0, /**< @details ... */
+    DD_ICM_20600_GFS_500DPS,     /**< @details ... */
+    DD_ICM_20600_GFS_1000DPS,    /**< @details ... */
+    DD_ICM_20600_GFS_2000DPS,    /**< @details ... */
+    DD_ICM_20600_SCALE_G_SIZE
+} DD_ICM_20600_SCALE_G;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_ACCEL_TYPE_TAG
+{
+    DD_ICM_20600_ACCEL_X = 0, /**< @details ... */
+    DD_ICM_20600_ACCEL_Y,     /**< @details ... */
+    DD_ICM_20600_ACCEL_Z,     /**< @details ... */
+    DD_ICM_20600_ACCEL_SIZE   /**< @details ... */
+} DD_ICM_20600_ACCEL_TYPE;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_GYRO_TYPE_TAG
+{
+    DD_ICM_20600_GYRO_X = 0, /**< @details ... */
+    DD_ICM_20600_GYRO_Y,     /**< @details ... */
+    DD_ICM_20600_GYRO_Z,     /**< @details ... */
+    DD_ICM_20600_GYRO_SIZE   /**< @details ... */
+} DD_ICM_20600_GYRO_TYPE;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_ICM_20600_SELF_TEST_TAG
+{
+    DD_ICM_20600_SELF_TEST_XA = 0, /**< @details ... */
+    DD_ICM_20600_SELF_TEST_YA,     /**< @details ... */
+    DD_ICM_20600_SELF_TEST_ZA,     /**< @details ... */
+    DD_ICM_20600_SELF_TEST_XG,     /**< @details ... */
+    DD_ICM_20600_SELF_TEST_YG,     /**< @details ... */
+    DD_ICM_20600_SELF_TEST_ZG,     /**< @details ... */
+    DD_ICM_20600_SELF_TEST_SIZE    /**< @details ... */
+} DD_ICM_20600_SELF_TEST;
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+typedef struct DD_ICM_20600_QUATERNION_TAG
+{
+    F32 Q1_f32;
+    F32 Q2_f32;
+    F32 Q3_f32;
+    F32 Q4_f32;
+} DD_ICM_20600_QUATERNION;
+
+/**
+ * @brief   ICM-20600 Output Interface Data Structure
+ * @details ICM-20600 Output Interface Data Structure gathers all required
+            motion information such as pitch, roll, yaw, ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_ICM_20600_DATA_TAG
+{
+    U8                      chip_id_u8;                                           /** @details Unique chip id */
+    F32                     temperature_deg_f32;                                  /** @details Internal core (die) temperature @unit °C */
+    U16                     temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
+    U16                     accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
+    U16                     gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
+    DD_ICM_20600_QUATERNION Quaternion_s;                                         /** @details Acceleration raw data */
+    U8                      self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
+    BOOLEAN                 self_test_passed_b;                                   /** @details main icm-20600 device state */
+    BOOLEAN                 is_calibrated_b;                                      /** @details main icm-20600 device state */
+    F32                     factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /** @details main icm-20600 device state */
+    F32                     fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /** @details main icm-20600 device state */
+    DD_DEV_STATE            dev_state_s;                                          /** @details main icm-20600 device state */
+} DD_ICM_20600_DATA;
+
+/*************************************************************/
+/*                           DD_SD                           */
+/*************************************************************/
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_SD_FILE_MODE_TAG
+{
+    DD_SD_FILE_MODE_WRITE,
+    DD_SD_FILE_MODE_WRITE_BINARY,
+    DD_SD_FILE_MODE_SIZE
+} DD_SD_FILE_MODE;
+
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+/**
+ * @brief  SD-Card Output Interface Data Structure
+ * @details
+ * @ingroup DriverStructures
+ */
+typedef struct DD_SD_DATA_TAG
+{
+    FILE*   p_file;                                   /** @details FILE pointer */
+    char    file_path_vc[DD_SD_MAX_FILE_PATH_LENGTH]; /** @details Complete file path (incl. mount point) */
+    U32     file_size_u32;                            /** @details Total file size */
+    BOOLEAN is_file_open_b;                           /** @details Flag indicating that file is currently open */
+    BOOLEAN is_fs_mounted_b;                          /** @details Flag indicating that file system is mounted on SD card */
+} DD_SD_DATA;
 
 
 #endif /* DD_PUBLIC_TYPES_H */

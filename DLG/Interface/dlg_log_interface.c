@@ -20,7 +20,10 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 #include "dlg_log_interface.h"
+#include "../Core/dlg_database.h"
+#include "../Core/dlg_log.h"
 
+#include "../DD/DD.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
@@ -38,6 +41,14 @@
 /*************************************************************/
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
+void dlg_log_get_data( void )
+{
+    /* Acquire ICM-20600 database pointer */
+    p_dlg_icm_20600_data_s = dd_icm_20600_get_database();
+}
+
+
+
 
 
 

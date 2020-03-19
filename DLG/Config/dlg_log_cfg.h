@@ -24,6 +24,17 @@
 
 
 /*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+#define DLG_ICM_20600_ACCEL_ID                      0x14
+#define DLG_ICM_20600_GYRO_ID                       0x15
+#define DLG_ICM_20600_TEMPERATURE_ID                0x16
+#define DLG_ICM_20600_SELF_TEST_ID                  0x17
+#define DLG_ICM_20600_FACTORY_TRIM_ID               0x18
+#define DLG_ICM_20600_FACTORY_TRIM_DEV_ID           0x19
+#define DLG_ICM_20600_GENERAL_ID                    0x1A
+
+/*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
