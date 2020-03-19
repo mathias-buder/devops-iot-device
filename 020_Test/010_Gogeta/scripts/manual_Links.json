@@ -1,0 +1,6 @@
+[
+  "BLFLoader.A087MB_V3_4_Isuzu.DL_Targets_252.ta31_fix_relative_velocity -> libWeGetASim.Fixed_Echo_speed",
+  "BLFLoader.A087MB_V3_4_Isuzu.DL_Targets_252.ta31_fix_power -> libWeGetASim.Fixed_Echo_level_dB",
+  "BLFLoader.ZF_ISZ_VC65_Fusion_Protocol_SCAM4.numBursts -> libWeGetASim.VideoProtocol_NumBursts",
+  "BLFLoader.time -> libWeGetASim.timestamp_ms"
+]

@@ -1,0 +1,1049 @@
+[
+    {
+        "name": "birdview_env_obj_rc",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_rc_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_rc_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_rc_heading_info",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_rc_f32 - (1 * sin(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_rc_f32 - (1 * cos(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_rc_f32 + (1 * sin(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_rc_f32 + (1 * cos(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_rc_heading_direction_positive",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_rc_f32 + (1 * sin(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_rc_f32 + (1 * cos(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_rc_heading_direction_negative",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_rc_f32 - (1 * sin(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_rc_f32 - (1 * cos(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_rc_bounding_box",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.y_rc_f32 - (libWeGetASim._wrapper_s.env_obj[?].of.width_model_s.state_s.mean_f32 * 0.5)"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.x_rc_f32 - (libWeGetASim._wrapper_s.env_obj[?].of.default_length * 0.5)"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.y_rc_f32 + (libWeGetASim._wrapper_s.env_obj[?].of.width_model_s.state_s.mean_f32 * 0.5)"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.x_rc_f32 + (libWeGetASim._wrapper_s.env_obj[?].of.default_length * 0.5)"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_fb",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_fb_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_fb_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_fb_bounding_box",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.y_fb_f32 - (libWeGetASim._wrapper_s.env_obj[?].of.width_model_s.state_s.mean_f32 * 0.5)"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.x_fb_f32"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.y_fb_f32 + (libWeGetASim._wrapper_s.env_obj[?].of.width_model_s.state_s.mean_f32 * 0.5)"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[?].of.Kalman_model_s.state_s.x_fb_f32 + (libWeGetASim._wrapper_s.env_obj[?].of.default_length * 0.5)"
+            }
+        ]
+    },
+    {
+        "name": "birdview_env_obj_fb_heading_info",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_fb_f32 - (1 * sin(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_fb_f32 - (1 * cos(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.y_fb_f32 + (1 * sin(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.x_fb_f32 + (1 * cos(libWeGetASim._wrapper_s.env_obj[env_obj_idx].of.Kalman_model_s.state_s.mean_vf32_2_))"
+            }
+        ]
+    },
+    {
+        "name": "birdview_target",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.Target[target_idx].latdist_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.Target[target_idx].Range"
+            }
+        ]
+    },
+    {
+        "name": "birdview_track",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.TRKSEL_Tracks[track_idx].fi_latdist_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.TRKSEL_Tracks[track_idx].range_f32"
+            }
+        ]
+    },
+    {
+        "name": "frame_id_3bits",
+        "paths": [
+            {
+                "name": "frame_id_3bits_1",
+                "rule": "${libWeGetASim.g_video_s.general_s.frame_ID_u32} & 7"
+            }
+        ]
+    },
+    {
+        "name": "birdview_video_lines",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.g_video_s.line_list_s.lines_s[?].C0_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.g_video_s.line_list_s.lines_s[?].C1_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.g_video_s.line_list_s.lines_s[?].C2_f32"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.g_video_s.line_list_s.lines_s[?].C3_f32"
+            },
+            {
+                "name": "samples",
+                "rule": "20.0"
+            },
+            {
+                "name": "minrange",
+                "rule": "0.0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "libWeGetASim.g_video_s.line_list_s.lines_s[?].view_range_f32"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_video_obj_rc",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_rc_calc_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_rc_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_video_obj_fb",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_fb_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_fb_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_video_obj_fb_extension",
+        "paths": [
+            {
+                "name": "x1",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_fb_f32} + (((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.length_f32}) * sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))) "
+            },
+            {
+                "name": "y1",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_fb_f32} + (((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * -sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.length_f32}) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))) "
+            },
+            {
+                "name": "x2",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_fb_f32} + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))  "
+            },
+            {
+                "name": "y2",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_fb_f32} + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * -sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) "
+            },
+            {
+                "name": "x3",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_fb_f32} + ((-${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) "
+            },
+            {
+                "name": "y3",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_fb_f32} + ((-${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * -sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) "
+            },
+            {
+                "name": "x4",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_fb_f32} + (((-${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.length_f32}) * sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))) "
+            },
+            {
+                "name": "y4",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_fb_f32} + (((-${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * -sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.length_f32}) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))) "
+            },
+            {
+                "name": "x5",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_fb_f32} + (((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.length_f32}) * sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))) "
+            },
+            {
+                "name": "y5",
+                "rule": "${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_fb_f32} + (((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.width_f32} / 2) * -sin(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32})) + ((${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.length_f32}) * cos(${libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].p_input_object_s.psi_rel_f32}))) "
+            }
+        ]
+    },
+    {
+        "name": "bird_view_video_obj_calc_angle",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].y_rc_calc_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.vi_output_object_list_s.object_s[vid_obj_idx].x_rc_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_DGPS_ref_obj",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "BLFLoader.RT_Range.RangeLateral.burst_vs[0].RangePosLateral"
+            },
+            {
+                "name": "y",
+                "rule": "BLFLoader.RT_Range.RangeForward.burst_vs[0].RangePosForward"
+            }
+        ]
+    },
+    {
+        "name": "birdview_video_fov",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim.g_video_s.general_s.refpoint_y_f32 + (100 * sin(libWeGetASim.video_cfg_max_angle_f32))"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim.g_video_s.general_s.refpoint_x_f32 + (100 * cos(libWeGetASim.video_cfg_max_angle_f32))"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim.g_video_s.general_s.refpoint_y_f32"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim.g_video_s.general_s.refpoint_x_f32"
+            },
+            {
+                "name": "x2",
+                "rule": "libWeGetASim.g_video_s.general_s.refpoint_y_f32 - (100 * sin(libWeGetASim.video_cfg_max_angle_f32))"
+            },
+            {
+                "name": "y2",
+                "rule": "libWeGetASim.g_video_s.general_s.refpoint_x_f32 + (100 * cos(libWeGetASim.video_cfg_max_angle_f32))"
+            }
+        ]
+    },
+    {
+        "name": "birdview_radar_fov",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.birdview_radar_fov_y_bkpt_ve[?]"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.birdview_radar_fov_x_bkpt_ve[?]"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_hvt_polyline",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.polyline_s.points_vs[?].radius_f32 * sin( libWeGetASim.lf_hvt_estimate_s.polyline_s.points_vs[?].angle_s.mean_f32)"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.polyline_s.points_vs[?].radius_f32 * cos( libWeGetASim.lf_hvt_estimate_s.polyline_s.points_vs[?].angle_s.mean_f32)"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_hvt_polynomial",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.lateral_offset_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_hvt_lane_left",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_attributes_s.lane_border_vs[0].mean_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_hvt_lane_right",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_attributes_s.lane_border_vs[1].mean_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_hvt_lane_next_left",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_attributes_s.lane_border_vs[2].mean_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_hvt_lane_next_right",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_attributes_s.lane_border_vs[3].mean_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_selection_area_left_border",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_situation_s.selection_area_s.left_border_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_lf_selection_area_right_border",
+        "paths": [
+            {
+                "name": "c0",
+                "rule": "libWeGetASim.lf_situation_s.selection_area_s.right_border_f32"
+            },
+            {
+                "name": "c1",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.tangential_angle_f32"
+            },
+            {
+                "name": "c2",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_f32 / 2"
+            },
+            {
+                "name": "c3",
+                "rule": "libWeGetASim.lf_hvt_estimate_s.trajectory_s.curvature_rate_f32 / 6"
+            },
+            {
+                "name": "c4",
+                "rule": "0"
+            },
+            {
+                "name": "samples",
+                "rule": "30"
+            },
+            {
+                "name": "minrange",
+                "rule": "0"
+            },
+            {
+                "name": "maxrange",
+                "rule": "150"
+            },
+            {
+                "name": "swapxy",
+                "rule": "1"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_selection_area_by_type",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "-libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_selection_area_s.selection_area_x0_f32"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_selection_area_s.selection_area_y0_f32"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_selection_area_s.selection_area_x1_f32"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_selection_area_s.selection_area_y1_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_critical_nearfield_by_type",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "-libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_critical_nearfield_s.critical_nearfield_x0_f32"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_critical_nearfield_s.critical_nearfield_y0_f32"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_critical_nearfield_s.critical_nearfield_x1_f32"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.osl_aeb_critical_nearfield_s.critical_nearfield_y1_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_lateral_threshold_min_cw",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "-libWeGetASim.y_abs_max_cw_selection_area_vf32[0]"
+            },
+            {
+                "name": "y0",
+                "rule": "-10"
+            },
+            {
+                "name": "x1",
+                "rule": "-libWeGetASim.y_abs_max_cw_selection_area_vf32[0]"
+            },
+            {
+                "name": "y1",
+                "rule": "500"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_lateral_threshold_max_cw",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim.y_abs_max_cw_selection_area_vf32[0]"
+            },
+            {
+                "name": "y0",
+                "rule": "-10"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim.y_abs_max_cw_selection_area_vf32[0]"
+            },
+            {
+                "name": "y1",
+                "rule": "500"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_lateral_threshold_min_eb",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "-libWeGetASim.y_abs_max_eb_selection_area_vf32[0]"
+            },
+            {
+                "name": "y0",
+                "rule": "-10"
+            },
+            {
+                "name": "x1",
+                "rule": "-libWeGetASim.y_abs_max_eb_selection_area_vf32[0]"
+            },
+            {
+                "name": "y1",
+                "rule": "500"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_lateral_threshold_max_eb",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim.y_abs_max_eb_selection_area_vf32[0]"
+            },
+            {
+                "name": "y0",
+                "rule": "-10"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim.y_abs_max_eb_selection_area_vf32[0]"
+            },
+            {
+                "name": "y1",
+                "rule": "500"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_pred_obj_pos_fb",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.osl_aeb_environment_s.object_vs[${env_obj_idx}].mco_data_s.y_at_TTX0_state_s.mean_f32"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.Kalman_model_s.state_s.x_fb_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_pred_obj_conncetion_fb",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.Kalman_model_s.state_s.y_fb_f32"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.Kalman_model_s.state_s.x_fb_f32"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim.osl_aeb_environment_s.object_vs[${env_obj_idx}].mco_data_s.y_at_TTX0_state_s.mean_f32"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim._wrapper_s.env_obj[${env_obj_idx}].of.Kalman_model_s.state_s.x_fb_f32"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_extended_ego_path",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "-libWeGetASim.y_abs_max_extended_ego_path_vf32[0]-(libWeGetASim.osl_aeb_input_s.object_vs[${env_obj_idx}].width_f32*0.5)"
+            },
+            {
+                "name": "y0",
+                "rule": "-10"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim.y_abs_max_extended_ego_path_vf32[0]+(libWeGetASim.osl_aeb_input_s.object_vs[${env_obj_idx}].width_f32*0.5)"
+            },
+            {
+                "name": "y1",
+                "rule": "500"
+            }
+        ]
+    },
+    {
+        "name": "birdview_osl_aeb_dist_pred_y_at_ttx0",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.dist_y_at_TTX0_bkpt_vf32[?]"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.dist_y_at_TTX0_vf32[${env_obj_idx}][?]"
+            }
+        ]
+    },
+    {
+        "name": "birdview_mcp_intlvr_vs_ttc",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.osl_aeb_environment_s.impeding_objects_vp[0].mco_data_s.integrity_level_e"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.osl_aeb_environment_s.impeding_objects_vp[0].mco_data_s.TTX0_f32"
+            }
+        ]
+    },
+    {
+        "name": "EgoPred_at",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "${libWeGetASim.PredTiArray[?]}"
+            },
+            {
+                "name": "y",
+                "rule": "${libWeGetASim.PredEgoAArray[?]}"
+            }
+        ]
+    },
+    {
+        "name": "BrkProf_at",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "0"
+            },
+            {
+                "name": "y0",
+                "rule": "${libWeGetASim.PredEgoAArray[0]}"
+            },
+            {
+                "name": "x1",
+                "rule": "${libWeGetASim.ASM_AEB_TiWarnThd}"
+            },
+            {
+                "name": "y1",
+                "rule": "${libWeGetASim.PredEgoAArray[0]}"
+            }
+        ]
+    },
+    {
+        "name": "ECE131_ThdTi",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "1.4"
+            },
+            {
+                "name": "y0",
+                "rule": "0"
+            },
+            {
+                "name": "x1",
+                "rule": "1.4"
+            },
+            {
+                "name": "y1",
+                "rule": "-10"
+            }
+        ]
+    },
+    {
+        "name": "ObjPred_at",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.PredTiArray[?]"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.PredObjAArray[?]"
+            }
+        ]
+    },
+    {
+        "name": "ECE131_ThdA",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "0"
+            },
+            {
+                "name": "y0",
+                "rule": "-4"
+            },
+            {
+                "name": "x1",
+                "rule": "1.4"
+            },
+            {
+                "name": "y1",
+                "rule": "-4"
+            }
+        ]
+    },
+    {
+        "name": "BrkProf_at1",
+        "paths": [
+            {
+                "name": "x0",
+                "rule": "libWeGetASim.ASM_AEB_TiWarnThd"
+            },
+            {
+                "name": "y0",
+                "rule": "libWeGetASim.PredEgoAArray[0]"
+            },
+            {
+                "name": "x1",
+                "rule": "libWeGetASim.ASM_AEB_TiWarnThd"
+            },
+            {
+                "name": "y1",
+                "rule": "libWeGetASim.EgoAMeanBrk_apv"
+            }
+        ]
+    },
+    {
+        "name": "EgoPred_vs",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.PredEgoXArray[?]"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.PredEgoVArray[?]"
+            }
+        ]
+    },
+    {
+        "name": "EgoPredEnd_vs",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.PredEgoXPredEnd"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.PredEgoVPredEnd"
+            }
+        ]
+    },
+    {
+        "name": "ObjPred_vs",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.PredObjXArray[?]"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.PredObjVArray[?]"
+            }
+        ]
+    },
+    {
+        "name": "ObjPredEnd_vs",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libWeGetASim.PredObjXPredEnd"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.PredObjVPredEnd"
+            }
+        ]
+    },
+    {
+        "name": "${libWeGetASim.ASM_AEB_EgoV} * 3.6",
+        "paths": [
+            {
+                "name": "EgoV_kmh",
+                "rule": "${libWeGetASim.ASM_AEB_EgoV} * 3.6"
+            }
+        ]
+    },
+    {
+        "name": "EgoV_kmh",
+        "paths": [
+            {
+                "name": "EgoV_kmh",
+                "rule": "${libWeGetASim.ASM_AEB_EgoV} * 3.6"
+            }
+        ]
+    },
+    {
+        "name": "EgoAAct",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "0"
+            },
+            {
+                "name": "y",
+                "rule": "libWeGetASim.ASM_AEB_EgoAAct"
+            }
+        ]
+    }
+]

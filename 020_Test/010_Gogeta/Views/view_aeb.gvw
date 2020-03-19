@@ -1,0 +1,1863 @@
+{
+    "alignment": "horizontal",
+    "subWindowSizes": [
+        69,
+        31
+    ],
+    "subWindows": [
+        {
+            "alignment": "vertical",
+            "subWindowSizes": [
+                38,
+                62
+            ],
+            "subWindows": [
+                {
+                    "alignment": "horizontal",
+                    "subWindowSizes": [
+                        22,
+                        38,
+                        40
+                    ],
+                    "subWindows": [
+                        {
+                            "alignment": "vertical",
+                            "subWindowSizes": [
+                                55,
+                                23,
+                                22
+                            ],
+                            "subWindows": [
+                                {
+                                    "firstColumnWidth": 143,
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_DrvrAttention",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_AccPedPos1",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_BrkPedPos",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EbsBrkSw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EgoAAct",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EgoCrvtExt",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EgoV",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EgoYawRate",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EngSpd",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_KdSwt",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_SteerWhlAg",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "Host",
+                                    "type": "ValueTable"
+                                },
+                                {
+                                    "firstColumnWidth": 171,
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_SysPerfAeb",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_EgoVRednMaxAeb",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjXMeanMinAeb",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_TiWarnThd",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "SysCfg",
+                                    "type": "ValueTable"
+                                },
+                                {
+                                    "firstColumnWidth": 172,
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "BLFLoader.RT_Range.RangeForward.burst_vs[0].RangePosForward",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "BLFLoader.RT_Range.RangeForward.burst_vs[0].RangeTimeToCollisionForward",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "BLFLoader.RT_Range.RangeForward.burst_vs[0].RangeVelForward",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "BLFLoader.ZF_Scalable_Fusion_Protocol_SCAM4.burst_vs[0].FC_Video_Data_General_A.FC_Gen_MessageCounter_A",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "dGPS",
+                                    "type": "ValueTable"
+                                }
+                            ]
+                        },
+                        {
+                            "items": [
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "EgoPred_at",
+                                    "outlineColor": "#ff008000",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "ECE131_ThdTi",
+                                    "outlineColor": "#ffff0000",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "ObjPred_at",
+                                    "outlineColor": "#ff00008b",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "ECE131_ThdA",
+                                    "outlineColor": "#ffff0000",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": false,
+                                    "alias": "",
+                                    "expression": "BrkProf_at",
+                                    "outlineColor": "#ff0000ff",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": false,
+                                    "alias": "",
+                                    "expression": "BrkProf_at1",
+                                    "outlineColor": "#ff00ffff",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                }
+                            ],
+                            "locked": false,
+                            "name": "Prediction-a-t",
+                            "threshold_lines": [
+                            ],
+                            "type": "BirdView",
+                            "viewport": {
+                                "BirdViewPlugin_X_Appearance_configuration": {
+                                    "Color": "#fff0f8ff",
+                                    "StepAutoCalculate": true,
+                                    "StepSize": null,
+                                    "Style": "SolidLine",
+                                    "Thickness": 0,
+                                    "Visible": true
+                                },
+                                "BirdViewPlugin_Y_Appearance_configuration": {
+                                    "Color": "#7dc8c8ff",
+                                    "StepAutoCalculate": true,
+                                    "StepSize": null,
+                                    "Style": "SolidLine",
+                                    "Thickness": 0,
+                                    "Visible": true
+                                },
+                                "auto_adjust_x": false,
+                                "auto_adjust_y": false,
+                                "background_color": "#ffffffff",
+                                "follow_expression_x": "",
+                                "follow_expression_y": "",
+                                "max_x": 5,
+                                "max_y": 2,
+                                "min_x": 0,
+                                "min_y": -7
+                            }
+                        },
+                        {
+                            "items": [
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "EgoPred_vs",
+                                    "outlineColor": "#ffff0000",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "EgoPredEnd_vs",
+                                    "outlineColor": "#ff8b0000",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "shape": "Cross",
+                                    "size": 10,
+                                    "type": "Point",
+                                    "width": 4
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "ObjPred_vs",
+                                    "outlineColor": "#ff00008b",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "size": 1,
+                                    "type": "Polyline"
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "",
+                                    "expression": "ObjPredEnd_vs",
+                                    "outlineColor": "#ff8b008b",
+                                    "penshape": "SOLID",
+                                    "rules": [
+                                    ],
+                                    "shape": "Cross",
+                                    "size": 10,
+                                    "type": "Point",
+                                    "width": 4
+                                }
+                            ],
+                            "locked": false,
+                            "name": "Prediction-v-s",
+                            "threshold_lines": [
+                            ],
+                            "type": "BirdView",
+                            "viewport": {
+                                "BirdViewPlugin_X_Appearance_configuration": {
+                                    "Color": "#7dc8c8ff",
+                                    "StepAutoCalculate": true,
+                                    "StepSize": null,
+                                    "Style": "SolidLine",
+                                    "Thickness": 0,
+                                    "Visible": true
+                                },
+                                "BirdViewPlugin_Y_Appearance_configuration": {
+                                    "Color": "#7dc8c8ff",
+                                    "StepAutoCalculate": true,
+                                    "StepSize": null,
+                                    "Style": "SolidLine",
+                                    "Thickness": 0,
+                                    "Visible": true
+                                },
+                                "auto_adjust_x": false,
+                                "auto_adjust_y": false,
+                                "background_color": "#ffffffff",
+                                "follow_expression_x": "",
+                                "follow_expression_y": "",
+                                "max_x": 20,
+                                "max_y": 34,
+                                "min_x": -20,
+                                "min_y": 0
+                            }
+                        }
+                    ]
+                },
+                {
+                    "alignment": "horizontal",
+                    "subWindowSizes": [
+                        28,
+                        72
+                    ],
+                    "subWindows": [
+                        {
+                            "alignment": "vertical",
+                            "subWindowSizes": [
+                                20,
+                                40,
+                                40
+                            ],
+                            "subWindows": [
+                                {
+                                    "alignment": "tabbed",
+                                    "currentTab": 1,
+                                    "subWindows": [
+                                        {
+                                            "firstColumnWidth": 297,
+                                            "items": [
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "libWeGetASim.ASM_AEB_AebIntegrityLvl",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvl}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvl}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvl}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvl}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "libWeGetASim.ASM_AEB_AebIntegrityLvlDrv",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlDrv}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlDrv}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlDrv}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlDrv}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "libWeGetASim.ASM_AEB_AebIntegrityLvlSys",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlSys}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlSys}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlSys}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlSys}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "libWeGetASim.ASM_AEB_AebIntegrityLvlObj",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlObj}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlObj}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlObj}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_AebIntegrityLvlObj}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "libWeGetASim.ASM_AEB_ObjIntgrtyLvlCw",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlCw}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlCw}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlCw}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlCw}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "libWeGetASim.ASM_AEB_ObjIntgrtyLvlMcvru",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlMcvru}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlMcvru}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlMcvru}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${libWeGetASim.ASM_AEB_ObjIntgrtyLvlMcvru}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "locked": false,
+                                            "name": "AEBS Integrity Level Simulated",
+                                            "type": "ValueTable"
+                                        },
+                                        {
+                                            "firstColumnWidth": 191,
+                                            "items": [
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvl",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvl}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvl}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvl}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvl}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvlDrv",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvlDrv}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvlDrv}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvlDrv}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_105.DL9_ASM_AEB_AebIntegrityLvlDrv}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AebIntegrityLvlSys",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AebIntegrityLvlSys}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AebIntegrityLvlSys}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AebIntegrityLvlSys}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AebIntegrityLvlSys}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_107.DLB_ASM_AebIntegrityLvlObj",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_107.DLB_ASM_AebIntegrityLvlObj}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_107.DLB_ASM_AebIntegrityLvlObj}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_107.DLB_ASM_AebIntegrityLvlObj}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_107.DLB_ASM_AebIntegrityLvlObj}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_108.DLC_CW_Obj_IntegrityLevel",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_108.DLC_CW_Obj_IntegrityLevel}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_108.DLC_CW_Obj_IntegrityLevel}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_108.DLC_CW_Obj_IntegrityLevel}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_108.DLC_CW_Obj_IntegrityLevel}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "active": true,
+                                                    "alias": "",
+                                                    "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_110.DLE_MC_Obj_IntegrityLevel",
+                                                    "precision": 4,
+                                                    "rules": [
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffff0000",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_110.DLE_MC_Obj_IntegrityLevel}<=0 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_0",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffffff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_110.DLE_MC_Obj_IntegrityLevel}==1 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_1",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ffaaff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_110.DLE_MC_Obj_IntegrityLevel}==2 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_2",
+                                                            "type": "Change Appearance"
+                                                        },
+                                                        {
+                                                            "active": true,
+                                                            "background": "#ff00ff00",
+                                                            "bold": false,
+                                                            "condition": "(${BLFLoader.A087MB_V3_4_AC1kT.DL_Status_110.DLE_MC_Obj_IntegrityLevel}==3 )",
+                                                            "foreground": "#ff000000",
+                                                            "name": "45_0_3",
+                                                            "type": "Change Appearance"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "locked": false,
+                                            "name": "AEBS Integrity Level Recorded",
+                                            "type": "ValueTable"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "firstColumnWidth": 195,
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVldFlgCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjIntgrtyLvlCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjExistProbltyCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjAXMeanCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVXMeanCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVYMeanCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjWidthCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjXMeanCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjYMeanCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjYMeanPredCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjIdxCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjMtnClassCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjMtnDirCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjTypCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVidCfmFlgCw",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "CW Object",
+                                    "type": "ValueTable"
+                                },
+                                {
+                                    "firstColumnWidth": 202,
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVldFlgMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjIntgrtyLvlMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjExistProbltyMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjAXMeanMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVXMeanMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjVYMeanMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjWidthMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjXMeanMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjYMeanMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjYMeanPredMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjIdxMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjMtnClassMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjMtnDirMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjTypMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjMeFcwFlgMcvru",
+                                            "precision": 4,
+                                            "rules": [
+                                            ]
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "MCVRU Object",
+                                    "type": "ValueTable"
+                                }
+                            ]
+                        },
+                        {
+                            "alignment": "tabbed",
+                            "currentTab": 1,
+                            "subWindows": [
+                                {
+                                    "TimePlotPlugin_X_Appearance_configuration": {
+                                        "Color": "#7dc8c8ff",
+                                        "StepAutoCalculate": true,
+                                        "StepSize": null,
+                                        "Style": "SolidLine",
+                                        "Thickness": 0,
+                                        "Visible": true
+                                    },
+                                    "TimePlotPlugin_Y_Appearance_configuration": {
+                                        "Color": "#7dc8c8ff",
+                                        "StepAutoCalculate": true,
+                                        "StepSize": null,
+                                        "Style": "SolidLine",
+                                        "Thickness": 0,
+                                        "Visible": true
+                                    },
+                                    "editor": {
+                                        "antialiasing": true,
+                                        "legend_position": "",
+                                        "show_legend": false,
+                                        "show_lines": true,
+                                        "show_points": true,
+                                        "timestamp_for_x_axis": true
+                                    },
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "ObjMeFcwFlgMcvru",
+                                            "color": "#ff008000",
+                                            "expression": "libWeGetASim.ASM_AEB_ObjMeFcwFlgMcvru",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "WAM_AEB_AebsSt",
+                                            "color": "#ffff0000",
+                                            "expression": "libWeGetASim.WAM_AEB_AebsSt",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "ExtADmd",
+                                            "color": "#ff00ffff",
+                                            "expression": "libWeGetASim.WAM_AEB_ExtADmd",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "DLA_ASM_AEB_EgoAAct",
+                                            "color": "#ff8b008b",
+                                            "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AEB_EgoAAct",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "AEBS Simulated",
+                                    "type": "TimePlot",
+                                    "viewport": {
+                                        "auto_adjust_x": true,
+                                        "auto_adjust_y": false,
+                                        "background_color": "#ffffffff",
+                                        "cycle_width": 58,
+                                        "max_x": 313.038496791934,
+                                        "max_y": 9.945852936565718,
+                                        "min_x": 255.038496791934,
+                                        "min_y": -9.258536638194673
+                                    }
+                                },
+                                {
+                                    "TimePlotPlugin_X_Appearance_configuration": {
+                                        "Color": "#7dc8c8ff",
+                                        "StepAutoCalculate": true,
+                                        "StepSize": null,
+                                        "Style": "SolidLine",
+                                        "Thickness": 0,
+                                        "Visible": true
+                                    },
+                                    "TimePlotPlugin_Y_Appearance_configuration": {
+                                        "Color": "#7dc8c8ff",
+                                        "StepAutoCalculate": true,
+                                        "StepSize": null,
+                                        "Style": "SolidLine",
+                                        "Thickness": 0,
+                                        "Visible": true
+                                    },
+                                    "editor": {
+                                        "antialiasing": true,
+                                        "legend_position": "",
+                                        "show_legend": false,
+                                        "show_lines": true,
+                                        "show_points": true,
+                                        "timestamp_for_x_axis": false
+                                    },
+                                    "items": [
+                                        {
+                                            "active": true,
+                                            "alias": "DLE_ASM_AEB_ObjMeFcwFlgMcvru",
+                                            "color": "#ff006400",
+                                            "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_110.DLE_ASM_AEB_ObjMeFcwFlgMcvru",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "AebsSts",
+                                            "color": "#ffff0000",
+                                            "expression": "BLFLoader.WAB1Cam.RADAR.burst_vs[0].AebsSts",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "ExtAccelDem",
+                                            "color": "#ff00ffff",
+                                            "expression": "BLFLoader.WAB1Cam.RADAR.burst_vs[0].ExtAccelDem",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "DLA_ASM_AEB_EgoAAct",
+                                            "color": "#ff8b008b",
+                                            "expression": "BLFLoader.A087MB_V3_4_AC1kT.DL_Status_106.DLA_ASM_AEB_EgoAAct",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        },
+                                        {
+                                            "active": true,
+                                            "alias": "",
+                                            "color": "#ff005c31",
+                                            "expression": "BLFLoader.ZF_Scalable_Fusion_Protocol_SCAM4.burst_vs[0].FC_Video_Data_General_A.FC_Gen_MessageCounter_A",
+                                            "rules": [
+                                            ],
+                                            "type": "SOLID",
+                                            "width": 1
+                                        }
+                                    ],
+                                    "locked": false,
+                                    "name": "AEBS Recorded",
+                                    "type": "TimePlot",
+                                    "viewport": {
+                                        "auto_adjust_x": true,
+                                        "auto_adjust_y": false,
+                                        "background_color": "#ffffffff",
+                                        "cycle_width": 50,
+                                        "max_x": 345.4928592693851,
+                                        "max_y": -3.301470531468431,
+                                        "min_x": 289.93730371382935,
+                                        "min_y": -8.791900720659083
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "alignment": "vertical",
+            "subWindowSizes": [
+                72,
+                28
+            ],
+            "subWindows": [
+                {
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_track",
+                            "outlineColor": "#ffff0000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Cross",
+                            "size": 5,
+                            "type": "Point",
+                            "width": 0
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "bird_view_video_obj_calc_angle",
+                            "outlineColor": "#ff00ffff",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Circle",
+                            "size": 6,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_DGPS_ref_obj",
+                            "outlineColor": "#80008b8b",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Cross",
+                            "size": 6,
+                            "type": "Point",
+                            "width": 3
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_video_fov",
+                            "outlineColor": "#ff6d6d00",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_radar_fov",
+                            "fillColor": "#0cff00ff",
+                            "outlineColor": "#80ff00ff",
+                            "penshape": "SOLID",
+                            "rules": [
+                                {
+                                    "active": true,
+                                    "annotationName": "",
+                                    "annotationPath": "libWeGetASim.fu_input_s.radar_s.radar_op_mode_e",
+                                    "condition": "(${birdview_radar_fov} )",
+                                    "direction": 1,
+                                    "fontSize": 6,
+                                    "name": "birdview_radar_fov_0",
+                                    "offset": -14,
+                                    "precision": 0,
+                                    "type": "Annotation"
+                                }
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_video_lines",
+                            "outlineColor": "#66000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_target",
+                            "outlineColor": "#ff006400",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Circle",
+                            "size": 5,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_lf_hvt_polynomial",
+                            "outlineColor": "#ff000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_hvt_polyline",
+                            "outlineColor": "#cc000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_hvt_lane_left",
+                            "outlineColor": "#808b0000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_hvt_lane_right",
+                            "outlineColor": "#808b0000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_hvt_lane_next_left",
+                            "outlineColor": "#808b0000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_hvt_lane_next_right",
+                            "outlineColor": "#808b0000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_selection_area_left_border",
+                            "outlineColor": "#b3000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_lf_selection_area_right_border",
+                            "outlineColor": "#b3000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polynomial"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_video_obj_rc",
+                            "outlineColor": "#ffff00ff",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Square",
+                            "size": 6,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_env_obj_rc",
+                            "outlineColor": "#ff008000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Diamond",
+                            "size": 8,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_env_obj_rc_heading_info",
+                            "outlineColor": "#ff808080",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": false,
+                            "alias": "",
+                            "expression": "birdview_env_obj_rc_bounding_box",
+                            "fillColor": "#19006400",
+                            "outlineColor": "#ff006400",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Rectangle"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_video_obj_fb",
+                            "outlineColor": "#ffff00ff",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Square",
+                            "size": 6,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_env_obj_fb",
+                            "outlineColor": "#ff008000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Diamond",
+                            "size": 8,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_env_obj_fb_bounding_box",
+                            "fillColor": "#19006400",
+                            "outlineColor": "#ff006400",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Rectangle"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_env_obj_fb_heading_info",
+                            "outlineColor": "#ff0000ff",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_selection_area_by_type",
+                            "fillColor": "#19ff0000",
+                            "outlineColor": "#ffffaa00",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Rectangle"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_critical_nearfield_by_type",
+                            "fillColor": "#0cff0000",
+                            "outlineColor": "#ffff0000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Rectangle"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_lateral_threshold_min_cw",
+                            "outlineColor": "#ff000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_lateral_threshold_min_eb",
+                            "outlineColor": "#ff808080",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_lateral_threshold_max_eb",
+                            "outlineColor": "#ff808080",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_lateral_threshold_max_cw",
+                            "outlineColor": "#ff000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_pred_obj_pos_fb",
+                            "fillColor": "#99a9a9a9",
+                            "outlineColor": "#ff808080",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "shape": "Diamond",
+                            "size": 8,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_pred_obj_conncetion_fb",
+                            "outlineColor": "#80a9a9a9",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 2,
+                            "type": "Polyline"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_extended_ego_path",
+                            "fillColor": "#0c00008b",
+                            "outlineColor": "#8000008b",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Rectangle"
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "birdview_osl_aeb_dist_pred_y_at_ttx0",
+                            "fillColor": "#19008000",
+                            "outlineColor": "#99008000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
+                        }
+                    ],
+                    "locked": false,
+                    "name": "BirdView",
+                    "threshold_lines": [
+                        {
+                            "color": "#80dc143c",
+                            "description": "",
+                            "name": "",
+                            "orientation": "Vertical",
+                            "position": -4.5,
+                            "style": "DashDotLine",
+                            "width": 0
+                        }
+                    ],
+                    "type": "BirdView",
+                    "viewport": {
+                        "BirdViewPlugin_X_Appearance_configuration": {
+                            "Color": "#7dc8c8ff",
+                            "StepAutoCalculate": true,
+                            "StepSize": null,
+                            "Style": "SolidLine",
+                            "Thickness": 0,
+                            "Visible": true
+                        },
+                        "BirdViewPlugin_Y_Appearance_configuration": {
+                            "Color": "#7dc8c8ff",
+                            "StepAutoCalculate": true,
+                            "StepSize": null,
+                            "Style": "SolidLine",
+                            "Thickness": 0,
+                            "Visible": true
+                        },
+                        "auto_adjust_x": false,
+                        "auto_adjust_y": false,
+                        "background_color": "#ffffffff",
+                        "follow_expression_x": "",
+                        "follow_expression_y": "",
+                        "max_x": 20,
+                        "max_y": 150,
+                        "min_x": -20,
+                        "min_y": 0
+                    }
+                },
+                {
+                    "avi": true,
+                    "name": "VideoPlayer",
+                    "type": "VideoPlayer"
+                }
+            ]
+        }
+    ]
+}
