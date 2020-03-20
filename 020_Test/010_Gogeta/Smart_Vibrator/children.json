@@ -1,0 +1,7 @@
+[
+    {
+        "process": "BLFLoader.dll",
+        "name": "BLFLoader",
+        "config": "BLFLoader.config"
+    }
+]

@@ -1,0 +1,151 @@
+{
+    "alignment": "vertical",
+    "subWindowSizes": [
+        50,
+        50
+    ],
+    "subWindows": [
+        {
+            "TimePlotPlugin_X_Appearance_configuration": {
+                "Color": "#7dc8c8ff",
+                "StepAutoCalculate": true,
+                "StepSize": null,
+                "Style": "SolidLine",
+                "Thickness": 0,
+                "Visible": true
+            },
+            "TimePlotPlugin_Y_Appearance_configuration": {
+                "Color": "#7dc8c8ff",
+                "StepAutoCalculate": true,
+                "StepSize": null,
+                "Style": "SolidLine",
+                "Thickness": 0,
+                "Visible": true
+            },
+            "editor": {
+                "antialiasing": true,
+                "legend_position": "RIGHT",
+                "show_legend": true,
+                "show_lines": true,
+                "show_points": true,
+                "timestamp_for_x_axis": true
+            },
+            "items": [
+                {
+                    "active": true,
+                    "alias": "",
+                    "color": "#ff0075dc",
+                    "expression": "BLFLoader.DLG.DD_ICM_20600_accel.DD_ICM_20600_accel_z",
+                    "rules": [
+                    ],
+                    "type": "SOLID",
+                    "width": 1
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "color": "#ff993f00",
+                    "expression": "BLFLoader.DLG.DD_ICM_20600_accel.DD_ICM_20600_accel_y",
+                    "rules": [
+                    ],
+                    "type": "SOLID",
+                    "width": 1
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "color": "#ff4c005c",
+                    "expression": "BLFLoader.DLG.DD_ICM_20600_accel.DD_ICM_20600_accel_x",
+                    "rules": [
+                    ],
+                    "type": "SOLID",
+                    "width": 1
+                }
+            ],
+            "locked": false,
+            "name": "TimePlot",
+            "type": "TimePlot",
+            "viewport": {
+                "auto_adjust_x": true,
+                "auto_adjust_y": true,
+                "background_color": "#ffffffff",
+                "cycle_width": 100,
+                "max_x": 100,
+                "max_y": 1000,
+                "min_x": 0,
+                "min_y": -1000
+            }
+        },
+        {
+            "TimePlotPlugin_X_Appearance_configuration": {
+                "Color": "#7dc8c8ff",
+                "StepAutoCalculate": true,
+                "StepSize": null,
+                "Style": "SolidLine",
+                "Thickness": 0,
+                "Visible": true
+            },
+            "TimePlotPlugin_Y_Appearance_configuration": {
+                "Color": "#7dc8c8ff",
+                "StepAutoCalculate": true,
+                "StepSize": null,
+                "Style": "SolidLine",
+                "Thickness": 0,
+                "Visible": true
+            },
+            "editor": {
+                "antialiasing": true,
+                "legend_position": "RIGHT",
+                "show_legend": true,
+                "show_lines": true,
+                "show_points": true,
+                "timestamp_for_x_axis": true
+            },
+            "items": [
+                {
+                    "active": true,
+                    "alias": "",
+                    "color": "#ff0075dc",
+                    "expression": "BLFLoader.DLG.DD_ICM_20600_gyro.DD_ICM_20600_gyro_z",
+                    "rules": [
+                    ],
+                    "type": "SOLID",
+                    "width": 1
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "color": "#ff993f00",
+                    "expression": "BLFLoader.DLG.DD_ICM_20600_gyro.DD_ICM_20600_gyro_y",
+                    "rules": [
+                    ],
+                    "type": "SOLID",
+                    "width": 1
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "color": "#ff4c005c",
+                    "expression": "BLFLoader.DLG.DD_ICM_20600_gyro.DD_ICM_20600_gyro_x",
+                    "rules": [
+                    ],
+                    "type": "SOLID",
+                    "width": 1
+                }
+            ],
+            "locked": false,
+            "name": "TimePlot",
+            "type": "TimePlot",
+            "viewport": {
+                "auto_adjust_x": true,
+                "auto_adjust_y": true,
+                "background_color": "#ffffffff",
+                "cycle_width": 100,
+                "max_x": 100,
+                "max_y": 1000,
+                "min_x": 0,
+                "min_y": -1000
+            }
+        }
+    ]
+}
