@@ -33,6 +33,7 @@
 #define DLG_ICM_20600_FACTORY_TRIM_ID               0x18
 #define DLG_ICM_20600_FACTORY_TRIM_DEV_ID           0x19
 #define DLG_ICM_20600_GENERAL_ID                    0x1A
+#define DLG_ICM_20600_QUATERNION_ID                 0x1B
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */

@@ -28,7 +28,8 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-FILE*              dd_sd_create_file( const char* p_file_name_c );
-BOOLEAN            dd_sd_close_file( void );
+FILE*   dd_sd_create_file( const char* p_file_name_c );
+FILE*   dd_sd_create_binary_file( const char* p_file_name_c );
+BOOLEAN dd_sd_close_file( void );
 
 #endif /* DD_SD_IF_H */

@@ -48,7 +48,7 @@ void dd_init(void)
 
     dd_sd_init();
 
-    p_file = dd_sd_create_file( "my_new_log_file.csv" );
+    //p_file = dd_sd_create_file( "my_new_log_file.csv" );
 
     printf("dd_init : p_log_file: %p\n", dd_sd_data_s.p_file);
 
@@ -65,37 +65,37 @@ void dd_main(void)
 
    // printf("dd_main : p_log_file: %p\n", dd_sd_data_s.p_file);
 
-    if (    ( NULL != dd_sd_data_s.p_file )
-         && ( FALSE == file_written_b     ) )
-    {
+//    if (    ( NULL != dd_sd_data_s.p_file )
+//         && ( FALSE == file_written_b     ) )
+//    {
         dd_icm_20600_main();
 
-       if ( idx_u32 > 0 )
-       {
-           fprintf( p_file, "%i, %i, %i, %i, %0.3f\n", time_in_ms_u32,
-                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
-                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
-                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
-                                                       dd_icm_20600_data_s.temperature_deg_f32 );
-           --idx_u32;
-
-           ESP_LOGI( DD_LOG_MSG_TAG, "Logging data to file %s @ time %i ms [step: %i]", dd_sd_data_s.file_path_vc, time_in_ms_u32, idx_u32 );
-       }
-       else
-       {
-            if ( 0U == fclose( dd_sd_data_s.p_file ) )
-            {
-              ESP_LOGI( DD_LOG_MSG_TAG, "File closed" );
-              file_written_b = TRUE;
-            }
-            else
-            {
-              ESP_LOGE( DD_LOG_MSG_TAG, "File couln't be closed" );
-            }
-       }
-    }
-
-    time_in_ms_u32 += 100U;
+//       if ( idx_u32 > 0 )
+//       {
+//           fprintf( p_file, "%i, %i, %i, %i, %0.3f\n", time_in_ms_u32,
+//                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
+//                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
+//                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
+//                                                       dd_icm_20600_data_s.temperature_deg_f32 );
+//           --idx_u32;
+//
+//           ESP_LOGI( DD_LOG_MSG_TAG, "Logging data to file %s @ time %i ms [step: %i]", dd_sd_data_s.file_path_vc, time_in_ms_u32, idx_u32 );
+//       }
+//       else
+//       {
+//            if ( 0U == fclose( dd_sd_data_s.p_file ) )
+//            {
+//              ESP_LOGI( DD_LOG_MSG_TAG, "File closed" );
+//              file_written_b = TRUE;
+//            }
+//            else
+//            {
+//              ESP_LOGE( DD_LOG_MSG_TAG, "File couln't be closed" );
+//            }
+//       }
+//    }
+//
+//    time_in_ms_u32 += 100U;
 
 
 

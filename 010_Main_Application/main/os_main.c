@@ -21,6 +21,7 @@
 
 #include "../DD/DD.h"
 #include "../SENSE/SENSE.h"
+#include "../DLG/DLG.h"
 
 #include <time.h>
 #include <sys/time.h>
@@ -60,10 +61,15 @@ void app_main()
     /* Initialize all device drivers */
     dd_init();
 
+    dlg_init();
+
+
     while ( 1 )
     {
         /* Schedule Device Driver (DD) */
         dd_main();
+
+        dlg_main();
 
         /* Schedule every 50 ms */
         vTaskDelayUntil( &xLastWakeTime, xFrequency );

@@ -27,7 +27,8 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
+void dlg_log_create_file( void );
 void dlg_log_get_data( void );
+void dlg_log_write_data( void );
 
 #endif /* DLG_INTERFACE_LOG_INTERFACE_H_ */

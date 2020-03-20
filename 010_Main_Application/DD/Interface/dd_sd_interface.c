@@ -54,6 +54,18 @@ FILE* dd_sd_create_file( const char* p_file_name_c )
     return NULL;
 }
 
+FILE* dd_sd_create_binary_file( const char* p_file_name_c )
+{
+    /* NULL pointer check of p_file_name_c is handled within
+     * function dd_sd_open_file() */
+    if ( TRUE == dd_sd_open_file( p_file_name_c, DD_SD_FILE_MODE_WRITE_BINARY, TRUE ) )
+    {
+        return dd_sd_data_s.p_file;
+    }
+
+    return NULL;
+}
+
 BOOLEAN dd_sd_close_file( void )
 {
     if ( 0U == fclose( dd_sd_data_s.p_file ) )

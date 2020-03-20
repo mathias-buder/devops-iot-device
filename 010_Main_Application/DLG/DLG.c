@@ -29,13 +29,13 @@
 
 /* Internal */
 #include "DLG.h"
+#include "Interface/dlg_log_interface.h"
 
-/* External */
-#include "../DD/DD.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
+U8 count_u8 = 100;
 
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
@@ -47,14 +47,14 @@
 void dlg_init( void )
 {
     /* Get pointers of all data structures to be logged */
+    dlg_log_get_data();
 
     /* Create log file */
-
+    dlg_log_create_file();
 }
 
 void dlg_main( void )
 {
-    /* Continues data logging*/
 
-
+     dlg_log_write_data();
 }
