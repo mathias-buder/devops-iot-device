@@ -38,10 +38,10 @@ VAL_TABLE_ DD_DEV_STATE 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 
 
 
 BO_ 27 DD_ICM_20600_quaternion: 8 Vector__XXX
- SG_ DD_ICM_20600_quaternion_q4 : 48|16@1- (0.001,0) [-32.768|32.767] "DEG" Vector__XXX
- SG_ DD_ICM_20600_quaternion_q3 : 32|16@1- (0.001,0) [-32.768|32.767] "DEG" Vector__XXX
- SG_ DD_ICM_20600_quaternion_q2 : 16|16@1- (0.001,0) [-32.768|32.767] "DEG" Vector__XXX
- SG_ DD_ICM_20600_quaternion_q1 : 0|16@1- (0.001,0) [-32.768|32.767] "DEG" Vector__XXX
+ SG_ DD_ICM_20600_quaternion_q4 : 48|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
+ SG_ DD_ICM_20600_quaternion_q3 : 32|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
+ SG_ DD_ICM_20600_quaternion_q2 : 16|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
+ SG_ DD_ICM_20600_quaternion_q1 : 0|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
 
 BO_ 26 DD_ICM_20600_general: 8 DLG
  SG_ DD_ICM_20600_chip_id : 0|8@1+ (1,0) [0|255] "" Vector__XXX
