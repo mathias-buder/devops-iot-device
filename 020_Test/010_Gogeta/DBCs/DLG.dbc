@@ -34,6 +34,8 @@ NS_ :
 BS_:
 
 BU_: DLG
+VAL_TABLE_ ICM_20600_calibrated 1 "Calibrated" 0 "Not Calibrated" ;
+VAL_TABLE_ ICM_20600_self_test 1 "Passed" 0 "Failed" ;
 VAL_TABLE_ DD_DEV_STATE 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
 
 
@@ -105,5 +107,7 @@ BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
 BA_DEF_DEF_  "BusType" "";
 BA_ "BusType" "CAN";
 BA_ "DBName" "DLG";
+VAL_ 26 DD_ICM_20600_self_test_passed 1 "Passed" 0 "Failed" ;
+VAL_ 26 DD_ICM_20600_is_calibrated 1 "Calibrated" 0 "Not Calibrated" ;
 VAL_ 26 DD_ICM_20600_device_state 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
 

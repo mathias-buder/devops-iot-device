@@ -37,8 +37,9 @@ FILE* p_dlg_log_file;
 /*************************************************************/
 /*      LOCAL VARIABLES                                      */
 /*************************************************************/
-U8      cnt_u8         = 100U;
+U32      cnt_u32            = 1000U;
 BOOLEAN my_file_written_b = FALSE;
+
 /*************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                        */
 /*************************************************************/
@@ -48,7 +49,7 @@ BOOLEAN my_file_written_b = FALSE;
 /*************************************************************/
 void dlg_log_create_file( void )
 {
-    p_dlg_log_file = dd_sd_create_binary_file( "my_log_file.sbf" ); /* Format: .sbf: sewela-binary-file */
+    p_dlg_log_file = dd_sd_create_binary_file( "test.sbf" ); /* Format: .sbf: sewela-binary-file */
 }
 
 void dlg_log_get_data( void )
@@ -61,15 +62,15 @@ void dlg_log_write_data( void )
 {
     if ( FALSE == my_file_written_b )
     {
-        if ( cnt_u8 > 0 )
+        if ( cnt_u32 > 0U )
         {
             dlg_log_create_icm_20600_data_frame();
 
-            fwrite( &dlg_log_database_s, sizeof( DLG_LOG_DATA ), sizeof( dlg_log_database_s ), p_dlg_log_file );
+            fwrite( &dlg_log_database_s, sizeof( dlg_log_database_s ), 1U, p_dlg_log_file );
 
-            --cnt_u8;
+            ESP_LOGI( "DLG", "Logging dlg_log_database_s (size: %i) %i", sizeof( dlg_log_database_s ), cnt_u32 );
 
-            ESP_LOGI( "DLG", "Logging %i", cnt_u8 );
+            --cnt_u32;
         }
         else
         {

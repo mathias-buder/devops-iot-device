@@ -26,6 +26,9 @@
 #include <time.h>
 #include <sys/time.h>
 
+
+U32 global_time_u32;
+
 struct tm tm = {
     .tm_yday = 2018 - 1900,
     .tm_mon  = 10,
@@ -64,14 +67,16 @@ void app_main()
     dlg_init();
 
 
-    while ( 1 )
+    while ( TRUE )
     {
         /* Schedule Device Driver (DD) */
         dd_main();
 
         dlg_main();
 
-        /* Schedule every 50 ms */
+        /* Schedule every 100 ms */
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
+
+        global_time_u32 += 100U;
     }
 }

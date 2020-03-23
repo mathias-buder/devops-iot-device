@@ -206,6 +206,5 @@ typedef struct DD_SD_DATA_TAG
     BOOLEAN is_fs_mounted_b;                          /** @details Flag indicating that file system is mounted on SD card */
 } DD_SD_DATA;
 
-
 #endif /* DD_PUBLIC_TYPES_H */
 
