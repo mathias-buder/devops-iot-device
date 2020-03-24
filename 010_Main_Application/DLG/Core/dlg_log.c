@@ -28,7 +28,7 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-extern U32 global_time_u32;
+extern F32 global_time_f32;
 /*********************************************************************/
 /*      LOCAL VARIABLES                                              */
 /*********************************************************************/
@@ -92,5 +92,5 @@ void dlg_log_create_icm_20600_data_frame( void )
     dlg_log_database_s.icm_20600_data_s.quaternion_q3_f32          = p_dlg_icm_20600_data_s->Quaternion_s.Q3_f32;
     dlg_log_database_s.icm_20600_data_s.quaternion_q4_f32          = p_dlg_icm_20600_data_s->Quaternion_s.Q4_f32;
 
-    dlg_log_database_s.time_u32 = global_time_u32;
+    dlg_log_database_s.time_f32 = global_time_f32;
 }

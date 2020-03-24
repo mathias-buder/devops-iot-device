@@ -60,7 +60,8 @@ void dlg_log_get_data( void )
 
 void dlg_log_write_data( void )
 {
-    if ( FALSE == my_file_written_b )
+    if (    ( FALSE == my_file_written_b )
+         && ( NULL  != p_dlg_log_file    ) )
     {
         if ( cnt_u32 > 0U )
         {

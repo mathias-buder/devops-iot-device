@@ -82,7 +82,7 @@ typedef struct DLG_LOG_ICM_20600_DATA_TAG
 typedef struct DLG_LOG_DATA_TAG
 {
     DLG_LOG_ICM_20600_DATA icm_20600_data_s;
-    U32                    time_u32;
+    F32                    time_f32;
 } DLG_LOG_DATA;
 
 #endif /* SENSE_CORE_TYPES_H_ */
