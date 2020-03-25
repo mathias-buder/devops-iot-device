@@ -10,15 +10,19 @@
 
         (c) SEWELA 2020
 
+        @file dd_icm-20600_if.c
+        @details Some detailed description
+
 *********************************************************************/
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include "dd_icm-20600_if.h"
+
 #include <stdio.h>
 #include <math.h>
 
-#include "dd_icm-20600_interface.h"
 #include "../Core/dd_database.h"
 
 

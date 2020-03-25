@@ -1,4 +1,5 @@
 /*********************************************************************
+    MODULE SPECIFICATION:
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -8,28 +9,23 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        @file dd_sd_interface.h
-        @details Some detailed description
-
         (c) SEWELA 2020
 
-*********************************************************************/
+        @file sense_mtn_cfg.h
+        @details Some detailed description
 
-#ifndef DD_SD_IF_H
-#define DD_SD_IF_H
+*********************************************************************/
+#ifndef SENSE_CONFIG_MTN_CFG_H_
+#define SENSE_CONFIG_MTN_CFG_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "esp_log.h"
 
-#include "dd_public_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-FILE*   dd_sd_create_file( const char* p_file_name_c );
-FILE*   dd_sd_create_binary_file( const char* p_file_name_c );
-BOOLEAN dd_sd_close_file( void );
 
-#endif /* DD_SD_IF_H */
+
+#endif /* SENSE_CONFIG_MTN_CFG_H_ */

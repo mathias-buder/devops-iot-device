@@ -21,6 +21,7 @@
 /*      INCLUDES                                                     */
 /*********************************************************************/
 /* Standard libraries */
+#include <Interface/dlg_log_if.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -29,7 +30,6 @@
 
 /* Internal */
 #include "DLG.h"
-#include "Interface/dlg_log_interface.h"
 
 
 /*********************************************************************/

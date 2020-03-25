@@ -8,51 +8,28 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file DD.h
+        @file dd_sd_if.h
         @details Some detailed description
 
-*********************************************************************/
-#ifndef DD_H
-#define DD_H
+        (c) SEWELA 2020
 
+*********************************************************************/
+
+#ifndef DD_SD_IF_H
+#define DD_SD_IF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/dd_icm-20600_if.h"
-#include "Interface/dd_max-30102_if.h"
-#include "Interface/dd_public_types.h"
-#include "Interface/dd_sd_if.h"
-#include "Interface/dd_xr-18910_if.h"
+#include "esp_log.h"
 
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-#define DD_LOG_MSG_TAG "DD"
+#include "dd_public_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+FILE*   dd_sd_create_file( const char* p_file_name_c );
+FILE*   dd_sd_create_binary_file( const char* p_file_name_c );
+BOOLEAN dd_sd_close_file( void );
 
-
-/*********************************************************************/
-/*   FUNCTION PROTOTYPES                                             */
-/*********************************************************************/
-
-/**
- * @details This function initializes the entire Device Driver (DD) domain
- * and shall by only called once.
- */
-extern void dd_init(void);
-
-
-/**
- * @details This function executes all Device Driver (DD) domain related
- * functions and shall be called in a cyclic fashon.
- */
-extern void dd_main(void);
-
-#endif /* DD_H */
+#endif /* DD_SD_IF_H */

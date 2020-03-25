@@ -1,5 +1,4 @@
 /*********************************************************************
-    MODULE SPECIFICATION:
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -11,33 +10,29 @@
 
         (c) SEWELA 2020
 
-        @file sense_hr_interface.h
+        @file dd_max-30102_if.h
         @details Some detailed description
 
 *********************************************************************/
+#ifndef DD_MAX_30102_OIF_H
+#define DD_MAX_30102_OIF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "sense_hr_interface.h"
+
 
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/*************************************************************/
-/*      LOCAL VARIABLES                                      */
-/*************************************************************/
+/**
+ * @details This function returns pointer to the osl object for the given id
+ * of the linked environment object.
+ * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
+ * @return pointer to osl object or NULL if no appropriate object exists.
+ */
+void dd_max_30102_acquire_sensor_data(void);
 
-/*************************************************************/
-/*      PRIVATE FUNCTION DECLARATIONS                        */
-/*************************************************************/
-
-
-/*************************************************************/
-/*   FUNCTION DEFINITIONS                                    */
-/*************************************************************/
-
-
-
+#endif /* DD_MAX_30102_OIF_H */

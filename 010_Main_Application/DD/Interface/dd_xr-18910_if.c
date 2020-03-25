@@ -10,56 +10,37 @@
 
         (c) SEWELA 2020
 
-        @file DD.c
+        @file dd_xr-18910_if.c
         @details Some detailed description
 
 *********************************************************************/
-
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include "dd_xr-18910_if.h"
+
 #include <stdio.h>
-#include <string.h>
-
-#include "esp_log.h"
-
-#include "DD.h"
-#include "Core/dd_database.h"
-#include "Core/dd_i2c.h"
-#include "Core/dd_icm-20600.h"
-#include "Core/dd_sd.h"
 
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-BOOLEAN file_written_b = FALSE;
-U32     idx_u32        = 100U;
-U32     time_in_ms_u32;
-FILE*   p_file;
+
+/*********************************************************************/
+/*      LOCAL VARIABLES                                              */
+/*********************************************************************/
+
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
 
+
+
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void dd_init(void)
+
+void dd_xr_18910_acquire_sensor_data(void)
 {
-    /* Initialize I2C basic device driver */
-    dd_i2c_init();
-
-    /* Initialize ICM-2600 motion subsystem */
-    if( FALSE == dd_icm_20600_init() )
-    {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->current_t );
-    }
-
-    /* Initialize SD card driver */
-    dd_sd_init();
-}
-
-void dd_main(void)
-{
-    dd_icm_20600_main();
+    printf("Calling dd_xr_18910_acquire_sensor_data() ... \n");
 }

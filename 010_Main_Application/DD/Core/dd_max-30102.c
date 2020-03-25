@@ -16,7 +16,7 @@
 /*      INCLUDES                                                     */
 /*********************************************************************/
 
-#include <Interface/dd_icm-20600_interface.h>
+#include <Interface/dd_icm-20600_if.h>
 #include "dd_max-30102.h"
 
 #include <stdio.h>

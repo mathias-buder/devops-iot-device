@@ -1,4 +1,5 @@
 /*********************************************************************
+    MODULE SPECIFICATION:
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -10,14 +11,16 @@
 
         (c) SEWELA 2020
 
+        @file sense_mtn.c
+        @details Some detailed description
+
 *********************************************************************/
+
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "dd_max-30102_interface.h"
-
-#include <stdio.h>
+#include "sense_mtn.h"
 
 
 /*********************************************************************/
@@ -37,8 +40,3 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-void dd_max_30102_acquire_sensor_data(void)
-{
-    printf("Calling dd_max_30102_acquire_sensor_data() ... \n");
-}

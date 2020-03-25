@@ -11,7 +11,7 @@
 
         (c) SEWELA 2020
 
-        @file dlg_log_interface.c
+        @file dlg_log_if.c
         @details Some detailed description
 
 *********************************************************************/
@@ -19,11 +19,12 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include "dlg_log_if.h"
+
 #include <stdio.h>
 #include <string.h>
 #include "esp_log.h"
 
-#include "dlg_log_interface.h"
 #include "../Core/dlg_database.h"
 #include "../Core/dlg_log.h"
 
@@ -37,7 +38,7 @@ FILE* p_dlg_log_file;
 /*************************************************************/
 /*      LOCAL VARIABLES                                      */
 /*************************************************************/
-U32      cnt_u32            = 1000U;
+U32      cnt_u32            = 500U;
 BOOLEAN my_file_written_b = FALSE;
 
 /*************************************************************/

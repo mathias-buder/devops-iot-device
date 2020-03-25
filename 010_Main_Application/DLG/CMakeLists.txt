@@ -14,6 +14,6 @@
 idf_component_register(SRCS "Config/dlg_log_cfg.c"
                             "Core/dlg_database.c"
                             "Core/dlg_log.c"
-                            "Interface/dlg_log_interface.c"
+                            "Interface/dlg_log_if.c"
                             "DLG.c"
                        INCLUDE_DIRS ".")

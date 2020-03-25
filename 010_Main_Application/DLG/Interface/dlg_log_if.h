@@ -11,23 +11,24 @@
 
         (c) SEWELA 2020
 
-        @file sense_spo2_interface.h
+        @file dlg_log_if.h
         @details Some detailed description
 
 *********************************************************************/
 
-#ifndef SENSE_INTERFACE_SPO2_INTERFACE_H_
-#define SENSE_INTERFACE_SPO2_INTERFACE_H_
+#ifndef DLG_INTERFACE_LOG_INTERFACE_H_
+#define DLG_INTERFACE_LOG_INTERFACE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
+#include "../Core/dlg_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+void dlg_log_create_file( void );
+void dlg_log_get_data( void );
+void dlg_log_write_data( void );
 
-
-
-#endif /* SENSE_INTERFACE_SPO2_INTERFACE_H_ */
+#endif /* DLG_INTERFACE_LOG_INTERFACE_H_ */

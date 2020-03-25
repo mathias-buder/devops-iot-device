@@ -11,24 +11,23 @@
 
         (c) SEWELA 2020
 
-        @file dlg_log_interface.h
+        @file sense_ts_if.h
         @details Some detailed description
 
 *********************************************************************/
 
-#ifndef DLG_INTERFACE_LOG_INTERFACE_H_
-#define DLG_INTERFACE_LOG_INTERFACE_H_
+#ifndef SENSE_INTERFACE_TS_IF_H_
+#define SENSE_INTERFACE_TS_IF_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../Core/dlg_types.h"
+
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-void dlg_log_create_file( void );
-void dlg_log_get_data( void );
-void dlg_log_write_data( void );
 
-#endif /* DLG_INTERFACE_LOG_INTERFACE_H_ */
+
+
+#endif /* SENSE_INTERFACE_TS_IF_H_ */

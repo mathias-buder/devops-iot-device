@@ -1,4 +1,5 @@
 /*********************************************************************
+    MODULE SPECIFICATION:
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -10,49 +11,23 @@
 
         (c) SEWELA 2020
 
-        @file DD.h
+        @file sense_mtn_if.h
         @details Some detailed description
 
 *********************************************************************/
-#ifndef DD_H
-#define DD_H
 
+#ifndef SENSE_INTERFACE_MTN_IF_H_
+#define SENSE_INTERFACE_MTN_IF_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/dd_icm-20600_if.h"
-#include "Interface/dd_max-30102_if.h"
-#include "Interface/dd_public_types.h"
-#include "Interface/dd_sd_if.h"
-#include "Interface/dd_xr-18910_if.h"
 
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-#define DD_LOG_MSG_TAG "DD"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
 
-/*********************************************************************/
-/*   FUNCTION PROTOTYPES                                             */
-/*********************************************************************/
 
-/**
- * @details This function initializes the entire Device Driver (DD) domain
- * and shall by only called once.
- */
-extern void dd_init(void);
-
-
-/**
- * @details This function executes all Device Driver (DD) domain related
- * functions and shall be called in a cyclic fashon.
- */
-extern void dd_main(void);
-
-#endif /* DD_H */
+#endif /* SENSE_INTERFACE_MTN_IF_H_ */

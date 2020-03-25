@@ -1,2 +1,5 @@
+*.ini
+*.stcfg
+*.blf
+
 /010_Main_Application/build/
-/020_Test/010_Gogeta/DBCs/*.ini

@@ -10,13 +10,10 @@
 
         (c) SEWELA 2020
 
+        @file dd_xr-18910_if.h
+        @details Some detailed description
+
 *********************************************************************/
-
-/**
- * @file dd_xr-18910_oif.h
- * @details Some detailed description
- */
-
 #ifndef DD_XR_18910_OIF_H
 #define DD_XR_18910_OIF_H
 
