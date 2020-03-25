@@ -50,6 +50,7 @@ typedef struct DD_DEV_STATE_TAG
     DD_STATE state_e; /**< @details ... */
 } DD_DEV_STATE;
 
+
 /*************************************************************/
 /*                          DD_I2C                           */
 /*************************************************************/
@@ -63,18 +64,22 @@ typedef enum DD_I2C_ERROR_TAG
     DD_I2C_ERROR_OK           = ESP_OK,   /*!< esp_err_t value indicating success (no error) */
     DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE,
     DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG,
-    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT /*!< Operation timed out */
+    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT, /*!< Operation timed out */
+    DD_I2C_ERROR_SIZE
 } DD_I2C_ERROR;
 
 /**
  * @details enumerator of ...
  */
-typedef struct DD_I2C_ERROR_TYPE_TAG
+typedef enum DD_I2C_ACCESS_TYPE_TAG
 {
-    DD_I2C_ERROR current_t;
-    DD_I2C_ERROR previous_t;
-    BOOLEAN      state_b;
-} DD_I2C_ERROR_TYPE;
+    DD_I2C_ACCESS_TYPE_RD_SINGLE = 0U,
+    DD_I2C_ACCESS_TYPE_RD_BURST,
+    DD_I2C_ACCESS_TYPE_WD_SINGLE,
+    DD_I2C_ACCESS_TYPE_WD_BURST,
+    DD_I2C_ACCESS_TYPE_SIZE
+} DD_I2C_ACCESS_TYPE;
+
 
 /*************************************************************/
 /*                        DD_ICM_20600                       */
@@ -144,13 +149,32 @@ typedef enum DD_ICM_20600_SELF_TEST_TAG
 /*      STRUCTURES                                           */
 /*************************************************************/
 
-typedef struct DD_ICM_20600_QUATERNION_TAG
+/*************************************************************/
+/*                          DD_I2C                           */
+/*************************************************************/
+
+/**
+ * @details enumerator of ...
+ */
+typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
 {
-    F32 Q1_f32;
-    F32 Q2_f32;
-    F32 Q3_f32;
-    F32 Q4_f32;
-} DD_ICM_20600_QUATERNION;
+    DD_I2C_ERROR       error_e;
+    DD_I2C_ACCESS_TYPE access_type_e;
+    U8                 register_addr_u8;
+    F32                time_stamp_f32;
+} DD_I2C_ERROR_INFO_TYPE;
+
+/**
+ * @details enumerator of ...
+ */
+typedef struct DD_I2C_ERROR_TYPE_TAG
+{
+    DD_I2C_ERROR_INFO_TYPE error_info_vs[I2C_ERROR_BUFFER_LENGTH];
+    U8                     current_error_idx_u8;
+    U8                     last_error_idx_u8;
+    BOOLEAN                state_b;
+} DD_I2C_ERROR_TYPE;
+
 
 /**
  * @brief   ICM-20600 Output Interface Data Structure
@@ -165,7 +189,6 @@ typedef struct DD_ICM_20600_DATA_TAG
     U16                     temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
     U16                     accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
     U16                     gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
-    DD_ICM_20600_QUATERNION Quaternion_s;                                         /** @details Acceleration raw data */
     U8                      self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
     BOOLEAN                 self_test_passed_b;                                   /** @details main icm-20600 device state */
     BOOLEAN                 is_calibrated_b;                                      /** @details main icm-20600 device state */

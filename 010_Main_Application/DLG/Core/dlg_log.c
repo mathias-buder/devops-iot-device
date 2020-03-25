@@ -86,11 +86,5 @@ void dlg_log_create_icm_20600_data_frame( void )
     dlg_log_database_s.icm_20600_data_s.is_calibrated_u8           = p_dlg_icm_20600_data_s->is_calibrated_b;
     dlg_log_database_s.icm_20600_data_s.self_test_passed_u8        = p_dlg_icm_20600_data_s->self_test_passed_b;
 
-    /* DD_ICM_20600_general ( 0x1B) */
-    dlg_log_database_s.icm_20600_data_s.quaternion_q1_f32          = p_dlg_icm_20600_data_s->Quaternion_s.Q1_f32;
-    dlg_log_database_s.icm_20600_data_s.quaternion_q2_f32          = p_dlg_icm_20600_data_s->Quaternion_s.Q2_f32;
-    dlg_log_database_s.icm_20600_data_s.quaternion_q3_f32          = p_dlg_icm_20600_data_s->Quaternion_s.Q3_f32;
-    dlg_log_database_s.icm_20600_data_s.quaternion_q4_f32          = p_dlg_icm_20600_data_s->Quaternion_s.Q4_f32;
-
     dlg_log_database_s.time_f32 = global_time_f32;
 }

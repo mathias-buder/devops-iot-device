@@ -19,9 +19,11 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <stdio.h>
+#include <math.h>
+
 #include "sense_mtn_if.h"
-
-
+#include "../Core/sense_database.h"
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
@@ -38,6 +40,35 @@
 /*************************************************************/
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
+F32 sense_mtn_get_yaw( void )
+{
+    F32 yaw_f32 = atan2( 2.0F * (   ( sense_mtn_data_s.Quaternion_s.Q2_f32 * sense_mtn_data_s.Quaternion_s.Q3_f32 )
+                                  + ( sense_mtn_data_s.Quaternion_s.Q1_f32 * sense_mtn_data_s.Quaternion_s.Q4_f32 ) ),
+                                (   ( sense_mtn_data_s.Quaternion_s.Q1_f32 * sense_mtn_data_s.Quaternion_s.Q1_f32 )
+                                  + ( sense_mtn_data_s.Quaternion_s.Q2_f32 * sense_mtn_data_s.Quaternion_s.Q2_f32 )
+                                  - ( sense_mtn_data_s.Quaternion_s.Q3_f32 * sense_mtn_data_s.Quaternion_s.Q3_f32 )
+                                  - ( sense_mtn_data_s.Quaternion_s.Q4_f32 * sense_mtn_data_s.Quaternion_s.Q4_f32 ) ) );
 
+    return ( yaw_f32 * RAD_TO_DEG );
+}
 
+F32 sense_mtn_get_pitch( void )
+{
+    F32 pitch_f32 = -asin( 2.0F * (   ( sense_mtn_data_s.Quaternion_s.Q2_f32 * sense_mtn_data_s.Quaternion_s.Q4_f32 )
+                                    - ( sense_mtn_data_s.Quaternion_s.Q1_f32 * sense_mtn_data_s.Quaternion_s.Q3_f32 ) ) );
+
+    return ( pitch_f32 * RAD_TO_DEG );
+}
+
+F32 sense_mtn_get_roll( void )
+{
+    F32 roll_f32 = atan2( 2.0F * (   ( sense_mtn_data_s.Quaternion_s.Q1_f32 * sense_mtn_data_s.Quaternion_s.Q2_f32 )
+                                   + ( sense_mtn_data_s.Quaternion_s.Q3_f32 * sense_mtn_data_s.Quaternion_s.Q4_f32 ) ),
+                                 (   ( sense_mtn_data_s.Quaternion_s.Q1_f32 * sense_mtn_data_s.Quaternion_s.Q1_f32 )
+                                   + ( sense_mtn_data_s.Quaternion_s.Q1_f32 * sense_mtn_data_s.Quaternion_s.Q1_f32 )
+                                   - ( sense_mtn_data_s.Quaternion_s.Q2_f32 * sense_mtn_data_s.Quaternion_s.Q2_f32 )
+                                   - ( sense_mtn_data_s.Quaternion_s.Q4_f32 * sense_mtn_data_s.Quaternion_s.Q4_f32 ) ) );
+
+    return ( roll_f32 * RAD_TO_DEG );
+}
 

@@ -9,21 +9,16 @@ import can.io.logger
 import numpy as np
 import struct as st
 import ctypes
-from random import seed
-import random
 
-DLG_ICM_20600_ACCEL_ID = 0x14
-DLG_ICM_20600_GYRO_ID = 0x15
-DLG_ICM_20600_TEMPERATURE_ID = 0x16
-DLG_ICM_20600_SELF_TEST_ID = 0x17
-DLG_ICM_20600_FACTORY_ACCEL_TRIM_ID = 0x18
-DLG_ICM_20600_FACTORY_GYRO_TRIM_ID = 0x1C
-DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV_ID = 0x19
-DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID = 0x1D
-DLG_ICM_20600_GENERAL_ID = 0x1A
-
-time_stamp_interval = 0.1  # 100 ms
-n_samples = 10000
+DLG_ICM_20600_GENERAL_ID                = 0x14 # 20
+DLG_ICM_20600_ACCEL_ID                  = 0x15 # 21
+DLG_ICM_20600_GYRO_ID                   = 0x16 # 22
+DLG_ICM_20600_TEMPERATURE_ID            = 0x17 # 23
+DLG_ICM_20600_SELF_TEST_ID              = 0x18 # 24
+DLG_ICM_20600_FACTORY_ACCEL_TRIM_ID     = 0x19 # 25
+DLG_ICM_20600_FACTORY_GYRO_TRIM_ID      = 0x1A # 26
+DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV_ID  = 0x1B # 27
+DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID  = 0x1C # 28
 
 writer = can.io.logger.Logger( "test_1.blf" )
 writer.channel = 1
@@ -80,7 +75,7 @@ def twos(val_str, bytes):
 
 # filename = "C:/Users/buderm/Desktop/test.sbf"
 filename = "E:/test.sbf"
-struct_fmt = '<17f 10B 7H f'
+struct_fmt = '<13f 10B 7H f'
 struct_len = st.calcsize( struct_fmt )
 struct_unpack = st.Struct( struct_fmt ).unpack_from
 
@@ -102,10 +97,6 @@ with open( filename, "rb" ) as file:
          factory_trim_dev_xg_f32,
          factory_trim_dev_yg_f32,
          factory_trim_dev_zg_f32,
-         quaternion_q1_f32,
-         quaternion_q2_f32,
-         quaternion_q3_f32,
-         quaternion_q4_f32,
          chip_id_u8,
          dev_state_u8,
          is_calibrated_u8,

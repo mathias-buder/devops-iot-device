@@ -45,49 +45,43 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-F32 dd_icm_20600_get_yaw(void)
-{
-    F32 yaw_f32 = 0.0F;
-
-    yaw_f32 = atan2( 2.0F * (   ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q3_f32 )
-                              + ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ),
-                            (   ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q1_f32 )
-                              + ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q2_f32 )
-                              - ( dd_icm_20600_data_s.Quaternion_s.Q3_f32 * dd_icm_20600_data_s.Quaternion_s.Q3_f32 )
-                              - ( dd_icm_20600_data_s.Quaternion_s.Q4_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ) );
-
-    return ( yaw_f32 * RAD_TO_DEG );
-}
-
-F32 dd_icm_20600_get_pitch(void)
-{
-    F32 pitch_f32 = 0.0F;
-
-    pitch_f32 = -asin( 2.0F * (   ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 )
-                                - ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q3_f32 ) ) );
-
-    return ( pitch_f32 * RAD_TO_DEG );
-}
-
-F32 dd_icm_20600_get_roll(void)
-{
-    F32 roll_f32 = 0.0F;
-
-    roll_f32 = atan2( 2.0F * (   ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q2_f32 )
-                               + ( dd_icm_20600_data_s.Quaternion_s.Q3_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ),
-                             (   ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q1_f32 )
-                               + ( dd_icm_20600_data_s.Quaternion_s.Q1_f32 * dd_icm_20600_data_s.Quaternion_s.Q1_f32 )
-                               - ( dd_icm_20600_data_s.Quaternion_s.Q2_f32 * dd_icm_20600_data_s.Quaternion_s.Q2_f32 )
-                               - ( dd_icm_20600_data_s.Quaternion_s.Q4_f32 * dd_icm_20600_data_s.Quaternion_s.Q4_f32 ) ) );
-
-    return ( roll_f32 * RAD_TO_DEG );
-}
-
-
 DD_ICM_20600_DATA* dd_icm_20600_get_database( void )
 {
     return &dd_icm_20600_data_s;
 }
 
+BOOLEAN dd_icm_20600_get_accl_raw_data( U16*                    p_data_u16,
+                                        DD_ICM_20600_ACCEL_TYPE type_e )
+{
+    if (    ( NULL != p_data_u16 )
+         && ( DD_ICM_20600_ACCEL_SIZE > type_e ) )
+    {
+        *p_data_u16 = dd_icm_20600_data_s.accel_data_raw_u16[type_e];
+        return TRUE;
+    }
+    else
+    {
+        assert( NULL != p_data_u16 );
+        assert( DD_ICM_20600_ACCEL_SIZE > type_e );
+    }
 
+    return FALSE;
+}
 
+BOOLEAN dd_icm_20600_get_gyro_raw_data( U16*                   p_data_u16,
+                                        DD_ICM_20600_GYRO_TYPE type_e )
+{
+    if (    ( NULL != p_data_u16 )
+         && ( DD_ICM_20600_GYRO_SIZE > type_e ) )
+    {
+        *p_data_u16 = dd_icm_20600_data_s.gyro_data_raw_u16[type_e];
+        return TRUE;
+    }
+    else
+    {
+        assert( NULL != p_data_u16 );
+        assert( DD_ICM_20600_GYRO_SIZE > type_e );
+    }
+
+    return FALSE;
+}

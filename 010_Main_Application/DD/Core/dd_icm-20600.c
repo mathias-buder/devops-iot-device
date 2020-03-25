@@ -50,17 +50,6 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s );
 BOOLEAN dd_icm_20600_calibrate (F32* p_gyro_bias_f32,
                                 F32* p_accel_bias_f32 );
 
-BOOLEAN dd_icm_20600_quaternion_update( DD_ICM_20600_QUATERNION* p_quaternion_s,
-                                        F32                      accel_x_f32,
-                                        F32                      accel_y_f32,
-                                        F32                      accel_z_f32,
-                                        F32                      gyro_x_f32,
-                                        F32                      gyro_y_f32,
-                                        F32                      gyro_z_f32,
-                                        F32                      delta_t_f32,
-                                        F32                      zeta_f32,
-                                        F32                      beta_f32 );
-
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
@@ -570,7 +559,6 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
 BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
                                 F32* p_accel_bias_f32 )
 {
-    BOOLEAN state_b = FALSE;
     U8      register_data_vu8[12]; /* data array to hold accelerometer and gyro x, y, z, data */
     U16     idx_u16;
     U16     packet_cnt_u16;
@@ -587,105 +575,123 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
 
     /* Reset device, reset all registers, clear gyro and accelerometer bias registers.
      * Write a one to bit 7 reset bit; toggle reset device */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_PWR_MGMT_1,
-                                   0x80 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x80 ) )
+    {
+        return FALSE;
+    }
 
     /* Delay a while to let the device execute the self-test */
     vTaskDelay( portTICK_PERIOD_MS );
 
     /* Get stable time source. Set clock source to be PLL with x-axis
      * gyroscope reference, bits 2:0 = 001 */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_PWR_MGMT_1,
-                                   0x01 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
+    {
+        return FALSE;
+    }
 
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_PWR_MGMT_1,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     vTaskDelay( 2 * portTICK_PERIOD_MS );
 
     /* Configure device for bias calculation */
 
     /* Disable all interrupts */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_INT_ENABLE,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,  DD_ICM_20600_INT_ENABLE, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Disable FIFO */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_FIFO_EN,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Turn on internal clock source */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_PWR_MGMT_1,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Disable I2C master */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_I2C_MST_CTRL,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_I2C_MST_CTRL, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Disable FIFO and I2C master modes */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_USER_CTRL,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Reset FIFO and DMP */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_USER_CTRL,
-                                   0x0C );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x0C ) )
+    {
+        return FALSE;
+    }
 
     vTaskDelay( portTICK_PERIOD_MS );
 
     /* Configure gyro and accelerometer for bias calculation
      * Set low-pass filter to 188 Hz */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_CONFIG,
-                                   0x01 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x01 ) )
+    {
+        return FALSE;
+    }
+
 
     /* Set sample rate to 1 kHz */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_SMPLRT_DIV,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Set gyro full-scale to 250 degrees per second, maximum sensitivity */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_GYRO_CONFIG,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Set accelerometer full-scale to 2 g, maximum sensitivity */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_ACCEL_CONFIG,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* Configure FIFO to capture accelerometer and gyro data for bias calculation
      * Enable FIFO */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_USER_CTRL,
-                                   0x40 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x40 ) )
+    {
+        return FALSE;
+    }
+
 
     /* Enable gyro and accelerometer sensors for FIFO  (max size 1024 bytes in MPU-6050) */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_FIFO_EN,
-                                   0x78 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x78 ) )
+    {
+        return FALSE;
+    }
 
     /* accumulate 80 samples in 80 milliseconds = 960 bytes */
     vTaskDelay( 2 * portTICK_PERIOD_MS );
 
     /* At end of sample accumulation, turn off FIFO sensor read
     * Disable gyro and accelerometer sensors for FIFO */
-    state_b = dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,
-                                   DD_ICM_20600_FIFO_EN,
-                                   0x00 );
+    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+    {
+        return FALSE;
+    }
 
     /* read FIFO sample count */
-    state_b = dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR,
-                                 DD_ICM_20600_FIFO_COUNTH,
-                                 &register_data_vu8[0],
-                                 2U );
+    if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_COUNTH, &register_data_vu8[0], 2U ) )
+    {
+        return FALSE;
+    }
 
     fifo_cnt_u16 = ( ( (U16) register_data_vu8[0] << 8 ) | register_data_vu8[1] );
 
@@ -695,10 +701,10 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     for ( idx_u16 = 0; idx_u16 < packet_cnt_u16; idx_u16++ )
     {
         /* Read data for averaging */
-        state_b = dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR,
-                                     DD_ICM_20600_FIFO_R_W,
-                                     &register_data_vu8[0],
-                                     sizeof( register_data_vu8 ) );
+        if ( dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_R_W, &register_data_vu8[0], sizeof( register_data_vu8 ) ) )
+        {
+            return FALSE;
+        }
 
         /* Form signed 16-bit integer for each sample in FIFO */
         accel_temp_vs32[0] = ( U16 )( ( (U16) register_data_vu8[0] << 8 ) | register_data_vu8[1] );
@@ -749,10 +755,11 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     register_data_vu8[5] = ( -gyro_bias_vs32[2] / 4 ) & 0xFF;
 
     /* Push gyro biases to hardware registers */
-    state_b = dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR,
-                                  DD_ICM_20600_XG_OFFS_USRH,
-                                  &register_data_vu8[0],
-                                  6U );
+    if ( dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XG_OFFS_USRH, &register_data_vu8[0], 6U ) )
+    {
+        return FALSE;
+    }
+
 
     /* Construct gyro bias in deg/s for later manual subtraction */
     p_gyro_bias_f32[0] = (F32) gyro_bias_vs32[0] / (F32) gyro_sensitivity_u16;
@@ -766,10 +773,10 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
      * biases calculated above must be divided by 8. */
 
     /* Read factory accelerometer trim values */
-    state_b = dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR,
-                                 DD_ICM_20600_XA_OFFSET_H,
-                                 &register_data_vu8[0],
-                                 6U );
+    if ( dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
+    {
+        return FALSE;
+    }
 
     accel_bias_reg_vs32[0] = ( U16 )( (U16) register_data_vu8[0] << 8 ) | register_data_vu8[1];
     accel_bias_reg_vs32[1] = ( U16 )( (U16) register_data_vu8[2] << 8 ) | register_data_vu8[3];
@@ -807,132 +814,15 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     register_data_vu8[5] = register_data_vu8[5] | mask_bit_vu8[2];
 
     /* Push accelerometer biases to hardware registers */
-    state_b = dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR,
-                                  DD_ICM_20600_XA_OFFSET_H,
-                                  &register_data_vu8[0],
-                                  6U );
+    if ( dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
+    {
+        return FALSE;
+    }
 
     /*  Output scaled accelerometer biases for manual subtraction in the main program */
     p_accel_bias_f32[0] = (F32) accel_bias_vs32[0] / (F32) accel_sensitivity_u16;
     p_accel_bias_f32[1] = (F32) accel_bias_vs32[1] / (F32) accel_sensitivity_u16;
     p_accel_bias_f32[2] = (F32) accel_bias_vs32[2] / (F32) accel_sensitivity_u16;
 
-    return state_b;
-}
-
-BOOLEAN dd_icm_20600_quaternion_update( DD_ICM_20600_QUATERNION* p_quaternion_s,
-                                        F32                      accel_x_f32,
-                                        F32                      accel_y_f32,
-                                        F32                      accel_z_f32,
-                                        F32                      gyro_x_f32,
-                                        F32                      gyro_y_f32,
-                                        F32                      gyro_z_f32,
-                                        F32                      delta_t_f32,
-                                        F32                      zeta_f32,
-                                        F32                      beta_f32 )
-{
-    BOOLEAN state_b = FALSE;
-
-    /* Short name local variable for readability */
-    F32 q1_f32 = p_quaternion_s->Q1_f32;
-    F32 q2_f32 = p_quaternion_s->Q2_f32;
-    F32 q3_f32 = p_quaternion_s->Q3_f32;
-    F32 q4_f32 = p_quaternion_s->Q4_f32;
-
-    /* Vector norm */
-    F32 norm_f32;
-
-    /* Objective function elements */
-    F32 f1_f32, f2_f32, f3_f32;
-
-    /* Objective function Jacobian elements */
-    F32 J_11or24_f32, J_12or23_f32, J_13or22_f32, J_14or21_f32, J_32_f32, J_33_f32;
-
-    F32 qDot1_f32, qDot2_f32, qDot3_f32, qDot4_f32;
-
-    F32 hatDot1_f32, hatDot2_f32, hatDot3_f32, hatDot4_f32;
-
-    /* Gyro bias error */
-    F32 gyro_error_x_f32, gyro_error_y_f32, gyro_error_z_f32, gyro_bias_x_f32, gyro_bias_y_f32, gyro_bias_z_f32;
-
-    /* Auxiliary variables to avoid repeated arithmetic */
-    F32 half_q1_f32 = 0.5F * q1_f32;
-    F32 half_q2_f32 = 0.5F * q2_f32;
-    F32 half_q3_f32 = 0.5F * q3_f32;
-    F32 half_q4_f32 = 0.5F * q4_f32;
-    F32 two_q1_f32  = 2.0F * q1_f32;
-    F32 two_q2_f32  = 2.0F * q2_f32;
-    F32 two_q3_f32  = 2.0F * q3_f32;
-    F32 two_q4_f32  = 2.0F * q4_f32;
-
-    /* Normalize accelerometer measurement */
-    norm_f32 = sqrt( accel_x_f32 * accel_x_f32 + accel_y_f32 * accel_y_f32 + accel_z_f32 * accel_z_f32 );
-
-    /* Check for devision by zero */
-    if( SMALL_NUMBER < norm_f32 )
-    {
-        norm_f32 = 1.0F / norm_f32;
-        accel_x_f32 *= norm_f32;
-        accel_y_f32 *= norm_f32;
-        accel_z_f32 *= norm_f32;
-
-        /* Compute the objective function and Jacobian */
-        f1_f32 = two_q2_f32 * q4_f32 - two_q1_f32 * q3_f32 - accel_x_f32;
-        f2_f32 = two_q1_f32 * q2_f32 + two_q3_f32 * q4_f32 - accel_y_f32;
-        f3_f32 = 1.0F - two_q2_f32 * q2_f32 - two_q3_f32 * q3_f32 - accel_z_f32;
-        J_11or24_f32 = two_q3_f32;
-        J_12or23_f32 = two_q4_f32;
-        J_13or22_f32 = two_q1_f32;
-        J_14or21_f32 = two_q2_f32;
-        J_32_f32 = 2.0F * J_14or21_f32;
-        J_33_f32 = 2.0F * J_11or24_f32;
-
-        /* Compute the gradient (matrix multiplication) */
-        hatDot1_f32 = J_14or21_f32 * f2_f32 - J_11or24_f32 * f1_f32;
-        hatDot2_f32 = J_12or23_f32 * f1_f32 + J_13or22_f32 * f2_f32 - J_32_f32 * f3_f32;
-        hatDot3_f32 = J_12or23_f32 * f2_f32 - J_33_f32 *f3_f32 - J_13or22_f32 * f1_f32;
-        hatDot4_f32 = J_14or21_f32 * f1_f32 + J_11or24_f32 * f2_f32;
-
-        /* Normalize the gradient */
-        norm_f32 = sqrt( hatDot1_f32 * hatDot1_f32 + hatDot2_f32 * hatDot2_f32 + hatDot3_f32 * hatDot3_f32 + hatDot4_f32 * hatDot4_f32 );
-        hatDot1_f32 /= norm_f32;
-        hatDot2_f32 /= norm_f32;
-        hatDot3_f32 /= norm_f32;
-        hatDot4_f32 /= norm_f32;
-
-        /* Compute estimated gyroscope biases */
-        gyro_error_x_f32 = two_q1_f32 * hatDot2_f32 - two_q2_f32 * hatDot1_f32 - two_q3_f32 * hatDot4_f32 + two_q4_f32 * hatDot3_f32;
-        gyro_error_y_f32 = two_q1_f32 * hatDot3_f32 + two_q2_f32 * hatDot4_f32 - two_q3_f32 * hatDot1_f32 - two_q4_f32 * hatDot2_f32;
-        gyro_error_z_f32 = two_q1_f32 * hatDot4_f32 - two_q2_f32 * hatDot3_f32 + two_q3_f32 * hatDot2_f32 - two_q4_f32 * hatDot1_f32;
-
-        /* Compute and remove gyroscope biases */
-        gyro_bias_x_f32 += gyro_error_x_f32 * delta_t_f32 * zeta_f32;
-        gyro_bias_y_f32 += gyro_error_y_f32 * delta_t_f32 * zeta_f32;
-        gyro_bias_z_f32 += gyro_error_z_f32 * delta_t_f32 * zeta_f32;
-
-        /* Compute the quaternion derivative */
-        qDot1_f32 = -half_q2_f32 * gyro_x_f32 - half_q3_f32 * gyro_y_f32 - half_q4_f32 * gyro_z_f32;
-        qDot2_f32 =  half_q1_f32 * gyro_x_f32 + half_q3_f32 * gyro_z_f32 - half_q4_f32 * gyro_y_f32;
-        qDot3_f32 =  half_q1_f32 * gyro_y_f32 - half_q2_f32 * gyro_z_f32 + half_q4_f32 * gyro_x_f32;
-        qDot4_f32 =  half_q1_f32 * gyro_z_f32 + half_q2_f32 * gyro_y_f32 - half_q3_f32 * gyro_x_f32;
-
-        /* Compute then integrate estimated quaternion derivative */
-        q1_f32 += (qDot1_f32 -(beta_f32 * hatDot1_f32)) * delta_t_f32;
-        q2_f32 += (qDot2_f32 -(beta_f32 * hatDot2_f32)) * delta_t_f32;
-        q3_f32 += (qDot3_f32 -(beta_f32 * hatDot3_f32)) * delta_t_f32;
-        q4_f32 += (qDot4_f32 -(beta_f32 * hatDot4_f32)) * delta_t_f32;
-
-        /* Normalize the quaternion */
-        norm_f32 = sqrt( q1_f32 * q1_f32 + q2_f32 * q2_f32 + q3_f32 * q3_f32 + q4_f32 * q4_f32 );
-        norm_f32 = 1.0F / norm_f32;
-        p_quaternion_s->Q1_f32 = q1_f32 * norm_f32;
-        p_quaternion_s->Q2_f32 = q2_f32 * norm_f32;
-        p_quaternion_s->Q3_f32 = q3_f32 * norm_f32;
-        p_quaternion_s->Q4_f32 = q4_f32 * norm_f32;
-
-        state_b = TRUE;
-    }
-
-    return state_b;
-
+    return TRUE;
 }

@@ -39,39 +39,33 @@ VAL_TABLE_ ICM_20600_self_test 1 "Passed" 0 "Failed" ;
 VAL_TABLE_ DD_DEV_STATE 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
 
 
-BO_ 29 DD_ICM_20600_gyro_fac_trim_dev: 8 DLG
+BO_ 28 DD_ICM_20600_gyro_fac_trim_dev: 8 DLG
  SG_ DD_ICM_20600_factory_trim_dev_zg : 32|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_dev_yg : 16|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_dev_xg : 0|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
 
-BO_ 28 DD_ICM_20600_gyro_fac_trim: 8 DLG
+BO_ 26 DD_ICM_20600_gyro_fac_trim: 8 DLG
  SG_ DD_ICM_20600_factory_trim_zg : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_yg : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_xg : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
 
-BO_ 27 DD_ICM_20600_quaternion: 8 Vector__XXX
- SG_ DD_ICM_20600_quaternion_q4 : 48|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
- SG_ DD_ICM_20600_quaternion_q3 : 32|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
- SG_ DD_ICM_20600_quaternion_q2 : 16|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
- SG_ DD_ICM_20600_quaternion_q1 : 0|16@1- (0.001,0) [-32.768|32.767] "Q" Vector__XXX
-
-BO_ 26 DD_ICM_20600_general: 8 DLG
+BO_ 20 DD_ICM_20600_general: 8 DLG
  SG_ DD_ICM_20600_chip_id : 0|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ DD_ICM_20600_self_test_passed : 17|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ DD_ICM_20600_is_calibrated : 16|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ DD_ICM_20600_device_state : 8|8@1+ (1,0) [0|255] "" Vector__XXX
 
-BO_ 25 DD_ICM_20600_accl_fac_trim_dev: 8 DLG
+BO_ 27 DD_ICM_20600_accl_fac_trim_dev: 8 DLG
  SG_ DD_ICM_20600_factory_trim_dev_za : 32|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_dev_ya : 16|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_dev_xa : 0|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
 
-BO_ 24 DD_ICM_20600_accl_fac_trim: 8 DLG
+BO_ 25 DD_ICM_20600_accl_fac_trim: 8 DLG
  SG_ DD_ICM_20600_factory_trim_za : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_ya : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
  SG_ DD_ICM_20600_factory_trim_xa : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
 
-BO_ 23 DD_ICM_20600_selt_test: 8 DLG
+BO_ 24 DD_ICM_20600_selt_test: 8 DLG
  SG_ DD_ICM_20600_self_test_zg : 40|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ DD_ICM_20600_self_test_za : 32|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ DD_ICM_20600_self_test_yg : 24|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -79,16 +73,16 @@ BO_ 23 DD_ICM_20600_selt_test: 8 DLG
  SG_ DD_ICM_20600_self_test_xg : 8|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ DD_ICM_20600_self_test_xa : 0|8@1+ (1,0) [0|255] "" Vector__XXX
 
-BO_ 22 DD_ICM_20600_temperature: 8 DLG
+BO_ 23 DD_ICM_20600_temperature: 8 DLG
  SG_ DD_ICM_20600_temperature_deg : 16|10@1+ (0.1,-10) [-10|92.3] "deg" Vector__XXX
  SG_ DD_ICM_20600_temperature_raw : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
 
-BO_ 21 DD_ICM_20600_raw_gyro: 8 DLG
+BO_ 22 DD_ICM_20600_raw_gyro: 8 DLG
  SG_ DD_ICM_20600_raw_gyro_z : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ DD_ICM_20600_raw_gyro_y : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ DD_ICM_20600_raw_gyro_x : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
 
-BO_ 20 DD_ICM_20600_raw_accel: 8 DLG
+BO_ 21 DD_ICM_20600_raw_accel: 8 DLG
  SG_ DD_ICM_20600_raw_accel_z : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ DD_ICM_20600_raw_accel_y : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ DD_ICM_20600_raw_accel_x : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
@@ -111,7 +105,7 @@ BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
 BA_DEF_DEF_  "BusType" "";
 BA_ "BusType" "CAN";
 BA_ "DBName" "DLG";
-VAL_ 26 DD_ICM_20600_self_test_passed 1 "Passed" 0 "Failed" ;
-VAL_ 26 DD_ICM_20600_is_calibrated 1 "Calibrated" 0 "Not Calibrated" ;
-VAL_ 26 DD_ICM_20600_device_state 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
+VAL_ 20 DD_ICM_20600_self_test_passed 1 "Passed" 0 "Failed" ;
+VAL_ 20 DD_ICM_20600_is_calibrated 1 "Calibrated" 0 "Not Calibrated" ;
+VAL_ 20 DD_ICM_20600_device_state 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
 

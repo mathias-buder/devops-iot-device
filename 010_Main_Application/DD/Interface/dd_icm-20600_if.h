@@ -28,13 +28,29 @@
 /*************************************************************/
 
 /**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
+ * @details This function will write the current acceleration raw data into
+ * p_data_u16
+ * @param[in] p_data_u16 pointer to the acceleration raw data to be written to
+ * @param[in] type_e type of acceleration data [x, y ,z]
+ * @return flag to indicate if data stored in p_data_u16 shall be used or not
  */
-F32                dd_icm_20600_get_yaw( void );
-F32                dd_icm_20600_get_pitch( void );
-F32                dd_icm_20600_get_roll( void );
+BOOLEAN dd_icm_20600_get_accl_raw_data( U16*                    p_data_u16,
+                                        DD_ICM_20600_ACCEL_TYPE type_e );
+
+/**
+ * @details This function will write the current gyro raw data into
+ * p_data_u16
+ * @param[in] p_data_u16 pointer to the gyro raw data to be written to
+ * @param[in] type_e type of gyro data [x, y ,z]
+ * @return flag to indicate if data stored in p_data_u16 shall be used or not
+ */
+BOOLEAN dd_icm_20600_get_gyro_raw_data( U16*                   p_data_u16,
+                                        DD_ICM_20600_GYRO_TYPE type_e );
+
+/**
+ * @details This function will return the pointer to the DD_ICM_20600_DATA
+ * data structure
+ * @return pointer to the DD_ICM_20600_DATA data structure
+ */
 DD_ICM_20600_DATA* dd_icm_20600_get_database( void );
 #endif /* DD_ICM_20600_IF_H */

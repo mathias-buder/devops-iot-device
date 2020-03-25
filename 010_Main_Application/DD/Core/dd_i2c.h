@@ -42,7 +42,7 @@
  */
 void dd_i2c_init(void);
 
-DD_I2C_ERROR_TYPE* dd_i2c_get_error(void);
+DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_error( void );
 
 
 /**

@@ -47,10 +47,6 @@ typedef struct DLG_LOG_ICM_20600_DATA_TAG
     F32 factory_trim_dev_xg_f32;    /** @details Acceleration raw data */
     F32 factory_trim_dev_yg_f32;    /** @details Acceleration raw data */
     F32 factory_trim_dev_zg_f32;    /** @details Acceleration raw data */
-    F32 quaternion_q1_f32;          /** @details Acceleration raw data */
-    F32 quaternion_q2_f32;          /** @details Acceleration raw data */
-    F32 quaternion_q3_f32;          /** @details Acceleration raw data */
-    F32 quaternion_q4_f32;          /** @details Acceleration raw data */
 
     U8  chip_id_u8;                 /** @details Unique chip id */
     U8  dev_state_u8;               /** @details Acceleration raw data */

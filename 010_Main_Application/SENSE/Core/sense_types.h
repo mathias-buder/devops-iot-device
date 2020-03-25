@@ -22,7 +22,16 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <esp_err.h>
 
+#include "../../types.h"
+
+#include "../Config/sense_hr_cfg.h"
+#include "../Config/sense_mtn_cfg.h"
+#include "../Config/sense_spo2_cfg.h"
+#include "../Config/sense_ts_cfg.h"
+
+#include "../Interface/sense_public_types.h"
 
 /*************************************************************/
 /*      ENUMERATORS                                          */
@@ -33,6 +42,31 @@
 /*      STRUCTURES                                           */
 /*************************************************************/
 
+/**
+ * @brief   ICM-20600 Output Interface Data Structure
+ * @details ICM-20600 Output Interface Data Structure gathers all required
+            motion information such as pitch, roll, yaw, ...
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_MTN_QUATERNION_TAG
+{
+    F32 Q1_f32;
+    F32 Q2_f32;
+    F32 Q3_f32;
+    F32 Q4_f32;
+} SENSE_MTN_QUATERNION;
+
+
+/**
+ * @brief   ICM-20600 Output Interface Data Structure
+ * @details ICM-20600 Output Interface Data Structure gathers all required
+            motion information such as pitch, roll, yaw, ...
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_MTN_DATA_TAG
+{
+    SENSE_MTN_QUATERNION Quaternion_s;  /**< @details Acceleration raw data */
+} SENSE_MTN_DATA;
 
 
 #endif /* SENSE_CORE_TYPES_H_ */

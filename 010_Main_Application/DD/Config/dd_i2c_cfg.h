@@ -32,6 +32,8 @@
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
+/* Log message TAG string */
+#define DD_I2C_LOG_MSG_TAG                          "DD_I2C"
 
 #define DD_I2C_OPERATION_MODE                       I2C_MODE_MASTER
 
