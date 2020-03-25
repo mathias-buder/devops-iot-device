@@ -160,6 +160,7 @@ typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
 {
     DD_I2C_ERROR       error_e;
     DD_I2C_ACCESS_TYPE access_type_e;
+    U8                 device_addr_u8;
     U8                 register_addr_u8;
     F32                time_stamp_f32;
 } DD_I2C_ERROR_INFO_TYPE;

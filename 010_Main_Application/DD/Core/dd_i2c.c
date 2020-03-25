@@ -41,7 +41,8 @@ PRIVATE DD_I2C_ERROR_TYPE dd_i2c_error_s;
  */
 PRIVATE BOOLEAN dd_i2c_handle_error( esp_err_t          error_t,
                                      DD_I2C_ACCESS_TYPE access_type_e,
-                                     U8                 register_Addr );
+                                     U8                 device_addr_u8,
+                                     U8                 register_addr_u8 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -122,6 +123,7 @@ BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
 
     return dd_i2c_handle_error( i2c_error_t,
                                 DD_I2C_ACCESS_TYPE_RD_SINGLE,
+                                device_addr_u8,
                                 register_addr_u8 );
 }
 
@@ -190,6 +192,7 @@ BOOLEAN dd_i2c_read_burst( U8  device_addr_u8,
 
     return dd_i2c_handle_error( i2c_error_t,
                                 DD_I2C_ACCESS_TYPE_RD_BURST,
+                                device_addr_u8,
                                 register_addr_u8 );
 }
 
@@ -291,6 +294,7 @@ BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
 
     return dd_i2c_handle_error( i2c_error_t,
                                 DD_I2C_ACCESS_TYPE_WD_SINGLE,
+                                device_addr_u8,
                                 register_addr_u8 );
 }
 
@@ -346,6 +350,7 @@ BOOLEAN dd_i2c_write_burst( U8  device_addr_u8,
 
     return dd_i2c_handle_error( i2c_error_t,
                                 DD_I2C_ACCESS_TYPE_RD_BURST,
+                                device_addr_u8,
                                 register_addr_u8 );
 }
 
@@ -427,7 +432,8 @@ BOOLEAN dd_i2c_read_modify_write( U8      device_addr_u8,
 
 PRIVATE BOOLEAN dd_i2c_handle_error( esp_err_t          error_t,
                                      DD_I2C_ACCESS_TYPE access_type_e,
-                                     U8                 register_Addr_u8 )
+                                     U8                 device_addr_u8,
+                                     U8                 register_addr_u8 )
 {
     if ( DD_I2C_ERROR_OK != error_t )
     {
@@ -437,13 +443,15 @@ PRIVATE BOOLEAN dd_i2c_handle_error( esp_err_t          error_t,
         dd_i2c_error_s.state_b                                                             = FALSE;
         dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].error_e          = error_t;
         dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].access_type_e    = access_type_e;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].register_addr_u8 = register_Addr_u8;
+        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].device_addr_u8   = device_addr_u8;
+        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].register_addr_u8 = register_addr_u8;
         /* TODO: dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].time_stamp_f32 = current_time_stamp */
 
-        ESP_LOGE( DD_I2C_LOG_MSG_TAG, "Error( %i ): %s, Type: %i, Addr: %i", dd_i2c_error_s.current_error_idx_u8,
-                                                                             esp_err_to_name( error_t ),
-                                                                             access_type_e,
-                                                                             register_Addr_u8 );
+        ESP_LOGE( DD_I2C_LOG_MSG_TAG, "Error( %i ): %s, Type: %i, Dev 0x%x @ Addr: 0x%x", dd_i2c_error_s.current_error_idx_u8,
+                                                                                          esp_err_to_name( error_t ),
+                                                                                          access_type_e,
+                                                                                          device_addr_u8,
+                                                                                          register_addr_u8 );
 
         return FALSE;
     }
