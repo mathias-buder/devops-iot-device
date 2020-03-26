@@ -42,7 +42,7 @@
  */
 void dd_i2c_init(void);
 
-DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_error( void );
+DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_current_error( void );
 
 
 /**
@@ -155,20 +155,5 @@ BOOLEAN dd_i2c_read_modify_write( U8 device_addr_u8,
                                   U8 register_addr_u8,
                                   U8 bit_position_u8,
                                   BOOLEAN bit_value_b );
-
-/**
- * @details This function performs a read/write test on the specified I2C device to make sure the
- * low-level interface is working correctly.
- * @param[in] device_addr_u8 I2C slave device address
- * @param[in] register_low_addr_u8
- * @param[in] register_low_exp_val_u8
- * @param[in] register_high_exp_val_u8
- * @return TRUE if all operation where successful
- */
-BOOLEAN dd_i2c_interface_test( U8 device_addr_u8,
-                               U8 register_low_addr_u8,
-                               U8 register_low_exp_val_u8,
-                               U8 register_high_addr_u8,
-                               U8 register_high_exp_val_u8 );
 
 #endif /* DD_I2C_H */

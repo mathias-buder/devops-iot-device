@@ -52,7 +52,7 @@ void dd_init(void)
     /* Initialize ICM-2600 motion subsystem */
     if( FALSE == dd_icm_20600_init() )
     {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_error()->error_e );
+        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_current_error()->error_e );
     }
 
     /* Initialize SD card driver */

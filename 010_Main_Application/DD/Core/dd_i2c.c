@@ -39,7 +39,7 @@ PRIVATE DD_I2C_ERROR_TYPE dd_i2c_error_s;
  * @param[in] error_t I2C error code
  * @return TRUE if NO error is present
  */
-PRIVATE BOOLEAN dd_i2c_handle_error( esp_err_t          error_t,
+PRIVATE BOOLEAN dd_i2c_handle_error( DD_I2C_ERROR       error_e,
                                      DD_I2C_ACCESS_TYPE access_type_e,
                                      U8                 device_addr_u8,
                                      U8                 register_addr_u8 );
@@ -69,17 +69,16 @@ void dd_i2c_init( void )
                                          0U,
                                          0U ) );
 
-    /* Initialize I2C error structure */
-    //dd_i2c_error_s.current_t  = DD_I2C_ERROR_OK;
-    //dd_i2c_error_s.previous_t = DD_I2C_ERROR_OK;
-    dd_i2c_error_s.state_b    = TRUE;
+    /* Initialize I2C error state to TRUE, all remaining
+     * structure elements get auto initialized to zero */
+    dd_i2c_error_s.state_b = TRUE;
 }
 
 BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
                             U8  register_addr_u8,
                             U8* data_u8 )
 {
-    DD_I2C_ERROR     i2c_error_t   = DD_I2C_ERROR_FAIL;
+    DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
 
     p_i2c_command = i2c_cmd_link_create();
@@ -109,7 +108,7 @@ BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
 
         ESP_ERROR_CHECK( i2c_master_stop( p_i2c_command ) );
 
-        i2c_error_t = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
+        i2c_error_e = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
                                             p_i2c_command,
                                             DD_I2C_BUS_BUSY_TIME_OUT );
 
@@ -121,7 +120,7 @@ BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
         assert( NULL != p_i2c_command );
     }
 
-    return dd_i2c_handle_error( i2c_error_t,
+    return dd_i2c_handle_error( i2c_error_e,
                                 DD_I2C_ACCESS_TYPE_RD_SINGLE,
                                 device_addr_u8,
                                 register_addr_u8 );
@@ -133,7 +132,7 @@ BOOLEAN dd_i2c_read_burst( U8  device_addr_u8,
                            U8  data_size_u8 )
 {
 
-    DD_I2C_ERROR     i2c_error_t   = DD_I2C_ERROR_FAIL;
+    DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
 
     p_i2c_command = i2c_cmd_link_create();
@@ -178,7 +177,7 @@ BOOLEAN dd_i2c_read_burst( U8  device_addr_u8,
 
         ESP_ERROR_CHECK( i2c_master_stop( p_i2c_command ) );
 
-        i2c_error_t = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
+        i2c_error_e = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
                                             p_i2c_command,
                                             DD_I2C_BUS_BUSY_TIME_OUT );
 
@@ -190,7 +189,7 @@ BOOLEAN dd_i2c_read_burst( U8  device_addr_u8,
         assert( NULL != p_i2c_command );
     }
 
-    return dd_i2c_handle_error( i2c_error_t,
+    return dd_i2c_handle_error( i2c_error_e,
                                 DD_I2C_ACCESS_TYPE_RD_BURST,
                                 device_addr_u8,
                                 register_addr_u8 );
@@ -201,16 +200,16 @@ BOOLEAN dd_i2c_read_bit( U8       device_addr_u8,
                          U8       bit_position_u8,
                          BOOLEAN* bit_value_b )
 {
-    BOOLEAN state_b           = FALSE;
-    U8      register_value_u8 = 0U;
+    U8 register_value_u8;
 
-    state_b = dd_i2c_read_single( device_addr_u8,
-                                  register_addr_u8,
-                                  &register_value_u8 );
+    if ( FALSE == dd_i2c_read_single( device_addr_u8, register_addr_u8, &register_value_u8 ) )
+    {
+        return FALSE;
+    }
 
     *bit_value_b = ( register_value_u8 & ( 1 << bit_position_u8 ) ) != 0U ? TRUE : FALSE;
 
-    return state_b;
+    return TRUE;
 }
 
 BOOLEAN dd_i2c_read_bits( U8  device_addr_u8,
@@ -225,13 +224,13 @@ BOOLEAN dd_i2c_read_bits( U8  device_addr_u8,
         010   masked
        -> 010 shifted */
 
-    BOOLEAN state_b           = FALSE;
-    U8      register_value_u8 = 0U;
-    U8      bit_mask_u8       = 0U;
+    U8 register_value_u8;
+    U8 bit_mask_u8;
 
-    state_b = dd_i2c_read_single( device_addr_u8,
-                                  regisetr_addr_u8,
-                                  &register_value_u8 );
+    if ( FALSE == dd_i2c_read_single( device_addr_u8, regisetr_addr_u8, &register_value_u8 ) )
+    {
+        return FALSE;
+    }
 
     bit_mask_u8 = ( ( 1 << length_u8 ) - 1 ) << ( start_bit_u8 - length_u8 + 1 );
 
@@ -241,14 +240,14 @@ BOOLEAN dd_i2c_read_bits( U8  device_addr_u8,
 
     *p_data_u8 = register_value_u8;
 
-    return state_b;
+    return TRUE;
 }
 
 BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
                              U8 register_addr_u8,
                              U8 data_u8 )
 {
-    DD_I2C_ERROR     i2c_error_t   = DD_I2C_ERROR_FAIL;
+    DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
 
     /* Get I2C command handle */
@@ -279,7 +278,7 @@ BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
         ESP_ERROR_CHECK( i2c_master_stop( p_i2c_command ) );
 
         /* Start command sequence transmission */
-        i2c_error_t = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
+        i2c_error_e = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
                                             p_i2c_command,
                                             DD_I2C_BUS_BUSY_TIME_OUT );
 
@@ -292,7 +291,7 @@ BOOLEAN dd_i2c_write_single( U8 device_addr_u8,
         assert( NULL != p_i2c_command );
     }
 
-    return dd_i2c_handle_error( i2c_error_t,
+    return dd_i2c_handle_error( i2c_error_e,
                                 DD_I2C_ACCESS_TYPE_WD_SINGLE,
                                 device_addr_u8,
                                 register_addr_u8 );
@@ -303,7 +302,7 @@ BOOLEAN dd_i2c_write_burst( U8  device_addr_u8,
                             U8* p_data_u8,
                             U8  data_size_u8 )
 {
-    DD_I2C_ERROR     i2c_error_t   = DD_I2C_ERROR_FAIL;
+    DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
 
     /* Get I2C command handle */
@@ -335,7 +334,7 @@ BOOLEAN dd_i2c_write_burst( U8  device_addr_u8,
         ESP_ERROR_CHECK( i2c_master_stop( p_i2c_command ) );
 
         /* Start command sequence transmission */
-        i2c_error_t = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
+        i2c_error_e = i2c_master_cmd_begin( DD_I2C_PORT_NUM,
                                             p_i2c_command,
                                             DD_I2C_BUS_BUSY_TIME_OUT );
 
@@ -348,7 +347,7 @@ BOOLEAN dd_i2c_write_burst( U8  device_addr_u8,
         assert( NULL != p_i2c_command );
     }
 
-    return dd_i2c_handle_error( i2c_error_t,
+    return dd_i2c_handle_error( i2c_error_e,
                                 DD_I2C_ACCESS_TYPE_RD_BURST,
                                 device_addr_u8,
                                 register_addr_u8 );
@@ -366,42 +365,41 @@ BOOLEAN dd_i2c_write_bits( U8 device_addr_u8,
      00011100 mask byte
      10101111 original value (sample)
      10100011 original & ~mask
-     10101011 masked | value     */
+     10101011 masked | value */
 
-    BOOLEAN state_b           = FALSE;
-    U8      register_value_u8 = 0U;
-    U8      bit_mask_u8       = 0U;
+    U8 register_value_u8;
+    U8 bit_mask_u8;
 
     /* Read corresponding register */
-    state_b = dd_i2c_read_single( device_addr_u8,
-                                  register_addr_u8,
-                                  &register_value_u8 );
-
-    /* Check for error in read cycle */
-    if ( FALSE != state_b )
+    if ( FALSE == dd_i2c_read_single( device_addr_u8, register_addr_u8, &register_value_u8 ) )
     {
-        /* Create bit-mask with provided bit_start_u8 and data_size_u8 */
-        bit_mask_u8 = ( ( 1 << length_u8 ) - 1 ) << ( bit_start_u8 - length_u8 + 1 );
-
-        /* Shift data_u8 into correct position */
-        data_u8 <<= ( bit_start_u8 - length_u8 + 1 );
-
-        /* Zero all non-important bits in data_u8 */
-        data_u8 &= bit_mask_u8;
-
-        /* Zero all important bits in existing byte */
-        register_value_u8 &= ~( bit_mask_u8 );
-
-        /* Combine data_u8 with existing byte */
-        register_value_u8 |= data_u8;
-
-        /* Write updated register_value_u8 to corresponding register */
-        state_b = dd_i2c_write_single( device_addr_u8,
-                                       register_addr_u8,
-                                       register_value_u8 );
+        /* Return FALSE in case of error in read cycle */
+        return FALSE;
     }
 
-    return state_b;
+    /* Create bit-mask with provided bit_start_u8 and data_size_u8 */
+    bit_mask_u8 = ( ( 1 << length_u8 ) - 1 ) << ( bit_start_u8 - length_u8 + 1 );
+
+    /* Shift data_u8 into correct position */
+    data_u8 <<= ( bit_start_u8 - length_u8 + 1 );
+
+    /* Zero all non-important bits in data_u8 */
+    data_u8 &= bit_mask_u8;
+
+    /* Zero all important bits in existing byte */
+    register_value_u8 &= ~( bit_mask_u8 );
+
+    /* Combine data_u8 with existing byte */
+    register_value_u8 |= data_u8;
+
+    /* Write updated register_value_u8 to corresponding register */
+    if ( FALSE == dd_i2c_write_single( device_addr_u8, register_addr_u8, register_value_u8 ) )
+    {
+        /* Return FALSE in case of error in write cycle */
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 BOOLEAN dd_i2c_read_modify_write( U8      device_addr_u8,
@@ -409,71 +407,73 @@ BOOLEAN dd_i2c_read_modify_write( U8      device_addr_u8,
                                   U8      bit_position_u8,
                                   BOOLEAN bit_value_b )
 {
-    BOOLEAN status_b          = FALSE;
-    U8      register_value_u8 = 0U;
+    U8 register_value_u8;
 
-    status_b = dd_i2c_read_single( device_addr_u8,
-                                   register_addr_u8,
-                                   &register_value_u8 );
-
-    /* Check for error in read cycle */
-    if ( FALSE != status_b )
+    if ( FALSE == dd_i2c_read_single( device_addr_u8, register_addr_u8, &register_value_u8 ) )
     {
-        register_value_u8 = ( bit_value_b != 0 ) ? ( register_value_u8 | ( 1 << bit_position_u8 ) ) : ( register_value_u8 & ~( 1 << bit_position_u8 ) );
-
-        status_b = dd_i2c_write_single( device_addr_u8,
-                                        register_addr_u8,
-                                        register_value_u8 );
+        /* Return FALSE in case of error in read cycle */
+        return FALSE;
     }
 
-    return status_b;
-}
+    /* Modify value in corresponding bit position */
+    register_value_u8 = ( bit_value_b != 0 ) ? ( register_value_u8 | ( 1 << bit_position_u8 ) ) : ( register_value_u8 & ~( 1 << bit_position_u8 ) );
 
-
-PRIVATE BOOLEAN dd_i2c_handle_error( esp_err_t          error_t,
-                                     DD_I2C_ACCESS_TYPE access_type_e,
-                                     U8                 device_addr_u8,
-                                     U8                 register_addr_u8 )
-{
-    if ( DD_I2C_ERROR_OK != error_t )
+    if ( FALSE == dd_i2c_write_single( device_addr_u8, register_addr_u8, register_value_u8 ) )
     {
-        /* Get next index of ring buffer */
-        dd_i2c_error_s.current_error_idx_u8 = dd_i2c_error_s.last_error_idx_u8++ % I2C_ERROR_BUFFER_LENGTH;
-
-        dd_i2c_error_s.state_b                                                             = FALSE;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].error_e          = error_t;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].access_type_e    = access_type_e;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].device_addr_u8   = device_addr_u8;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].register_addr_u8 = register_addr_u8;
-        /* TODO: dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].time_stamp_f32 = current_time_stamp */
-
-        ESP_LOGE( DD_I2C_LOG_MSG_TAG, "Error( %i ): %s, Type: %i, Dev 0x%x @ Addr: 0x%x", dd_i2c_error_s.current_error_idx_u8,
-                                                                                          esp_err_to_name( error_t ),
-                                                                                          access_type_e,
-                                                                                          device_addr_u8,
-                                                                                          register_addr_u8 );
-
+        /* Return FALSE in case of error in read cycle */
         return FALSE;
     }
 
     return TRUE;
 }
 
-
-DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_error( void )
+PRIVATE BOOLEAN dd_i2c_handle_error( DD_I2C_ERROR       error_e,
+                                     DD_I2C_ACCESS_TYPE access_type_e,
+                                     U8                 device_addr_u8,
+                                     U8                 register_addr_u8 )
 {
-    return &dd_i2c_error_s.error_info_vs[dd_i2c_error_s.last_error_idx_u8];
+    if ( DD_I2C_ERROR_OK != error_e )
+    {
+        ESP_LOGD( DD_I2C_LOG_MSG_TAG, "current_error_idx_u8 %i, last_error_idx_u8: %i", dd_i2c_error_s.current_error_idx_u8,
+                                                                                        dd_i2c_error_s.last_error_idx_u8 );
+
+        dd_i2c_error_s.state_b                                                             = FALSE;
+        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].error_e          = error_e;
+        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].access_type_e    = access_type_e;
+        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].device_addr_u8   = device_addr_u8;
+        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].register_addr_u8 = register_addr_u8;
+        /* TODO: dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].time_stamp_f32 = current_time_stamp */
+
+        ESP_LOGE( DD_I2C_LOG_MSG_TAG, "[%i]: %s, AccType: %i, DevAddr: 0x%x @ RegAddr: 0x%x", dd_i2c_error_s.current_error_idx_u8,
+                                                                                              esp_err_to_name( error_e ),
+                                                                                              access_type_e,
+                                                                                              device_addr_u8,
+                                                                                              register_addr_u8 );
+
+        /* Get next index of ring buffer */
+        dd_i2c_error_s.last_error_idx_u8 = dd_i2c_error_s.current_error_idx_u8++;
+        dd_i2c_error_s.current_error_idx_u8 %= I2C_ERROR_BUFFER_LENGTH;
+    }
+    else
+    {
+        dd_i2c_error_s.state_b = TRUE;
+    }
+
+    return  dd_i2c_error_s.state_b;
 }
 
-/* This function shall execute an I2C test procedure to make sure the connected devices are working properly */
-BOOLEAN dd_i2c_interface_test( U8 device_addr_u8,
-                               U8 register_low_addr_u8,
-                               U8 register_low_exp_val_u8,
-                               U8 register_high_addr_u8,
-                               U8 register_high_exp_val_u8 )
+DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_current_error( void )
 {
+    DD_I2C_ERROR_INFO_TYPE* p_error_info_s = NULL;
 
-    BOOLEAN status_b = FALSE;
+    if ( I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 )
+    {
+        p_error_info_s = &dd_i2c_error_s.error_info_vs[dd_i2c_error_s.last_error_idx_u8];
+    }
+    else
+    {
+        assert ( I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 );
+    }
 
-    return status_b;
+    return p_error_info_s;
 }
