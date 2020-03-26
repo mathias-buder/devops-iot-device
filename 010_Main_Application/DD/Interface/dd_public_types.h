@@ -50,7 +50,6 @@ typedef struct DD_DEV_STATE_TAG
     DD_STATE state_e; /**< @details ... */
 } DD_DEV_STATE;
 
-
 /*************************************************************/
 /*                          DD_I2C                           */
 /*************************************************************/
@@ -79,7 +78,6 @@ typedef enum DD_I2C_ACCESS_TYPE_TAG
     DD_I2C_ACCESS_TYPE_WD_BURST,
     DD_I2C_ACCESS_TYPE_SIZE
 } DD_I2C_ACCESS_TYPE;
-
 
 /*************************************************************/
 /*                        DD_ICM_20600                       */
@@ -176,7 +174,6 @@ typedef struct DD_I2C_ERROR_TYPE_TAG
     BOOLEAN                state_b;
 } DD_I2C_ERROR_TYPE;
 
-
 /**
  * @brief   ICM-20600 Output Interface Data Structure
  * @details ICM-20600 Output Interface Data Structure gathers all required
@@ -185,17 +182,17 @@ typedef struct DD_I2C_ERROR_TYPE_TAG
  */
 typedef struct DD_ICM_20600_DATA_TAG
 {
-    U8                      chip_id_u8;                                           /** @details Unique chip id */
-    F32                     temperature_deg_f32;                                  /** @details Internal core (die) temperature @unit °C */
-    U16                     temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
-    U16                     accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
-    U16                     gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
-    U8                      self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
-    BOOLEAN                 self_test_passed_b;                                   /** @details main icm-20600 device state */
-    BOOLEAN                 is_calibrated_b;                                      /** @details main icm-20600 device state */
-    F32                     factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /** @details main icm-20600 device state */
-    F32                     fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /** @details main icm-20600 device state */
-    DD_DEV_STATE            dev_state_s;                                          /** @details main icm-20600 device state */
+    U8           chip_id_u8;                                           /** @details Unique chip id */
+    F32          temperature_deg_f32;                                  /** @details Internal core (die) temperature @unit °C */
+    U16          temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
+    U16          accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
+    U16          gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
+    U8           self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
+    BOOLEAN      self_test_passed_b;                                   /** @details main icm-20600 device state */
+    BOOLEAN      is_calibrated_b;                                      /** @details main icm-20600 device state */
+    F32          factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /** @details main icm-20600 device state */
+    F32          fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /** @details main icm-20600 device state */
+    DD_DEV_STATE dev_state_s;                                          /** @details main icm-20600 device state */
 } DD_ICM_20600_DATA;
 
 /*************************************************************/
@@ -210,7 +207,6 @@ typedef enum DD_SD_FILE_MODE_TAG
     DD_SD_FILE_MODE_WRITE_BINARY,
     DD_SD_FILE_MODE_SIZE
 } DD_SD_FILE_MODE;
-
 
 /*************************************************************/
 /*      STRUCTURES                                           */
@@ -231,4 +227,3 @@ typedef struct DD_SD_DATA_TAG
 } DD_SD_DATA;
 
 #endif /* DD_PUBLIC_TYPES_H */
-

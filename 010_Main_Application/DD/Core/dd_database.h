@@ -29,6 +29,7 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+extern DD_I2C_ERROR_TYPE dd_i2c_error_s;
 extern DD_ICM_20600_DATA dd_icm_20600_data_s;
 extern DD_SD_DATA        dd_sd_data_s;
 

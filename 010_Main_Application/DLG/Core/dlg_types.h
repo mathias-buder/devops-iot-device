@@ -32,6 +32,13 @@
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
+typedef struct DLG_LOG_I2C_DATA_TAG
+{
+
+
+} DLG_LOG_I2C_DATA;
+
+
 typedef struct DLG_LOG_ICM_20600_DATA_TAG
 {
     F32 temperature_deg_f32;        /** @details Internal core (die) temperature @unit °C */
@@ -70,15 +77,13 @@ typedef struct DLG_LOG_ICM_20600_DATA_TAG
 } DLG_LOG_ICM_20600_DATA;
 
 
-//typedef struct DLG_LOG_DATA_TAG
-//{
-//    DLG_LOG_ICM_20600_DATA icm_20600_data_s;
-//} __attribute__( ( packed ) ) DLG_LOG_DATA;
+
+
 
 typedef struct DLG_LOG_DATA_TAG
 {
     DLG_LOG_ICM_20600_DATA icm_20600_data_s;
     F32                    time_f32;
-} DLG_LOG_DATA;
+} /* __attribute__( ( packed ) ) */ DLG_LOG_DATA;
 
 #endif /* SENSE_CORE_TYPES_H_ */

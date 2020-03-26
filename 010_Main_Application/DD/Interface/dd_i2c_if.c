@@ -8,58 +8,58 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file DD.c
+        @file dd_i2c_if.c
         @details Some detailed description
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include "dd_i2c_if.h"
+
 #include <stdio.h>
 #include <string.h>
 
-#include "esp_log.h"
-
-#include "DD.h"
-#include "Core/dd_database.h"
-#include "Core/dd_i2c.h"
-#include "Core/dd_icm-20600.h"
-#include "Core/dd_sd.h"
-
+#include "../Core/dd_database.h"
+#include "../Core/dd_i2c.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-BOOLEAN file_written_b = FALSE;
-U32     idx_u32        = 100U;
-U32     time_in_ms_u32;
-FILE*   p_file;
+
+/*********************************************************************/
+/*      LOCAL VARIABLES                                              */
+/*********************************************************************/
+
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
 
+
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void dd_init(void)
+DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_last_error( void )
 {
-    /* Initialize I2C basic device driver */
-    dd_i2c_init();
+    DD_I2C_ERROR_INFO_TYPE* p_error_info_s = NULL;
 
-    /* Initialize ICM-2600 motion subsystem */
-    if( FALSE == dd_icm_20600_init() )
+    if ( I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 )
     {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_last_error()->error_e );
+        p_error_info_s = &dd_i2c_error_s.error_info_vs[dd_i2c_error_s.last_error_idx_u8];
+    }
+    else
+    {
+        assert ( I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 );
     }
 
-    /* Initialize SD card driver */
-    dd_sd_init();
+    return p_error_info_s;
 }
 
-void dd_main(void)
+
+DD_I2C_ERROR_TYPE* dd_i2c_get_error_database( void )
 {
-    dd_icm_20600_main();
+    return &dd_i2c_error_s;
 }

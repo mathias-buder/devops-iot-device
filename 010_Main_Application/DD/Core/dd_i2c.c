@@ -21,13 +21,13 @@
 #include "esp_log.h"
 
 #include "dd_i2c.h"
+#include "dd_database.h"
 
 #include "../../types.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-PRIVATE DD_I2C_ERROR_TYPE dd_i2c_error_s;
 
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
@@ -460,20 +460,4 @@ PRIVATE BOOLEAN dd_i2c_handle_error( DD_I2C_ERROR       error_e,
     }
 
     return  dd_i2c_error_s.state_b;
-}
-
-DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_current_error( void )
-{
-    DD_I2C_ERROR_INFO_TYPE* p_error_info_s = NULL;
-
-    if ( I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 )
-    {
-        p_error_info_s = &dd_i2c_error_s.error_info_vs[dd_i2c_error_s.last_error_idx_u8];
-    }
-    else
-    {
-        assert ( I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 );
-    }
-
-    return p_error_info_s;
 }

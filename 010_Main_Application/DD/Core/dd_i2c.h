@@ -36,14 +36,10 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-
 /**
  * @details This function initialized the I2C interface
  */
 void dd_i2c_init(void);
-
-DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_current_error( void );
-
 
 /**
  * @details This function reads the content of an 8-bit register.
@@ -55,7 +51,6 @@ DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_current_error( void );
 BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
                             U8  register_addr_u8,
                             U8* data_u8 );
-
 
 /**
  * @details This function reads N-Byte of data starting at the address given by register_addr_u8.
