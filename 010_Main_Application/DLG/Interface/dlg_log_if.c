@@ -33,12 +33,13 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-FILE* p_dlg_log_file;
+FILE*      p_dlg_log_file;
+extern F32 global_time_f32; /* declaration in main/os_main.c */
 
 /*************************************************************/
 /*      LOCAL VARIABLES                                      */
 /*************************************************************/
-U32      cnt_u32            = 500U;
+U32     cnt_u32           = 150U;
 BOOLEAN my_file_written_b = FALSE;
 
 /*************************************************************/
@@ -69,8 +70,14 @@ void dlg_log_write_data( void )
     {
         if ( cnt_u32 > 0U )
         {
+            /* Acquire current values for all logging structure */
+            dlg_log_create_i2c_data_frame();
             dlg_log_create_icm_20600_data_frame();
 
+            /* Acquire current time stamp */
+            dlg_log_database_s.time_stamp_f32 = global_time_f32;
+
+            /* Write entire logging structure into .sbf file */
             fwrite( &dlg_log_database_s, sizeof( dlg_log_database_s ), 1U, p_dlg_log_file );
 
             ESP_LOGI( "DLG", "Logging dlg_log_database_s (size: %i) %i", sizeof( dlg_log_database_s ), cnt_u32 );

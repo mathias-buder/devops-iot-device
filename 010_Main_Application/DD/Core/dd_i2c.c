@@ -68,10 +68,6 @@ void dd_i2c_init( void )
                                          0U,
                                          0U,
                                          0U ) );
-
-    /* Initialize I2C error state to TRUE, all remaining
-     * structure elements get auto initialized to zero */
-    dd_i2c_error_s.state_b = TRUE;
 }
 
 BOOLEAN dd_i2c_read_single( U8  device_addr_u8,
@@ -437,7 +433,7 @@ PRIVATE BOOLEAN dd_i2c_handle_error( DD_I2C_ERROR       error_e,
         ESP_LOGD( DD_I2C_LOG_MSG_TAG, "current_error_idx_u8 %i, last_error_idx_u8: %i", dd_i2c_error_s.current_error_idx_u8,
                                                                                         dd_i2c_error_s.last_error_idx_u8 );
 
-        dd_i2c_error_s.state_b                                                             = FALSE;
+        dd_i2c_error_s.is_error_present_b                                                  = TRUE;
         dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].error_e          = error_e;
         dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].access_type_e    = access_type_e;
         dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].device_addr_u8   = device_addr_u8;
@@ -456,8 +452,8 @@ PRIVATE BOOLEAN dd_i2c_handle_error( DD_I2C_ERROR       error_e,
     }
     else
     {
-        dd_i2c_error_s.state_b = TRUE;
+        dd_i2c_error_s.is_error_present_b = FALSE;
     }
 
-    return  dd_i2c_error_s.state_b;
+    return ( !dd_i2c_error_s.is_error_present_b );
 }

@@ -59,11 +59,11 @@ typedef struct DD_DEV_STATE_TAG
  */
 typedef enum DD_I2C_ERROR_TAG
 {
-    DD_I2C_ERROR_FAIL         = ESP_FAIL, /*!< Generic esp_err_t code indicating failure */
-    DD_I2C_ERROR_OK           = ESP_OK,   /*!< esp_err_t value indicating success (no error) */
-    DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE,
-    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG,
-    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT, /*!< Operation timed out */
+    DD_I2C_ERROR_FAIL         = ESP_FAIL,             /*!< Generic esp_err_t code indicating failure */
+    DD_I2C_ERROR_OK           = ESP_OK,               /*!< esp_err_t value indicating success (no error) */
+    DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE, /** @details Acceleration raw data */
+    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG,  /** @details Acceleration raw data */
+    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT,      /*!< Operation timed out */
     DD_I2C_ERROR_SIZE
 } DD_I2C_ERROR;
 
@@ -72,11 +72,11 @@ typedef enum DD_I2C_ERROR_TAG
  */
 typedef enum DD_I2C_ACCESS_TYPE_TAG
 {
-    DD_I2C_ACCESS_TYPE_RD_SINGLE = 0U,
-    DD_I2C_ACCESS_TYPE_RD_BURST,
-    DD_I2C_ACCESS_TYPE_WD_SINGLE,
-    DD_I2C_ACCESS_TYPE_WD_BURST,
-    DD_I2C_ACCESS_TYPE_SIZE
+    DD_I2C_ACCESS_TYPE_RD_SINGLE = 0U, /**< @details ... */
+    DD_I2C_ACCESS_TYPE_RD_BURST,       /**< @details ... */
+    DD_I2C_ACCESS_TYPE_WD_SINGLE,      /**< @details ... */
+    DD_I2C_ACCESS_TYPE_WD_BURST,       /**< @details ... */
+    DD_I2C_ACCESS_TYPE_SIZE            /**< @details ... */
 } DD_I2C_ACCESS_TYPE;
 
 /*************************************************************/
@@ -156,11 +156,11 @@ typedef enum DD_ICM_20600_SELF_TEST_TAG
  */
 typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
 {
-    DD_I2C_ERROR       error_e;
-    DD_I2C_ACCESS_TYPE access_type_e;
-    U8                 device_addr_u8;
-    U8                 register_addr_u8;
-    F32                time_stamp_f32;
+    DD_I2C_ERROR       error_e;          /**< @details ... */
+    DD_I2C_ACCESS_TYPE access_type_e;    /**< @details ... */
+    U8                 device_addr_u8;   /**< @details ... */
+    U8                 register_addr_u8; /**< @details ... */
+    F32                time_stamp_f32;   /**< @details ... */
 } DD_I2C_ERROR_INFO_TYPE;
 
 /**
@@ -168,10 +168,10 @@ typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
  */
 typedef struct DD_I2C_ERROR_TYPE_TAG
 {
-    DD_I2C_ERROR_INFO_TYPE error_info_vs[I2C_ERROR_BUFFER_LENGTH];
-    U8                     current_error_idx_u8;
-    U8                     last_error_idx_u8;
-    BOOLEAN                state_b;
+    DD_I2C_ERROR_INFO_TYPE error_info_vs[I2C_ERROR_BUFFER_LENGTH]; /**< @details ... */
+    U8                     current_error_idx_u8;                   /**< @details ... */
+    U8                     last_error_idx_u8;                      /**< @details ... */
+    BOOLEAN                is_error_present_b;                     /**< @details ... */
 } DD_I2C_ERROR_TYPE;
 
 /**

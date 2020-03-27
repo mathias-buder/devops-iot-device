@@ -34,10 +34,14 @@ NS_ :
 BS_:
 
 BU_: DLG
-VAL_TABLE_ ICM_20600_calibrated 1 "Calibrated" 0 "Not Calibrated" ;
-VAL_TABLE_ ICM_20600_self_test 1 "Passed" 0 "Failed" ;
-VAL_TABLE_ DD_DEV_STATE 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;
 
+
+BO_ 50 DD_ICM_I2C_error: 8 Vector__XXX
+ SG_ DD_I2C_error_state : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_I2C_error_register_addr : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_I2C_error_device_addr : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DD_I2C_error_code : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_I2C_error_access_type : 8|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 28 DD_ICM_20600_gyro_fac_trim_dev: 8 DLG
  SG_ DD_ICM_20600_factory_trim_dev_zg : 32|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
@@ -105,6 +109,10 @@ BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
 BA_DEF_DEF_  "BusType" "";
 BA_ "BusType" "CAN";
 BA_ "DBName" "DLG";
+VAL_ 50 DD_I2C_error_state 1 "Error" 0 "Running" ;
+VAL_ 50 DD_I2C_error_device_addr 104 "DD_ICM_20600" 87 "DD_MAX_30102" ;
+VAL_ 50 DD_I2C_error_code 263 "DD_I2C_ERROR_TIMEOUT" 260 "DD_I2C_ERROR_INVALID_SIZE" 258 "DD_I2C_ERROR_INVALID_ARG" 0 "DD_I2C_ERROR_OK" -1 "DD_I2C_ERROR_FAIL" ;
+VAL_ 50 DD_I2C_error_access_type 3 "DD_I2C_ACCESS_TYPE_WD_BURST" 2 "DD_I2C_ACCESS_TYPE_WD_SINGLE" 1 "DD_I2C_ACCESS_TYPE_RD_BURST" 0 "DD_I2C_ACCESS_TYPE_RD_SINGLE" ;
 VAL_ 20 DD_ICM_20600_self_test_passed 1 "Passed" 0 "Failed" ;
 VAL_ 20 DD_ICM_20600_is_calibrated 1 "Calibrated" 0 "Not Calibrated" ;
 VAL_ 20 DD_ICM_20600_device_state 3 "DD_STATE_RUN" 2 "DD_STATE_CALIB" 1 "DD_STATE_TEST" 0 "DD_STATE_INIT" ;

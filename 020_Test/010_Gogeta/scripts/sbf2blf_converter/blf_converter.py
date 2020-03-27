@@ -20,6 +20,11 @@ DLG_ICM_20600_FACTORY_GYRO_TRIM_ID      = 0x1A # 26
 DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV_ID  = 0x1B # 27
 DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID  = 0x1C # 28
 
+DLG_I2C_ERROR_ID                        = 0x32 # 50
+
+
+
+
 writer = can.io.logger.Logger( "test_1.blf" )
 writer.channel = 1
 
@@ -75,7 +80,8 @@ def twos(val_str, bytes):
 
 # filename = "C:/Users/buderm/Desktop/test.sbf"
 filename = "E:/test.sbf"
-struct_fmt = '<13f 10B 7H f'
+#               DLG_LOG_ICM_20600_DATA  DLG_LOG_I2C_DATA (f 3B H)
+struct_fmt = '< 14f 10B 7H              4B h 2x'
 struct_len = st.calcsize( struct_fmt )
 struct_unpack = st.Struct( struct_fmt ).unpack_from
 
@@ -84,7 +90,10 @@ with open( filename, "rb" ) as file:
     while True:
         data = file.read( struct_len )
         if not data: break
-        [temperature_deg_f32,
+        [
+         # DLG_LOG_ICM_20600_DATA
+         global_time_f32,
+         temperature_deg_f32,
          factory_trim_xa_f32,
          factory_trim_ya_f32,
          factory_trim_za_f32,
@@ -114,7 +123,14 @@ with open( filename, "rb" ) as file:
          gyro_raw_data_y_u16,
          gyro_raw_data_z_u16,
          temperature_raw_u16,
-         global_time_f32] = struct_unpack( data )
+
+         # DLG_LOG_I2C_DATA
+         error_state_u8,
+         access_type_u8,
+         device_addr_u8,
+         register_addr_u8,
+         error_code_s16
+        ] = struct_unpack( data )
 
         # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_accel_data = st.pack( '3H', accel_raw_data_x_u16,
@@ -173,8 +189,8 @@ with open( filename, "rb" ) as file:
 
         # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_factory_accl_trim_data = st.pack( '3h', np.int16( factory_trim_xa_f32 ),
-                                                        np.int16( factory_trim_ya_f32 ),
-                                                        np.int16( factory_trim_za_f32 ) )
+                                                              np.int16( factory_trim_ya_f32 ),
+                                                              np.int16( factory_trim_za_f32 ) )
 
         msg_icm_20600_factory_accl_trim = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_ACCEL_TRIM_ID,
                                                        is_extended_id=False,
@@ -210,16 +226,33 @@ with open( filename, "rb" ) as file:
         factory_trim_dev_zg_f32 = factory_trim_dev_zg_f32 * 1000
 
         msg_icm_20600_factory_gyro_trim_dev_data = st.pack( '3h', np.int16( factory_trim_dev_xg_f32 ),
-                                                            np.int16( factory_trim_dev_yg_f32 ),
-                                                            np.int16( factory_trim_dev_zg_f32 ) )
+                                                                  np.int16( factory_trim_dev_yg_f32 ),
+                                                                  np.int16( factory_trim_dev_zg_f32 ) )
 
         msg_icm_20600_gyro_factory_trim_dev = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID,
                                                            is_extended_id=False,
                                                            timestamp=global_time_f32,
                                                            data=msg_icm_20600_factory_gyro_trim_dev_data )
 
+
+        msg_i2c_error_date = st.pack( '4B h', np.uint8( error_state_u8 ),
+                                              np.uint8( access_type_u8 ),
+                                              np.uint8( device_addr_u8 ),
+                                              np.uint8( register_addr_u8 ),
+                                              np.int16( error_code_s16 ) )
+
+        msg_i2c_error = can.Message( arbitration_id=DLG_I2C_ERROR_ID,
+                                     is_extended_id=False,
+                                     timestamp=global_time_f32,
+                                      data=msg_i2c_error_date )
+
+
+
+
+
         print( 'Temp:' + str( temperature_deg_f32 ) + " @ time: " + str( global_time_f32 ) )
 
+        # ICM_20600 Messages
         writer.on_message_received( msg_icm_20600_accel )
         writer.on_message_received( msg_icm_20600_gyro )
         writer.on_message_received( msg_icm_20600_general )
@@ -229,5 +262,8 @@ with open( filename, "rb" ) as file:
         writer.on_message_received( msg_icm_20600_factory_gyro_trim )
         writer.on_message_received( msg_icm_20600_accl_factory_trim_dev )
         writer.on_message_received( msg_icm_20600_gyro_factory_trim_dev )
+
+        # I2C Messaegs
+        writer.on_message_received( msg_i2c_error )
 
 writer.stop()

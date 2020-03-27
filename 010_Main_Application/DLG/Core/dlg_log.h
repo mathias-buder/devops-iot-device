@@ -26,6 +26,7 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+void dlg_log_create_i2c_data_frame( void );
 void dlg_log_create_icm_20600_data_frame( void );
 
 

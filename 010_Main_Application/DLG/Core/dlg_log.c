@@ -28,7 +28,7 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-extern F32 global_time_f32;
+
 /*********************************************************************/
 /*      LOCAL VARIABLES                                              */
 /*********************************************************************/
@@ -40,6 +40,15 @@ extern F32 global_time_f32;
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
+void dlg_log_create_i2c_data_frame( void )
+{
+    dlg_log_database_s.i2c_data_s.is_error_present_b = (U8) p_dlg_i2c_error_data_s->is_error_present_b;
+    dlg_log_database_s.i2c_data_s.error_code_s16     = (S16) p_dlg_i2c_error_data_s->error_info_vs[0U].error_e;
+    dlg_log_database_s.i2c_data_s.access_type_u8     = (U8) p_dlg_i2c_error_data_s->error_info_vs[0U].access_type_e;
+    dlg_log_database_s.i2c_data_s.device_addr_u8     = p_dlg_i2c_error_data_s->error_info_vs[0U].device_addr_u8;
+    dlg_log_database_s.i2c_data_s.register_addr_u8   = p_dlg_i2c_error_data_s->error_info_vs[0U].register_addr_u8;
+}
+
 void dlg_log_create_icm_20600_data_frame( void )
 {
     /* DD_ICM_20600_raw_accel ( 0x14 )*/
@@ -85,6 +94,7 @@ void dlg_log_create_icm_20600_data_frame( void )
     dlg_log_database_s.icm_20600_data_s.dev_state_u8               = (U8) p_dlg_icm_20600_data_s->dev_state_s.state_e;
     dlg_log_database_s.icm_20600_data_s.is_calibrated_u8           = p_dlg_icm_20600_data_s->is_calibrated_b;
     dlg_log_database_s.icm_20600_data_s.self_test_passed_u8        = p_dlg_icm_20600_data_s->self_test_passed_b;
-
-    dlg_log_database_s.time_f32 = global_time_f32;
 }
+
+
+
