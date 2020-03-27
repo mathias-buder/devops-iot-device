@@ -74,7 +74,7 @@ BO_ 24 DD_ICM_20600_selt_test: 8 DLG
  SG_ DD_ICM_20600_self_test_xa : 0|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 23 DD_ICM_20600_temperature: 8 DLG
- SG_ DD_ICM_20600_temperature_deg : 16|10@1+ (0.1,-10) [-10|92.3] "deg" Vector__XXX
+ SG_ DD_ICM_20600_temperature_deg : 16|16@1- (0.01,0) [-327.68|327.67] "deg" Vector__XXX
  SG_ DD_ICM_20600_temperature_raw : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 22 DD_ICM_20600_raw_gyro: 8 DLG

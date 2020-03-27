@@ -148,10 +148,10 @@ with open( filename, "rb" ) as file:
                                              data=msg_icm_20600_general_data )
 
         # Scale (according to DLG.dbc) and pack date
-        temperature_deg_f32 = (temperature_deg_f32 + 10) * 10
+        temperature_deg_f32 = temperature_deg_f32 * 100
 
-        msg_icm_20600_temperature_date = st.pack( '2H', temperature_raw_u16,
-                                                  convert_to_10bit( temperature_deg_f32 ) )
+        msg_icm_20600_temperature_date = st.pack( 'Hh', np.uint16(temperature_raw_u16),
+                                                        np.int16(temperature_deg_f32 ) )
 
         msg_icm_20600_temperature = can.Message( arbitration_id=DLG_ICM_20600_TEMPERATURE_ID,
                                                  is_extended_id=False,
