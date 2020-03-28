@@ -28,6 +28,8 @@
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
+/* Log message TAG string */
+#define DD_ICM_20600_LOG_MSG_TAG           "DD_ICM_20600"
 
 #define DD_ICM_20600_I2C_ADDR               0x68 /* addr-pin low (GND): 0x68, addr-pin high (VCC): 0x69 */
 #define DD_ICM_20600_DEVICE_ID              0x73 /* Unique device id */
