@@ -15,16 +15,28 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include <Config/dd_icm-20600_cfg.h>
-#include "dd_types_cfg.h"
+#include "dd_max-30102_Cfg.h"
+#include "dd_types_Cfg.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
 
-/*********************************************************************/
-/*      LOCAL VARIABLES                                              */
-/*********************************************************************/
+DD_MAX_30102_SAMPLE_AVG  dd_max_30102_sample_avg_cfg_e  = DD_MAX_30102_SAMPLE_AVG_4;
+DD_MAX_30102_LED_MODE    dd_max_30102_mode_cfg_e        = DD_MAX_30102_MODE_RED;
+DD_MAX_30102_ADC_RANGE   dd_max_30102_adc_range_cfg_e   = DD_MAX_30102_ADC_RANGE_4096;
+DD_MAX_30102_SAMPLE_RATE dd_max_30102_sample_rate_cfg_e = DD_MAX_30102_SAMPLE_RATE_100;
+
+/* Default is 0x1F which corresponds to 6.4mA
+ * amplitude = 0x02, 0.4mA  - Presence detection of ~4 inch
+ * amplitude = 0x1F, 6.4mA  - Presence detection of ~8 inch
+ * amplitude = 0x7F, 25.4mA - Presence detection of ~8 inch
+ * amplitude = 0xFF, 50.0mA - Presence detection of ~12 inch */
+U8 dd_max_30102_led_amplitude_cfg_u8        = 0xFF;
+
+/* Configuration parameter for function dd_max_30102_get_temperature() */
+U8 dd_max_30102_temp_time_out_cnt_cfg_u8    = 3U;
+U8 dd_max_30102_temp_delay_ticks_cfg_u8     = 10U;
 
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
@@ -35,3 +47,4 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
+

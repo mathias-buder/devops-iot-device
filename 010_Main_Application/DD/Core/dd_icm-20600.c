@@ -210,10 +210,10 @@ void dd_icm_20600_main( void )
 
 BOOLEAN dd_icm_20600_reset_soft( void )
 {
-    return dd_i2c_read_modify_write( DD_ICM_20600_I2C_ADDR,
-                                     DD_ICM_20600_PWR_MGMT_1,
-                                     DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B,
-                                     TRUE );
+    return dd_i2c_read_modify_write_bit( DD_ICM_20600_I2C_ADDR,
+                                         DD_ICM_20600_PWR_MGMT_1,
+                                         DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B,
+                                         TRUE );
 }
 
 BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )

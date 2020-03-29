@@ -24,12 +24,12 @@
 
 #include "../../types.h"
 
+#include "../Interface/dd_public_types.h"
+
 #include "../Config/dd_types_cfg.h"
 #include "../Config/dd_icm-20600_cfg.h"
 #include "../Config/dd_max-30102_cfg.h"
 #include "../Config/dd_sd_cfg.h"
-
-#include "../Interface/dd_public_types.h"
 
 /*************************************************************/
 /*                      ENUMERATORS                           */

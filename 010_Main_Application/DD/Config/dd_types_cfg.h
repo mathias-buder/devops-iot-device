@@ -22,19 +22,15 @@
 #define DD_TYPES_CFG_H
 
 /*************************************************************/
+/*      DEFINES                                              */
+/*************************************************************/
+#define DD_I2C_ERROR_BUFFER_LENGTH      10U
+
+#define DD_SD_MAX_FILE_PATH_LENGTH      128U
+
+/*************************************************************/
 /*      ENUMS                                                */
 /*************************************************************/
-#define I2C_ERROR_BUFFER_LENGTH     10U
-
-/*************************************************************/
-/*      STRUCTURES                                              */
-/*************************************************************/
-
-/**
- * @details Constant parameter to define the max no. of objects that can
- * be acquired in Object Selection input interface.
- */
-// #define OSL_AEB_MAX_NUMBER_OBJECTS              FU_MAX_NUMBER_OBJECTS
 
 
 #endif /* DD_TYPES_CFG_H */

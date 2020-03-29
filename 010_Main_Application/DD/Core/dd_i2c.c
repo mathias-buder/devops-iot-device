@@ -475,7 +475,7 @@ PRIVATE BOOLEAN dd_i2c_handle_error( DD_I2C_ERROR       error_e,
 
         /* Get next index of ring buffer */
         dd_i2c_error_s.last_error_idx_u8 = dd_i2c_error_s.current_error_idx_u8++;
-        dd_i2c_error_s.current_error_idx_u8 %= I2C_ERROR_BUFFER_LENGTH;
+        dd_i2c_error_s.current_error_idx_u8 %= DD_I2C_ERROR_BUFFER_LENGTH;
     }
     else
     {

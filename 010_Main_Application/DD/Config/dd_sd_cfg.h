@@ -40,11 +40,7 @@
 #define DD_SD_MOUNT_POINT               "/sdcard"
 #define DD_SD_FORMAT_ON_FAILED_MOUNT    FALSE
 #define DD_SD_MAX_OPEN_FILES            5U
-#define DD_SD_ALLOC_UNIT_SIZE           ( 16U * 1024 )
-#define DD_SD_MAX_FILE_PATH_LENGTH      128U
-
-
-
+#define DD_SD_ALLOC_UNIT_SIZE           ( 16U * 1024U )
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */

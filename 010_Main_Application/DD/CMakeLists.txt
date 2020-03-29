@@ -12,11 +12,11 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS "Config/dd_icm-20600_Cfg.c"
-                            "Config/dd_max-30102_Cfg.c"
-                            "Config/dd_xr-18910_Cfg.c"
-                            "Config/dd_i2c_Cfg.c"
-                            "Config/dd_sd_Cfg.c"
+idf_component_register(SRCS "Config/dd_icm-20600_cfg.c"
+                            "Config/dd_max-30102_cfg.c"
+                            "Config/dd_xr-18910_cfg.c"
+                            "Config/dd_i2c_cfg.c"
+                            "Config/dd_sd_cfg.c"
                             "Core/dd_database.c"
                             "Core/dd_icm-20600.c"
                             "Core/dd_max-30102.c"
