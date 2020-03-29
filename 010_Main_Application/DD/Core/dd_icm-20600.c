@@ -51,6 +51,8 @@ BOOLEAN dd_icm_20600_init( void )
 {
     U8 register_u8 = 0U;
 
+    ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Initializing ..." );
+
     /* Initialize global driver data structure. Default value for global
      * variables is "0" according to ANSI-C standard. Only variables with values
      * other then "0" need to be initialized here. */
@@ -147,61 +149,63 @@ BOOLEAN dd_icm_20600_init( void )
         return FALSE;
     }
 
+    ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Done" );
+
     return TRUE;
 }
 
-void dd_icm_20600_main(void)
+void dd_icm_20600_main( void )
 {
 
     /* icm-20600 state-maschine */
 
     switch ( dd_icm_20600_data_s.dev_state_s.state_e )
     {
-        case DD_STATE_TEST:
+    case DD_STATE_TEST:
 
-            /* Execute self test and store result */
-            dd_icm_20600_data_s.self_test_passed_b = dd_icm_20600_self_test(&dd_icm_20600_data_s);
+        /* Execute self test and store result */
+        dd_icm_20600_data_s.self_test_passed_b = dd_icm_20600_self_test( &dd_icm_20600_data_s );
 
-            /* Go to running state */
-            dd_icm_20600_data_s.dev_state_s.state_e = DD_STATE_RUN;
+        /* Go to running state */
+        dd_icm_20600_data_s.dev_state_s.state_e = DD_STATE_RUN;
 
-            break;
+        break;
 
-        case DD_STATE_CALIB:
-            break;
+    case DD_STATE_CALIB:
+        break;
 
-        case DD_STATE_RUN:
+    case DD_STATE_RUN:
 
-            /* Read all raw sensor data form ICM-20600 */
-            dd_icm_20600_temperature_read( &dd_icm_20600_data_s );
-            dd_icm_20600_accel_data_read_raw( &dd_icm_20600_data_s );
-            dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_data_s );
+        /* Read all raw sensor data form ICM-20600 */
+        dd_icm_20600_temperature_read( &dd_icm_20600_data_s );
+        dd_icm_20600_accel_data_read_raw( &dd_icm_20600_data_s );
+        dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_data_s );
 
-            /* Print values to terminal */
+        /* Print values to terminal */
 
-            printf("Self-test passed? %s\n", dd_icm_20600_data_s.self_test_passed_b != TRUE ? "FALSE" : "TRUE" );
+        ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Self-test passed? %s", dd_icm_20600_data_s.self_test_passed_b != TRUE ? "NO" : "YES" );
 
-            printf("Temperature %0.2f\n", dd_icm_20600_data_s.temperature_deg_f32 );
+        ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Temp: %0.2f", dd_icm_20600_data_s.temperature_deg_f32 );
 
-            printf("AX: %i, AY: %i, AZ: %i\nGX: %i, GY: %i, GZ: %i\n", dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
-                                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
-                                                                       dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
-                                                                       dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
-                                                                       dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
-                                                                       dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
+        ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "AX: %i, AY: %i, AZ: %i GX: %i, GY: %i, GZ: %i",
+                                            dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
+                                            dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
+                                            dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
+                                            dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
+                                            dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
+                                            dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
 
-            break;
+        break;
 
-        default:
+    default:
 
-            /* Should never happen */
-            assert( DD_STATE_INIT == dd_icm_20600_data_s.dev_state_s.state_e  );
-            assert( DD_STATE_CALIB == dd_icm_20600_data_s.dev_state_s.state_e );
-            assert( DD_STATE_RUN == dd_icm_20600_data_s.dev_state_s.state_e   );
+        /* Should never happen */
+        assert( DD_STATE_INIT == dd_icm_20600_data_s.dev_state_s.state_e );
+        assert( DD_STATE_CALIB == dd_icm_20600_data_s.dev_state_s.state_e );
+        assert( DD_STATE_RUN == dd_icm_20600_data_s.dev_state_s.state_e );
 
-            break;
+        break;
     }
-
 }
 
 BOOLEAN dd_icm_20600_reset_soft( void )
@@ -362,9 +366,9 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
         }
 
         /* Extract the acceleration test results first */
-        self_test_vu8[DD_ICM_20600_SELF_TEST_XA] = ( register_data_vu8[0] >> 3 ) | ( register_data_vu8[3] & 0x30 ) >> 4;   // XA_TEST result is a five-bit unsigned integer
-        self_test_vu8[DD_ICM_20600_SELF_TEST_YA] = ( register_data_vu8[1] >> 3 ) | ( register_data_vu8[3] & 0x0C ) >> 2;   // YA_TEST result is a five-bit unsigned integer
-        self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] = ( register_data_vu8[2] >> 3 ) | ( register_data_vu8[3] & 0x03 ) >> 0;   // ZA_TEST result is a five-bit unsigned integer
+        self_test_vu8[DD_ICM_20600_SELF_TEST_XA] = ( register_data_vu8[0] >> 3 ) | ( register_data_vu8[3] & 0x30 ) >> 4;   /* XA_TEST result is a five-bit unsigned integer */
+        self_test_vu8[DD_ICM_20600_SELF_TEST_YA] = ( register_data_vu8[1] >> 3 ) | ( register_data_vu8[3] & 0x0C ) >> 2;   /* YA_TEST result is a five-bit unsigned integer */
+        self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] = ( register_data_vu8[2] >> 3 ) | ( register_data_vu8[3] & 0x03 ) >> 0;   /* ZA_TEST result is a five-bit unsigned integer */
 
         /* Extract the gyration test results */
         self_test_vu8[DD_ICM_20600_SELF_TEST_XG] = register_data_vu8[0] & 0x1F;   // XG_TEST result is a five-bit unsigned integer
@@ -372,31 +376,30 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
         self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] = register_data_vu8[2] & 0x1F;   // ZG_TEST result is a five-bit unsigned integer
 
         /* Process results to allow final comparison with factory set values */
-        factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_XA] - 1.0F ) / 30.0F ) ) );   // FT[Xa] factory trim calculation
-        factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_YA] - 1.0F ) / 30.0F ) ) );   // FT[Ya] factory trim calculation
-        factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] - 1.0F ) / 30.0F ) ) );   // FT[Za] factory trim calculation
-        factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG] = ( 25.0F   * 131.0F ) * ( pow( 1.046F, ( self_test_vu8[DD_ICM_20600_SELF_TEST_XG] - 1.0F ) ) );                           // FT[Xg] factory trim calculation
-        factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG] = ( -25.0F  * 131.0F ) * ( pow( 1.046F, ( self_test_vu8[DD_ICM_20600_SELF_TEST_YG] - 1.0F ) ) );                          // FT[Yg] factory trim calculation
-        factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG] = ( 25.0F   * 131.0F ) * ( pow( 1.046F, ( self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] - 1.0F ) ) );                           // FT[Zg] factory trim calculation
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_XA] - 1.0F ) / 30.0F ) ) );  /* FT[Xa] factory trim calculation */
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_YA] - 1.0F ) / 30.0F ) ) );  /* FT[Ya] factory trim calculation */
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] - 1.0F ) / 30.0F ) ) );  /* FT[Za] factory trim calculation */
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG] = ( 25.0F   * 131.0F ) * ( pow( 1.046F, ( self_test_vu8[DD_ICM_20600_SELF_TEST_XG] - 1.0F ) ) );                         /* FT[Xg] factory trim calculation */
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG] = ( -25.0F  * 131.0F ) * ( pow( 1.046F, ( self_test_vu8[DD_ICM_20600_SELF_TEST_YG] - 1.0F ) ) );                         /* FT[Yg] factory trim calculation */
+        factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG] = ( 25.0F   * 131.0F ) * ( pow( 1.046F, ( self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] - 1.0F ) ) );                         /* FT[Zg] factory trim calculation */
 
         /* Output self-test results and factory trim calculation if desired */
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Self Test Result:\n" );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "---------------------------------------\n" );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Acceleration:\nX: %i\nY: %i\nZ: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XA],
-                                                                                    self_test_vu8[DD_ICM_20600_SELF_TEST_YA],
-                                                                                    self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "---------------------------------------\n" );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Gyration:\nX: %i\nY: %i\nZ: %i\n", self_test_vu8[DD_ICM_20600_SELF_TEST_XG],
-                                                                                self_test_vu8[DD_ICM_20600_SELF_TEST_YG],
-                                                                                self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "---------------------------------------\n" );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Factory trim calculation:\nXA: %f\nYA: %f\nZA: %f\nXG: %f\nYG: %f\nZG: %f\n", factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA],
-                                                                                                                           factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA],
-                                                                                                                           factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA],
-                                                                                                                           factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG],
-                                                                                                                           factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG],
-                                                                                                                           factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG] );
-        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "---------------------------------------\n" );
+        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Self Test Result:" );
+        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Acceleration: X: %i Y: %i Z: %i", self_test_vu8[DD_ICM_20600_SELF_TEST_XA],
+                                                                               self_test_vu8[DD_ICM_20600_SELF_TEST_YA],
+                                                                               self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] );
+
+        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Gyration: X: %i Y: %i Z: %i", self_test_vu8[DD_ICM_20600_SELF_TEST_XG],
+                                                                           self_test_vu8[DD_ICM_20600_SELF_TEST_YG],
+                                                                           self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] );
+
+        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Factory trim calculation:\nXA: %0.3f\nYA: %0.3f\nZA: %0.3f\nXG: %0.3f\nYG: %0.3f\nZG: %0.3f",
+                                            factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA],
+                                            factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA],
+                                            factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA],
+                                            factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG],
+                                            factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG],
+                                            factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG] );
 
         /* Report results as a ratio of (STR - FT)/FT; the change from Factory Trim of the Self-Test Response
            To get to percent, must multiply by 100 and subtract result from 100 */
@@ -411,7 +414,7 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
             /* Calculate deviation of factory trim values in percent, +/- 14 or less deviation is a pass */
             p_data_s->fac_trim_deviation_vf32[idx_u8] = 100.0F + 100.0F * ( self_test_vu8[idx_u8] - factory_trim_vf32[idx_u8] ) / factory_trim_vf32[idx_u8];
 
-            ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Factory trim deviation [+/- 14 or less deviation is a pass] %i: %0.2f\n", idx_u8, p_data_s->fac_trim_deviation_vf32[idx_u8] );
+            ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Factory trim deviation [+/- 14 or less deviation is a pass] %i: %0.2f", idx_u8, p_data_s->fac_trim_deviation_vf32[idx_u8] );
         }
 
         /* Check if all factory deviations are below DD_ICM_20600_ALLOWED_FAC_DEVIATION */
@@ -423,7 +426,7 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
              || ( DD_ICM_20600_ALLOWED_FAC_DEVIATION < p_data_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZG] ) )
         {
 
-            ESP_LOGW( DD_ICM_20600_LOG_MSG_TAG, "Self test failed!\n" );
+            ESP_LOGW( DD_ICM_20600_LOG_MSG_TAG, "Self test failed!" );
             return FALSE;
         }
     }
@@ -442,19 +445,19 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
 BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
                                 F32* p_accel_bias_f32 )
 {
-    U8      register_data_vu8[12]; /* data array to hold accelerometer and gyro x, y, z, data */
-    U16     idx_u16;
-    U16     packet_cnt_u16;
-    U16     fifo_cnt_u16;
-    S32     gyro_bias_vs32[3]      = {0U, 0U, 0U};
-    S32     accel_bias_vs32[3]     = {0U, 0U, 0U};
-    S16     accel_temp_vs32[3]     = {0U, 0U, 0U};
-    S16     gyro_temp_vs32[3]      = {0U, 0U, 0U};
-    U16     gyro_sensitivity_u16   = 131U;         /* = 131 LSB/degrees/sec */
-    U16     accel_sensitivity_u16  = 16384U;       /* = 16384 LSB/g */
-    S32     accel_bias_reg_vs32[3] = {0U, 0U, 0U}; /* A place to hold the factory accelerometer trim biases */
-    U32     mask_u32               = 1UL;          /* Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers */
-    U8      mask_bit_vu8[3]        = {0U, 0U, 0U}; /* Define array to hold mask bit for each accelerometer bias axis */
+    U8  register_data_vu8[12]; /* data array to hold accelerometer and gyro x, y, z, data */
+    U16 idx_u16;
+    U16 packet_cnt_u16;
+    U16 fifo_cnt_u16;
+    S32 gyro_bias_vs32[3]      = {0U, 0U, 0U};
+    S32 accel_bias_vs32[3]     = {0U, 0U, 0U};
+    S16 accel_temp_vs32[3]     = {0U, 0U, 0U};
+    S32 accel_bias_reg_vs32[3] = {0U, 0U, 0U}; /* A place to hold the factory accelerometer trim biases */
+    U8  mask_bit_vu8[3]        = {0U, 0U, 0U}; /* Define array to hold mask bit for each accelerometer bias axis */
+    U32 mask_u32               = 1UL;          /* Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers */
+    S16 gyro_temp_vs32[3]      = {0U, 0U, 0U};
+    U16 gyro_sensitivity_u16   = 131U;         /* = 131 LSB/degrees/sec */
+    U16 accel_sensitivity_u16  = 16384U;       /* = 16384 LSB/g */
 
     /* Reset device, reset all registers, clear gyro and accelerometer bias registers.
      * Write a one to bit 7 reset bit; toggle reset device */
