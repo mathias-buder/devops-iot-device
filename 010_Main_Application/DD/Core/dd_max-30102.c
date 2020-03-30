@@ -65,41 +65,36 @@ PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 );
 /*********************************************************************/
 BOOLEAN dd_max_30102_init( void )
 {
-    BOOLEAN state_b = FALSE;
+    if (    ( FALSE == dd_max_30102_soft_reset() )
 
-    dd_max_30102_soft_reset();
+         /********* FIFO Configuration *********/
+         /* The chip will average multiple samples of same type together */
+         || ( FALSE == dd_max_30102_set_sample_average( dd_max_30102_sample_avg_cfg_e ) )
 
-    /********* FIFO Configuration *********/
-    /* The chip will average multiple samples of same type together */
-    dd_max_30102_set_sample_average( dd_max_30102_sample_avg_cfg_e );
+         /* Set to 30 samples to trigger an 'Almost Full' interrupt */
+         || ( FALSE == dd_max_30102_set_fifo_a_full_value( 2U ) )
+         || ( FALSE == dd_max_30102_set_fifo_roll_over( TRUE ) )
 
-    /* Set to 30 samples to trigger an 'Almost Full' interrupt */
-    dd_max_30102_set_fifo_a_full_value( 2U );
-    dd_max_30102_set_fifo_roll_over( TRUE );
+         /********* SAMPLE Configuration *********/
+         || ( FALSE == dd_max_30102_set_adc_range( dd_max_30102_adc_range_cfg_e ) )
+         || ( FALSE == dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_cfg_e ) )
 
-    /********* SAMPLE Configuration *********/
-    dd_max_30102_set_adc_range( dd_max_30102_adc_range_cfg_e );
-    dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_cfg_e );
+         /****** LED Pulse Amplitude Configuration ******/
+         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED, dd_max_30102_led_amplitude_cfg_u8 ) )
+         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR, dd_max_30102_led_amplitude_cfg_u8 ) )
+         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_PROX, dd_max_30102_led_amplitude_cfg_u8 ) )
+         || ( FALSE == dd_max_30102_set_die_temp_rdy_int( TRUE ) )
 
-    /****** LED Pulse Amplitude Configuration ******/
-    dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED,
-                                dd_max_30102_led_amplitude_cfg_u8 );
+         /* Reset the FIFO before checking the sensor */
+         || ( FALSE == dd_max_30102_set_fifo_clear() )
 
-    dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR,
-                                dd_max_30102_led_amplitude_cfg_u8 );
+         /********* MODE Configuration *********/
+         || ( FALSE == dd_max_30102_set_led_mode( dd_max_30102_mode_cfg_e ) ) )
+    {
+        return FALSE;
+    }
 
-    dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_PROX,
-                                dd_max_30102_led_amplitude_cfg_u8 );
-
-    dd_max_30102_set_die_temp_rdy_int( TRUE );
-
-    /* Reset the FIFO before checking the sensor */
-    dd_max_30102_set_fifo_clear();
-
-    /********* MODE Configuration *********/
-    dd_max_30102_set_led_mode( dd_max_30102_mode_cfg_e );
-
-    return state_b;
+    return TRUE;
 }
 
 void dd_max_30102_main(void)
@@ -133,30 +128,38 @@ void dd_max_30102_main(void)
 
 PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 )
 {
-    BOOLEAN state_b = FALSE;
-
     if ( NULL != p_register_u8 )
     {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_INT_STAT_1,
-                                      p_register_u8 );
+        if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_INT_STAT_1, p_register_u8 ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_register_u8 );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_int2( U8* const p_register_u8 )
 {
-    BOOLEAN state_b = FALSE;
-
     if ( NULL != p_register_u8 )
     {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_INT_STAT_2,
-                                      p_register_u8 );
+        if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_INT_STAT_2, p_register_u8 ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_register_u8 );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_int_a_full( const BOOLEAN enable_b )
@@ -178,70 +181,26 @@ PRIVATE BOOLEAN dd_max_30102_set_data_ready( const BOOLEAN enable_b )
 
 PRIVATE BOOLEAN dd_max_30102_set_alc_ovf( const BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
-
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_ALC_OVF_MASK,
-                                                 DD_MAX_30102_INT_ALC_OVF_ENABLE );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_ALC_OVF_MASK,
-                                                 DD_MAX_30102_INT_ALC_OVF_DISABLE );
-    }
-
-    return state_b;
+    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                            DD_MAX_30102_INT_ENABLE_1,
+                                            DD_MAX_30102_INT_ALC_OVF_MASK,
+                                            ( ( TRUE == enable_b ) ? DD_MAX_30102_INT_ALC_OVF_ENABLE : DD_MAX_30102_INT_ALC_OVF_DISABLE ) ) );
 }
-
 
 PRIVATE BOOLEAN dd_max_30102_set_prox_int( BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
-
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_PROX_INT_MASK,
-                                                 DD_MAX_30102_INT_PROX_INT_ENABLE );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_1,
-                                                 DD_MAX_30102_INT_PROX_INT_MASK,
-                                                 DD_MAX_30102_INT_PROX_INT_DISABLE );
-    }
-
-    return state_b;
+    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                            DD_MAX_30102_INT_ENABLE_1,
+                                            DD_MAX_30102_INT_PROX_INT_MASK,
+                                            ( ( TRUE == enable_b ) ? DD_MAX_30102_INT_PROX_INT_ENABLE : DD_MAX_30102_INT_PROX_INT_DISABLE ) ) );
 }
-
 
 PRIVATE BOOLEAN dd_max_30102_set_die_temp_rdy_int( const BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
-
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_2,
-                                                 DD_MAX_30102_INT_DIE_TEMP_RDY_MASK,
-                                                 DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_INT_ENABLE_2,
-                                                 DD_MAX_30102_INT_DIE_TEMP_RDY_MASK,
-                                                 DD_MAX_30102_INT_DIE_TEMP_RDY_DISABLE );
-    }
-
-    return state_b;
+    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                            DD_MAX_30102_INT_ENABLE_2,
+                                            DD_MAX_30102_INT_DIE_TEMP_RDY_MASK,
+                                            ( ( TRUE == enable_b ) ? DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE : DD_MAX_30102_INT_DIE_TEMP_RDY_DISABLE ) ) );
 }
 
 PRIVATE BOOLEAN dd_max_30102_soft_reset( void )
@@ -251,13 +210,7 @@ PRIVATE BOOLEAN dd_max_30102_soft_reset( void )
     U8      time_out_cnt_u8 = 100U;
     U8      register_value_u8;
 
-    state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                             DD_MAX_30102_MODE_CONFIG,
-                                             DD_MAX_30102_RESET_MASK,
-                                             DD_MAX_30102_RESET );
-
-    /* Check for I2C error */
-    if ( TRUE != state_b )
+    if ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_RESET_MASK, DD_MAX_30102_RESET ) )
     {
         return FALSE;
     }
@@ -265,12 +218,7 @@ PRIVATE BOOLEAN dd_max_30102_soft_reset( void )
     /* Poll DD_MAX_30102_RESET interrupt register */
     while ( --time_out_cnt_u8 )
     {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_MODE_CONFIG,
-                                      &register_value_u8 );
-
-        /* Check for I2C error */
-        if ( TRUE != state_b )
+        if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, &register_value_u8 ) )
         {
             return FALSE;
         }
@@ -292,30 +240,16 @@ PRIVATE BOOLEAN dd_max_30102_soft_reset( void )
 
 PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b )
 {
-    BOOLEAN state_b = FALSE;
 
-    if ( TRUE == enable_b )
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_MODE_CONFIG,
-                                                 DD_MAX_30102_SHUTDOWN_MASK,
-                                                 DD_MAX_30102_WAKEUP );
-    }
-    else
-    {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_MODE_CONFIG,
-                                                 DD_MAX_30102_SHUTDOWN_MASK,
-                                                 DD_MAX_30102_SHUTDOWN );
-    }
-
-    return state_b;
+    return ( dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
+                                            DD_MAX_30102_MODE_CONFIG,
+                                            DD_MAX_30102_SHUTDOWN_MASK,
+                                            ( ( TRUE == enable_b ) ? DD_MAX_30102_WAKEUP : DD_MAX_30102_SHUTDOWN ) ) );
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e )
 {
-    BOOLEAN state_b = FALSE;
-    U8      mode_u8 = 0xFF;
+    U8 mode_u8 = 0xFF;
 
     if ( DD_MAX_30102_MODE_SIZE > mode_e )
     {
@@ -334,38 +268,32 @@ PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e )
             break;
 
         default:
-            assert(    ( mode_e == DD_MAX_30102_MODE_RED )
-                    || ( mode_e == DD_MAX_30102_MODE_RED_IR )
-                    || ( mode_e == DD_MAX_30102_MODE_MULTI_LED ) );
+            assert( mode_e == DD_MAX_30102_MODE_RED       );
+            assert( mode_e == DD_MAX_30102_MODE_RED_IR    );
+            assert( mode_e == DD_MAX_30102_MODE_MULTI_LED );
             break;
         }
 
-        if ( 0xFF != mode_u8 )
+        if (    ( 0xFF  == mode_u8 )
+             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_MODE_MASK, mode_u8 ) ) )
         {
-            state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                     DD_MAX_30102_MODE_CONFIG,
-                                                     DD_MAX_30102_MODE_MASK,
-                                                     mode_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
         assert( DD_MAX_30102_MODE_SIZE > mode_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 
 
 PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e )
 {
-    BOOLEAN state_b  = FALSE;
-    U8      range_u8 = 0xFF;
+    U8 range_u8 = 0xFF;
 
     if ( DD_MAX_30102_ADC_RANGE_SIZE > range_e )
     {
@@ -388,39 +316,33 @@ PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e
             break;
 
         default:
-            assert(    ( range_e == DD_MAX_30102_ADC_RANGE_2048 )
-                    || ( range_e == DD_MAX_30102_ADC_RANGE_4096 )
-                    || ( range_e == DD_MAX_30102_ADC_RANGE_8192 )
-                    || ( range_e == DD_MAX_30102_ADC_RANGE_16384 ) );
+            assert( range_e == DD_MAX_30102_ADC_RANGE_2048  );
+            assert( range_e == DD_MAX_30102_ADC_RANGE_4096  );
+            assert( range_e == DD_MAX_30102_ADC_RANGE_8192  );
+            assert( range_e == DD_MAX_30102_ADC_RANGE_16384 );
             break;
         }
 
-        if ( 0xFF != range_u8 )
+        if (    ( 0xFF  == range_u8 )
+             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_SPO2_ADC_RANGE_MASK, range_u8 ) ) )
         {
-            state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                     DD_MAX_30102_MODE_CONFIG,
-                                                     DD_MAX_30102_SPO2_ADC_RANGE_MASK,
-                                                     range_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
         assert( DD_MAX_30102_ADC_RANGE_SIZE > range_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 
 
 PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e )
 {
-    BOOLEAN state_b  = FALSE;
-    U8      rate_u8 = 0xFF;
+    U8 rate_u8 = 0xFF;
 
     if ( DD_MAX_30102_SAMPLE_RATE_SIZE > rate_e )
     {
@@ -459,44 +381,36 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rat
             break;
 
         default:
-            assert(    ( rate_e == DD_MAX_30102_SAMPLE_RATE_50 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_100 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_200 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_400 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_800 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_1000 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_1600 )
-                    || ( rate_e == DD_MAX_30102_SAMPLE_RATE_3200 ) );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_50   );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_100  );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_200  );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_400  );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_800  );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_1000 );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_1600 );
+            assert( rate_e == DD_MAX_30102_SAMPLE_RATE_3200 );
             break;
         }
 
-        if ( 0xFF != rate_u8 )
+        if (    ( 0xFF == rate_u8 )
+             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_SPO2_SMP_RATE_MASK, rate_u8 ) ) )
         {
-            state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                     DD_MAX_30102_MODE_CONFIG,
-                                                     DD_MAX_30102_SPO2_SMP_RATE_MASK,
-                                                     rate_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
         assert( DD_MAX_30102_SAMPLE_RATE_SIZE > rate_u8 );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
-
-
 
 
 PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e )
 {
-    BOOLEAN state_b  = FALSE;
-    U8      width_u8 = 0xFF;
+    U8 width_u8 = 0xFF;
 
     if ( DD_MAX_30102_PULSE_WIDTH_SIZE > width_e )
     {
@@ -519,38 +433,32 @@ PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH wid
             break;
 
         default:
-            assert(    ( width_e == DD_MAX_30102_PULSE_WIDTH_69 )
-                    || ( width_e == DD_MAX_30102_PULSE_WIDTH_118 )
-                    || ( width_e == DD_MAX_30102_PULSE_WIDTH_215 )
-                    || ( width_e == DD_MAX_30102_PULSE_WIDTH_411 ) );
+            assert( width_e == DD_MAX_30102_PULSE_WIDTH_69  );
+            assert( width_e == DD_MAX_30102_PULSE_WIDTH_118 );
+            assert( width_e == DD_MAX_30102_PULSE_WIDTH_215 );
+            assert( width_e == DD_MAX_30102_PULSE_WIDTH_411 );
             break;
         }
 
-        if ( 0xFF != width_e )
+        if (    ( 0xFF == width_e )
+             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_SPO2_ADC_RANGE_MASK, width_u8 ) ) )
         {
-            state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                     DD_MAX_30102_MODE_CONFIG,
-                                                     DD_MAX_30102_SPO2_ADC_RANGE_MASK,
-                                                     width_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
         assert( DD_MAX_30102_PULSE_WIDTH_SIZE > width_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_amplitude( const DD_MAX_30102_LED_TYPE type_e,
                                                 const U8                    amplitude_u8 )
 {
-    BOOLEAN state_b          = FALSE;
-    U8      type_reg_addr_u8 = 0xFF;
+    U8 type_reg_addr_u8 = 0xFF;
 
     if ( DD_MAX_30102_LED_TYPE_SIZE > type_e )
     {
@@ -569,29 +477,25 @@ PRIVATE BOOLEAN dd_max_30102_set_amplitude( const DD_MAX_30102_LED_TYPE type_e,
             break;
 
         default:
-            assert(    ( type_e == DD_MAX_30102_LED_TYPE_RED )
-                    || ( type_e == DD_MAX_30102_LED_TYPE_IR )
-                    || ( type_e == DD_MAX_30102_LED_TYPE_PROX ) );
+            assert( type_e == DD_MAX_30102_LED_TYPE_RED  );
+            assert( type_e == DD_MAX_30102_LED_TYPE_IR   );
+            assert( type_e == DD_MAX_30102_LED_TYPE_PROX );
             break;
         }
 
-        if ( 0xFF != type_reg_addr_u8 )
+        if (    ( 0xFF  == type_reg_addr_u8 )
+             || ( FALSE == dd_i2c_write_single( DD_MAX_30105_I2C_ADDR, type_reg_addr_u8, amplitude_u8 ) ) )
         {
-            state_b = dd_i2c_write_single( DD_MAX_30105_I2C_ADDR,
-                                           type_reg_addr_u8,
-                                           amplitude_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
         assert( DD_MAX_30102_LED_TYPE_SIZE > type_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_proximity_threshold( const U8 threshold_u8 )
@@ -604,7 +508,6 @@ PRIVATE BOOLEAN dd_max_30102_set_proximity_threshold( const U8 threshold_u8 )
 PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
                                          const DD_MAX_30102_SLOT_MODE mode_e )
 {
-    BOOLEAN state_b          = FALSE;
     U8      slot_mask_u8     = 0xFF;
     U8      slot_mode_u8     = 0xFF;
     U8      register_addr_u8 = 0xFF;
@@ -639,10 +542,10 @@ PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
             break;
 
         default:
-            assert(    ( slot_e == DD_MAX_30102_SLOT_1 )
-                    || ( slot_e == DD_MAX_30102_SLOT_2 )
-                    || ( slot_e == DD_MAX_30102_SLOT_3 )
-                    || ( slot_e == DD_MAX_30102_SLOT_4 ) );
+            assert( slot_e == DD_MAX_30102_SLOT_1 );
+            assert( slot_e == DD_MAX_30102_SLOT_2 );
+            assert( slot_e == DD_MAX_30102_SLOT_3 );
+            assert( slot_e == DD_MAX_30102_SLOT_4 );
             break;
         }
 
@@ -674,42 +577,36 @@ PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
             break;
 
         default:
-            assert(    ( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_NONE )
-                    || ( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED )
-                    || ( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR )
-                    || ( slot_mode_u8 == DD_MAX_30102_SLOT_MONE_PILOT )
-                    || ( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED_PILOT )
-                    || ( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR_PILOT ) );
+            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_NONE          );
+            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED       );
+            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR        );
+            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MONE_PILOT         );
+            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED_PILOT );
+            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR_PILOT  );
             break;
         }
 
-        if (    ( 0xFF != slot_mask_u8 )
-             && ( 0xFF != slot_mode_u8 )
-             && ( 0xFF != register_addr_u8 ) )
+        if (    ( 0xFF == slot_mask_u8 )
+             || ( 0xFF == slot_mode_u8 )
+             || ( 0xFF == register_addr_u8 )
+             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, register_addr_u8, slot_mask_u8, ( slot_mode_u8 << bit_offset_u8 ) ) ) )
         {
-            state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                     register_addr_u8,
-                                                     slot_mask_u8,
-                                                     ( slot_mode_u8 << bit_offset_u8 ) );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
-        assert(    ( DD_MAX_30102_SLOT_SIZE      > slot_e )
-                || ( DD_MAX_30102_SLOT_MODE_SIZE > mode_e ) );
+        assert( DD_MAX_30102_SLOT_SIZE      > slot_e );
+        assert( DD_MAX_30102_SLOT_MODE_SIZE > mode_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG average_e )
 {
-    BOOLEAN state_b    = FALSE;
-    U8      average_u8 = 0xFF;
+    U8 average_u8 = 0xFF;
 
     if ( DD_MAX_30102_SAMPLE_AVG_SIZE > average_e )
     {
@@ -740,33 +637,28 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG a
             break;
 
         default:
-            assert(    ( average_e == DD_MAX_30102_SAMPLE_AVG_1 )
-                    || ( average_e == DD_MAX_30102_SAMPLE_AVG_2 )
-                    || ( average_e == DD_MAX_30102_SAMPLE_AVG_4 )
-                    || ( average_e == DD_MAX_30102_SAMPLE_AVG_8 )
-                    || ( average_e == DD_MAX_30102_SAMPLE_AVG_16 )
-                    || ( average_e == DD_MAX_30102_SAMPLE_AVG_32 ) );
+            assert( average_e == DD_MAX_30102_SAMPLE_AVG_1  );
+            assert( average_e == DD_MAX_30102_SAMPLE_AVG_2  );
+            assert( average_e == DD_MAX_30102_SAMPLE_AVG_4  );
+            assert( average_e == DD_MAX_30102_SAMPLE_AVG_8  );
+            assert( average_e == DD_MAX_30102_SAMPLE_AVG_16 );
+            assert( average_e == DD_MAX_30102_SAMPLE_AVG_32 );
             break;
         }
 
-        if ( 0xFF != average_u8 )
+        if (    ( 0xFF == average_u8 )
+             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_FIFO_CONFIG, DD_MAX_30102_SMP_AVG_MASK, average_u8 ) ) )
         {
-            state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                     DD_MAX_30102_FIFO_CONFIG,
-                                                     DD_MAX_30102_SMP_AVG_MASK,
-                                                     average_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
         assert( DD_MAX_30102_SAMPLE_AVG_SIZE > average_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( const BOOLEAN enable_b )
@@ -779,17 +671,13 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( const BOOLEAN enable_b )
 
 PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( const U8 value_u8 )
 {
-    BOOLEAN state_b = FALSE;
-
-    if ( DD_MAX_30102_A_FULL_MAX_VAL >= value_u8 )
+    if (    ( DD_MAX_30102_A_FULL_MAX_VAL >= value_u8 )
+         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_FIFO_CONFIG, DD_MAX_30102_A_FULL_MASK, value_u8 ) ) )
     {
-        state_b = dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR,
-                                                 DD_MAX_30102_FIFO_CONFIG,
-                                                 DD_MAX_30102_A_FULL_MASK,
-                                                 value_u8 );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
@@ -807,11 +695,10 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
 PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
                                                     U8* const                   p_value_u8 )
 {
-    BOOLEAN state_b         = FALSE;
-    U8      ptr_reg_addr_u8 = 0xFF;
+    U8 ptr_reg_addr_u8 = 0xFF;
 
-    if (    ( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e )
-         && ( NULL != p_value_u8 ) )
+    if (    ( NULL != p_value_u8 )
+         && ( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e ) )
     {
         switch ( ptr_type_e )
         {
@@ -824,29 +711,25 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
             break;
 
         default:
-            assert(    ( ptr_type_e == DD_MAX_30102_PTR_TYPE_READ )
-                    || ( ptr_type_e == DD_MAX_30102_PTR_TYPE_WRITE ) );
+            assert( ptr_type_e == DD_MAX_30102_PTR_TYPE_READ  );
+            assert( ptr_type_e == DD_MAX_30102_PTR_TYPE_WRITE );
             break;
         }
 
-        if ( 0xFF != ptr_reg_addr_u8 )
+        if (    ( 0xFF  == ptr_reg_addr_u8 )
+             || ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, ptr_reg_addr_u8, p_value_u8 ) ) )
         {
-            state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                          ptr_reg_addr_u8,
-                                          p_value_u8 );
-        }
-        else
-        {
-            /* state_b set to FALSE already */
+            return FALSE;
         }
     }
     else
     {
-        assert(    ( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e )
-                || ( NULL != p_value_u8 ) );
+        assert( NULL != p_value_u8 );
+        assert( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
@@ -888,8 +771,8 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
                 }
 
                 /* Step 3: Calculate temperature (datasheet pg. 22)
-                 * Register DD_MAX_30102_DIE_TEMP_INT stores the integer temperature data in 2ï¿½s complement format, where each bit
-                 * corresponds to 1ï¿½C. The value read by the I2C driver is in U8 format by default and need to be converted by casting
+                 * Register DD_MAX_30102_DIE_TEMP_INT stores the integer temperature data in 2's complement format, where each bit
+                 * corresponds to 1°C. The value read by the I2C driver is in U8 format by default and need to be converted by casting
                  * it to type S8 ( signed char ) */
                 *p_value_f32 = (F32)   ( (S8) register_value_vu8[DD_MAX_30102_TEMP_COMP_INT] )
                                      + ( ( (F32) register_value_vu8[DD_MAX_30102_TEMP_COMP_FRAC] ) * DD_MAX_30102_DIE_TEMP_FRAC_RES );
@@ -914,29 +797,36 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
 
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 )
 {
-    BOOLEAN state_b = FALSE;
-
     if ( NULL != p_register_u8 )
     {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_PART_ID,
-                                      p_register_u8 );
+        if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_PART_ID, p_register_u8 ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert ( NULL != p_register_u8 );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 )
 {
-    BOOLEAN state_b = FALSE;
-
     if ( NULL != p_register_u8 )
     {
-        state_b = dd_i2c_read_single( DD_MAX_30105_I2C_ADDR,
-                                      DD_MAX_30102_REVISION_ID,
-                                      p_register_u8 );
+        if ( FALSE == dd_i2c_read_single( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_REVISION_ID, p_register_u8 ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert ( NULL != p_register_u8 );
+        return FALSE;
     }
 
-    return state_b;
+    return TRUE;
 }
-
