@@ -36,7 +36,7 @@
 
 #define DD_ICM_20600_A_SCALSE               DD_ICM_20600_AFS_2G
 #define DD_ICM_20600_G_SCALSE               DD_ICM_20600_GFS_250DPS
-#define DD_ICM_20600_ALLOWED_FAC_DEVIATION  (1.0F) /* % */
+#define DD_ICM_20600_ALLOWED_FAC_DEVIATION  ( 1.0F ) /* % */
 
 
 /*************************************************************/

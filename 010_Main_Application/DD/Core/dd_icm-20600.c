@@ -56,7 +56,9 @@ BOOLEAN dd_icm_20600_init( void )
     /* Initialize global driver data structure. Default value for global
      * variables is "0" according to ANSI-C standard. Only variables with values
      * other then "0" need to be initialized here. */
-    dd_icm_20600_data_s.dev_state_s.state_e = DD_STATE_TEST;
+    dd_icm_20600_data_s.dev_state_s.state_e    = DD_STATE_TEST;
+    dd_icm_20600_data_s.accel_full_scale_sel_e = DD_ICM_20600_A_SCALSE;
+    dd_icm_20600_data_s.gyro_full_scale_sel_e  = DD_ICM_20600_G_SCALSE;
 
     /* Check for matching device id */
     if (    ( TRUE != dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s ) )

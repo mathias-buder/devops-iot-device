@@ -88,26 +88,26 @@ typedef enum DD_I2C_ACCESS_TYPE_TAG
 /**
  * @details enumerator of ...
  */
-typedef enum DD_ICM_20600_SCALE_A_TAG
+typedef enum DD_ICM_20600_AFS_TAG
 {
-    DD_ICM_20600_AFS_2G = 0,  /**< @details ... */
-    DD_ICM_20600_AFS_4G,      /**< @details ... */
-    DD_ICM_20600_AFS_8G,      /**< @details ... */
-    DD_ICM_20600_AFS_16G,     /**< @details ... */
-    DD_ICM_20600_SCALE_A_SIZE /**< @details ... */
-} DD_ICM_20600_SCALE_A;
+    DD_ICM_20600_AFS_2G = 0,  /**< @details  2 * 9.81 m/s^2 */
+    DD_ICM_20600_AFS_4G,      /**< @details  4 * 9.81 m/s^2 */
+    DD_ICM_20600_AFS_8G,      /**< @details  8 * 9.81 m/s^2 */
+    DD_ICM_20600_AFS_16G,     /**< @details 16 * 9.81 m/s^2 */
+    DD_ICM_20600_SCALE_A_SIZE
+} DD_ICM_20600_AFS;
 
 /**
  * @details enumerator of ...
  */
-typedef enum DD_ICM_20600_SCALE_G_TAG
+typedef enum DD_ICM_20600_GFS_TAG
 {
-    DD_ICM_20600_GFS_250DPS = 0, /**< @details ... */
-    DD_ICM_20600_GFS_500DPS,     /**< @details ... */
-    DD_ICM_20600_GFS_1000DPS,    /**< @details ... */
-    DD_ICM_20600_GFS_2000DPS,    /**< @details ... */
+    DD_ICM_20600_GFS_250DPS = 0, /**< @details  250 °/s */
+    DD_ICM_20600_GFS_500DPS,     /**< @details  500 °/s */
+    DD_ICM_20600_GFS_1000DPS,    /**< @details 1000 °/s */
+    DD_ICM_20600_GFS_2000DPS,    /**< @details 2000 °/s */
     DD_ICM_20600_SCALE_G_SIZE
-} DD_ICM_20600_SCALE_G;
+} DD_ICM_20600_GFS;
 
 /**
  * @details enumerator of ...
@@ -142,7 +142,7 @@ typedef enum DD_ICM_20600_SELF_TEST_TAG
     DD_ICM_20600_SELF_TEST_XG,     /**< @details ... */
     DD_ICM_20600_SELF_TEST_YG,     /**< @details ... */
     DD_ICM_20600_SELF_TEST_ZG,     /**< @details ... */
-    DD_ICM_20600_SELF_TEST_SIZE    /**< @details ... */
+    DD_ICM_20600_SELF_TEST_SIZE
 } DD_ICM_20600_SELF_TEST;
 
 /*************************************************************/
@@ -184,19 +184,20 @@ typedef struct DD_I2C_ERROR_TYPE_TAG
  */
 typedef struct DD_ICM_20600_DATA_TAG
 {
-    U8           chip_id_u8;                                           /** @details Unique chip id */
-    F32          temperature_deg_f32;                                  /** @details Internal core (die) temperature @unit °C */
-    U16          temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
-    U16          accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
-    U16          gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
-    U8           self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
-    BOOLEAN      self_test_passed_b;                                   /** @details main icm-20600 device state */
-    BOOLEAN      is_calibrated_b;                                      /** @details main icm-20600 device state */
-    F32          factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /** @details main icm-20600 device state */
-    F32          fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /** @details main icm-20600 device state */
-    DD_DEV_STATE dev_state_s;                                          /** @details main icm-20600 device state */
+    U8               chip_id_u8;                                           /** @details Unique chip id */
+    F32              temperature_deg_f32;                                  /** @details Internal core (die) temperature @unit °C */
+    U16              temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
+    DD_ICM_20600_AFS accel_full_scale_sel_e;                               /** @details Acceleration raw data */
+    DD_ICM_20600_GFS gyro_full_scale_sel_e;                                /** @details Acceleration raw data */
+    U16              accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
+    U16              gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
+    U8               self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
+    BOOLEAN          self_test_passed_b;                                   /** @details main icm-20600 device state */
+    BOOLEAN          is_calibrated_b;                                      /** @details main icm-20600 device state */
+    F32              factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /** @details main icm-20600 device state */
+    F32              fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /** @details main icm-20600 device state */
+    DD_DEV_STATE     dev_state_s;                                          /** @details main icm-20600 device state */
 } DD_ICM_20600_DATA;
-
 
 /*************************************************************/
 /*                        DD_MAX_30102                       */

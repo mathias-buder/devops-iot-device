@@ -216,7 +216,7 @@ BOOLEAN dd_i2c_read_bits( U8  device_addr_u8,
 {
     /* 01101001 read byte
      76543210 bit numbers
-        xxx   args: bitStart=4, length=3
+        bbb   args: bitStart=4, length=3
         010   masked
        -> 010 shifted */
 
@@ -357,7 +357,7 @@ BOOLEAN dd_i2c_write_bits( U8 device_addr_u8,
 {
     /*    010 value to write (data_u8)
      76543210 bit numbers
-        xxx   args: bit_start_u8 = 4, data_size_u8 = 3
+        bbb   args: bit_start_u8 = 4, data_size_u8 = 3
      00011100 mask byte
      10101111 original value (sample)
      10100011 original & ~mask
