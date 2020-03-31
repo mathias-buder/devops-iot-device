@@ -346,9 +346,9 @@ BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
     {
         if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
-            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = 0x8001; /* -32 768 */
-            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = 0x8001; /* -32 768 */
-            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z] = 0x8001; /* -32 768 */
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = 0U;
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = 0U;
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z] = 0U;
 
             return FALSE;
         }
@@ -380,9 +380,9 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
     {
         if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = 0x8001; /* -32 768 */
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = 0x8001; /* -32 768 */
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = 0x8001; /* -32 768 */
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = 0U;
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = 0U;
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = 0U;
 
             return FALSE;
         }
