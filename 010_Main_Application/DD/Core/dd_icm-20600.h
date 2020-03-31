@@ -157,12 +157,31 @@
 #define DD_ICM_20600_PWR_MGMT_1_TEMP_DIS_B          0x08
 #define DD_ICM_20600_PWR_MGMT_1_CLKSEL_B            0x07
 
+/* Gyroscope Configuration */
+#define DD_ICM_20600_GYRO_CFG_FS_SEL_MASK           0xE7 /* (byte)~0b00011000 */
+#define DD_ICM_20600_GYRO_CFG_FS_SEL_250_DPS        0x00
+#define DD_ICM_20600_GYRO_CFG_FS_SEL_500_DPS        0x08
+#define DD_ICM_20600_GYRO_CFG_FS_SEL_1000_DPS       0x10
+#define DD_ICM_20600_GYRO_CFG_FS_SEL_2000_DPS       0x18
 
-#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_BIT_MASK    0x18
-#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_250_DPS     0x00
-#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_500_DPS     0x01
-#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_1000_DPS    0x02
-#define DD_ICM_20600_GYRO_CONFIG_FS_SEL_2000_DPS    0x03
+#define DD_ICM_20600_GYRO_REL_250_DPS               ( 0.00762939453125 )
+#define DD_ICM_20600_GYRO_REL_500_DPS               ( 0.0152587890625F )
+#define DD_ICM_20600_GYRO_REL_1000_DPS              ( 0.030517578125F )
+#define DD_ICM_20600_GYRO_REL_2000_DPS              ( 0.06103515625F )
+
+
+/* Accelerometer Configuration */
+#define DD_ICM_20600_ACCL_CFG_FS_SEL_MASK           0xE7 /* (byte)~0b00011000 */
+#define DD_ICM_20600_ACCL_CFG_FS_SEL_2G             0x00
+#define DD_ICM_20600_ACCL_CFG_FS_SEL_4G             0x08
+#define DD_ICM_20600_ACCL_CFG_FS_SEL_8G             0x10
+#define DD_ICM_20600_ACCL_CFG_FS_SEL_16G            0x18
+
+#define DD_ICM_20600_ACCL_REL_2G                   ( 0.00006103515625F )
+#define DD_ICM_20600_ACCL_REL_4G                   ( 0.0001220703125F )
+#define DD_ICM_20600_ACCL_REL_8G                   ( 0.000244140625F )
+#define DD_ICM_20600_ACCL_REL_16G                  ( 0.00048828125F )
+
 
 #define DD_ICM_20600_TEMP_SENSITIVITY               326.8F /* LSB / °C */
 #define DD_ICM_20600_TEMP_SENSITIVITY_INV           ( 0.00305997552019583843F ) /* 1.0F / 326.8F */

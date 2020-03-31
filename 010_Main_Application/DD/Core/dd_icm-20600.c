@@ -34,14 +34,15 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-BOOLEAN dd_icm_20600_reset_soft(void);
-BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+BOOLEAN         dd_icm_20600_reset_soft( void );
+BOOLEAN         dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
+PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
+PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
+BOOLEAN         dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
+BOOLEAN         dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+BOOLEAN         dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
 PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s );
-BOOLEAN dd_icm_20600_calibrate (F32* p_gyro_bias_f32,
-                                F32* p_accel_bias_f32 );
+BOOLEAN         dd_icm_20600_calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_f32 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -49,16 +50,12 @@ BOOLEAN dd_icm_20600_calibrate (F32* p_gyro_bias_f32,
 
 BOOLEAN dd_icm_20600_init( void )
 {
-    U8 register_u8 = 0U;
-
     ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Initializing ..." );
 
     /* Initialize global driver data structure. Default value for global
      * variables is "0" according to ANSI-C standard. Only variables with values
      * other then "0" need to be initialized here. */
     dd_icm_20600_data_s.dev_state_s.state_e    = DD_STATE_TEST;
-    dd_icm_20600_data_s.accel_full_scale_sel_e = DD_ICM_20600_A_SCALSE;
-    dd_icm_20600_data_s.gyro_full_scale_sel_e  = DD_ICM_20600_G_SCALSE;
 
     /* Check for matching device id */
     if (    ( TRUE != dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s ) )
@@ -100,39 +97,14 @@ BOOLEAN dd_icm_20600_init( void )
         return FALSE;
     }
 
-    /* Set gyroscope full scale range. Range selects FS_SEL and AFS_SEL are 0 - 3,
-     * so 2-bit values are left-shifted into positions 4:3 */
-    if ( FALSE == dd_i2c_read_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, &register_u8 ) )
+    /* Set gyroscope full scale range. */
+    if ( FALSE == dd_icm_20600_set_gyro_full_scale( DD_ICM_20600_G_SCALSE ) )
     {
         return FALSE;
     }
 
-    /* Clear self-test bits [7:5] and AFS bits [4:3] */
-    register_u8 &= ~0xF8;
-
-    /* Set gyroscope scale range */
-    register_u8 |= ( DD_ICM_20600_G_SCALSE << 3U );
-
-    /* Write updated register value */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, register_u8 ) )
-    {
-        return FALSE;
-    }
-
-    /* Set accelerometer configuration */
-    if ( FALSE == dd_i2c_read_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, &register_u8 ) )
-    {
-        return FALSE;
-    }
-
-    /* Clear self-test bits [7:5] and AFS bits [4:3] */
-    register_u8 &= ~0xF8;
-
-    /* Set accelerometer scale range */
-    register_u8 |= ( DD_ICM_20600_A_SCALSE << 3U );
-
-    /* Write updated register value */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, register_u8 ) )
+    /* Set gyroscope full scale range. */
+    if ( FALSE == dd_icm_20600_set_accel_full_scale( DD_ICM_20600_A_SCALSE ) )
     {
         return FALSE;
     }
@@ -225,6 +197,112 @@ BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
     {
         assert( NULL != p_input_data_s );
         return FALSE;
+    }
+
+    return TRUE;
+}
+
+PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_e )
+{
+    U8  scale_u8;
+    F32 resolution_f32;
+
+    switch ( scale_e )
+    {
+    case DD_ICM_20600_AFS_2G:
+        scale_u8       = DD_ICM_20600_ACCL_CFG_FS_SEL_2G;
+        resolution_f32 = DD_ICM_20600_ACCL_REL_2G;
+        break;
+
+    case DD_ICM_20600_AFS_4G:
+        scale_u8       = DD_ICM_20600_ACCL_CFG_FS_SEL_4G;
+        resolution_f32 = DD_ICM_20600_ACCL_REL_4G;
+        break;
+
+    case DD_ICM_20600_AFS_8G:
+        scale_u8       = DD_ICM_20600_ACCL_CFG_FS_SEL_8G;
+        resolution_f32 = DD_ICM_20600_ACCL_REL_8G;
+        break;
+
+    case DD_ICM_20600_AFS_16G:
+        scale_u8       = DD_ICM_20600_ACCL_CFG_FS_SEL_16G;
+        resolution_f32 = DD_ICM_20600_ACCL_REL_16G;
+        break;
+
+    default:
+        assert( scale_e == DD_ICM_20600_AFS_2G  );
+        assert( scale_e == DD_ICM_20600_AFS_4G  );
+        assert( scale_e == DD_ICM_20600_AFS_8G  );
+        assert( scale_e == DD_ICM_20600_AFS_16G );
+
+        return FALSE;
+    }
+
+    if ( FALSE == dd_i2c_read_modify_write_mask( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, DD_ICM_20600_ACCL_CFG_FS_SEL_MASK, scale_u8 ) )
+    {
+        return FALSE;
+    }
+    else
+    {
+        /* Update global database in case of success */
+        dd_icm_20600_data_s.accel_full_scale_sel_e = scale_e;
+        dd_icm_20600_data_s.accel_resolution_f32   = resolution_f32;
+
+        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "ACCL - Scale: %i, Res: %f", dd_icm_20600_data_s.accel_full_scale_sel_e,
+                                                                            dd_icm_20600_data_s.accel_resolution_f32 );
+    }
+
+    return TRUE;
+}
+
+PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e )
+{
+    U8  scale_u8;
+    F32 resolution_f32;
+
+    switch ( scale_e )
+    {
+    case DD_ICM_20600_GFS_250DPS:
+        scale_u8       = DD_ICM_20600_GYRO_CFG_FS_SEL_250_DPS;
+        resolution_f32 = DD_ICM_20600_GYRO_REL_250_DPS;
+        break;
+
+    case DD_ICM_20600_GFS_500DPS:
+        scale_u8       = DD_ICM_20600_GYRO_CFG_FS_SEL_500_DPS;
+        resolution_f32 = DD_ICM_20600_GYRO_REL_500_DPS;
+        break;
+
+    case DD_ICM_20600_GFS_1000DPS:
+        scale_u8       = DD_ICM_20600_GYRO_CFG_FS_SEL_1000_DPS;
+        resolution_f32 = DD_ICM_20600_GYRO_REL_1000_DPS;
+        break;
+
+    case DD_ICM_20600_GFS_2000DPS:
+        scale_u8       = DD_ICM_20600_GYRO_CFG_FS_SEL_2000_DPS;
+        resolution_f32 = DD_ICM_20600_GYRO_REL_2000_DPS;
+        break;
+
+    default:
+        assert( scale_e == DD_ICM_20600_GFS_250DPS  );
+        assert( scale_e == DD_ICM_20600_GFS_500DPS  );
+        assert( scale_e == DD_ICM_20600_GFS_1000DPS );
+        assert( scale_e == DD_ICM_20600_GFS_2000DPS );
+
+        return FALSE;
+    }
+
+    if ( FALSE == dd_i2c_read_modify_write_mask( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, DD_ICM_20600_GYRO_CFG_FS_SEL_MASK, scale_u8 ) )
+    {
+        return FALSE;
+    }
+    else
+    {
+        /* Update global database in case of success */
+        dd_icm_20600_data_s.gyro_full_scale_sel_e = scale_e;
+        dd_icm_20600_data_s.gyro_resolution_f32 = resolution_f32;
+
+        ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "GYRO - Scale: %i, Res: %f", dd_icm_20600_data_s.gyro_full_scale_sel_e,
+                                                                            dd_icm_20600_data_s.gyro_resolution_f32 );
     }
 
     return TRUE;

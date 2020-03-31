@@ -184,19 +184,21 @@ typedef struct DD_I2C_ERROR_TYPE_TAG
  */
 typedef struct DD_ICM_20600_DATA_TAG
 {
-    U8               chip_id_u8;                                           /** @details Unique chip id */
-    F32              temperature_deg_f32;                                  /** @details Internal core (die) temperature @unit °C */
-    U16              temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
-    DD_ICM_20600_AFS accel_full_scale_sel_e;                               /** @details Acceleration raw data */
-    DD_ICM_20600_GFS gyro_full_scale_sel_e;                                /** @details Acceleration raw data */
-    S16              accel_data_raw_s16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
-    S16              gyro_data_raw_s16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
-    U8               self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
-    BOOLEAN          self_test_passed_b;                                   /** @details main icm-20600 device state */
-    BOOLEAN          is_calibrated_b;                                      /** @details main icm-20600 device state */
-    F32              factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /** @details main icm-20600 device state */
-    F32              fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /** @details main icm-20600 device state */
-    DD_DEV_STATE     dev_state_s;                                          /** @details main icm-20600 device state */
+    U8               chip_id_u8;                                           /**< @details Unique chip id */
+    F32              temperature_deg_f32;                                  /**< @details Internal core (die) temperature @unit °C */
+    U16              temperature_raw_u16;                                  /**< @details Internal core (die) temperature raw data */
+    DD_ICM_20600_AFS accel_full_scale_sel_e;                               /**< @details Acceleration raw data */
+    DD_ICM_20600_GFS gyro_full_scale_sel_e;                                /**< @details Acceleration raw data */
+    F32              accel_resolution_f32;                                 /**< @details Acceleration raw data */
+    F32              gyro_resolution_f32;                                  /**< @details Acceleration raw data */
+    S16              accel_data_raw_s16[DD_ICM_20600_ACCEL_SIZE];          /**< @details Acceleration raw data */
+    S16              gyro_data_raw_s16[DD_ICM_20600_GYRO_SIZE];            /**< @details Acceleration raw data */
+    U8               self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /**< @details main icm-20600 device state */
+    BOOLEAN          self_test_passed_b;                                   /**< @details main icm-20600 device state */
+    BOOLEAN          is_calibrated_b;                                      /**< @details main icm-20600 device state */
+    F32              factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /**< @details main icm-20600 device state */
+    F32              fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /**< @details main icm-20600 device state */
+    DD_DEV_STATE     dev_state_s;                                          /**< @details main icm-20600 device state */
 } DD_ICM_20600_DATA;
 
 /*************************************************************/
