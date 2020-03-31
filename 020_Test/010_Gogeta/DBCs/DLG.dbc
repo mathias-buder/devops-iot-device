@@ -82,14 +82,14 @@ BO_ 23 DD_ICM_20600_temperature: 8 DLG
  SG_ DD_ICM_20600_temperature_raw : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 22 DD_ICM_20600_raw_gyro: 8 DLG
- SG_ DD_ICM_20600_raw_gyro_z : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
- SG_ DD_ICM_20600_raw_gyro_y : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
- SG_ DD_ICM_20600_raw_gyro_x : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_gyro_z : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_gyro_y : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_gyro_x : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
 
 BO_ 21 DD_ICM_20600_raw_accel: 8 DLG
- SG_ DD_ICM_20600_raw_accel_z : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
- SG_ DD_ICM_20600_raw_accel_y : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
- SG_ DD_ICM_20600_raw_accel_x : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_accel_z : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_accel_y : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_accel_x : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
 
 
 

@@ -183,28 +183,14 @@ void dd_icm_20600_main( void )
         dd_icm_20600_accel_data_read_raw( &dd_icm_20600_data_s );
         dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_data_s );
 
-        /* Print values to terminal */
-
-        ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Self-test passed? %s", dd_icm_20600_data_s.self_test_passed_b != TRUE ? "NO" : "YES" );
-
-        ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Temp: %0.2f", dd_icm_20600_data_s.temperature_deg_f32 );
-
-        ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "AX: %i, AY: %i, AZ: %i GX: %i, GY: %i, GZ: %i",
-                                            dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_X],
-                                            dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Y],
-                                            dd_icm_20600_data_s.accel_data_raw_u16[DD_ICM_20600_ACCEL_Z],
-                                            dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_X],
-                                            dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Y],
-                                            dd_icm_20600_data_s.gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] );
-
         break;
 
     default:
 
         /* Should never happen */
-        assert( DD_STATE_INIT == dd_icm_20600_data_s.dev_state_s.state_e );
+        assert( DD_STATE_INIT  == dd_icm_20600_data_s.dev_state_s.state_e );
         assert( DD_STATE_CALIB == dd_icm_20600_data_s.dev_state_s.state_e );
-        assert( DD_STATE_RUN == dd_icm_20600_data_s.dev_state_s.state_e );
+        assert( DD_STATE_RUN   == dd_icm_20600_data_s.dev_state_s.state_e );
 
         break;
     }
@@ -269,6 +255,8 @@ BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s )
         return FALSE;
     }
 
+    ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "Temp: %0.2f", dd_icm_20600_data_s.temperature_deg_f32 );
+
     return TRUE;
 }
 
@@ -280,17 +268,17 @@ BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
     {
         if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
-            p_input_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_X] = 0xFFFF;
-            p_input_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_Y] = 0xFFFF;
-            p_input_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_Z] = 0xFFFF;
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = 0x8001; /* -32 768 */
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = 0x8001; /* -32 768 */
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z] = 0x8001; /* -32 768 */
 
             return FALSE;
         }
         else
         {
-            p_input_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_X] = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
-            p_input_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_Y] = ( register_data_vu8[2] << 8U ) | register_data_vu8[3];
-            p_input_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_Z] = ( register_data_vu8[4] << 8U ) | register_data_vu8[5];
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = ( register_data_vu8[2] << 8U ) | register_data_vu8[3];
+            p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z] = ( register_data_vu8[4] << 8U ) | register_data_vu8[5];
         }
     }
     else
@@ -298,6 +286,10 @@ BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
         assert( NULL != p_input_data_s );
         return FALSE;
     }
+
+    ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "XA: %i, YA: %i, ZA: %i", p_input_data_s->accel_data_raw_s16[DD_ICM_20600_GYRO_X],
+                                                                  p_input_data_s->accel_data_raw_s16[DD_ICM_20600_GYRO_Y],
+                                                                  p_input_data_s->accel_data_raw_s16[DD_ICM_20600_GYRO_Z] );
 
     return TRUE;
 }
@@ -310,17 +302,17 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
     {
         if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
-            p_input_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_X] = 0xFFFF;
-            p_input_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_Y] = 0xFFFF;
-            p_input_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] = 0xFFFF;
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = 0x8001; /* -32 768 */
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = 0x8001; /* -32 768 */
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = 0x8001; /* -32 768 */
 
             return FALSE;
         }
         else
         {
-            p_input_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_X] = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
-            p_input_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_Y] = ( register_data_vu8[2] << 8U ) | register_data_vu8[3];
-            p_input_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_Z] = ( register_data_vu8[4] << 8U ) | register_data_vu8[5];
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = ( register_data_vu8[2] << 8U ) | register_data_vu8[3];
+            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = ( register_data_vu8[4] << 8U ) | register_data_vu8[5];
         }
     }
     else
@@ -328,6 +320,10 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
         assert( NULL != p_input_data_s );
         return FALSE;
     }
+
+    ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "XG: %i, YG: %i, ZG: %i", p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X],
+                                                                  p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y],
+                                                                  p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] );
 
     return TRUE;
 }

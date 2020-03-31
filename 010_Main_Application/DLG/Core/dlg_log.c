@@ -52,14 +52,14 @@ void dlg_log_create_i2c_data_frame( void )
 void dlg_log_create_icm_20600_data_frame( void )
 {
     /* DD_ICM_20600_raw_accel ( 0x14 )*/
-    dlg_log_database_s.icm_20600_data_s.accel_raw_data_x_u16       = p_dlg_icm_20600_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_X];
-    dlg_log_database_s.icm_20600_data_s.accel_raw_data_y_u16       = p_dlg_icm_20600_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_Y];
-    dlg_log_database_s.icm_20600_data_s.accel_raw_data_z_u16       = p_dlg_icm_20600_data_s->accel_data_raw_u16[DD_ICM_20600_ACCEL_Z];
+    dlg_log_database_s.icm_20600_data_s.accel_raw_data_x_s16       = p_dlg_icm_20600_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X];
+    dlg_log_database_s.icm_20600_data_s.accel_raw_data_y_s16       = p_dlg_icm_20600_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y];
+    dlg_log_database_s.icm_20600_data_s.accel_raw_data_z_s16       = p_dlg_icm_20600_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z];
 
     /* DD_ICM_20600_raw_gyro ( 0x15 ) */
-    dlg_log_database_s.icm_20600_data_s.gyro_raw_data_x_u16        = p_dlg_icm_20600_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_X];
-    dlg_log_database_s.icm_20600_data_s.gyro_raw_data_y_u16        = p_dlg_icm_20600_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_Y];
-    dlg_log_database_s.icm_20600_data_s.gyro_raw_data_z_u16        = p_dlg_icm_20600_data_s->gyro_data_raw_u16[DD_ICM_20600_GYRO_Z];
+    dlg_log_database_s.icm_20600_data_s.gyro_raw_data_x_s16        = p_dlg_icm_20600_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X];
+    dlg_log_database_s.icm_20600_data_s.gyro_raw_data_y_s16        = p_dlg_icm_20600_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y];
+    dlg_log_database_s.icm_20600_data_s.gyro_raw_data_z_s16        = p_dlg_icm_20600_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z];
 
     /* DD_ICM_20600_temperature ( 0x16 )*/
     dlg_log_database_s.icm_20600_data_s.temperature_raw_u16        = p_dlg_icm_20600_data_s->temperature_raw_u16;

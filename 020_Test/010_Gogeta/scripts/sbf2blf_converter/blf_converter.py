@@ -81,7 +81,7 @@ def twos(val_str, bytes):
 # filename = "C:/Users/buderm/Desktop/test.sbf"
 filename = "E:/test.sbf"
 #               DLG_LOG_ICM_20600_DATA  DLG_LOG_I2C_DATA (f 3B H)
-struct_fmt = '< 14f 10B 7H              4B h 2x'
+struct_fmt = '< 14f 10B 6h H            4B h 2x'
 struct_len = st.calcsize( struct_fmt )
 struct_unpack = st.Struct( struct_fmt ).unpack_from
 
@@ -116,12 +116,12 @@ with open( filename, "rb" ) as file:
          self_test_xg_u8,
          self_test_yg_u8,
          self_test_zg_u8,
-         accel_raw_data_x_u16,
-         accel_raw_data_y_u16,
-         accel_raw_data_z_u16,
-         gyro_raw_data_x_u16,
-         gyro_raw_data_y_u16,
-         gyro_raw_data_z_u16,
+         accel_raw_data_x_s16,
+         accel_raw_data_y_s16,
+         accel_raw_data_z_s16,
+         gyro_raw_data_x_s16,
+         gyro_raw_data_y_s16,
+         gyro_raw_data_z_s16,
          temperature_raw_u16,
 
          # DLG_LOG_I2C_DATA
@@ -133,9 +133,9 @@ with open( filename, "rb" ) as file:
         ] = struct_unpack( data )
 
         # Scale (according to DLG.dbc) and pack date
-        msg_icm_20600_accel_data = st.pack( '3H', accel_raw_data_x_u16,
-                                            accel_raw_data_y_u16,
-                                            accel_raw_data_z_u16 )
+        msg_icm_20600_accel_data = st.pack( '3h', accel_raw_data_x_s16,
+                                                  accel_raw_data_y_s16,
+                                                  accel_raw_data_z_s16 )
 
         msg_icm_20600_accel = can.Message( arbitration_id=DLG_ICM_20600_ACCEL_ID,
                                            is_extended_id=False,
@@ -143,9 +143,9 @@ with open( filename, "rb" ) as file:
                                            data=msg_icm_20600_accel_data )
 
         # Scale (according to DLG.dbc) and pack date
-        msg_icm_20600_gyro_data = st.pack( '3H', gyro_raw_data_x_u16,
-                                           gyro_raw_data_y_u16,
-                                           gyro_raw_data_z_u16 )
+        msg_icm_20600_gyro_data = st.pack( '3h', gyro_raw_data_x_s16,
+                                                 gyro_raw_data_y_s16,
+                                                 gyro_raw_data_z_s16 )
 
         msg_icm_20600_gyro = can.Message( arbitration_id=DLG_ICM_20600_GYRO_ID,
                                           is_extended_id=False,

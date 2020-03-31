@@ -56,7 +56,7 @@ BOOLEAN dd_icm_20600_get_accl_raw_data( U16*                    p_data_u16,
     if (    ( NULL != p_data_u16 )
          && ( DD_ICM_20600_ACCEL_SIZE > type_e ) )
     {
-        *p_data_u16 = dd_icm_20600_data_s.accel_data_raw_u16[type_e];
+        *p_data_u16 = dd_icm_20600_data_s.accel_data_raw_s16[type_e];
         return TRUE;
     }
     else
@@ -74,7 +74,7 @@ BOOLEAN dd_icm_20600_get_gyro_raw_data( U16*                   p_data_u16,
     if (    ( NULL != p_data_u16 )
          && ( DD_ICM_20600_GYRO_SIZE > type_e ) )
     {
-        *p_data_u16 = dd_icm_20600_data_s.gyro_data_raw_u16[type_e];
+        *p_data_u16 = dd_icm_20600_data_s.gyro_data_raw_s16[type_e];
         return TRUE;
     }
     else

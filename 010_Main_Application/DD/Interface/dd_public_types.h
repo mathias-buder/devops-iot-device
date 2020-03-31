@@ -189,8 +189,8 @@ typedef struct DD_ICM_20600_DATA_TAG
     U16              temperature_raw_u16;                                  /** @details Internal core (die) temperature raw data */
     DD_ICM_20600_AFS accel_full_scale_sel_e;                               /** @details Acceleration raw data */
     DD_ICM_20600_GFS gyro_full_scale_sel_e;                                /** @details Acceleration raw data */
-    U16              accel_data_raw_u16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
-    U16              gyro_data_raw_u16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
+    S16              accel_data_raw_s16[DD_ICM_20600_ACCEL_SIZE];          /** @details Acceleration raw data */
+    S16              gyro_data_raw_s16[DD_ICM_20600_GYRO_SIZE];            /** @details Acceleration raw data */
     U8               self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];           /** @details main icm-20600 device state */
     BOOLEAN          self_test_passed_b;                                   /** @details main icm-20600 device state */
     BOOLEAN          is_calibrated_b;                                      /** @details main icm-20600 device state */

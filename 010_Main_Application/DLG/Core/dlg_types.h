@@ -75,12 +75,12 @@ typedef struct DLG_LOG_ICM_20600_DATA_TAG
     U8  self_test_yg_u8;         /**< @details ... */
     U8  self_test_zg_u8;         /**< @details ... */
 
-    U16 accel_raw_data_x_u16;    /**< @details ... */
-    U16 accel_raw_data_y_u16;    /**< @details ... */
-    U16 accel_raw_data_z_u16;    /**< @details ... */
-    U16 gyro_raw_data_x_u16;     /**< @details ... */
-    U16 gyro_raw_data_y_u16;     /**< @details ... */
-    U16 gyro_raw_data_z_u16;     /**< @details ... */
+    S16 accel_raw_data_x_s16;    /**< @details ... */
+    S16 accel_raw_data_y_s16;    /**< @details ... */
+    S16 accel_raw_data_z_s16;    /**< @details ... */
+    S16 gyro_raw_data_x_s16;     /**< @details ... */
+    S16 gyro_raw_data_y_s16;     /**< @details ... */
+    S16 gyro_raw_data_z_s16;     /**< @details ... */
     U16 temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
 } DLG_LOG_ICM_20600_DATA;
 
