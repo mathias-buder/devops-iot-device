@@ -34,7 +34,7 @@
  * @param[in] type_e type of acceleration data [x, y ,z]
  * @return flag to indicate if data stored in p_data_u16 shall be used or not
  */
-BOOLEAN dd_icm_20600_get_accl_raw_data( U16*                    p_data_u16,
+BOOLEAN dd_icm_20600_get_accl_raw_data( S16*                    p_data_s16,
                                         DD_ICM_20600_ACCEL_TYPE type_e );
 
 /**
@@ -44,7 +44,7 @@ BOOLEAN dd_icm_20600_get_accl_raw_data( U16*                    p_data_u16,
  * @param[in] type_e type of gyro data [x, y ,z]
  * @return flag to indicate if data stored in p_data_u16 shall be used or not
  */
-BOOLEAN dd_icm_20600_get_gyro_raw_data( U16*                   p_data_u16,
+BOOLEAN dd_icm_20600_get_gyro_raw_data( S16*                   p_data_s16,
                                         DD_ICM_20600_GYRO_TYPE type_e );
 
 /**
