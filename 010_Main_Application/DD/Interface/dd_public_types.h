@@ -20,6 +20,9 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <stdio.h>
+#include <sys/stat.h>
+
 #include <esp_err.h>
 
 #include "../../types.h"
@@ -321,17 +324,27 @@ typedef enum DD_SD_FILE_MODE_TAG
 /*************************************************************/
 
 /**
+ * @brief  File Structure
+ * @details
+ * @ingroup DriverStructures
+ */
+typedef struct DD_SD_FILE_TAG
+{
+    FILE*       p_handle;                                 /**< @details FILE pointer */
+    struct stat attrib_s;                                 /**< @details POSIX structure containing file attributes */
+    char        full_path_vc[DD_SD_MAX_FILE_PATH_LENGTH]; /**< @details Complete file path (incl. mount point) */
+    BOOLEAN     is_open_b;                                /**< @details Flag indicating that file is currently open */
+} DD_SD_FILE;
+
+/**
  * @brief  SD-Card Output Interface Data Structure
  * @details
  * @ingroup DriverStructures
  */
 typedef struct DD_SD_DATA_TAG
 {
-    FILE*   p_file;                                   /** @details FILE pointer */
-    char    file_path_vc[DD_SD_MAX_FILE_PATH_LENGTH]; /** @details Complete file path (incl. mount point) */
-    U32     file_size_u32;                            /** @details Total file size */
-    BOOLEAN is_file_open_b;                           /** @details Flag indicating that file is currently open */
-    BOOLEAN is_fs_mounted_b;                          /** @details Flag indicating that file system is mounted on SD card */
+    DD_SD_FILE file_s;
+    BOOLEAN    is_fs_mounted_b; /**< @details Flag indicating that file system is mounted on SD card */
 } DD_SD_DATA;
 
 #endif /* DD_PUBLIC_TYPES_H */

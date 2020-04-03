@@ -49,7 +49,7 @@ FILE* dd_sd_create_file( const char* p_file_name_c )
      * function dd_sd_open_file() */
     if ( TRUE == dd_sd_open_file( p_file_name_c, DD_SD_FILE_MODE_WRITE, TRUE ) )
     {
-        return dd_sd_data_s.p_file;
+        return dd_sd_data_s.file_s.p_handle;
     }
 
     return NULL;
@@ -61,7 +61,7 @@ FILE* dd_sd_create_binary_file( const char* p_file_name_c )
      * function dd_sd_open_file() */
     if ( TRUE == dd_sd_open_file( p_file_name_c, DD_SD_FILE_MODE_WRITE_BINARY, TRUE ) )
     {
-        return dd_sd_data_s.p_file;
+        return dd_sd_data_s.file_s.p_handle;
     }
 
     return NULL;
@@ -69,10 +69,10 @@ FILE* dd_sd_create_binary_file( const char* p_file_name_c )
 
 BOOLEAN dd_sd_close_file( void )
 {
-    if ( 0U == fclose( dd_sd_data_s.p_file ) )
+    if ( 0U == fclose( dd_sd_data_s.file_s.p_handle ) )
     {
       ESP_LOGI( DD_SD_LOG_MSG_TAG, "File closed" );
-      dd_sd_data_s.is_file_open_b = FALSE;
+      dd_sd_data_s.file_s.is_open_b = FALSE;
       return TRUE;
     }
 

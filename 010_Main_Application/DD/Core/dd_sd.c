@@ -125,37 +125,36 @@ BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
                          const DD_SD_FILE_MODE file_mode_e,
                          BOOLEAN               overwrite_b )
 {
-    struct stat file_info_s;
-    U8          file_path_length_u8 =  strlen( DD_SD_MOUNT_POINT )
-                                     + strlen( p_file_name_c )
-                                     + 2U; /* 2 Byte: "/" + "\0" */
+    U8 file_path_length_u8 =  strlen( DD_SD_MOUNT_POINT )
+                            + strlen( p_file_name_c )
+                            + 2U; /* 2 Byte: "/" + "\0" */
 
-    if (    ( FALSE == dd_sd_data_s.is_file_open_b )
-         && ( NULL != p_file_name_c )
-         && ( DD_SD_MAX_FILE_PATH_LENGTH >= file_path_length_u8 ) )
+    if (    ( NULL != p_file_name_c )
+         && ( FALSE == dd_sd_data_s.file_s.is_open_b )
+         && ( DD_SD_MAX_FILE_PATH_LENGTH > file_path_length_u8 ) )
     {
         /* Create full file path */
-        strcpy( dd_sd_data_s.file_path_vc, DD_SD_MOUNT_POINT );
-        strcat( dd_sd_data_s.file_path_vc, "/" );
-        strcat( dd_sd_data_s.file_path_vc, p_file_name_c );
+        strcpy( dd_sd_data_s.file_s.full_path_vc, DD_SD_MOUNT_POINT );
+        strcat( dd_sd_data_s.file_s.full_path_vc, "/" );
+        strcat( dd_sd_data_s.file_s.full_path_vc, p_file_name_c );
 
         ESP_LOGI( DD_SD_LOG_MSG_TAG, "Creating file %s [ %i / %i ]",
-                                      dd_sd_data_s.file_path_vc,
-                                      strlen( dd_sd_data_s.file_path_vc ) + 1U, /* + 1 Byte for "\0" */
+                                      dd_sd_data_s.file_s.full_path_vc,
+                                      strlen( dd_sd_data_s.file_s.full_path_vc ) + 1U, /* + 1 Byte for "\0" */
                                       file_path_length_u8 );
 
         /* Check if file exists */
-        if ( 0U == stat( dd_sd_data_s.file_path_vc, &file_info_s ) )
+        if ( 0U == stat( dd_sd_data_s.file_s.full_path_vc, &dd_sd_data_s.file_s.attrib_s ) )
         {
             /* Check if file shall be overwritten*/
             if ( FALSE == overwrite_b )
             {
-                ESP_LOGW( DD_SD_LOG_MSG_TAG, "File %s exists already and won't be overwritten", dd_sd_data_s.file_path_vc );
+                ESP_LOGW( DD_SD_LOG_MSG_TAG, "File %s exists already and won't be overwritten", dd_sd_data_s.file_s.full_path_vc );
                 return FALSE;
             }
             else
             {
-                ESP_LOGW( DD_SD_LOG_MSG_TAG, "File %s exists already and will be overwritten", dd_sd_data_s.file_path_vc );
+                ESP_LOGW( DD_SD_LOG_MSG_TAG, "File %s exists already and will be overwritten", dd_sd_data_s.file_s.full_path_vc );
             }
         }
 
@@ -163,11 +162,11 @@ BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
         switch ( file_mode_e )
         {
         case DD_SD_FILE_MODE_WRITE:
-            dd_sd_data_s.p_file = fopen( dd_sd_data_s.file_path_vc, "w" );
+            dd_sd_data_s.file_s.p_handle = fopen( dd_sd_data_s.file_s.full_path_vc, "w" );
             break;
 
         case DD_SD_FILE_MODE_WRITE_BINARY:
-            dd_sd_data_s.p_file = fopen( dd_sd_data_s.file_path_vc, "wb" );
+            dd_sd_data_s.file_s.p_handle = fopen( dd_sd_data_s.file_s.full_path_vc, "wb" );
             break;
 
         default:
@@ -176,9 +175,9 @@ BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
             break;
         }
 
-        if ( NULL == dd_sd_data_s.p_file )
+        if ( NULL == dd_sd_data_s.file_s.p_handle )
         {
-            ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to open file %s for writing", dd_sd_data_s.file_path_vc );
+            ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to open file %s for writing", dd_sd_data_s.file_s.full_path_vc );
             return FALSE;
         }
     }
@@ -189,10 +188,19 @@ BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
         return FALSE;
     }
 
-    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created", dd_sd_data_s.file_path_vc );
+    /* Read file attributes */
+    if( 0U != stat( dd_sd_data_s.file_s.full_path_vc, &dd_sd_data_s.file_s.attrib_s ) )
+    {
+        ESP_LOGE( DD_SD_LOG_MSG_TAG, "Failed to read attributes of file %s", dd_sd_data_s.file_s.full_path_vc );
+        return FALSE;
+    }
+
+    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created, %i", dd_sd_data_s.file_s.full_path_vc,
+                                                        dd_sd_data_s.file_s.attrib_s.st_ino );
+
 
     /* Set file open flag to TRUE when this point is reached */
-    dd_sd_data_s.is_file_open_b = TRUE;
+    dd_sd_data_s.file_s.is_open_b = TRUE;
 
     return TRUE;
 }
