@@ -10,9 +10,10 @@
 
         (c) SEWELA 2020
 
+        @file os_main.c
+        @details Some detailed description
+
 *********************************************************************/
-
-
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -68,9 +69,10 @@ void app_main()
     printf( "%dMB %s flash\n\n", spi_flash_get_chip_size() / ( 1024 * 1024 ),
             ( chip_info.features & CHIP_FEATURE_EMB_FLASH ) ? "embedded" : "external" );
 
-    /* Initialize all device drivers */
+    /* Initialize Device Drivers */
     dd_init();
 
+    /* Initialize Data Logging*/
     dlg_init();
 
 

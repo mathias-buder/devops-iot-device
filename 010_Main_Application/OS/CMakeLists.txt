@@ -11,8 +11,6 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-
-set(COMPONENT_SRCS "os_main.c")
-set(COMPONENT_ADD_INCLUDEDIRS "")
-# set(COMPONENT_REQUIRES "TS") # seems to be not required as of now
-register_component()
+idf_component_register(SRCS "os_main.c"
+                       INCLUDE_DIRS "."
+                       REQUIRES spi_flash)
