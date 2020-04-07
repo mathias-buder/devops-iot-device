@@ -10,24 +10,27 @@
 
         (c) SEWELA 2020
 
-        @file os_time.h
+        @file OS.h
         @details Some detailed description
 
 *********************************************************************/
-#ifndef OS_TIME_H_
-#define OS_TIME_H_
+
+#ifndef OS_H_
+#define OS_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../types.h"
+#include "../../types.h"
+
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+/* Log message TAG string */
+#define OS_LOG_MSG_TAG           "OS"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern F32 os_time_stamp_ms_f32;
 
-void os_time_init( void );
-void os_time_update( void );
-
-#endif /* OS_TIME_H_ */
+#endif /* OS_H_ */

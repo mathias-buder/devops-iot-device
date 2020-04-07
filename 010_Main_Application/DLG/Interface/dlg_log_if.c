@@ -28,13 +28,13 @@
 #include "../Core/dlg_database.h"
 #include "../Core/dlg_log.h"
 
+#include "../OS/os_time.h"
 #include "../DD/DD.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 FILE*      p_dlg_log_file;
-extern F32 global_time_f32; /* declaration in main/os_main.c */
 
 /*************************************************************/
 /*      LOCAL VARIABLES                                      */
@@ -75,7 +75,7 @@ void dlg_log_write_data( void )
             dlg_log_create_icm_20600_data_frame();
 
             /* Acquire current time stamp */
-            dlg_log_database_s.time_stamp_f32 = global_time_f32;
+            dlg_log_database_s.time_stamp_f32 = os_time_stamp_ms_f32;
 
             /* Write entire logging structure into .sbf file */
             fwrite( &dlg_log_database_s, sizeof( dlg_log_database_s ), 1U, p_dlg_log_file );
