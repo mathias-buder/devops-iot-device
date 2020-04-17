@@ -26,14 +26,16 @@
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
-#define DLG_ICM_20600_ACCEL_ID                      0x14
-#define DLG_ICM_20600_GYRO_ID                       0x15
-#define DLG_ICM_20600_TEMPERATURE_ID                0x16
-#define DLG_ICM_20600_SELF_TEST_ID                  0x17
-#define DLG_ICM_20600_FACTORY_TRIM_ID               0x18
-#define DLG_ICM_20600_FACTORY_TRIM_DEV_ID           0x19
-#define DLG_ICM_20600_GENERAL_ID                    0x1A
-#define DLG_ICM_20600_QUATERNION_ID                 0x1B
+/* Log message TAG string */
+#define DLG_LOG_LOG_MSG_TAG                "DLG_LOG"
+
+#define DLG_LOG_DEV_SERIAL_NO              "ABC123"
+#define DLG_LOG_MAX_FILE_NAME_LENGTH       30U
+
+/* Format: .sbf: (s)ewela-(b)inary-(f)ile */
+#define DLG_LOG_FILE_DOT_EXTENSION          ".sbf"
+
+#define DLG_LOG_FILE_SIZE_IN_KBYTE          10U /* kByte */
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */

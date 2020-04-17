@@ -23,7 +23,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "esp_log.h"
 
 #include "../Core/dlg_database.h"
 #include "../Core/dlg_log.h"
@@ -34,13 +33,6 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-FILE*      p_dlg_log_file;
-
-/*************************************************************/
-/*      LOCAL VARIABLES                                      */
-/*************************************************************/
-U32     cnt_u32           = 150U;
-BOOLEAN my_file_written_b = FALSE;
 
 /*************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                        */
@@ -49,10 +41,6 @@ BOOLEAN my_file_written_b = FALSE;
 /*************************************************************/
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
-void dlg_log_create_file( void )
-{
-    p_dlg_log_file = dd_sd_create_binary_file( "test.sbf" ); /* Format: .sbf: sewela-binary-file */
-}
 
 void dlg_log_get_data( void )
 {
@@ -61,33 +49,4 @@ void dlg_log_get_data( void )
 
     /* Acquire ICM-20600 database pointer */
     p_dlg_icm_20600_data_s = dd_icm_20600_get_database();
-}
-
-void dlg_log_write_data( void )
-{
-    if (    ( FALSE == my_file_written_b )
-         && ( NULL  != p_dlg_log_file    ) )
-    {
-        if ( cnt_u32 > 0U )
-        {
-            /* Acquire current values for all logging structure */
-            dlg_log_create_i2c_data_frame();
-            dlg_log_create_icm_20600_data_frame();
-
-            /* Acquire current time stamp */
-            dlg_log_database_s.time_stamp_f32 = os_time_stamp_ms_f32;
-
-            /* Write entire logging structure into .sbf file */
-            fwrite( &dlg_log_database_s, sizeof( dlg_log_database_s ), 1U, p_dlg_log_file );
-
-            ESP_LOGI( "DLG", "Logging dlg_log_database_s (size: %i) %i", sizeof( dlg_log_database_s ), cnt_u32 );
-
-            --cnt_u32;
-        }
-        else
-        {
-            dd_sd_close_file();
-            my_file_written_b = TRUE;
-        }
-    }
 }

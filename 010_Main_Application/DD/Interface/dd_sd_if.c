@@ -43,7 +43,7 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-FILE* dd_sd_create_file( const char* p_file_name_c )
+FILE* dd_sd_create_file( char* p_file_name_c )
 {
     /* NULL pointer check of p_file_name_c is handled within
      * function dd_sd_open_file() */
@@ -55,7 +55,7 @@ FILE* dd_sd_create_file( const char* p_file_name_c )
     return NULL;
 }
 
-FILE* dd_sd_create_binary_file( const char* p_file_name_c )
+FILE* dd_sd_create_binary_file( char* p_file_name_c )
 {
     /* NULL pointer check of p_file_name_c is handled within
      * function dd_sd_open_file() */
@@ -71,13 +71,20 @@ BOOLEAN dd_sd_close_file( void )
 {
     if ( 0U == fclose( dd_sd_data_s.file_s.p_handle ) )
     {
-      ESP_LOGI( DD_SD_LOG_MSG_TAG, "File closed" );
-      dd_sd_data_s.file_s.is_open_b = FALSE;
-      return TRUE;
+        ESP_LOGI( DD_SD_LOG_MSG_TAG, "File closed" );
+        dd_sd_data_s.file_s.p_handle  = NULL;
+        dd_sd_data_s.file_s.is_open_b = FALSE;
+        return TRUE;
     }
 
     ESP_LOGE( DD_SD_LOG_MSG_TAG, "File couln't be closed" );
     return FALSE;
+}
+
+
+BOOLEAN dd_sd_is_file_open( void )
+{
+    return dd_sd_data_s.file_s.is_open_b;
 }
 
 

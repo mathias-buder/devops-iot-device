@@ -49,8 +49,6 @@ char      os_time_str_buf[64];
 void os_time_init( void )
 {
 
-    struct timeval tv;
-
     os_time_info_s.tm_sec   = 0U;    /**< tm_sec — the number of seconds after the minute, normally in the range 0 to 59, but can be up to 60 to allow for leap seconds. */
     os_time_info_s.tm_min   = 10U;   /**< tm_min — the number of minutes after the hour, in the range 0 to 59. */
     os_time_info_s.tm_hour  = 10U;   /**< tm_hour — the number of hours past midnight, in the range 0 to 23. */
@@ -73,8 +71,10 @@ void os_time_update( void )
 
     os_time_stamp_ms_f32 += 0.1F;
 
-    localtime_r( &os_time_t, &os_time_info_s );
+
     time( &os_time_t );
+
+    localtime_r( &os_time_t, &os_time_info_s );
 
     strftime( os_time_str_buf, sizeof( os_time_str_buf ), "%c", &os_time_info_s );
 

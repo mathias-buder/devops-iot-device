@@ -30,6 +30,7 @@
 /*************************************************************/
 /*      PROTOTYPES                                           */
 /*************************************************************/
+extern DLG_DATA           dlg_database_s;
 extern DLG_LOG_DATA       dlg_log_database_s;
 extern DD_ICM_20600_DATA* p_dlg_icm_20600_data_s;
 extern DD_I2C_ERROR_TYPE* p_dlg_i2c_error_data_s;

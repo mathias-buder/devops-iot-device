@@ -23,6 +23,7 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 #include "../../DD/Interface/dd_public_types.h"
+#include "../Config/dlg_log_cfg.h"
 
 /*************************************************************/
 /*      ENUMERATORS                                          */
@@ -32,6 +33,16 @@
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
+
+/**
+ * @details enumerator of ...
+ */
+typedef struct DLG_DATA_TAG
+{
+    char  file_name_vc[DLG_LOG_MAX_FILE_NAME_LENGTH];
+    FILE* p_file_handle;
+    U32   num_data_chunk_per_file_u32;
+} DLG_DATA;
 
 /**
  * @details enumerator of ...

@@ -121,7 +121,7 @@ BOOLEAN dd_sd_deinit( void )
     return FALSE;
 }
 
-BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
+BOOLEAN dd_sd_open_file( char*           p_file_name_c,
                          const DD_SD_FILE_MODE file_mode_e,
                          BOOLEAN               overwrite_b )
 {
@@ -195,8 +195,7 @@ BOOLEAN dd_sd_open_file( const char*           p_file_name_c,
         return FALSE;
     }
 
-    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created, %i", dd_sd_data_s.file_s.full_path_vc,
-                                                        dd_sd_data_s.file_s.attrib_s.st_ino );
+    ESP_LOGI( DD_SD_LOG_MSG_TAG, "File %s created", dd_sd_data_s.file_s.full_path_vc );
 
 
     /* Set file open flag to TRUE when this point is reached */
