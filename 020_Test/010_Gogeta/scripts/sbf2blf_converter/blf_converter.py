@@ -1,8 +1,3 @@
-"""
-Use this to convert .can/.asc files to .log files.
-Usage: simpleLogConvert.py sourceLog.asc targetLog.log
-"""
-
 import sys
 import os
 import can.io.logger
@@ -10,6 +5,16 @@ import numpy as np
 import struct as st
 import ctypes
 
+
+# .blf file name
+writer = can.io.logger.Logger( "test_1.blf" )
+
+# CAN channel
+writer.channel = 1
+
+# CAN Message IDs
+
+# ICM-20600
 DLG_ICM_20600_GENERAL_ID                = 0x14 # 20
 DLG_ICM_20600_ACCEL_ID                  = 0x15 # 21
 DLG_ICM_20600_GYRO_ID                   = 0x16 # 22
@@ -20,30 +25,8 @@ DLG_ICM_20600_FACTORY_GYRO_TRIM_ID      = 0x1A # 26
 DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV_ID  = 0x1B # 27
 DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID  = 0x1C # 28
 
+# I2C ERROR
 DLG_I2C_ERROR_ID                        = 0x32 # 50
-
-
-
-
-writer = can.io.logger.Logger( "test_1.blf" )
-writer.channel = 1
-
-DD_ICM_20600_accel_x = 0
-DD_ICM_20600_accel_y = 0
-DD_ICM_20600_accel_z = 0
-
-
-# path = 'E:\\'
-
-# files = []
-# r=root, d=directories, f = files
-# for r, d, f in os.walk( path ):
-#    for file in f:
-#        if '.sbl' in file:
-#            files.append( os.path.join( r, file ) )
-
-# for f in files:
-#    print( f )
 
 
 def convert(x):
@@ -79,13 +62,24 @@ def twos(val_str, bytes):
 
 
 # filename = "C:/Users/buderm/Desktop/test.sbf"
-filename = "E:/test.sbf"
+filename = "E:/ABC123_1.sbf"
+
+# %% Extract all .sbf files
+search_director = "E:/"
+
+for root, dirs, files in os.walk(search_director):
+    for file in files:
+        if file.endswith(".sbf"):
+             print(os.path.join(root, file))
+
+
+# %% Define .sbf file layout
 #               DLG_LOG_ICM_20600_DATA  DLG_LOG_I2C_DATA (f 3B H)
 struct_fmt = '< 14f 10B 6h H            4B h 2x'
 struct_len = st.calcsize( struct_fmt )
 struct_unpack = st.Struct( struct_fmt ).unpack_from
 
-results = []
+
 with open( filename, "rb" ) as file:
     while True:
         data = file.read( struct_len )
@@ -132,7 +126,6 @@ with open( filename, "rb" ) as file:
          error_code_s16
         ] = struct_unpack( data )
 
-        # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_accel_data = st.pack( '3h', accel_raw_data_x_s16,
                                                   accel_raw_data_y_s16,
                                                   accel_raw_data_z_s16 )
@@ -142,7 +135,6 @@ with open( filename, "rb" ) as file:
                                            timestamp=global_time_f32,
                                            data=msg_icm_20600_accel_data )
 
-        # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_gyro_data = st.pack( '3h', gyro_raw_data_x_s16,
                                                  gyro_raw_data_y_s16,
                                                  gyro_raw_data_z_s16 )
@@ -152,7 +144,6 @@ with open( filename, "rb" ) as file:
                                           timestamp=global_time_f32,
                                           data=msg_icm_20600_gyro_data )
 
-        # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_general_data = st.pack( '3B', np.uint8( chip_id_u8 ),
                                               np.uint8( dev_state_u8 ),
                                               np.uint8( ((self_test_passed_u8 & 0x01) << 1)
@@ -174,7 +165,6 @@ with open( filename, "rb" ) as file:
                                                  timestamp=global_time_f32,
                                                  data=msg_icm_20600_temperature_date )
 
-        # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_self_test_data = st.pack( '6B', np.uint8( self_test_xa_u8 ),
                                                 np.uint8( self_test_ya_u8 ),
                                                 np.uint8( self_test_za_u8 ),
@@ -187,7 +177,6 @@ with open( filename, "rb" ) as file:
                                                timestamp=global_time_f32,
                                                data=msg_icm_20600_self_test_data )
 
-        # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_factory_accl_trim_data = st.pack( '3h', np.int16( factory_trim_xa_f32 ),
                                                               np.int16( factory_trim_ya_f32 ),
                                                               np.int16( factory_trim_za_f32 ) )
@@ -197,7 +186,6 @@ with open( filename, "rb" ) as file:
                                                        timestamp=global_time_f32,
                                                        data=msg_icm_20600_factory_accl_trim_data )
 
-        # Scale (according to DLG.dbc) and pack date
         msg_icm_20600_factory_gyro_trim_data = st.pack( '3h', np.int16( factory_trim_xg_f32 ),
                                                         np.int16( factory_trim_yg_f32 ),
                                                         np.int16( factory_trim_zg_f32 ) )
@@ -221,6 +209,7 @@ with open( filename, "rb" ) as file:
                                                            timestamp=global_time_f32,
                                                            data=msg_icm_20600_factory_accl_trim_dev_data )
 
+        # Scale (according to DLG.dbc) and pack date
         factory_trim_dev_xg_f32 = factory_trim_dev_xg_f32 * 1000
         factory_trim_dev_yg_f32 = factory_trim_dev_yg_f32 * 1000
         factory_trim_dev_zg_f32 = factory_trim_dev_zg_f32 * 1000
@@ -247,11 +236,6 @@ with open( filename, "rb" ) as file:
                                       data=msg_i2c_error_date )
 
 
-
-
-
-        print( 'Temp:' + str( temperature_deg_f32 ) + " @ time: " + str( global_time_f32 ) )
-
         # ICM_20600 Messages
         writer.on_message_received( msg_icm_20600_accel )
         writer.on_message_received( msg_icm_20600_gyro )
@@ -265,5 +249,7 @@ with open( filename, "rb" ) as file:
 
         # I2C Messaegs
         writer.on_message_received( msg_i2c_error )
+
+        print( "Time: " + str( global_time_f32 ) )
 
 writer.stop()
