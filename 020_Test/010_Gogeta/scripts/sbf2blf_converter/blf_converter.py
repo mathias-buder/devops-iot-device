@@ -38,7 +38,9 @@ def natural_keys(text):
 # filename = "E:/ABC123_1.sbf"
 
 # %% Extract all .sbf files
-search_path = "C:\\Sandboxes\\Sewela.com\\smart-vibrator\sv-software\\020_Test\\010_Gogeta\\scripts\\sbf2blf_converter\\sbf_test_data"
+# search_path = "C:\\Sandboxes\\Sewela.com\\smart-vibrator\sv-software\\020_Test\\010_Gogeta\\scripts\\sbf2blf_converter\\sbf_test_data"
+
+search_path = sys.argv[1]
 
 print("Searching in " + search_path + " for .sbf files")
 
