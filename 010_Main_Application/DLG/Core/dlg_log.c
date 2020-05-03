@@ -65,14 +65,20 @@ void dlg_log_init( void )
      * within the interval of [ 1 >= data_chunk_per_file >= DLG_LOG_FILE_SIZE_IN_KBYTE ] */
     dlg_database_s.num_data_chunk_per_file_u32 = ( U32 )( ( DLG_LOG_FILE_SIZE_IN_KBYTE * 1000U ) / sizeof( dlg_log_database_s ) );
 
+    if(    ( NULL != dlg_database_s.p_file_handle )
+        && ( 0U   < dlg_database_s.num_data_chunk_per_file_u32 ) )
+    {
+        dlg_database_s.logging_enabled_b = TRUE;
+    }
+
+    ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Logging %s", ( dlg_database_s.logging_enabled_b == TRUE ) ? "enabled" : "disabled" );
     ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Bytes", sizeof( dlg_log_database_s ) );
     ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Data chunks per file: %i", dlg_database_s.num_data_chunk_per_file_u32 );
 }
 
 void dlg_log_main( void )
 {
-    if (    ( NULL != dlg_database_s.p_file_handle )
-         && ( 0U   < dlg_database_s.num_data_chunk_per_file_u32 ) )
+    if ( TRUE == dlg_database_s.logging_enabled_b )
     {
         if ( data_chunk_cnt_u32 > dlg_database_s.num_data_chunk_per_file_u32 )
         {
@@ -105,10 +111,6 @@ void dlg_log_main( void )
                                        dlg_database_s.num_data_chunk_per_file_u32 );
 
         ++data_chunk_cnt_u32;
-    }
-    else
-    {
-        assert( NULL != dlg_database_s.p_file_handle );
     }
 }
 
