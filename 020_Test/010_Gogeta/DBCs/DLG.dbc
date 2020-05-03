@@ -36,6 +36,9 @@ BS_:
 BU_: DLG
 
 
+BO_ 60 DLG_LOG_General: 1 Vector__XXX
+ SG_ DLG_LOG_global_msg_counter : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
 BO_ 50 DD_ICM_I2C_error: 8 Vector__XXX
  SG_ DD_I2C_error_state : 0|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ DD_I2C_error_register_addr : 24|8@1+ (1,0) [0|255] "" Vector__XXX

@@ -104,6 +104,7 @@ typedef struct DLG_LOG_DATA_TAG
     F32                    time_stamp_f32;   /**< @details ... */
     DLG_LOG_ICM_20600_DATA icm_20600_data_s; /**< @details ... */
     DLG_LOG_I2C_DATA       i2c_data_s;       /**< @details ... */
+    U8                     global_msg_cnt_u8;
 } /* __attribute__( ( packed ) ) */ DLG_LOG_DATA;
 
 #endif /* DLG_CORE_TYPES_H_ */

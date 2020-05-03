@@ -91,6 +91,9 @@ void dlg_log_main( void )
         /* Acquire current time stamp */
         dlg_log_database_s.time_stamp_f32 = os_time_stamp_ms_f32;
 
+        /* Increment global message counter */
+        ++dlg_log_database_s.global_msg_cnt_u8;
+
         /* Write entire logging structure into .sbf file */
         fwrite( &dlg_log_database_s, sizeof( dlg_log_database_s ), 1U, dlg_database_s.p_file_handle );
 

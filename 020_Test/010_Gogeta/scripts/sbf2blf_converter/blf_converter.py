@@ -22,6 +22,8 @@ DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID  = 0x1C # 28
 # I2C ERROR
 DLG_I2C_ERROR_ID                        = 0x32 # 50
 
+DLG_LOG_General                         = 0x3C # 60
+
 
 def atoi(text):
     return int(text) if text.isdigit() else text
@@ -38,9 +40,8 @@ def natural_keys(text):
 # filename = "E:/ABC123_1.sbf"
 
 # %% Extract all .sbf files
-# search_path = "C:\\Sandboxes\\Sewela.com\\smart-vibrator\sv-software\\020_Test\\010_Gogeta\\scripts\\sbf2blf_converter\\sbf_test_data"
-
 search_path = sys.argv[1]
+# search_path = "E:/"
 
 print("Searching in " + search_path + " for .sbf files")
 
@@ -72,8 +73,8 @@ writer.channel = 1
 
 
 # %% Define .sbf file layout
-#               DLG_LOG_ICM_20600_DATA  DLG_LOG_I2C_DATA (f 3B H)
-struct_fmt = '< 14f 10B 6h H            4B h 2x'
+#               time_stamp_f32, DLG_LOG_ICM_20600_DATA   DLG_LOG_I2C_DATA (f 3B H), global_msg_cnt_u8
+struct_fmt = '< 14f 10B 6h H                             4B h B x'
 struct_len = st.calcsize( struct_fmt )
 struct_unpack = st.Struct( struct_fmt ).unpack_from
 
@@ -125,7 +126,9 @@ for sfb_file in files:
             access_type_u8,
             device_addr_u8,
             register_addr_u8,
-            error_code_s16
+            error_code_s16,
+
+            global_msg_cnt_u8
             ] = struct_unpack( data )
 
             msg_icm_20600_accel_data = st.pack( '3h', accel_raw_data_x_s16,
@@ -226,7 +229,7 @@ for sfb_file in files:
                                                             data=msg_icm_20600_factory_gyro_trim_dev_data )
 
 
-            msg_i2c_error_date = st.pack( '4B h', np.uint8( error_state_u8 ),
+            msg_i2c_error_data = st.pack( '4B h', np.uint8( error_state_u8 ),
                                                 np.uint8( access_type_u8 ),
                                                 np.uint8( device_addr_u8 ),
                                                 np.uint8( register_addr_u8 ),
@@ -235,7 +238,14 @@ for sfb_file in files:
             msg_i2c_error = can.Message( arbitration_id=DLG_I2C_ERROR_ID,
                                         is_extended_id=False,
                                         timestamp=global_time_f32,
-                                        data=msg_i2c_error_date )
+                                        data=msg_i2c_error_data )
+
+            msg_dlg_log_general_data = st.pack( 'B', np.uint8( global_msg_cnt_u8 ) )
+
+            msg_dlg_log_general = can.Message( arbitration_id=DLG_LOG_General,
+                                               is_extended_id=False,
+                                               timestamp=global_time_f32,
+                                               data=msg_dlg_log_general_data )
 
 
             # ICM_20600 Messages
@@ -248,6 +258,7 @@ for sfb_file in files:
             writer.on_message_received( msg_icm_20600_factory_gyro_trim )
             writer.on_message_received( msg_icm_20600_accl_factory_trim_dev )
             writer.on_message_received( msg_icm_20600_gyro_factory_trim_dev )
+            writer.on_message_received( msg_dlg_log_general )
 
             # I2C Messaegs
             writer.on_message_received( msg_i2c_error )
