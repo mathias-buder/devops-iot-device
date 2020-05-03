@@ -50,7 +50,7 @@ BOOLEAN         dd_icm_20600_calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_
 
 BOOLEAN dd_icm_20600_init( void )
 {
-    ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Initializing ..." );
+    ESP_LOGI(DD_ICM_20600_LOG_MSG_TAG, "Initializing ..." );
 
     /* Initialize global driver data structure. Default value for global
      * variables is "0" according to ANSI-C standard. Only variables with values
@@ -123,7 +123,7 @@ BOOLEAN dd_icm_20600_init( void )
         return FALSE;
     }
 
-    ESP_LOGD(DD_ICM_20600_LOG_MSG_TAG, "Done" );
+    ESP_LOGI(DD_ICM_20600_LOG_MSG_TAG, "Done" );
 
     return TRUE;
 }

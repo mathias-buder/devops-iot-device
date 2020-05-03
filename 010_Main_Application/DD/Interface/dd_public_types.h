@@ -306,6 +306,18 @@ typedef enum DD_MAX_30102_TEMP_COMP_TAG
 } DD_MAX_30102_TEMP_COMP;
 
 
+/**
+ * @brief   MAX-30102 Output Interface Data Structure
+ * @details MAX-30102 Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_MAX_30102_DATA_TAG
+{
+    U8  part_id_u8;
+    U8  rev_id_u8;
+    F32 temperature_f32;
+} DD_MAX_30102_DATA;
+
 /*************************************************************/
 /*                           DD_SD                           */
 /*************************************************************/

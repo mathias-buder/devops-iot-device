@@ -1,7 +1,7 @@
 /*********************************************************************
 
         SEWELA owns the copyright in this document and associated
-        documents and all rights are reserved. These documents must
+        documents and all rights are reserved. These documents must--
         not be used for any purpose other than that for which they
         are supplied and must not be copied in whole or in part or
         disclosed to others without prior written consent of SEWELA.
@@ -25,9 +25,10 @@
 
 #include "DD.h"
 #include "Core/dd_database.h"
+#include "Core/dd_sd.h"
 #include "Core/dd_i2c.h"
 #include "Core/dd_icm-20600.h"
-#include "Core/dd_sd.h"
+#include "Core/dd_max-30102.h"
 
 
 /*********************************************************************/
@@ -46,6 +47,9 @@ FILE*   p_file;
 /*********************************************************************/
 void dd_init(void)
 {
+    /* Initialize SD card driver */
+    dd_sd_init();
+
     /* Initialize I2C basic device driver */
     dd_i2c_init();
 
@@ -55,11 +59,14 @@ void dd_init(void)
         ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_last_error()->error_e );
     }
 
-    /* Initialize SD card driver */
-    dd_sd_init();
+    /* Initialize MAX-30102 HR+SpO2 sensor */
+    dd_max_30102_init();
+
+
 }
 
 void dd_main(void)
 {
     dd_icm_20600_main();
+    dd_max_30102_main();
 }
