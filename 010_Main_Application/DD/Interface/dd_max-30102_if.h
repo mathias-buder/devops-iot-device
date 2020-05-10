@@ -20,7 +20,7 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
+#include "dd_public_types.h"
 
 
 /*************************************************************/
@@ -33,6 +33,7 @@
  * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
  * @return pointer to osl object or NULL if no appropriate object exists.
  */
-void dd_max_30102_acquire_sensor_data(void);
+BOOLEAN dd_max_30102_get_int_status_by_type( const DD_MAX_30102_INT_TYPE type_e,
+                                             BOOLEAN*                    p_status_b );
 
 #endif /* DD_MAX_30102_OIF_H */

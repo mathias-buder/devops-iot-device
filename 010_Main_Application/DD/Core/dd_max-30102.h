@@ -129,10 +129,10 @@
 #define DD_MAX_30102_RESET                      0x40
 
 /* Mode Control */
-#define DD_MAX_30102_MODE_MASK                  0xF8
-#define DD_MAX_30102_MODE_LED_RED               0x02
-#define DD_MAX_30102_MODE_LED_RED_IR            0x03
-#define DD_MAX_30102_MODE_LED_MULTI             0x07
+#define DD_MAX_30102_LED_MODE_MASK              0xF8
+#define DD_MAX_30102_LED_MODE_HR                0x02
+#define DD_MAX_30102_LED_MODE_SPO2              0x03
+#define DD_MAX_30102_LED_MODE_MULTI             0x07
 
 /* SpO2 Configuration */
 
@@ -155,6 +155,7 @@
 #define DD_MAX_30102_SPO2_SMP_RATE_3200         0x1C
 
 /* LED Pulse Width Control and ADC Resolution */
+#define DD_MAX_30102_LED_PULSE_WIDTH_MASK       0xFC /* (byte)~0b00000011 */
 #define DD_MAX_30102_LED_PULSE_WIDTH_69         0x00
 #define DD_MAX_30102_LED_PULSE_WIDTH_118        0x01
 #define DD_MAX_30102_LED_PULSE_WIDTH_215        0x02
@@ -169,11 +170,11 @@
 #define DD_MAX_30102_SLOT_NONE                  0x00
 #define DD_MAX_30102_SLOT_RED_LED               0x01
 #define DD_MAX_30102_SLOT_IR_LED                0x02
-#define DD_MAX_30102_SLOT_NONE_PILOT            0x03 /* and 0x04*/
 #define DD_MAX_30102_SLOT_RED_PILOT             0x05
 #define DD_MAX_30102_SLOT_IR_PILOT              0x06
 
 
+#define DD_MAX_30102_FIFO_SIZE                  32U /* FIFO size in bytes */
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */

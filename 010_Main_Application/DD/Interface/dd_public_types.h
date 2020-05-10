@@ -240,20 +240,18 @@ typedef enum DD_MAX_30102_SLOT_MODE_TAG
     DD_MAX_30102_SLOT_MODE_NONE      = 0U,  /**< @details ... */
     DD_MAX_30102_SLOT_MODE_LED_RED,         /**< @details ... */
     DD_MAX_30102_SLOT_MODE_LED_IR,          /**< @details ... */
-    DD_MAX_30102_SLOT_MONE_PILOT,
     DD_MAX_30102_SLOT_MODE_LED_RED_PILOT,
     DD_MAX_30102_SLOT_MODE_LED_IR_PILOT,
     DD_MAX_30102_SLOT_MODE_SIZE
 } DD_MAX_30102_SLOT_MODE;
 
-
 typedef enum DD_MAX_30102_MODE_TAG
 {
-    DD_MAX_30102_MODE_RED = 0U,   /**< @details ... */
-    DD_MAX_30102_MODE_RED_IR,    /**< @details ... */
+    DD_MAX_30102_MODE_HR = 0U,   /**< @details ... */
+    DD_MAX_30102_MODE_SPO2,      /**< @details ... */
     DD_MAX_30102_MODE_MULTI_LED, /**< @details ... */
     DD_MAX_30102_MODE_SIZE
-} DD_MAX_30102_LED_MODE;
+} DD_MAX_30102_MODE;
 
 typedef enum DD_MAX_30102_ADC_RANGE_TAG
 {
@@ -286,15 +284,14 @@ typedef enum DD_MAX_30102_PULSE_WIDTH_TAG
     DD_MAX_30102_PULSE_WIDTH_SIZE
 } DD_MAX_30102_PULSE_WIDTH;
 
-
 typedef enum DD_MAX_30102_SAMPLE_AVG_TAG
 {
     DD_MAX_30102_SAMPLE_AVG_1 = 0U, /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_2,    /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_4,    /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_8,    /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_16,    /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_32,   /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_2,      /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_4,      /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_8,      /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_16,     /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_32,     /**< @details ... */
     DD_MAX_30102_SAMPLE_AVG_SIZE
 } DD_MAX_30102_SAMPLE_AVG;
 
@@ -305,6 +302,16 @@ typedef enum DD_MAX_30102_TEMP_COMP_TAG
     DD_MAX_30102_TEMP_COMP_SIZE
 } DD_MAX_30102_TEMP_COMP;
 
+typedef enum DD_MAX_30102_INT_TYPE_TAG
+{
+    DD_MAX_30102_INT_TYPE_A_FULL = 0U,  /**< @details ... */
+    DD_MAX_30102_INT_TYPE_PRG_RDY,      /**< @details ... */
+    DD_MAX_30102_INT_TYPE_ALC_OVF,      /**< @details ... */
+    DD_MAX_30102_INT_TYPE_PROX_INT,     /**< @details ... */
+    DD_MAX_30102_INT_TYPE_PWR_RDY,      /**< @details ... */
+    DD_MAX_30102_INT_TYPE_DIE_TEMP_RDY, /**< @details ... */
+    DD_MAX_30102_INT_TYPE_SIZE
+} DD_MAX_30102_INT_TYPE;
 
 /**
  * @brief   MAX-30102 Output Interface Data Structure
@@ -313,9 +320,17 @@ typedef enum DD_MAX_30102_TEMP_COMP_TAG
  */
 typedef struct DD_MAX_30102_DATA_TAG
 {
-    U8  part_id_u8;
-    U8  rev_id_u8;
-    F32 temperature_f32;
+    BOOLEAN           int_status_vb[DD_MAX_30102_INT_TYPE_SIZE];
+    U8                part_id_u8;
+    U8                rev_id_u8;
+    U8                read_ptr_u8;
+    U8                write_ptr_u8;
+    U8                active_leds_u8;
+    U32               red_data_raw_u32;
+    U32               ir_data_raw_u32;
+    F32               temperature_f32;
+    DD_MAX_30102_MODE mode_e;
+
 } DD_MAX_30102_DATA;
 
 /*************************************************************/

@@ -18,10 +18,10 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "dd_max-30102_if.h"
-
 #include <stdio.h>
 
+#include "dd_max-30102_if.h"
+#include "../Core/dd_database.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
@@ -41,7 +41,17 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-void dd_max_30102_acquire_sensor_data(void)
+BOOLEAN dd_max_30102_get_int_status_by_type( const DD_MAX_30102_INT_TYPE type_e, BOOLEAN* p_status_b )
 {
-    printf("Calling dd_max_30102_acquire_sensor_data() ... \n");
+    if ( DD_MAX_30102_INT_TYPE_SIZE > type_e )
+    {
+        *p_status_b = dd_max_30102_data_s.int_status_vb[type_e];
+    }
+    else
+    {
+        assert( DD_MAX_30102_INT_TYPE_SIZE > type_e );
+        return FALSE;
+    }
+
+    return TRUE;
 }

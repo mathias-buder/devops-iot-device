@@ -39,6 +39,7 @@
 /*********************************************************************/
 PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_int2( U8* const p_register_u8 );
+PRIVATE BOOLEAN dd_max_30102_get_int_status( BOOLEAN* p_int_status_vb );
 PRIVATE BOOLEAN dd_max_30102_set_int_a_full( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_data_ready( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_alc_ovf( const BOOLEAN enable_b );
@@ -46,7 +47,7 @@ PRIVATE BOOLEAN dd_max_30102_set_prox_int( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_die_temp_rdy_int( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_soft_reset( void );
 PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b );
-PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e );
+PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA * const p_data_s, const DD_MAX_30102_MODE  mode_e );
 PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e );
 PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e );
 PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e );
@@ -57,10 +58,11 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG a
 PRIVATE BOOLEAN dd_max_30102_set_fifo_roll_over( BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 );
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void );
-PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
+PRIVATE BOOLEAN dd_max_30102_get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 );
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 );
+PRIVATE BOOLEAN dd_max_30102_get_sample_data( DD_MAX_30102_DATA* p_data_s );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -71,6 +73,9 @@ BOOLEAN dd_max_30102_init( void )
     ESP_LOGI( DD_MAX_30105_LOG_MSG_TAG, "Initializing ..." );
 
     if ( ( FALSE == dd_max_30102_soft_reset() )
+
+         /********* MODE Configuration *********/
+         || ( FALSE == dd_max_30102_set_mode( &dd_max_30102_data_s, dd_max_30102_mode_cfg_e ) )
 
          /********* FIFO Configuration *********/
          /* The chip will average multiple samples of same type together */
@@ -88,17 +93,25 @@ BOOLEAN dd_max_30102_init( void )
          || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED, dd_max_30102_led_amplitude_cfg_u8 ) )
          || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR, dd_max_30102_led_amplitude_cfg_u8 ) )
          || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_PROX, dd_max_30102_led_amplitude_cfg_u8 ) )
+
+         /****** LED Pulse Width Configuration ******/
+         || ( FALSE == dd_max_30102_set_pulse_width( dd_max_30102_pulse_width_cfg_e ) )
+
+         /****** Interrupt Configuration ******/
          || ( FALSE == dd_max_30102_set_die_temp_rdy_int( TRUE ) )
+         || ( FALSE == dd_max_30102_set_prox_int( TRUE ) )
+         || ( FALSE == dd_max_30102_set_proximity_threshold( dd_max_30102_prox_threshold_cfg_u8 ) )
 
          /* Reset the FIFO before checking the sensor */
          || ( FALSE == dd_max_30102_set_fifo_clear() )
 
-         /********* MODE Configuration *********/
-         || ( FALSE == dd_max_30102_set_led_mode( dd_max_30102_mode_cfg_e ) )
-
          /* Read device id and chip revision */
          || ( FALSE == dd_max_30102_get_part_id( &dd_max_30102_data_s.part_id_u8 ) )
-         || ( FALSE == dd_max_30102_get_rev_id( &dd_max_30102_data_s.rev_id_u8 ) ) )
+         || ( FALSE == dd_max_30102_get_rev_id( &dd_max_30102_data_s.rev_id_u8 ) )
+
+         // || ( FALSE == dd_max_30102_set_wake_up( FALSE ) )
+
+         )
     {
         ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "Initializing failed" );
         return FALSE;
@@ -113,9 +126,16 @@ void dd_max_30102_main(void)
     /* Read device temperature */
     dd_max_30102_get_temperature( &dd_max_30102_data_s.temperature_f32 );
 
-    ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "Part-Id: %i @ Rev: %i, Temp: %0.4f", dd_max_30102_data_s.part_id_u8,
-                                                                              dd_max_30102_data_s.rev_id_u8,
-                                                                              dd_max_30102_data_s.temperature_f32 );
+    /* Read all interrupt flags */
+    dd_max_30102_get_int_status( dd_max_30102_data_s.int_status_vb );
+
+    /* Read new data from FIFO */
+    dd_max_30102_get_sample_data( &dd_max_30102_data_s );
+
+    ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "Part-Id: %i @ Rev: %i, Temp: %0.4f, Prox-Int: %i", dd_max_30102_data_s.part_id_u8,
+                                                                                            dd_max_30102_data_s.rev_id_u8,
+                                                                                            dd_max_30102_data_s.temperature_f32,
+                                                                                            dd_max_30102_data_s.int_status_vb[DD_MAX_30102_INT_TYPE_PROX_INT] );
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 )
@@ -148,6 +168,36 @@ PRIVATE BOOLEAN dd_max_30102_get_int2( U8* const p_register_u8 )
     else
     {
         assert( NULL != p_register_u8 );
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+
+PRIVATE BOOLEAN dd_max_30102_get_int_status( BOOLEAN* p_int_status_vb )
+{
+    U8 registers_vu8[2];
+
+    if ( NULL != p_int_status_vb )
+    {
+        /* Read content of register "Interrupt Status 1" and "Interrupt Status 2"*/
+        if ( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_INT_STAT_1, registers_vu8, sizeof( registers_vu8 ) ) )
+        {
+            return FALSE;
+        }
+
+        /* Extract all interrupt flags */
+        p_int_status_vb[DD_MAX_30102_INT_TYPE_A_FULL]       = ( registers_vu8[0] & DD_MAX_30102_INT_A_FULL_MASK ) >> 7U;
+        p_int_status_vb[DD_MAX_30102_INT_TYPE_PRG_RDY]      = ( registers_vu8[0] & DD_MAX_30102_INT_PPG_RDY_MASK ) >> 6U;
+        p_int_status_vb[DD_MAX_30102_INT_TYPE_ALC_OVF]      = ( registers_vu8[0] & DD_MAX_30102_INT_ALC_OVF_MASK ) >> 5U;
+        p_int_status_vb[DD_MAX_30102_INT_TYPE_PROX_INT]     = ( registers_vu8[0] & DD_MAX_30102_INT_PROX_INT_MASK ) >> 4U;
+        p_int_status_vb[DD_MAX_30102_INT_TYPE_PWR_RDY]      = ( registers_vu8[0] & DD_MAX_30102_INT_PWR_RDY_MASK );
+        p_int_status_vb[DD_MAX_30102_INT_TYPE_DIE_TEMP_RDY] = ( registers_vu8[1] & DD_MAX_30102_INT_DIE_TEMP_RDY_MASK ) >> 1U;
+    }
+    else
+    {
+        assert( NULL != p_int_status_vb );
         return FALSE;
     }
 
@@ -197,8 +247,8 @@ PRIVATE BOOLEAN dd_max_30102_set_die_temp_rdy_int( const BOOLEAN enable_b )
 
 PRIVATE BOOLEAN dd_max_30102_soft_reset( void )
 {
-    U8      time_out_cnt_u8 = 100U;
-    U8      register_value_u8;
+    U8 time_out_cnt_u8 = 100U;
+    U8 register_value_u8;
 
     if ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_RESET_MASK, DD_MAX_30102_RESET ) )
     {
@@ -240,37 +290,41 @@ PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b )
                                             ( ( TRUE == enable_b ) ? DD_MAX_30102_WAKEUP : DD_MAX_30102_SHUTDOWN ) ) );
 }
 
-PRIVATE BOOLEAN dd_max_30102_set_led_mode( const DD_MAX_30102_LED_MODE mode_e )
+PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA * const p_data_s,
+                                       const DD_MAX_30102_MODE  mode_e )
 {
     U8 mode_u8 = 0xFF;
 
     switch ( mode_e )
     {
-    case DD_MAX_30102_MODE_RED:
-        mode_u8 = DD_MAX_30102_MODE_LED_RED;
+    case DD_MAX_30102_MODE_HR:
+        mode_u8 = DD_MAX_30102_LED_MODE_HR;
         break;
 
-    case DD_MAX_30102_MODE_RED_IR:
-        mode_u8 = DD_MAX_30102_MODE_LED_RED_IR;
+    case DD_MAX_30102_MODE_SPO2:
+        mode_u8 = DD_MAX_30102_LED_MODE_SPO2;
         break;
 
     case DD_MAX_30102_MODE_MULTI_LED:
-        mode_u8 = DD_MAX_30102_MODE_LED_MULTI;
+        mode_u8 = DD_MAX_30102_LED_MODE_MULTI;
         break;
 
     default:
-        assert( mode_e == DD_MAX_30102_MODE_RED       );
-        assert( mode_e == DD_MAX_30102_MODE_RED_IR    );
+        assert( mode_e == DD_MAX_30102_MODE_HR        );
+        assert( mode_e == DD_MAX_30102_MODE_SPO2      );
         assert( mode_e == DD_MAX_30102_MODE_MULTI_LED );
-        break;
+        return FALSE;
     }
 
     if (    ( 0xFF  == mode_u8 )
-         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_MODE_MASK, mode_u8 ) ) )
+         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_LED_MODE_MASK, mode_u8 ) ) )
     {
-        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_set_led_mode %s error", ( 0xFF  == mode_u8 ) ? "wrong argument" : "I2C" );
+        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_set_mode: %s error", ( 0xFF == mode_u8 ) ? "wrong argument" : "I2C" );
         return FALSE;
     }
+
+    /* Updated mode in database */
+    p_data_s->mode_e = mode_e;
 
     return TRUE;
 }
@@ -304,11 +358,11 @@ PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e
         assert( range_e == DD_MAX_30102_ADC_RANGE_4096  );
         assert( range_e == DD_MAX_30102_ADC_RANGE_8192  );
         assert( range_e == DD_MAX_30102_ADC_RANGE_16384 );
-        break;
+        return FALSE;
     }
 
     if (    ( 0xFF  == range_u8 )
-         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_SPO2_ADC_RANGE_MASK, range_u8 ) ) )
+         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_SPO2_CONFIG, DD_MAX_30102_SPO2_ADC_RANGE_MASK, range_u8 ) ) )
     {
         ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_set_adc_range %s error", ( 0xFF  == range_u8 ) ? "wrong argument" : "I2C" );
         return FALSE;
@@ -366,13 +420,13 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rat
         assert( rate_e == DD_MAX_30102_SAMPLE_RATE_1000 );
         assert( rate_e == DD_MAX_30102_SAMPLE_RATE_1600 );
         assert( rate_e == DD_MAX_30102_SAMPLE_RATE_3200 );
-        break;
+        return FALSE;
     }
 
     if (    ( 0xFF == rate_u8 )
-         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_SPO2_SMP_RATE_MASK, rate_u8 ) ) )
+         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_SPO2_CONFIG, DD_MAX_30102_SPO2_SMP_RATE_MASK, rate_u8 ) ) )
     {
-        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_set_sample_rate %s error", ( 0xFF  == rate_u8 ) ? "wrong argument" : "I2C" );
+        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_set_sample_rate %s error", ( 0xFF == rate_u8 ) ? "wrong argument" : "I2C" );
         return FALSE;
     }
 
@@ -384,43 +438,36 @@ PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH wid
 {
     U8 width_u8 = 0xFF;
 
-    if ( DD_MAX_30102_PULSE_WIDTH_SIZE > width_e )
+    switch ( width_e )
     {
-        switch ( width_e )
-        {
-        case DD_MAX_30102_PULSE_WIDTH_69:
-            width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_69;
-            break;
+    case DD_MAX_30102_PULSE_WIDTH_69:
+        width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_69;
+        break;
 
-        case DD_MAX_30102_PULSE_WIDTH_118:
-            width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_118;
-            break;
+    case DD_MAX_30102_PULSE_WIDTH_118:
+        width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_118;
+        break;
 
-        case DD_MAX_30102_PULSE_WIDTH_215:
-            width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_215;
-            break;
+    case DD_MAX_30102_PULSE_WIDTH_215:
+        width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_215;
+        break;
 
-        case DD_MAX_30102_PULSE_WIDTH_411:
-            width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_411;
-            break;
+    case DD_MAX_30102_PULSE_WIDTH_411:
+        width_u8 = DD_MAX_30102_LED_PULSE_WIDTH_411;
+        break;
 
-        default:
-            assert( width_e == DD_MAX_30102_PULSE_WIDTH_69  );
-            assert( width_e == DD_MAX_30102_PULSE_WIDTH_118 );
-            assert( width_e == DD_MAX_30102_PULSE_WIDTH_215 );
-            assert( width_e == DD_MAX_30102_PULSE_WIDTH_411 );
-            break;
-        }
-
-        if (    ( 0xFF == width_e )
-             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_MODE_CONFIG, DD_MAX_30102_SPO2_ADC_RANGE_MASK, width_u8 ) ) )
-        {
-            return FALSE;
-        }
+    default:
+        assert( width_e == DD_MAX_30102_PULSE_WIDTH_69  );
+        assert( width_e == DD_MAX_30102_PULSE_WIDTH_118 );
+        assert( width_e == DD_MAX_30102_PULSE_WIDTH_215 );
+        assert( width_e == DD_MAX_30102_PULSE_WIDTH_411 );
+        return FALSE;
     }
-    else
+
+    if (    ( 0xFF == width_e )
+         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_SPO2_CONFIG, DD_MAX_30102_LED_PULSE_WIDTH_MASK, width_u8 ) ) )
     {
-        assert( DD_MAX_30102_PULSE_WIDTH_SIZE > width_e );
+        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_set_pulse_width %s error", ( 0xFF == width_e ) ? "wrong argument" : "I2C" );
         return FALSE;
     }
 
@@ -450,7 +497,7 @@ PRIVATE BOOLEAN dd_max_30102_set_amplitude( const DD_MAX_30102_LED_TYPE type_e,
         assert( type_e == DD_MAX_30102_LED_TYPE_RED  );
         assert( type_e == DD_MAX_30102_LED_TYPE_IR   );
         assert( type_e == DD_MAX_30102_LED_TYPE_PROX );
-        break;
+        return FALSE;
     }
 
     if (    ( 0xFF  == type_reg_addr_u8 )
@@ -478,91 +525,80 @@ PRIVATE BOOLEAN dd_max_30102_setup_slot( const DD_MAX_30102_SLOT      slot_e,
     U8      register_addr_u8 = 0xFF;
     U8      bit_offset_u8    = 0U;
 
-    if (    ( DD_MAX_30102_SLOT_SIZE      > slot_e )
-         && ( DD_MAX_30102_SLOT_MODE_SIZE > mode_e ) )
+    /* Switch slot type */
+    switch ( slot_e )
     {
-        /* Switch slot type */
-        switch ( slot_e )
-        {
-        case DD_MAX_30102_SLOT_1:
-            slot_mask_u8     = DD_MAX_30102_SLOT_1_MASK;
-            register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_1;
-            break;
+    case DD_MAX_30102_SLOT_1:
+        slot_mask_u8     = DD_MAX_30102_SLOT_1_MASK;
+        register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_1;
+        break;
 
-        case DD_MAX_30102_SLOT_2:
-            slot_mask_u8     = DD_MAX_30102_SLOT_2_MASK;
-            register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_1;
-            bit_offset_u8    = 4U;
-            break;
+    case DD_MAX_30102_SLOT_2:
+        slot_mask_u8     = DD_MAX_30102_SLOT_2_MASK;
+        register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_1;
+        bit_offset_u8    = 4U;
+        break;
 
-        case DD_MAX_30102_SLOT_3:
-            slot_mask_u8     = DD_MAX_30102_SLOT_3_MASK;
-            register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_2;
-            break;
+    case DD_MAX_30102_SLOT_3:
+        slot_mask_u8     = DD_MAX_30102_SLOT_3_MASK;
+        register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_2;
+        break;
 
-        case DD_MAX_30102_SLOT_4:
-            slot_mask_u8     = DD_MAX_30102_SLOT_4_MASK;
-            register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_2;
-            bit_offset_u8    = 4U;
-            break;
+    case DD_MAX_30102_SLOT_4:
+        slot_mask_u8     = DD_MAX_30102_SLOT_4_MASK;
+        register_addr_u8 = DD_MAX_30102_MULTI_LED_CONFIG_2;
+        bit_offset_u8    = 4U;
+        break;
 
-        default:
-            assert( slot_e == DD_MAX_30102_SLOT_1 );
-            assert( slot_e == DD_MAX_30102_SLOT_2 );
-            assert( slot_e == DD_MAX_30102_SLOT_3 );
-            assert( slot_e == DD_MAX_30102_SLOT_4 );
-            break;
-        }
-
-        /* Switch slot mode */
-        switch ( mode_e )
-        {
-        case DD_MAX_30102_SLOT_MODE_NONE:
-            slot_mode_u8 = DD_MAX_30102_SLOT_NONE;
-            break;
-
-        case DD_MAX_30102_SLOT_MODE_LED_RED:
-            slot_mode_u8 = DD_MAX_30102_SLOT_RED_LED;
-            break;
-
-        case DD_MAX_30102_SLOT_MODE_LED_IR:
-            slot_mode_u8 = DD_MAX_30102_SLOT_IR_LED;
-            break;
-
-        case DD_MAX_30102_SLOT_MONE_PILOT:
-            slot_mode_u8 = DD_MAX_30102_SLOT_NONE_PILOT;
-            break;
-
-        case DD_MAX_30102_SLOT_MODE_LED_RED_PILOT:
-            slot_mode_u8 = DD_MAX_30102_SLOT_RED_PILOT;
-            break;
-
-        case DD_MAX_30102_SLOT_MODE_LED_IR_PILOT:
-            slot_mode_u8 = DD_MAX_30102_SLOT_IR_PILOT;
-            break;
-
-        default:
-            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_NONE          );
-            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED       );
-            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR        );
-            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MONE_PILOT         );
-            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED_PILOT );
-            assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR_PILOT  );
-            break;
-        }
-
-        if (    ( 0xFF == slot_mask_u8 )
-             || ( 0xFF == slot_mode_u8 )
-             || ( 0xFF == register_addr_u8 )
-             || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, register_addr_u8, slot_mask_u8, ( slot_mode_u8 << bit_offset_u8 ) ) ) )
-        {
-            return FALSE;
-        }
+    default:
+        assert( slot_e == DD_MAX_30102_SLOT_1 );
+        assert( slot_e == DD_MAX_30102_SLOT_2 );
+        assert( slot_e == DD_MAX_30102_SLOT_3 );
+        assert( slot_e == DD_MAX_30102_SLOT_4 );
+        break;
     }
-    else
+
+    /* Switch slot mode */
+    switch ( mode_e )
     {
-        assert( DD_MAX_30102_SLOT_SIZE      > slot_e );
-        assert( DD_MAX_30102_SLOT_MODE_SIZE > mode_e );
+    case DD_MAX_30102_SLOT_MODE_NONE:
+        slot_mode_u8 = DD_MAX_30102_SLOT_NONE;
+        break;
+
+    case DD_MAX_30102_SLOT_MODE_LED_RED:
+        slot_mode_u8 = DD_MAX_30102_SLOT_RED_LED;
+        break;
+
+    case DD_MAX_30102_SLOT_MODE_LED_IR:
+        slot_mode_u8 = DD_MAX_30102_SLOT_IR_LED;
+        break;
+
+    case DD_MAX_30102_SLOT_MODE_LED_RED_PILOT:
+        slot_mode_u8 = DD_MAX_30102_SLOT_RED_PILOT;
+        break;
+
+    case DD_MAX_30102_SLOT_MODE_LED_IR_PILOT:
+        slot_mode_u8 = DD_MAX_30102_SLOT_IR_PILOT;
+        break;
+
+    default:
+        assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_NONE          );
+        assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED       );
+        assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR        );
+        assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_RED_PILOT );
+        assert( slot_mode_u8 == DD_MAX_30102_SLOT_MODE_LED_IR_PILOT  );
+        break;
+    }
+
+    if (    ( 0xFF == slot_mask_u8 )
+         || ( 0xFF == slot_mode_u8 )
+         || ( 0xFF == register_addr_u8 )
+         || ( FALSE == dd_i2c_read_modify_write_mask( DD_MAX_30105_I2C_ADDR, register_addr_u8, slot_mask_u8, ( slot_mode_u8 << bit_offset_u8 ) ) ) )
+    {
+        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "dd_max_30102_setup_slot %s error", (    ( 0xFF  == slot_mask_u8 )
+                                                                                  || ( 0xFF  == slot_mask_u8 )
+                                                                                  || ( 0xFF  == slot_mask_u8 ) )
+                                                                                   ? "wrong argument" : "I2C" );
         return FALSE;
     }
 
@@ -653,13 +689,12 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void )
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
-                                                    U8* const                   p_value_u8 )
+PRIVATE BOOLEAN dd_max_30102_get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
+                                                   U8* const                   p_value_u8 )
 {
     U8 ptr_reg_addr_u8 = 0xFF;
 
-    if (    ( NULL != p_value_u8 )
-         && ( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e ) )
+    if ( NULL != p_value_u8 )
     {
         switch ( ptr_type_e )
         {
@@ -686,7 +721,6 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
     else
     {
         assert( NULL != p_value_u8 );
-        assert( DD_MAX_30102_PTR_TYPE_SIZE > ptr_type_e );
         return FALSE;
     }
 
@@ -695,10 +729,9 @@ PRIVATE BOOLEAN dd_max_30102_get_ptr_value_by_type( const DD_MAX_30102_PTR_TYPE 
 
 PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
 {
-    U8      time_out_cnt_u8 = dd_max_30102_temp_time_out_cnt_cfg_u8;
-    U8      register_value_vu8[DD_MAX_30102_TEMP_COMP_SIZE];
-    U8      register_value_u8;
-
+    U8 time_out_cnt_u8 = dd_max_30102_temp_time_out_cnt_cfg_u8;
+    U8 register_value_vu8[DD_MAX_30102_TEMP_COMP_SIZE];
+    U8 register_value_u8;
 
     if ( NULL != p_value_f32 )
     {
@@ -781,3 +814,35 @@ PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 )
         return FALSE;
     }
 }
+
+PRIVATE BOOLEAN dd_max_30102_get_sample_data( DD_MAX_30102_DATA* p_data_s )
+{
+
+    S8 num_samples_s8;
+
+    /* Get FIFO pointers */
+    dd_max_30102_get_fifo_ptr_by_type( DD_MAX_30102_PTR_TYPE_READ,
+                                       &p_data_s->read_ptr_u8);
+
+    dd_max_30102_get_fifo_ptr_by_type( DD_MAX_30102_PTR_TYPE_WRITE,
+                                       &p_data_s->write_ptr_u8);
+
+    /* Check if new data is available */
+    if ( p_data_s->read_ptr_u8 != p_data_s->write_ptr_u8 )
+    {
+        /* Calculate the number of reading to be taken from the FIFO */
+        num_samples_s8 = p_data_s->write_ptr_u8 - p_data_s->read_ptr_u8;
+
+        /* Handle FIFO pointer wrap around */
+        if ( num_samples_s8 < 0U )
+        {
+            num_samples_s8 += DD_MAX_30102_FIFO_SIZE;
+        }
+
+        ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "New data available: %i samples", num_samples_s8 );
+    }
+
+    return TRUE;
+}
+
+
