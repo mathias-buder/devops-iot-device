@@ -326,8 +326,8 @@ typedef struct DD_MAX_30102_DATA_TAG
     U8                read_ptr_u8;
     U8                write_ptr_u8;
     U8                active_leds_u8;
-    U32               red_data_raw_u32;
-    U32               ir_data_raw_u32;
+    U32               red_data_raw_u32[32U];
+    U32               ir_data_raw_u32[32U];
     F32               temperature_f32;
     DD_MAX_30102_MODE mode_e;
 

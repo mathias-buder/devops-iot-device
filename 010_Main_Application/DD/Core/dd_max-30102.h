@@ -39,7 +39,7 @@
 
 // FIFO Registers
 #define DD_MAX_30102_FIFO_WRITE_PTR             0x04
-#define DD_MAX_30102_FIFO_OVER_FLOW             0x05
+#define DD_MAX_30102_FIFO_OVF_COUNTER           0x05
 #define DD_MAX_30102_FIFO_READ_PTR              0x06
 #define DD_MAX_30102_FIFO_DATA                  0x07
 
@@ -173,8 +173,9 @@
 #define DD_MAX_30102_SLOT_RED_PILOT             0x05
 #define DD_MAX_30102_SLOT_IR_PILOT              0x06
 
-
+/* FIFO properties */
 #define DD_MAX_30102_FIFO_SIZE                  32U /* FIFO size in bytes */
+#define DD_MAX_30102_FIFO_CHANNEL_SIZE          3U  /* FIFO channel size in bytes */
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
