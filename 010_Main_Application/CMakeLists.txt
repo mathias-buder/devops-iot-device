@@ -28,4 +28,4 @@ set(EXTRA_COMPONENT_DIRS "OS"
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 # Set projekt name
-project(smart_vibrator)
+project(SmartV)
