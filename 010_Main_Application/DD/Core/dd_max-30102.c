@@ -75,17 +75,18 @@ BOOLEAN dd_max_30102_init( void )
 
     if (    ( FALSE == dd_max_30102_soft_reset() )
 
-         /********* MODE Configuration *********/
-         || ( FALSE == dd_max_30102_set_mode( &dd_max_30102_data_s, dd_max_30102_mode_cfg_e ) )
+        /* Read device id and chip revision */
+        || ( FALSE == dd_max_30102_get_part_id( &dd_max_30102_data_s.part_id_u8 ) )
+        || ( FALSE == dd_max_30102_get_rev_id( &dd_max_30102_data_s.rev_id_u8 ) )
 
          /********* FIFO Configuration *********/
          /* The chip will average multiple samples of same type together */
          || ( FALSE == dd_max_30102_set_sample_average( dd_max_30102_sample_avg_cfg_e ))
 
          /* Set to 30 samples to trigger an 'Almost Full' interrupt */
-         || ( FALSE == dd_max_30102_set_fifo_a_full_value( 2U ) )
-         || ( FALSE == dd_max_30102_set_fifo_int_a_full( TRUE ) )
-         || ( FALSE == dd_max_30102_set_fifo_roll_over( FALSE ) )
+         || ( FALSE == dd_max_30102_set_fifo_a_full_value( dd_max_30102_fifo_a_full_value_u8 ) )
+         || ( FALSE == dd_max_30102_set_fifo_int_a_full( dd_max_30102_fifo_a_full_int_enable_b ) )
+         || ( FALSE == dd_max_30102_set_fifo_roll_over( dd_max_30102_fifo_roll_over_b ) )
 
          /* Reset the FIFO before checking the sensor */
          || ( FALSE == dd_max_30102_set_fifo_clear() )
@@ -95,23 +96,21 @@ BOOLEAN dd_max_30102_init( void )
          || ( FALSE == dd_max_30102_set_sample_rate( dd_max_30102_sample_rate_cfg_e ) )
 
          /****** LED Pulse Amplitude Configuration ******/
-         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED, dd_max_30102_led_amplitude_cfg_u8 ) )
-         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR, dd_max_30102_led_amplitude_cfg_u8 ) )
+         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_RED,  dd_max_30102_led_amplitude_cfg_u8 ) )
+         || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_IR,   dd_max_30102_led_amplitude_cfg_u8 ) )
          || ( FALSE == dd_max_30102_set_amplitude( DD_MAX_30102_LED_TYPE_PROX, dd_max_30102_led_amplitude_cfg_u8 ) )
 
          /****** LED Pulse Width Configuration ******/
          || ( FALSE == dd_max_30102_set_pulse_width( dd_max_30102_pulse_width_cfg_e ) )
 
          /****** Interrupt Configuration ******/
-         || ( FALSE == dd_max_30102_set_die_temp_rdy_int( TRUE ) )
-         || ( FALSE == dd_max_30102_set_prox_int( TRUE ) )
-
+         || ( FALSE == dd_max_30102_set_die_temp_rdy_int( dd_max_30102_die_temp_rdy_int_enable_b ) )
+         || ( FALSE == dd_max_30102_set_prox_int( dd_max_30102_prox_int_enable_b ) )
 
          || ( FALSE == dd_max_30102_set_proximity_threshold( dd_max_30102_prox_threshold_cfg_u8 ) )
 
-         /* Read device id and chip revision */
-         || ( FALSE == dd_max_30102_get_part_id( &dd_max_30102_data_s.part_id_u8 ) )
-         || ( FALSE == dd_max_30102_get_rev_id( &dd_max_30102_data_s.rev_id_u8 ) )
+         /********* MODE Configuration *********/
+         || ( FALSE == dd_max_30102_set_mode( &dd_max_30102_data_s, dd_max_30102_mode_cfg_e ) )
 
          // || ( FALSE == dd_max_30102_set_wake_up( FALSE ) )
 
@@ -127,8 +126,6 @@ BOOLEAN dd_max_30102_init( void )
 
 void dd_max_30102_main(void)
 {
-    U8 idx_u8;
-
     /* Read device temperature */
     dd_max_30102_get_temperature( &dd_max_30102_data_s.temperature_f32 );
 
@@ -142,13 +139,6 @@ void dd_max_30102_main(void)
                                                                                             dd_max_30102_data_s.rev_id_u8,
                                                                                             dd_max_30102_data_s.temperature_f32,
                                                                                             dd_max_30102_data_s.int_status_vb[DD_MAX_30102_INT_TYPE_PROX_INT] );
-
-//    for ( idx_u8 = 0U; idx_u8 < DD_MAX_30102_FIFO_SIZE; ++idx_u8 )
-//    {
-//        ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "RED %i, IR: %i", dd_max_30102_data_s.red_data_raw_u32[idx_u8],
-//                                                              dd_max_30102_data_s.red_data_raw_u32[idx_u8] );
-//    }
-
 }
 
 PRIVATE BOOLEAN dd_max_30102_get_int1( U8* const p_register_u8 )
@@ -624,8 +614,8 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG a
 
     switch ( average_e )
     {
-    case DD_MAX_30102_SAMPLE_AVG_1:
-        average_u8 = DD_MAX_30102_SMP_AVG_1;
+    case DD_MAX_30102_SAMPLE_AVG_NONE:
+        average_u8 = DD_MAX_30102_SMP_AVG_NONE;
         break;
 
     case DD_MAX_30102_SAMPLE_AVG_2:
@@ -649,12 +639,12 @@ PRIVATE BOOLEAN dd_max_30102_set_sample_average( const DD_MAX_30102_SAMPLE_AVG a
         break;
 
     default:
-        assert( average_e == DD_MAX_30102_SAMPLE_AVG_1  );
-        assert( average_e == DD_MAX_30102_SAMPLE_AVG_2  );
-        assert( average_e == DD_MAX_30102_SAMPLE_AVG_4  );
-        assert( average_e == DD_MAX_30102_SAMPLE_AVG_8  );
-        assert( average_e == DD_MAX_30102_SAMPLE_AVG_16 );
-        assert( average_e == DD_MAX_30102_SAMPLE_AVG_32 );
+        assert( average_e == DD_MAX_30102_SAMPLE_AVG_NONE );
+        assert( average_e == DD_MAX_30102_SAMPLE_AVG_2    );
+        assert( average_e == DD_MAX_30102_SAMPLE_AVG_4    );
+        assert( average_e == DD_MAX_30102_SAMPLE_AVG_8    );
+        assert( average_e == DD_MAX_30102_SAMPLE_AVG_16   );
+        assert( average_e == DD_MAX_30102_SAMPLE_AVG_32   );
         break;
     }
 
@@ -857,10 +847,12 @@ PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 )
 
 PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA* p_data_s )
 {
-    U8 idx_u8;
-    S8 num_samples_s8;
-    U8 register_vu8[2U * DD_MAX_30102_FIFO_CHANNEL_SIZE];
-    U8 fifo_ovf_cnt_u8;
+    U8  idx_u8;
+    S8  num_samples_s8;
+    U8  register_vu8[2U * DD_MAX_30102_FIFO_CHANNEL_SIZE];
+    U32 red_fifo_data_u32;
+    U32 ir_fifo_data_u32;
+    U8  fifo_ovf_cnt_u8;
 
     if ( NULL != p_data_s )
     {
@@ -890,26 +882,35 @@ PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA* p_data_s )
                                                                                                               p_data_s->read_ptr_u8,
                                                                                                               fifo_ovf_cnt_u8 );
 
+            p_data_s->red_data_raw_u32 = 0U;
+            p_data_s->ir_data_raw_u32  = 0U;
+
             for ( idx_u8 = 0U; idx_u8 < num_samples_s8; ++idx_u8 )
             {
-                /* Read one complete data block (2 x 3 byte) from the FIFO */
+                /* Read one complete data block (2 x 3 byte) off the FIFO */
                 if( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_FIFO_DATA, register_vu8 , sizeof( register_vu8 ) ) )
                 {
                     /* Invalidate raw values */
-                    p_data_s->red_data_raw_u32[idx_u8] = MAX_U32;
-                    p_data_s->ir_data_raw_u32[idx_u8]  = MAX_U32;
+                    p_data_s->red_data_raw_u32 = MAX_U32;
+                    p_data_s->ir_data_raw_u32  = MAX_U32;
 
                     ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "Error while reading FIFO data" );
                     return FALSE;
                 }
 
-                /* Extract data */
-                p_data_s->red_data_raw_u32[idx_u8] = ( register_vu8[0U] << 16U ) | ( register_vu8[1U] << 8U ) | ( register_vu8[2U] );
-                p_data_s->ir_data_raw_u32[idx_u8]  = ( register_vu8[3U] << 16U ) | ( register_vu8[4U] << 8U ) | ( register_vu8[5U] );
+                /* Extract 18-bit sample for each channel */
+                red_fifo_data_u32 = ( register_vu8[0U] << 16U ) | ( register_vu8[1U] << 8U ) | ( register_vu8[2U] );
+                ir_fifo_data_u32  = ( register_vu8[3U] << 16U ) | ( register_vu8[4U] << 8U ) | ( register_vu8[5U] );
 
-                ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "RED %i, IR: %i", dd_max_30102_data_s.red_data_raw_u32[idx_u8],
-                                                                      dd_max_30102_data_s.red_data_raw_u32[idx_u8] );
+                p_data_s->red_data_raw_u32 += red_fifo_data_u32;
+                p_data_s->ir_data_raw_u32  += ir_fifo_data_u32;
             }
+
+            p_data_s->red_data_raw_u32 /= num_samples_s8;
+            p_data_s->ir_data_raw_u32  /= num_samples_s8;
+
+            ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "RED %i, IR: %i", p_data_s->red_data_raw_u32,
+                                                                  p_data_s->ir_data_raw_u32 );
         }
     }
     else

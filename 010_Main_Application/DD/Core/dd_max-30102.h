@@ -13,7 +13,7 @@
 *********************************************************************/
 
 /**
- * @file dd_icm-20600.h
+ * @file dd_max-30102.h
  * @details Some detailed description
  */
 
@@ -26,24 +26,23 @@
 #include "dd_types.h"
 #include "../Config/dd_max-30102_Cfg.h"
 
-
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 
-// Status Registers
+/* Status Registers */
 #define DD_MAX_30102_INT_STAT_1                 0x00
 #define DD_MAX_30102_INT_STAT_2                 0x01
 #define DD_MAX_30102_INT_ENABLE_1               0x02
 #define DD_MAX_30102_INT_ENABLE_2               0x03
 
-// FIFO Registers
+/* FIFO Registers */
 #define DD_MAX_30102_FIFO_WRITE_PTR             0x04
 #define DD_MAX_30102_FIFO_OVF_COUNTER           0x05
 #define DD_MAX_30102_FIFO_READ_PTR              0x06
 #define DD_MAX_30102_FIFO_DATA                  0x07
 
-// Configuration Registers
+/* Configuration Registers */
 #define DD_MAX_30102_FIFO_CONFIG                0x08
 #define DD_MAX_30102_MODE_CONFIG                0x09
 #define DD_MAX_30102_SPO2_CONFIG                0x0A
@@ -53,16 +52,16 @@
 #define DD_MAX_30102_MULTI_LED_CONFIG_1         0x11
 #define DD_MAX_30102_MULTI_LED_CONFIG_2         0x12
 
-// Die Temperature Registers
+/* Die Temperature Registers */
 #define DD_MAX_30102_DIE_TEMP_INT               0x1F
 #define DD_MAX_30102_DIE_TEMP_FRAC              0x20
 #define DD_MAX_30102_DIE_TEMP_CONFIG            0x21
 #define DD_MAX_30102_DIE_TEMP_FRAC_RES          0.0625F
 
-// Proximity Function Registers
+/* Proximity Function Registers */
 #define DD_MAX_30102_PROX_INT_THRESH            0x30
 
-// Part ID Registers
+/* Part ID Registers */
 #define DD_MAX_30102_REVISION_ID                0xFE
 #define DD_MAX_30102_PART_ID                    0xFF    // Should always be 0x15. Identical to MAX30102.
 
@@ -101,7 +100,7 @@
 
 /* Sample Averaging (SMP_AVE) */
 #define DD_MAX_30102_SMP_AVG_MASK               0x1F /* (byte)~0b11100000 */
-#define DD_MAX_30102_SMP_AVG_1                  0x00
+#define DD_MAX_30102_SMP_AVG_NONE               0x00
 #define DD_MAX_30102_SMP_AVG_2                  0x20
 #define DD_MAX_30102_SMP_AVG_4                  0x40
 #define DD_MAX_30102_SMP_AVG_8                  0x60

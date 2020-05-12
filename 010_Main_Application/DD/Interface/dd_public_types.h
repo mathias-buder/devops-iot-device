@@ -247,7 +247,8 @@ typedef enum DD_MAX_30102_SLOT_MODE_TAG
 
 typedef enum DD_MAX_30102_MODE_TAG
 {
-    DD_MAX_30102_MODE_HR = 0U,   /**< @details ... */
+    DD_MAX_30102_MODE_SLEEP = 0U,
+    DD_MAX_30102_MODE_HR,        /**< @details ... */
     DD_MAX_30102_MODE_SPO2,      /**< @details ... */
     DD_MAX_30102_MODE_MULTI_LED, /**< @details ... */
     DD_MAX_30102_MODE_SIZE
@@ -286,12 +287,12 @@ typedef enum DD_MAX_30102_PULSE_WIDTH_TAG
 
 typedef enum DD_MAX_30102_SAMPLE_AVG_TAG
 {
-    DD_MAX_30102_SAMPLE_AVG_1 = 0U, /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_2,      /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_4,      /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_8,      /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_16,     /**< @details ... */
-    DD_MAX_30102_SAMPLE_AVG_32,     /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_NONE = 0U, /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_2,        /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_4,        /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_8,        /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_16,       /**< @details ... */
+    DD_MAX_30102_SAMPLE_AVG_32,       /**< @details ... */
     DD_MAX_30102_SAMPLE_AVG_SIZE
 } DD_MAX_30102_SAMPLE_AVG;
 
@@ -326,8 +327,8 @@ typedef struct DD_MAX_30102_DATA_TAG
     U8                read_ptr_u8;
     U8                write_ptr_u8;
     U8                active_leds_u8;
-    U32               red_data_raw_u32[32U];
-    U32               ir_data_raw_u32[32U];
+    U32               red_data_raw_u32;
+    U32               ir_data_raw_u32;
     F32               temperature_f32;
     DD_MAX_30102_MODE mode_e;
 

@@ -48,6 +48,11 @@ extern U8                       dd_max_30102_led_amplitude_cfg_u8;
 extern U8                       dd_max_30102_temp_time_out_cnt_cfg_u8;
 extern U8                       dd_max_30102_temp_delay_ticks_cfg_u8;
 extern U8                       dd_max_30102_prox_threshold_cfg_u8;
+extern BOOLEAN                  dd_max_30102_fifo_roll_over_b;
+extern BOOLEAN                  dd_max_30102_fifo_a_full_int_enable_b;
+extern U8                       dd_max_30102_fifo_a_full_value_u8;
+extern BOOLEAN                  dd_max_30102_die_temp_rdy_int_enable_b;
+extern BOOLEAN                  dd_max_30102_prox_int_enable_b;
 
 /**
  * @details This function returns pointer to the osl object for the given id
