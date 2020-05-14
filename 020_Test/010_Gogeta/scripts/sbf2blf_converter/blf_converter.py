@@ -40,8 +40,8 @@ def natural_keys(text):
 # filename = "E:/ABC123_1.sbf"
 
 # %% Extract all .sbf files
-search_path = sys.argv[1]
-# search_path = "E:/"
+# search_path = sys.argv[1]
+search_path = "E:/"
 
 print("Searching in " + search_path + " for .sbf files")
 
@@ -73,15 +73,67 @@ writer.channel = 1
 
 
 # %% Define .sbf file layout
-#               time_stamp_f32, DLG_LOG_ICM_20600_DATA   DLG_LOG_I2C_DATA (f 3B H), global_msg_cnt_u8
-struct_fmt = '< 14f 10B 6h H                             4B h B x'
-struct_len = st.calcsize( struct_fmt )
-struct_unpack = st.Struct( struct_fmt ).unpack_from
+
+# C logging data structure definition
+
+# typedef struct DLG_LOG_DATA_TAG
+# {
+#    F32 dlg_time_stamp_f32;                /**< @details ... */
+#    F32 icm_20600_temperature_deg_f32;     /**< @details Internal core (die) temperature @unit °C */
+#    F32 icm_20600_factory_trim_xa_f32;     /**< @details ... */
+#    F32 icm_20600_factory_trim_ya_f32;     /**< @details ... */
+#    F32 icm_20600_factory_trim_za_f32;     /**< @details ... */
+#    F32 icm_20600_factory_trim_xg_f32;     /**< @details ... */
+#    F32 icm_20600_factory_trim_yg_f32;     /**< @details ... */
+#    F32 icm_20600_factory_trim_zg_f32;     /**< @details ... */
+#    F32 icm_20600_factory_trim_dev_xa_f32; /**< @details ... */
+#    F32 icm_20600_factory_trim_dev_ya_f32; /**< @details ... */
+#    F32 icm_20600_factory_trim_dev_za_f32; /**< @details ... */
+#    F32 icm_20600_factory_trim_dev_xg_f32; /**< @details ... */
+#    F32 icm_20600_factory_trim_dev_yg_f32; /**< @details ... */
+#    F32 icm_20600_factory_trim_dev_zg_f32; /**< @details ... */
+# -------------------- 14 x float 32 bit -----------------------
+
+#    U8  icm_20600_chip_id_u8;              /**< @details Unique chip id */
+#    U8  icm_20600_dev_state_u8;            /**< @details ... */
+#    U8  icm_20600_is_calibrated_u8;        /**< @details ... */
+#    U8  icm_20600_self_test_passed_u8;     /**< @details main icm-20600 device state */
+#    U8  icm_20600_self_test_xa_u8;         /**< @details ... */
+#    U8  icm_20600_self_test_ya_u8;         /**< @details ... */
+#    U8  icm_20600_self_test_za_u8;         /**< @details ... */
+#    U8  icm_20600_self_test_xg_u8;         /**< @details ... */
+#    U8  icm_20600_self_test_yg_u8;         /**< @details ... */
+#    U8  icm_20600_self_test_zg_u8;         /**< @details ... */
+#    U8  i2c_is_error_present_b;            /**< @details ... */
+#    U8  i2c_access_type_u8;                /**< @details ... */
+#    U8  i2c_device_addr_u8;                /**< @details ... */
+#    U8  i2c_register_addr_u8;              /**< @details ... */
+#    U8  dlg_global_msg_cnt_u8;             /**< @details ... */
+# -------------------- 15 x unsigned char 8 bit -----------------
+
+#    U16 icm_20600_temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
+# -------------------- 1 x unsigned short 16 bit ----------------
+
+#    S16 icm_20600_accel_raw_data_x_s16;    /**< @details ... */
+#    S16 icm_20600_accel_raw_data_y_s16;    /**< @details ... */
+#    S16 icm_20600_accel_raw_data_z_s16;    /**< @details ... */
+#    S16 icm_20600_gyro_raw_data_x_s16;     /**< @details ... */
+#    S16 icm_20600_gyro_raw_data_y_s16;     /**< @details ... */
+#    S16 icm_20600_gyro_raw_data_z_s16;     /**< @details ... */
+#    S16 i2c_error_code_s16;                /**< @details ... */
+# -------------------- 7 x short 16 bit -------------------------
+
+# } DLG_LOG_DATA;
+
+dlg_log_data_fmt = '< 14f 15B x H 7h'
+
+struct_len = st.calcsize( dlg_log_data_fmt )
+struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
 
 
 for sfb_file in files:
 
-    print("Writing content of: ", sfb_file)
+    print("Writing content of:", sfb_file)
 
     with open( sfb_file, "rb" ) as file:
         while True:
@@ -89,162 +141,163 @@ for sfb_file in files:
             if not data: break
             [
             # DLG_LOG_ICM_20600_DATA
-            global_time_f32,
-            temperature_deg_f32,
-            factory_trim_xa_f32,
-            factory_trim_ya_f32,
-            factory_trim_za_f32,
-            factory_trim_xg_f32,
-            factory_trim_yg_f32,
-            factory_trim_zg_f32,
-            factory_trim_dev_xa_f32,
-            factory_trim_dev_ya_f32,
-            factory_trim_dev_za_f32,
-            factory_trim_dev_xg_f32,
-            factory_trim_dev_yg_f32,
-            factory_trim_dev_zg_f32,
-            chip_id_u8,
-            dev_state_u8,
-            is_calibrated_u8,
-            self_test_passed_u8,
-            self_test_xa_u8,
-            self_test_ya_u8,
-            self_test_za_u8,
-            self_test_xg_u8,
-            self_test_yg_u8,
-            self_test_zg_u8,
-            accel_raw_data_x_s16,
-            accel_raw_data_y_s16,
-            accel_raw_data_z_s16,
-            gyro_raw_data_x_s16,
-            gyro_raw_data_y_s16,
-            gyro_raw_data_z_s16,
-            temperature_raw_u16,
+            dlg_global_time_f32,
+            icm_20600_temperature_deg_f32,
+            icm_20600_factory_trim_xa_f32,
+            icm_20600_factory_trim_ya_f32,
+            icm_20600_factory_trim_za_f32,
+            icm_20600_factory_trim_xg_f32,
+            icm_20600_factory_trim_yg_f32,
+            icm_20600_factory_trim_zg_f32,
+            icm_20600_factory_trim_dev_xa_f32,
+            icm_20600_factory_trim_dev_ya_f32,
+            icm_20600_factory_trim_dev_za_f32,
+            icm_20600_factory_trim_dev_xg_f32,
+            icm_20600_factory_trim_dev_yg_f32,
+            icm_20600_factory_trim_dev_zg_f32,
 
-            # DLG_LOG_I2C_DATA
-            error_state_u8,
-            access_type_u8,
-            device_addr_u8,
-            register_addr_u8,
-            error_code_s16,
+            icm_20600_chip_id_u8,
+            icm_20600_dev_state_u8,
+            icm_20600_is_calibrated_u8,
+            icm_20600_self_test_passed_u8,
+            icm_20600_self_test_xa_u8,
+            icm_20600_self_test_ya_u8,
+            icm_20600_self_test_za_u8,
+            icm_20600_self_test_xg_u8,
+            icm_20600_self_test_yg_u8,
+            icm_20600_self_test_zg_u8,
+            i2c_is_error_present_b,
+            i2c_access_type_u8,
+            i2c_device_addr_u8,
+            i2c_register_addr_u8,
+            dlg_global_msg_cnt_u8,
 
-            global_msg_cnt_u8
+            icm_20600_temperature_raw_u16,
+
+            icm_20600_accel_raw_data_x_s16,
+            icm_20600_accel_raw_data_y_s16,
+            icm_20600_accel_raw_data_z_s16,
+            icm_20600_gyro_raw_data_x_s16,
+            icm_20600_gyro_raw_data_y_s16,
+            icm_20600_gyro_raw_data_z_s16,
+            i2c_error_code_s16
+
             ] = struct_unpack( data )
 
-            msg_icm_20600_accel_data = st.pack( '3h', accel_raw_data_x_s16,
-                                                    accel_raw_data_y_s16,
-                                                    accel_raw_data_z_s16 )
+            msg_icm_20600_accel_data = st.pack( '3h', icm_20600_accel_raw_data_x_s16,
+                                                    icm_20600_accel_raw_data_y_s16,
+                                                    icm_20600_accel_raw_data_z_s16 )
 
             msg_icm_20600_accel = can.Message( arbitration_id=DLG_ICM_20600_ACCEL_ID,
                                             is_extended_id=False,
-                                            timestamp=global_time_f32,
+                                            timestamp=dlg_global_time_f32,
                                             data=msg_icm_20600_accel_data )
 
-            msg_icm_20600_gyro_data = st.pack( '3h', gyro_raw_data_x_s16,
-                                                    gyro_raw_data_y_s16,
-                                                    gyro_raw_data_z_s16 )
+            msg_icm_20600_gyro_data = st.pack( '3h', icm_20600_gyro_raw_data_x_s16,
+                                                    icm_20600_gyro_raw_data_y_s16,
+                                                    icm_20600_gyro_raw_data_z_s16 )
 
             msg_icm_20600_gyro = can.Message( arbitration_id=DLG_ICM_20600_GYRO_ID,
                                             is_extended_id=False,
-                                            timestamp=global_time_f32,
+                                            timestamp=dlg_global_time_f32,
                                             data=msg_icm_20600_gyro_data )
 
-            msg_icm_20600_general_data = st.pack( '3B', np.uint8( chip_id_u8 ),
-                                                np.uint8( dev_state_u8 ),
-                                                np.uint8( ((self_test_passed_u8 & 0x01) << 1)
-                                                            | (is_calibrated_u8 & 0x01) ) )
+            msg_icm_20600_general_data = st.pack( '3B', np.uint8( icm_20600_chip_id_u8 ),
+                                                np.uint8( icm_20600_dev_state_u8 ),
+                                                np.uint8( ((icm_20600_self_test_passed_u8 & 0x01) << 1)
+                                                            | (icm_20600_is_calibrated_u8 & 0x01) ) )
 
             msg_icm_20600_general = can.Message( arbitration_id=DLG_ICM_20600_GENERAL_ID,
                                                 is_extended_id=False,
-                                                timestamp=global_time_f32,
+                                                timestamp=dlg_global_time_f32,
                                                 data=msg_icm_20600_general_data )
 
             # Scale (according to DLG.dbc) and pack date
-            temperature_deg_f32 = temperature_deg_f32 * 100
+            icm_20600_temperature_deg_f32 = icm_20600_temperature_deg_f32 * 100
 
-            msg_icm_20600_temperature_date = st.pack( 'Hh', np.uint16(temperature_raw_u16),
-                                                            np.int16(temperature_deg_f32 ) )
+            msg_icm_20600_temperature_date = st.pack( 'Hh', np.uint16(icm_20600_temperature_raw_u16),
+                                                            np.int16(icm_20600_temperature_deg_f32 ) )
 
             msg_icm_20600_temperature = can.Message( arbitration_id=DLG_ICM_20600_TEMPERATURE_ID,
                                                     is_extended_id=False,
-                                                    timestamp=global_time_f32,
+                                                    timestamp=dlg_global_time_f32,
                                                     data=msg_icm_20600_temperature_date )
 
-            msg_icm_20600_self_test_data = st.pack( '6B', np.uint8( self_test_xa_u8 ),
-                                                    np.uint8( self_test_ya_u8 ),
-                                                    np.uint8( self_test_za_u8 ),
-                                                    np.uint8( self_test_xg_u8 ),
-                                                    np.uint8( self_test_yg_u8 ),
-                                                    np.uint8( self_test_zg_u8 ) )
+            msg_icm_20600_self_test_data = st.pack( '6B', np.uint8( icm_20600_self_test_xa_u8 ),
+                                                    np.uint8( icm_20600_self_test_ya_u8 ),
+                                                    np.uint8( icm_20600_self_test_za_u8 ),
+                                                    np.uint8( icm_20600_self_test_xg_u8 ),
+                                                    np.uint8( icm_20600_self_test_yg_u8 ),
+                                                    np.uint8( icm_20600_self_test_zg_u8 ) )
 
             msg_icm_20600_self_test = can.Message( arbitration_id=DLG_ICM_20600_SELF_TEST_ID,
                                                 is_extended_id=False,
-                                                timestamp=global_time_f32,
+                                                timestamp=dlg_global_time_f32,
                                                 data=msg_icm_20600_self_test_data )
 
-            msg_icm_20600_factory_accl_trim_data = st.pack( '3h', np.int16( factory_trim_xa_f32 ),
-                                                                np.int16( factory_trim_ya_f32 ),
-                                                                np.int16( factory_trim_za_f32 ) )
+            msg_icm_20600_factory_accl_trim_data = st.pack( '3h', np.int16( icm_20600_factory_trim_xa_f32 ),
+                                                                np.int16( icm_20600_factory_trim_ya_f32 ),
+                                                                np.int16( icm_20600_factory_trim_za_f32 ) )
 
             msg_icm_20600_factory_accl_trim = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_ACCEL_TRIM_ID,
                                                         is_extended_id=False,
-                                                        timestamp=global_time_f32,
+                                                        timestamp=dlg_global_time_f32,
                                                         data=msg_icm_20600_factory_accl_trim_data )
 
-            msg_icm_20600_factory_gyro_trim_data = st.pack( '3h', np.int16( factory_trim_xg_f32 ),
-                                                            np.int16( factory_trim_yg_f32 ),
-                                                            np.int16( factory_trim_zg_f32 ) )
+            msg_icm_20600_factory_gyro_trim_data = st.pack( '3h', np.int16( icm_20600_factory_trim_xg_f32 ),
+                                                            np.int16( icm_20600_factory_trim_yg_f32 ),
+                                                            np.int16( icm_20600_factory_trim_zg_f32 ) )
 
             msg_icm_20600_factory_gyro_trim = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_GYRO_TRIM_ID,
                                                         is_extended_id=False,
-                                                        timestamp=global_time_f32,
+                                                        timestamp=dlg_global_time_f32,
                                                         data=msg_icm_20600_factory_gyro_trim_data )
 
             # Scale (according to DLG.dbc) and pack date
-            factory_trim_dev_xa_f32 = factory_trim_dev_xa_f32 * 1000
-            factory_trim_dev_ya_f32 = factory_trim_dev_ya_f32 * 1000
-            factory_trim_dev_za_f32 = factory_trim_dev_za_f32 * 1000
+            icm_20600_factory_trim_dev_xa_f32 = icm_20600_factory_trim_dev_xa_f32 * 1000
+            icm_20600_factory_trim_dev_ya_f32 = icm_20600_factory_trim_dev_ya_f32 * 1000
+            icm_20600_factory_trim_dev_za_f32 = icm_20600_factory_trim_dev_za_f32 * 1000
 
-            msg_icm_20600_factory_accl_trim_dev_data = st.pack( '3h', np.int16( factory_trim_dev_xa_f32 ),
-                                                                np.int16( factory_trim_dev_ya_f32 ),
-                                                                np.int16( factory_trim_dev_za_f32 ) )
+            msg_icm_20600_factory_accl_trim_dev_data = st.pack( '3h', np.int16( icm_20600_factory_trim_dev_xa_f32 ),
+                                                                np.int16( icm_20600_factory_trim_dev_ya_f32 ),
+                                                                np.int16( icm_20600_factory_trim_dev_za_f32 ) )
 
             msg_icm_20600_accl_factory_trim_dev = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV_ID,
                                                             is_extended_id=False,
-                                                            timestamp=global_time_f32,
+                                                            timestamp=dlg_global_time_f32,
                                                             data=msg_icm_20600_factory_accl_trim_dev_data )
 
             # Scale (according to DLG.dbc) and pack date
-            factory_trim_dev_xg_f32 = factory_trim_dev_xg_f32 * 1000
-            factory_trim_dev_yg_f32 = factory_trim_dev_yg_f32 * 1000
-            factory_trim_dev_zg_f32 = factory_trim_dev_zg_f32 * 1000
+            icm_20600_factory_trim_dev_xg_f32 = icm_20600_factory_trim_dev_xg_f32 * 1000
+            icm_20600_factory_trim_dev_yg_f32 = icm_20600_factory_trim_dev_yg_f32 * 1000
+            icm_20600_factory_trim_dev_zg_f32 = icm_20600_factory_trim_dev_zg_f32 * 1000
 
-            msg_icm_20600_factory_gyro_trim_dev_data = st.pack( '3h', np.int16( factory_trim_dev_xg_f32 ),
-                                                                    np.int16( factory_trim_dev_yg_f32 ),
-                                                                    np.int16( factory_trim_dev_zg_f32 ) )
+            msg_icm_20600_factory_gyro_trim_dev_data = st.pack( '3h', np.int16( icm_20600_factory_trim_dev_xg_f32 ),
+                                                                    np.int16( icm_20600_factory_trim_dev_yg_f32 ),
+                                                                    np.int16( icm_20600_factory_trim_dev_zg_f32 ) )
 
             msg_icm_20600_gyro_factory_trim_dev = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID,
                                                             is_extended_id=False,
-                                                            timestamp=global_time_f32,
+                                                            timestamp=dlg_global_time_f32,
                                                             data=msg_icm_20600_factory_gyro_trim_dev_data )
 
 
-            msg_i2c_error_data = st.pack( '4B h', np.uint8( error_state_u8 ),
-                                                np.uint8( access_type_u8 ),
-                                                np.uint8( device_addr_u8 ),
-                                                np.uint8( register_addr_u8 ),
-                                                np.int16( error_code_s16 ) )
+            msg_i2c_error_data = st.pack( '4B h', np.uint8( i2c_is_error_present_b ),
+                                                np.uint8( i2c_access_type_u8 ),
+                                                np.uint8( i2c_device_addr_u8 ),
+                                                np.uint8( i2c_register_addr_u8 ),
+                                                np.int16( i2c_error_code_s16 ) )
 
             msg_i2c_error = can.Message( arbitration_id=DLG_I2C_ERROR_ID,
                                         is_extended_id=False,
-                                        timestamp=global_time_f32,
+                                        timestamp=dlg_global_time_f32,
                                         data=msg_i2c_error_data )
 
-            msg_dlg_log_general_data = st.pack( 'B', np.uint8( global_msg_cnt_u8 ) )
+            msg_dlg_log_general_data = st.pack( 'B', np.uint8( dlg_global_msg_cnt_u8 ) )
 
             msg_dlg_log_general = can.Message( arbitration_id=DLG_LOG_General,
                                                is_extended_id=False,
-                                               timestamp=global_time_f32,
+                                               timestamp=dlg_global_time_f32,
                                                data=msg_dlg_log_general_data )
 
 

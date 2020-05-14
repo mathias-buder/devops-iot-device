@@ -48,64 +48,49 @@ typedef struct DLG_DATA_TAG
 /**
  * @details enumerator of ...
  */
-typedef struct DLG_LOG_I2C_DATA_TAG
-{
-    U8  is_error_present_b; /**< @details ... */
-    U8  access_type_u8;     /**< @details ... */
-    U8  device_addr_u8;     /**< @details ... */
-    U8  register_addr_u8;   /**< @details ... */
-    S16 error_code_s16;     /**< @details ... */
-} DLG_LOG_I2C_DATA;
-
-/**
- * @details enumerator of ...
- */
-typedef struct DLG_LOG_ICM_20600_DATA_TAG
-{
-    F32 temperature_deg_f32;     /**< @details Internal core (die) temperature @unit °C */
-    F32 factory_trim_xa_f32;     /**< @details ... */
-    F32 factory_trim_ya_f32;     /**< @details ... */
-    F32 factory_trim_za_f32;     /**< @details ... */
-    F32 factory_trim_xg_f32;     /**< @details ... */
-    F32 factory_trim_yg_f32;     /**< @details ... */
-    F32 factory_trim_zg_f32;     /**< @details ... */
-    F32 factory_trim_dev_xa_f32; /**< @details ... */
-    F32 factory_trim_dev_ya_f32; /**< @details ... */
-    F32 factory_trim_dev_za_f32; /**< @details ... */
-    F32 factory_trim_dev_xg_f32; /**< @details ... */
-    F32 factory_trim_dev_yg_f32; /**< @details ... */
-    F32 factory_trim_dev_zg_f32; /**< @details ... */
-
-    U8  chip_id_u8;              /**< @details Unique chip id */
-    U8  dev_state_u8;            /**< @details ... */
-    U8  is_calibrated_u8;        /**< @details ... */
-    U8  self_test_passed_u8;     /**< @details main icm-20600 device state */
-    U8  self_test_xa_u8;         /**< @details ... */
-    U8  self_test_ya_u8;         /**< @details ... */
-    U8  self_test_za_u8;         /**< @details ... */
-    U8  self_test_xg_u8;         /**< @details ... */
-    U8  self_test_yg_u8;         /**< @details ... */
-    U8  self_test_zg_u8;         /**< @details ... */
-
-    S16 accel_raw_data_x_s16;    /**< @details ... */
-    S16 accel_raw_data_y_s16;    /**< @details ... */
-    S16 accel_raw_data_z_s16;    /**< @details ... */
-    S16 gyro_raw_data_x_s16;     /**< @details ... */
-    S16 gyro_raw_data_y_s16;     /**< @details ... */
-    S16 gyro_raw_data_z_s16;     /**< @details ... */
-    U16 temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
-} DLG_LOG_ICM_20600_DATA;
-
-/**
- * @details enumerator of ...
- */
-
 typedef struct DLG_LOG_DATA_TAG
 {
-    F32                    time_stamp_f32;   /**< @details ... */
-    DLG_LOG_ICM_20600_DATA icm_20600_data_s; /**< @details ... */
-    DLG_LOG_I2C_DATA       i2c_data_s;       /**< @details ... */
-    U8                     global_msg_cnt_u8;
+    F32 dlg_time_stamp_f32;                /**< @details ... */
+    F32 icm_20600_temperature_deg_f32;     /**< @details Internal core (die) temperature @unit °C */
+    F32 icm_20600_factory_trim_xa_f32;     /**< @details ... */
+    F32 icm_20600_factory_trim_ya_f32;     /**< @details ... */
+    F32 icm_20600_factory_trim_za_f32;     /**< @details ... */
+    F32 icm_20600_factory_trim_xg_f32;     /**< @details ... */
+    F32 icm_20600_factory_trim_yg_f32;     /**< @details ... */
+    F32 icm_20600_factory_trim_zg_f32;     /**< @details ... */
+    F32 icm_20600_factory_trim_dev_xa_f32; /**< @details ... */
+    F32 icm_20600_factory_trim_dev_ya_f32; /**< @details ... */
+    F32 icm_20600_factory_trim_dev_za_f32; /**< @details ... */
+    F32 icm_20600_factory_trim_dev_xg_f32; /**< @details ... */
+    F32 icm_20600_factory_trim_dev_yg_f32; /**< @details ... */
+    F32 icm_20600_factory_trim_dev_zg_f32; /**< @details ... */
+
+    U8  icm_20600_chip_id_u8;              /**< @details Unique chip id */
+    U8  icm_20600_dev_state_u8;            /**< @details ... */
+    U8  icm_20600_is_calibrated_u8;        /**< @details ... */
+    U8  icm_20600_self_test_passed_u8;     /**< @details main icm-20600 device state */
+    U8  icm_20600_self_test_xa_u8;         /**< @details ... */
+    U8  icm_20600_self_test_ya_u8;         /**< @details ... */
+    U8  icm_20600_self_test_za_u8;         /**< @details ... */
+    U8  icm_20600_self_test_xg_u8;         /**< @details ... */
+    U8  icm_20600_self_test_yg_u8;         /**< @details ... */
+    U8  icm_20600_self_test_zg_u8;         /**< @details ... */
+    U8  i2c_is_error_present_b;            /**< @details ... */
+    U8  i2c_access_type_u8;                /**< @details ... */
+    U8  i2c_device_addr_u8;                /**< @details ... */
+    U8  i2c_register_addr_u8;              /**< @details ... */
+    U8  dlg_global_msg_cnt_u8;             /**< @details ... */
+
+    U16 icm_20600_temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
+
+    S16 icm_20600_accel_raw_data_x_s16;    /**< @details ... */
+    S16 icm_20600_accel_raw_data_y_s16;    /**< @details ... */
+    S16 icm_20600_accel_raw_data_z_s16;    /**< @details ... */
+    S16 icm_20600_gyro_raw_data_x_s16;     /**< @details ... */
+    S16 icm_20600_gyro_raw_data_y_s16;     /**< @details ... */
+    S16 icm_20600_gyro_raw_data_z_s16;     /**< @details ... */
+    S16 i2c_error_code_s16;                /**< @details ... */
+
 } /* __attribute__( ( packed ) ) */ DLG_LOG_DATA;
 
 #endif /* DLG_CORE_TYPES_H_ */
