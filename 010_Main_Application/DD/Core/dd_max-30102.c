@@ -60,7 +60,7 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 );
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void );
 PRIVATE BOOLEAN dd_max_30102_get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_fifo_ovf_cnt( U8* const p_ovf_cnt_u8 );
-PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 );
+PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA* const p_data_s );
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA* p_data_s );
@@ -127,7 +127,7 @@ BOOLEAN dd_max_30102_init( void )
 void dd_max_30102_main(void)
 {
     /* Read device temperature */
-    dd_max_30102_get_temperature( &dd_max_30102_data_s.temperature_f32 );
+    dd_max_30102_get_temperature( &dd_max_30102_data_s );
 
     /* Read all interrupt flags */
     dd_max_30102_get_int_status( dd_max_30102_data_s.int_status_vb );
@@ -757,16 +757,15 @@ PRIVATE BOOLEAN dd_max_30102_get_fifo_ovf_cnt( U8* const p_ovf_cnt_u8 )
 
 
 
-PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
+PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA* const p_data_s )
 {
     U8 time_out_cnt_u8 = dd_max_30102_temp_time_out_cnt_cfg_u8;
-    U8 register_value_vu8[DD_MAX_30102_TEMP_COMP_SIZE];
     U8 register_value_u8;
 
-    if ( NULL != p_value_f32 )
+    if ( NULL != p_data_s )
     {
         /* Initialize temperature value to BIG_NUMBER */
-        *p_value_f32 = BIG_NUMBER;
+        p_data_s->temperature_f32 = BIG_NUMBER;
 
         /* DIE_TEMP_RDY interrupt must be enabled */
         /* See issue 19: https://github.com/sparkfun/SparkFun_MAX3010x_Sensor_Library/issues/19 */
@@ -789,7 +788,7 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
             if ( ( register_value_u8 & DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE ) > 0U )
             {
                 /* Step 2: Read die temperature register ( integer + fraction ) */
-                if ( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, &register_value_vu8[0], sizeof( register_value_vu8 ) ) )
+                if ( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, &p_data_s->temperature_raw_vu8[0], DD_MAX_30102_TEMP_COMP_SIZE ) )
                 {
                     return FALSE;
                 }
@@ -798,8 +797,8 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
                  * Register DD_MAX_30102_DIE_TEMP_INT stores the integer temperature data in 2's complement format, where each bit
                  * corresponds to 1°C. The value read by the I2C driver is in U8 format by default and need to be converted by casting
                  * it to type S8 ( signed char ) */
-                *p_value_f32 = (F32)   ( (S8) register_value_vu8[DD_MAX_30102_TEMP_COMP_INT] )
-                                     + ( ( (F32) register_value_vu8[DD_MAX_30102_TEMP_COMP_FRAC] ) * DD_MAX_30102_DIE_TEMP_FRAC_RES );
+                p_data_s->temperature_f32 = (F32)   ( (S8) p_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_INT] )
+                                                  + ( ( (F32) p_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_FRAC] ) * DD_MAX_30102_DIE_TEMP_FRAC_RES );
 
                 break;
             }
@@ -810,7 +809,7 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( F32* const p_value_f32 )
     else
     {
         /* Check for NULL pointer */
-        assert( NULL != p_value_f32 );
+        assert( NULL != p_data_s );
 
        /* Return FALSE to indicate error */
         return FALSE;

@@ -329,6 +329,7 @@ typedef struct DD_MAX_30102_DATA_TAG
     U8                active_leds_u8;
     U32               red_data_raw_u32;
     U32               ir_data_raw_u32;
+    U8                temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_SIZE];
     F32               temperature_f32;
     DD_MAX_30102_MODE mode_e;
 

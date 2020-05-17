@@ -26,14 +26,6 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
-BOOLEAN dd_max_30102_get_int_status_by_type( const DD_MAX_30102_INT_TYPE type_e,
-                                             BOOLEAN*                    p_status_b );
+DD_MAX_30102_DATA* dd_max_30102_get_database( void );
 
 #endif /* DD_MAX_30102_OIF_H */

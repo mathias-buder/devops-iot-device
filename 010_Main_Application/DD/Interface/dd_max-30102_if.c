@@ -40,18 +40,10 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-BOOLEAN dd_max_30102_get_int_status_by_type( const DD_MAX_30102_INT_TYPE type_e, BOOLEAN* p_status_b )
+DD_MAX_30102_DATA* dd_max_30102_get_database( void )
 {
-    if ( DD_MAX_30102_INT_TYPE_SIZE > type_e )
-    {
-        *p_status_b = dd_max_30102_data_s.int_status_vb[type_e];
-    }
-    else
-    {
-        assert( DD_MAX_30102_INT_TYPE_SIZE > type_e );
-        return FALSE;
-    }
-
-    return TRUE;
+    return &dd_max_30102_data_s;
 }
+
+
+
