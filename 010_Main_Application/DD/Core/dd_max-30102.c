@@ -788,7 +788,7 @@ PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA* const p_data_s 
             if ( ( register_value_u8 & DD_MAX_30102_INT_DIE_TEMP_RDY_ENABLE ) > 0U )
             {
                 /* Step 2: Read die temperature register ( integer + fraction ) */
-                if ( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, &p_data_s->temperature_raw_vu8[0], DD_MAX_30102_TEMP_COMP_SIZE ) )
+                if ( FALSE == dd_i2c_read_burst( DD_MAX_30105_I2C_ADDR, DD_MAX_30102_DIE_TEMP_INT, p_data_s->temperature_raw_vu8, DD_MAX_30102_TEMP_COMP_SIZE ) )
                 {
                     return FALSE;
                 }

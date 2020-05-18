@@ -45,6 +45,7 @@ U32 data_chunk_cnt_u32;
 /*********************************************************************/
 PRIVATE void    dlg_log_create_i2c_data_frame( void );
 PRIVATE void    dlg_log_create_icm_20600_data_frame( void );
+PRIVATE void    dlg_log_create_max_30102_data_frame( void );
 PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 );
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -72,15 +73,16 @@ void dlg_log_init( void )
     }
 
     ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Logging %s", ( dlg_database_s.logging_enabled_b == TRUE ) ? "enabled" : "disabled" );
-    ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Bytes", sizeof( dlg_log_database_s ) );
+    ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Byte", sizeof( dlg_log_database_s ) );
     ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Data chunks per file: %i", dlg_database_s.num_data_chunk_per_file_u32 );
 }
+
 
 void dlg_log_main( void )
 {
     if ( TRUE == dlg_database_s.logging_enabled_b )
     {
-        if ( data_chunk_cnt_u32 > dlg_database_s.num_data_chunk_per_file_u32 )
+        if ( data_chunk_cnt_u32 >= dlg_database_s.num_data_chunk_per_file_u32 )
         {
             /* Create next log file */
             ++file_count_u32;
@@ -93,6 +95,7 @@ void dlg_log_main( void )
         /* Acquire current values for all logging structure */
         dlg_log_create_i2c_data_frame();
         dlg_log_create_icm_20600_data_frame();
+        dlg_log_create_max_30102_data_frame();
 
         /* Acquire current time stamp */
         dlg_log_database_s.dlg_time_stamp_f32 = os_time_stamp_ms_f32;
@@ -103,11 +106,11 @@ void dlg_log_main( void )
         /* Write entire logging structure into .sbf file */
         fwrite( &dlg_log_database_s, sizeof( dlg_log_database_s ), 1U, dlg_database_s.p_file_handle );
 
-        ESP_LOGI( DLG_LOG_LOG_MSG_TAG, "Logging to file %s [%i Bytes / %i Bytes ] [%i / %i]",
+        ESP_LOGI( DLG_LOG_LOG_MSG_TAG, "Logging to file %s [%i Byte / %i Byte ] [%i / %i]",
                                        dlg_database_s.file_name_vc,
                                        sizeof( dlg_log_database_s ) * ( data_chunk_cnt_u32 + 1U ),
                                        sizeof( dlg_log_database_s ) * dlg_database_s.num_data_chunk_per_file_u32,
-                                       data_chunk_cnt_u32,
+                                       data_chunk_cnt_u32 + 1U,
                                        dlg_database_s.num_data_chunk_per_file_u32 );
 
         ++data_chunk_cnt_u32;
@@ -204,5 +207,18 @@ PRIVATE void dlg_log_create_icm_20600_data_frame( void )
 }
 
 
+PRIVATE void dlg_log_create_max_30102_data_frame( void )
+{
+    /* dlg_log_database_s.max_30102_int_status_u8 */
 
+    dlg_log_database_s.max_30102_part_id_u8             = p_dlg_max_30102_data_s->part_id_u8;
+    dlg_log_database_s.max_30102_rev_id_u8              = p_dlg_max_30102_data_s->rev_id_u8;
+    dlg_log_database_s.max_30102_read_ptr_u8            = p_dlg_max_30102_data_s->read_ptr_u8;
+    dlg_log_database_s.max_30102_write_ptr_u8           = p_dlg_max_30102_data_s->write_ptr_u8;
+    dlg_log_database_s.max_30102_red_data_raw_u32       = p_dlg_max_30102_data_s->red_data_raw_u32;
+    dlg_log_database_s.max_30102_ir_data_raw_u32        = p_dlg_max_30102_data_s->ir_data_raw_u32;
+    dlg_log_database_s.max_30102_tenperature_raw_int_u8 = p_dlg_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_INT];
+    dlg_log_database_s.max_30102_tenperature_frac_u8    = p_dlg_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_FRAC];
+    dlg_log_database_s.max_30102_mode_u8                = (U8) p_dlg_max_30102_data_s->mode_e;
+}
 

@@ -49,4 +49,7 @@ void dlg_log_get_data( void )
 
     /* Acquire ICM-20600 database pointer */
     p_dlg_icm_20600_data_s = dd_icm_20600_get_database();
+
+    /* Acquire MAX-30102 database pointer */
+    p_dlg_max_30102_data_s = dd_max_30102_get_database();
 }

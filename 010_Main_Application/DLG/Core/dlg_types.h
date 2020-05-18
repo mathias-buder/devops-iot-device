@@ -64,6 +64,20 @@ typedef struct DLG_LOG_DATA_TAG
     F32 icm_20600_factory_trim_dev_xg_f32; /**< @details ... */
     F32 icm_20600_factory_trim_dev_yg_f32; /**< @details ... */
     F32 icm_20600_factory_trim_dev_zg_f32; /**< @details ... */
+    F32 max_30102_tenperature_f32;         /**< @details ... */
+
+    U32 max_30102_red_data_raw_u32;        /**< @details ... */
+    U32 max_30102_ir_data_raw_u32;         /**< @details ... */
+
+    U16 icm_20600_temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
+
+    S16 icm_20600_accel_raw_data_x_s16;    /**< @details ... */
+    S16 icm_20600_accel_raw_data_y_s16;    /**< @details ... */
+    S16 icm_20600_accel_raw_data_z_s16;    /**< @details ... */
+    S16 icm_20600_gyro_raw_data_x_s16;     /**< @details ... */
+    S16 icm_20600_gyro_raw_data_y_s16;     /**< @details ... */
+    S16 icm_20600_gyro_raw_data_z_s16;     /**< @details ... */
+    S16 i2c_error_code_s16;                /**< @details ... */
 
     U8  icm_20600_chip_id_u8;              /**< @details Unique chip id */
     U8  icm_20600_dev_state_u8;            /**< @details ... */
@@ -80,17 +94,15 @@ typedef struct DLG_LOG_DATA_TAG
     U8  i2c_device_addr_u8;                /**< @details ... */
     U8  i2c_register_addr_u8;              /**< @details ... */
     U8  dlg_global_msg_cnt_u8;             /**< @details ... */
+    U8  max_30102_int_status_u8;           /**< @details ... */
+    U8  max_30102_part_id_u8;              /**< @details ... */
+    U8  max_30102_rev_id_u8;               /**< @details ... */
+    U8  max_30102_read_ptr_u8;             /**< @details ... */
+    U8  max_30102_write_ptr_u8;            /**< @details ... */
+    U8  max_30102_mode_u8;                 /**< @details ... */
+    U8  max_30102_tenperature_raw_int_u8;  /**< @details ... */
+    U8  max_30102_tenperature_frac_u8;     /**< @details ... */
 
-    U16 icm_20600_temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
-
-    S16 icm_20600_accel_raw_data_x_s16;    /**< @details ... */
-    S16 icm_20600_accel_raw_data_y_s16;    /**< @details ... */
-    S16 icm_20600_accel_raw_data_z_s16;    /**< @details ... */
-    S16 icm_20600_gyro_raw_data_x_s16;     /**< @details ... */
-    S16 icm_20600_gyro_raw_data_y_s16;     /**< @details ... */
-    S16 icm_20600_gyro_raw_data_z_s16;     /**< @details ... */
-    S16 i2c_error_code_s16;                /**< @details ... */
-
-} /* __attribute__( ( packed ) ) */ DLG_LOG_DATA;
+} DLG_LOG_DATA;
 
 #endif /* DLG_CORE_TYPES_H_ */

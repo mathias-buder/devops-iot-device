@@ -27,15 +27,15 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 /* Log message TAG string */
-#define DLG_LOG_LOG_MSG_TAG                "DLG_LOG"
+#define DLG_LOG_LOG_MSG_TAG                      "DLG_LOG"
 
-#define DLG_LOG_DEV_SERIAL_NO              "ABC123"
-#define DLG_LOG_MAX_FILE_NAME_LENGTH       30U
+#define DLG_LOG_DEV_SERIAL_NO                    "ABC123"
+#define DLG_LOG_MAX_FILE_NAME_LENGTH             30U
 
 /* Format: .sbf: (s)ewela-(b)inary-(f)ile */
-#define DLG_LOG_FILE_DOT_EXTENSION          ".sbf"
+#define DLG_LOG_FILE_DOT_EXTENSION               ".sbf"
 
-#define DLG_LOG_FILE_SIZE_IN_KBYTE          10U /* kByte */
+#define DLG_LOG_FILE_SIZE_IN_KBYTE               10U /* kByte */
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
