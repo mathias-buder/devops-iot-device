@@ -31,6 +31,7 @@
 /*************************************************************/
 
 /* ICM-20600 Register Map*/
+
 /* TODO: The following register map is valid for device MPU-9250
  * (InvenSense) and need to be update to be used with ICM-20600 (TDK) */
 

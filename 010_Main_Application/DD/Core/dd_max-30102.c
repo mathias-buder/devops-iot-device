@@ -880,7 +880,8 @@ PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA* p_data_s )
                                                                                                               p_data_s->write_ptr_u8,
                                                                                                               p_data_s->read_ptr_u8,
                                                                                                               fifo_ovf_cnt_u8 );
-
+            /* TODO: Raw values need to be reset to zero at before read from MAX-30102.
+             * It may be better to clear the data at the beginning of the main cycle ?*/
             p_data_s->red_data_raw_u32 = 0U;
             p_data_s->ir_data_raw_u32  = 0U;
 
