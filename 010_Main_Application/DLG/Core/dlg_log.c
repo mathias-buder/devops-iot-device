@@ -206,7 +206,6 @@ PRIVATE void dlg_log_create_icm_20600_data_frame( void )
     dlg_log_database_s.icm_20600_self_test_passed_u8     = p_dlg_icm_20600_data_s->self_test_passed_b;
 }
 
-
 PRIVATE void dlg_log_create_max_30102_data_frame( void )
 {
     /* dlg_log_database_s.max_30102_int_status_u8 */
@@ -217,8 +216,7 @@ PRIVATE void dlg_log_create_max_30102_data_frame( void )
     dlg_log_database_s.max_30102_write_ptr_u8           = p_dlg_max_30102_data_s->write_ptr_u8;
     dlg_log_database_s.max_30102_red_data_raw_u32       = p_dlg_max_30102_data_s->red_data_raw_u32;
     dlg_log_database_s.max_30102_ir_data_raw_u32        = p_dlg_max_30102_data_s->ir_data_raw_u32;
-    dlg_log_database_s.max_30102_tenperature_raw_int_u8 = p_dlg_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_INT];
-    dlg_log_database_s.max_30102_tenperature_frac_u8    = p_dlg_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_FRAC];
+    dlg_log_database_s.max_30102_temperature_raw_int_u8 = p_dlg_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_INT];
+    dlg_log_database_s.max_30102_temperature_raw_int_u8 = p_dlg_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_FRAC];
     dlg_log_database_s.max_30102_mode_u8                = (U8) p_dlg_max_30102_data_s->mode_e;
 }
-

@@ -2,5 +2,6 @@
 *.stcfg
 *.blf
 *.sbf
+~$*.*
 
 /010_Main_Application/build/
