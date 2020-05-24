@@ -217,9 +217,9 @@ for sfb_file in files:
                                                            data=msg_icm_20600_factory_gyro_trim_data )
 
             # Scale (according to DLG.dbc) and pack date
-            icm_20600_factory_trim_dev_xa_f32 = icm_20600_factory_trim_dev_xa_f32 * 1000
-            icm_20600_factory_trim_dev_ya_f32 = icm_20600_factory_trim_dev_ya_f32 * 1000
-            icm_20600_factory_trim_dev_za_f32 = icm_20600_factory_trim_dev_za_f32 * 1000
+            icm_20600_factory_trim_dev_xa_f32 = icm_20600_factory_trim_dev_xa_f32 * 1000.0
+            icm_20600_factory_trim_dev_ya_f32 = icm_20600_factory_trim_dev_ya_f32 * 1000.0
+            icm_20600_factory_trim_dev_za_f32 = icm_20600_factory_trim_dev_za_f32 * 1000.0
 
             msg_icm_20600_factory_accl_trim_dev_data = st.pack( '3h', np.int16( icm_20600_factory_trim_dev_xa_f32 ),
                                                                       np.int16( icm_20600_factory_trim_dev_ya_f32 ),
@@ -231,13 +231,13 @@ for sfb_file in files:
                                                                data=msg_icm_20600_factory_accl_trim_dev_data )
 
             # Scale (according to DLG.dbc) and pack date
-            icm_20600_factory_trim_dev_xg_f32 = icm_20600_factory_trim_dev_xg_f32 * 1000
-            icm_20600_factory_trim_dev_yg_f32 = icm_20600_factory_trim_dev_yg_f32 * 1000
-            icm_20600_factory_trim_dev_zg_f32 = icm_20600_factory_trim_dev_zg_f32 * 1000
+            icm_20600_factory_trim_dev_xg_f32 = icm_20600_factory_trim_dev_xg_f32 * 1000.0
+            icm_20600_factory_trim_dev_yg_f32 = icm_20600_factory_trim_dev_yg_f32 * 1000.0
+            icm_20600_factory_trim_dev_zg_f32 = icm_20600_factory_trim_dev_zg_f32 * 1000.0
 
             msg_icm_20600_factory_gyro_trim_dev_data = st.pack( '3h', np.int16( icm_20600_factory_trim_dev_xg_f32 ),
                                                                       np.int16( icm_20600_factory_trim_dev_yg_f32 ),
-                                                                       np.int16( icm_20600_factory_trim_dev_zg_f32 ) )
+                                                                      np.int16( icm_20600_factory_trim_dev_zg_f32 ) )
 
             msg_icm_20600_gyro_factory_trim_dev = can.Message( arbitration_id=DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID,
                                                                is_extended_id=False,
@@ -261,11 +261,7 @@ for sfb_file in files:
 
 
             # Scale (according to DLG.dbc) and pack data
-            max_30102_temperature_f32  = max_30102_temperature_f32  * 1000
-            
-            
-            # max_30102_red_data_raw_u32 = max_30102_red_data_raw_u32 * 1000
-            # max_30102_ir_data_raw_u32  = max_30102_ir_data_raw_u32  * 1000
+            max_30102_temperature_f32  = max_30102_temperature_f32  * 100.0
 
             msg_max_30102_data_data = st.pack( 'h H 3B', np.int16( max_30102_temperature_f32 ),
                                                          np.uint16( max_30102_red_data_raw_u32 ),

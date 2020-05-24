@@ -39,7 +39,7 @@ BU_: DLG
 BO_ 61 DD_MAX_30102_Data: 7 DLG
  SG_ DD_MAX_30102_ir_data_raw : 34|18@1+ (1,0) [0|262143] "" Vector__XXX
  SG_ DD_MAX_30102_red_data_raw : 16|18@1+ (1,0) [0|262143] "" Vector__XXX
- SG_ DD_MAX_30102_temperature : 0|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
+ SG_ DD_MAX_30102_temperature : 0|16@1- (0.01,0) [-327.68|327.67] "deg" Vector__XXX
 
 BO_ 60 DD_MAX_30102_General: 8 DLG
  SG_ DD_MAX_30102_temp_raw_frac : 56|8@1+ (1,0) [0|255] "" Vector__XXX
