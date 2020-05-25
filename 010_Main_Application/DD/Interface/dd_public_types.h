@@ -250,8 +250,7 @@ typedef enum DD_MAX_30102_MODE_TAG
     DD_MAX_30102_MODE_SLEEP = 0U,
     DD_MAX_30102_MODE_HR,        /**< @details ... */
     DD_MAX_30102_MODE_SPO2,      /**< @details ... */
-    DD_MAX_30102_MODE_MULTI_LED, /**< @details ... */
-    DD_MAX_30102_MODE_SIZE
+    DD_MAX_30102_MODE_MULTI_LED  /**< @details ... */
 } DD_MAX_30102_MODE;
 
 typedef enum DD_MAX_30102_ADC_RANGE_TAG

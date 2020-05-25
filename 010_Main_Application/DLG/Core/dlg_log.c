@@ -90,7 +90,14 @@ void dlg_log_main( void )
         {
             /* Create next log file */
             ++file_count_u32;
-            dlg_log_handle_file( file_count_u32 );
+
+            if ( FALSE == dlg_log_handle_file( file_count_u32 ) )
+            {
+                /* Disable logging in case of an error during file creation */
+                ESP_LOGE( DLG_LOG_LOG_MSG_TAG, "Error during creation" );
+                dlg_database_s.logging_enabled_b = FALSE;
+                return;
+            }
 
             /* Reset chunk counter */
             data_chunk_cnt_u32 = 0U;
