@@ -47,7 +47,7 @@
 
 #define DD_I2C_SCL_PULLUP_CFG                       GPIO_PULLUP_ENABLE
 
-#define DD_I2C_SCL_FREQ                             (100000)  /*  100 kHz  */
+#define DD_I2C_SCL_FREQ                             (400000)  /*  400 kHz  */
 
 #define DD_I2C_BUS_BUSY_TIME_OUT                    (1000 / portTICK_PERIOD_MS)
 
