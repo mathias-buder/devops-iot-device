@@ -180,12 +180,9 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
+/*************************************************************/
+/*      PROTOTYPES                                           */
+/*************************************************************/
 BOOLEAN dd_max_30102_init( void );
 void    dd_max_30102_main( void );
 
