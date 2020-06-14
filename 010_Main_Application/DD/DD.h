@@ -24,9 +24,9 @@
 #include "Interface/dd_i2c_if.h"
 #include "Interface/dd_icm-20600_if.h"
 #include "Interface/dd_max-30102_if.h"
+#include "Interface/dd_pga-302_if.h"
 #include "Interface/dd_public_types.h"
 #include "Interface/dd_sd_if.h"
-#include "Interface/dd_xr-18910_if.h"
 
 
 /*************************************************************/

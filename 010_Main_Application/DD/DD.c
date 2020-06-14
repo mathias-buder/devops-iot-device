@@ -29,6 +29,7 @@
 #include "Core/dd_i2c.h"
 #include "Core/dd_icm-20600.h"
 #include "Core/dd_max-30102.h"
+#include "Core/dd_pga-302.h"
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
@@ -66,6 +67,8 @@ void dd_init(void)
     /* Initialize MAX-30102 HR+SpO2 sensor */
     dd_max_30102_init();
 
+    /* Initialize PGA-302 analog front-end */
+    dd_pga_302_init();
 
 }
 
@@ -73,4 +76,5 @@ void dd_main(void)
 {
     dd_icm_20600_main();
     dd_max_30102_main();
+    dd_pga_302_main();
 }

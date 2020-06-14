@@ -10,12 +10,12 @@
 
         (c) SEWELA 2020
 
-        @file dd_xr-18910_if.h
+        @file dd_pga-302_if.h
         @details Some detailed description
 
 *********************************************************************/
-#ifndef DD_XR_18910_OIF_H
-#define DD_XR_18910_OIF_H
+#ifndef DD_PGA_302_IF_H
+#define DD_PGA_302_IF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -27,12 +27,5 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
-void dd_xr_18910_acquire_sensor_data(void);
 
-#endif /* DD_XR_18910_OIF_H */
+#endif /* DD_PGA_302_IF_H */

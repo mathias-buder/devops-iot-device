@@ -10,31 +10,22 @@
 
         (c) SEWELA 2020
 
+        @file dd_pga-302_cfg.h
+        @details Some detailed description
+
 *********************************************************************/
 
-/**
- * @file dd_xr-18910_Cfg.h
- * @details Some detailed description
- */
-
-#ifndef DD_XR_18910_CFG_H
-#define DD_XR_18910_CFG_H
+#ifndef DD_PGA_302_CFG_H
+#define DD_PGA_302_CFG_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
 
 
-
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
 
-#endif /* DD_XR_18910_CFG_H */
+#endif /* DD_PGA_302_CFG_H */

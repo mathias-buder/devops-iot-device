@@ -10,32 +10,27 @@
 
         (c) SEWELA 2020
 
+        @file dd_pga-302.h
+        @details Some detailed description
+
 *********************************************************************/
 
-/**
- * @file dd_xr-18910.h
- * @details Some detailed description
- */
-
-#ifndef DD_MAX_30102_H
-#define DD_MAX_30102_H
+#ifndef DD_PGA_302_H
+#define DD_PGA_302_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include "dd_types.h"
+
+#include "../Config/dd_pga-302_cfg.h"
 #include "../Config/dd_types_cfg.h"
-#include "../Config/dd_xr-18910_cfg.h"
 
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+BOOLEAN dd_pga_302_init( void );
+void    dd_pga_302_main( void );
 
-/**
- * @details This function returns pointer to the osl object for the given id
- * of the linked environment object.
- * @param[in] linked_env_id_u8 is id of the linked environment object of the requested osl object
- * @return pointer to osl object or NULL if no appropriate object exists.
- */
-
-#endif /* DD_MAX_30102_H */
+#endif /* DD_PGA_302_H */
