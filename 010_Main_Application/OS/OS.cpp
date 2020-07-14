@@ -26,12 +26,14 @@
 #include "../SENSE/SENSE.h"
 #include "../DLG/DLG.h"
 
-void app_main()
+extern "C" void app_main()
 {
     /* Print chip information */
     esp_chip_info_t  chip_info;
     TickType_t       xLastWakeTime = xTaskGetTickCount();
     const TickType_t xFrequency    = 10U;
+
+    OS_TIME_C os_time_c;
 
     esp_chip_info( &chip_info );
     printf( "This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
@@ -44,13 +46,13 @@ void app_main()
     printf( "%dMB %s flash\n\n", spi_flash_get_chip_size() / ( 1024 * 1024 ),
             ( chip_info.features & CHIP_FEATURE_EMB_FLASH ) ? "embedded" : "external" );
 
-    os_time_init();
+    // os_time_init();
 
     /* Initialize Device Drivers */
-    dd_init();
+    // dd_init();
 
     /* Initialize Data Logging*/
-    dlg_init();
+    // dlg_init();
 
 
     while ( TRUE )
@@ -59,10 +61,12 @@ void app_main()
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
 
         /* Schedule Device Driver (DD) */
-        dd_main();
+        //dd_main();
 
-        dlg_main();
+       // dlg_main();
 
-        os_time_update();
+        //os_time_update();
+
+        os_time_c.update();
     }
 }

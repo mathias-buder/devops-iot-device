@@ -25,6 +25,28 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+class OS_TIME_C
+{
+    private:
+
+    public:
+        OS_TIME_C();
+        ~OS_TIME_C();
+        void update( void );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 extern F32 os_time_stamp_ms_f32;
 
 void os_time_init( void );
