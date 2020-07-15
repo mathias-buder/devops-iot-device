@@ -37,12 +37,18 @@
 #define DD_LOG_MSG_TAG "DD"
 
 /*********************************************************************/
+/*      GLOBAL OBJECTS                                               */
+/*********************************************************************/
+DD_I2C_C dd_i2c_c;
+
+/*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
 BOOLEAN file_written_b = FALSE;
 U32     idx_u32        = 100U;
 U32     time_in_ms_u32;
 FILE*   p_file;
+
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
@@ -56,7 +62,8 @@ void dd_init(void)
     dd_sd_init();
 
     /* Initialize I2C basic device driver */
-    dd_i2c_init();
+    //dd_i2c_c.init();
+
 
     /* Initialize ICM-2600 motion subsystem */
     if( FALSE == dd_icm_20600_init() )
