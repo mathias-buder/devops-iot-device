@@ -17,7 +17,7 @@
  * @details Some detailed description
  */
 
-#ifndef DD_I2C_H
+#ifndef DD_I2C_H_
 #define DD_I2C_H_
 
 /*************************************************************/
