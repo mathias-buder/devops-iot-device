@@ -35,30 +35,11 @@
 
 DD_I2C_C::DD_I2C_C()
 {
-    i2c_config_t dd_i2c_if_config_s;
-
-    /* Initialize I2C peripheral structure */
-    dd_i2c_if_config_s.mode             = DD_I2C_OPERATION_MODE;
-    dd_i2c_if_config_s.sda_io_num       = DD_I2C_SDA_IO_NUM;
-    dd_i2c_if_config_s.scl_io_num       = DD_I2C_SCL_IO_NUM;
-    dd_i2c_if_config_s.sda_pullup_en    = DD_I2C_SDA_PULLUP_CFG;
-    dd_i2c_if_config_s.scl_pullup_en    = DD_I2C_SCL_PULLUP_CFG;
-    dd_i2c_if_config_s.master.clk_speed = DD_I2C_SCL_FREQ;
-
-    ESP_ERROR_CHECK( i2c_param_config( DD_I2C_PORT_NUM,
-                                       &dd_i2c_if_config_s ) );
-
-    ESP_ERROR_CHECK( i2c_driver_install( DD_I2C_PORT_NUM,
-                                         dd_i2c_if_config_s.mode,
-                                         0U,
-                                         0U,
-                                         0U ) );
 }
 
 
 DD_I2C_C::~DD_I2C_C()
 {
-
 }
 
 

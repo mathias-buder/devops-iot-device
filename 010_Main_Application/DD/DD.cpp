@@ -39,7 +39,7 @@
 /*********************************************************************/
 /*      GLOBAL OBJECTS                                               */
 /*********************************************************************/
-DD_I2C_C dd_i2c_c;
+// DD_I2C_C dd_i2c_c;
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
@@ -62,7 +62,7 @@ void dd_init(void)
     dd_sd_init();
 
     /* Initialize I2C basic device driver */
-    //dd_i2c_c.init();
+    DD_I2C_C::init();
 
 
     /* Initialize ICM-2600 motion subsystem */

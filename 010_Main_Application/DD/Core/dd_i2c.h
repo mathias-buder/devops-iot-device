@@ -45,10 +45,10 @@ class DD_I2C_C
      * @param[in] error_t I2C error code
      * @return TRUE if NO error is present
      */
-    BOOLEAN handle_error( DD_I2C_ERROR       error_e,
-                          DD_I2C_ACCESS_TYPE access_type_e,
-                          U8                 device_addr_u8,
-                          U8                 register_addr_u8 );
+    static BOOLEAN handle_error( DD_I2C_ERROR       error_e,
+                                 DD_I2C_ACCESS_TYPE access_type_e,
+                                 U8                 device_addr_u8,
+                                 U8                 register_addr_u8 );
 
   public:
     /**
@@ -64,7 +64,7 @@ class DD_I2C_C
     /**
      * @details This function initialized the I2C interface
      */
-    void init( void );
+    static void init( void );
 
     /**
      * @details This function reads the content of an 8-bit register.
@@ -73,9 +73,9 @@ class DD_I2C_C
      * @param[in] data_u8 Pointer to storage of register content
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN read_single( U8  device_addr_u8,
-                         U8  register_addr_u8,
-                         U8* data_u8 );
+    static BOOLEAN read_single( U8  device_addr_u8,
+                                U8  register_addr_u8,
+                                U8* data_u8 );
 
     /**
      * @details This function reads N-Byte of data starting at the address given by register_addr_u8.
@@ -85,10 +85,10 @@ class DD_I2C_C
      * @param[in] data_size_u8 Size in byte of data_u8
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN read_burst( U8  device_addr_u8,
-                        U8  register_addr_u8,
-                        U8* p_data_u8,
-                        U8  data_size_u8 );
+    static BOOLEAN read_burst( U8  device_addr_u8,
+                               U8  register_addr_u8,
+                               U8* p_data_u8,
+                               U8  data_size_u8 );
 
     /**
      * @details This function reads the value of an bit within the register given by register_addr_u8
@@ -98,10 +98,10 @@ class DD_I2C_C
      * @param[in] bit_value_b Pointer to the bit value
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN read_bit( U8       device_addr_u8,
-                      U8       register_addr_u8,
-                      U8       bit_position_u8,
-                      BOOLEAN* bit_value_b );
+    static BOOLEAN read_bit( U8       device_addr_u8,
+                             U8       register_addr_u8,
+                             U8       bit_position_u8,
+                             BOOLEAN* bit_value_b );
 
     /**
      * @details This function reads the value of N-bits within the register given by register_addr_u8
@@ -112,11 +112,11 @@ class DD_I2C_C
      * @param[in] p_data_u8 Pointer to the storage of requested bits to be read
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN read_bits( U8  device_addr_u8,
-                       U8  regisetr_addr_u8,
-                       U8  start_bit_u8,
-                       U8  length_u8,
-                       U8* p_data_u8 );
+    static BOOLEAN read_bits( U8  device_addr_u8,
+                              U8  regisetr_addr_u8,
+                              U8  start_bit_u8,
+                              U8  length_u8,
+                              U8* p_data_u8 );
 
     /**
      * @details This function writes the content of an 8-bit register.
@@ -125,9 +125,9 @@ class DD_I2C_C
      * @param[in] data_u8 Pointer to the data to be written to the register given by register_addr_u8
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN write_single( U8 device_addr_u8,
-                          U8 register_addr_u8,
-                          U8 data_u8 );
+    static BOOLEAN write_single( U8 device_addr_u8,
+                                 U8 register_addr_u8,
+                                 U8 data_u8 );
 
     /**
      * @details This function reads N-Byte of data starting at the address given by register_addr_u8.
@@ -137,11 +137,10 @@ class DD_I2C_C
      * @param[in] data_size_u8 Size in byte of data_u8
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN write_burst( U8  device_addr_u8,
+    static BOOLEAN write_burst( U8  device_addr_u8,
                                 U8  register_addr_u8,
-                                U8 *p_data_u8,
+                                U8* p_data_u8,
                                 U8  data_size_u8 );
-
 
     /**
      * @details This function writes the value of N-bits within the register given by register_addr_u8
@@ -152,11 +151,11 @@ class DD_I2C_C
      * @param[in] data_u8 Bits to be written to the register given by register_addr_u8
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN write_bits( U8 device_addr_u8,
-                        U8 register_addr_u8,
-                        U8 bit_start_u8,
-                        U8 length_u8,
-                        U8 data_u8 );
+    static BOOLEAN write_bits( U8 device_addr_u8,
+                               U8 register_addr_u8,
+                               U8 bit_start_u8,
+                               U8 length_u8,
+                               U8 data_u8 );
 
     /**
      * @details This function reads the an register given by register_addr_u8 and modifies the bit given by
@@ -167,10 +166,10 @@ class DD_I2C_C
      * @param[in] bit_value_b Value to be written to the bit given by bit_position_u8
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN read_modify_write_bit( U8      device_addr_u8,
-                                   U8      register_addr_u8,
-                                   U8      bit_position_u8,
-                                   BOOLEAN bit_value_b );
+    static BOOLEAN read_modify_write_bit( U8      device_addr_u8,
+                                          U8      register_addr_u8,
+                                          U8      bit_position_u8,
+                                          BOOLEAN bit_value_b );
 
     /**
      * @details This function reads the an register given by register_addr_u8 and modifies the bit given by
@@ -181,10 +180,10 @@ class DD_I2C_C
      * @param[in] value_u8 Value to be written to the registers bit-region masked out with mask_u8
      * @return always TRUE ( Error handling currently done using macro ESP_ERROR_CHECK( ) )
      */
-    BOOLEAN read_modify_write_mask( U8 device_addr_u8,
-                                    U8 register_addr_u8,
-                                    U8 mask_u8,
-                                    U8 value_u8 );
+    static BOOLEAN read_modify_write_mask( U8 device_addr_u8,
+                                           U8 register_addr_u8,
+                                           U8 mask_u8,
+                                           U8 value_u8 );
 };
 
 #endif /* DD_I2C_H_ */
