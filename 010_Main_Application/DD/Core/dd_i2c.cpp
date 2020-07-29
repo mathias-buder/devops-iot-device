@@ -66,8 +66,8 @@ void DD_I2C_C::init( void )
 }
 
 BOOLEAN DD_I2C_C::read_single( U8  device_addr_u8,
-                            U8  register_addr_u8,
-                            U8* data_u8 )
+                               U8  register_addr_u8,
+                               U8* data_u8 )
 {
     DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
@@ -187,9 +187,9 @@ BOOLEAN DD_I2C_C::read_burst( U8  device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::read_bit( U8       device_addr_u8,
-                         U8       register_addr_u8,
-                         U8       bit_position_u8,
-                         BOOLEAN* bit_value_b )
+                            U8       register_addr_u8,
+                            U8       bit_position_u8,
+                            BOOLEAN* bit_value_b )
 {
     U8 register_value_u8;
 
@@ -204,10 +204,10 @@ BOOLEAN DD_I2C_C::read_bit( U8       device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::read_bits( U8  device_addr_u8,
-                          U8  regisetr_addr_u8,
-                          U8  start_bit_u8,
-                          U8  length_u8,
-                          U8* p_data_u8 )
+                             U8  regisetr_addr_u8,
+                             U8  start_bit_u8,
+                             U8  length_u8,
+                             U8* p_data_u8 )
 {
     /* 01101001 read byte
      76543210 bit numbers
@@ -235,8 +235,8 @@ BOOLEAN DD_I2C_C::read_bits( U8  device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::write_single( U8 device_addr_u8,
-                             U8 register_addr_u8,
-                             U8 data_u8 )
+                                U8 register_addr_u8,
+                                U8 data_u8 )
 {
     DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
@@ -289,9 +289,9 @@ BOOLEAN DD_I2C_C::write_single( U8 device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::write_burst( U8  device_addr_u8,
-                            U8  register_addr_u8,
-                            U8* p_data_u8,
-                            U8  data_size_u8 )
+                               U8  register_addr_u8,
+                               U8* p_data_u8,
+                               U8  data_size_u8 )
 {
     DD_I2C_ERROR     i2c_error_e   = DD_I2C_ERROR_FAIL;
     i2c_cmd_handle_t p_i2c_command = NULL;
@@ -345,10 +345,10 @@ BOOLEAN DD_I2C_C::write_burst( U8  device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::write_bits( U8 device_addr_u8,
-                           U8 register_addr_u8,
-                           U8 bit_start_u8,
-                           U8 length_u8,
-                           U8 data_u8 )
+                              U8 register_addr_u8,
+                              U8 bit_start_u8,
+                              U8 length_u8,
+                              U8 data_u8 )
 {
     /*    010 value to write (data_u8)
      76543210 bit numbers
@@ -394,9 +394,9 @@ BOOLEAN DD_I2C_C::write_bits( U8 device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::read_modify_write_bit( U8      device_addr_u8,
-                                      U8      register_addr_u8,
-                                      U8      bit_position_u8,
-                                      BOOLEAN bit_value_b )
+                                         U8      register_addr_u8,
+                                         U8      bit_position_u8,
+                                         BOOLEAN bit_value_b )
 {
     BOOLEAN status_b          = FALSE;
     U8      register_value_u8 = 0U;
@@ -419,9 +419,9 @@ BOOLEAN DD_I2C_C::read_modify_write_bit( U8      device_addr_u8,
 }
 
 BOOLEAN DD_I2C_C::read_modify_write_mask( U8 device_addr_u8,
-                                       U8 register_addr_u8,
-                                       U8 mask_u8,
-                                       U8 value_u8 )
+                                          U8 register_addr_u8,
+                                          U8 mask_u8,
+                                          U8 value_u8 )
 {
     U8 register_value_u8 = 0U;
 
