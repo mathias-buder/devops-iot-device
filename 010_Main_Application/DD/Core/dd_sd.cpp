@@ -36,18 +36,23 @@
 
 
 /*********************************************************************/
-/*      GLOBAL VARIABLES                                             */
+/*                      MEMBER VARIABLES                             */
 /*********************************************************************/
 
 /*********************************************************************/
-/*      PRIVATE FUNCTION DECLARATIONS                                */
+/*                      PRIVATE METHODES                             */
 /*********************************************************************/
 
+DD_SD_C::DD_SD_C()
+{
+}
 
-/*********************************************************************/
-/*   FUNCTION DEFINITIONS                                            */
-/*********************************************************************/
-BOOLEAN dd_sd_init( void )
+DD_SD_C::~DD_SD_C()
+{
+}
+
+
+BOOLEAN DD_SD_C::init( void )
 {
     ESP_LOGI( DD_SD_LOG_MSG_TAG, "Initializing SD card ..." );
 
@@ -100,7 +105,7 @@ BOOLEAN dd_sd_init( void )
     return TRUE;
 }
 
-BOOLEAN dd_sd_deinit( void )
+BOOLEAN DD_SD_C::deinit( void )
 {
     esp_err_t status_t;
 
@@ -121,7 +126,7 @@ BOOLEAN dd_sd_deinit( void )
     return FALSE;
 }
 
-BOOLEAN dd_sd_open_file( char*           p_file_name_c,
+BOOLEAN DD_SD_C::open_file( char*           p_file_name_c,
                          const DD_SD_FILE_MODE file_mode_e,
                          BOOLEAN               overwrite_b )
 {
@@ -203,3 +208,52 @@ BOOLEAN dd_sd_open_file( char*           p_file_name_c,
 
     return TRUE;
 }
+
+
+/*********************************************************************/
+/*                      PUBLIC METHODES                              */
+/*********************************************************************/
+FILE* DD_SD_C::create_file( char* p_file_name_c )
+{
+    /* NULL pointer check of p_file_name_c is handled within
+     * function dd_sd_open_file() */
+    if ( TRUE == open_file( p_file_name_c, DD_SD_FILE_MODE_WRITE, TRUE ) )
+    {
+        return dd_sd_data_s.file_s.p_handle;
+    }
+
+    return NULL;
+}
+
+FILE* DD_SD_C::create_binary_file( char* p_file_name_c )
+{
+    /* NULL pointer check of p_file_name_c is handled within
+     * function dd_sd_open_file() */
+    if ( TRUE == open_file( p_file_name_c, DD_SD_FILE_MODE_WRITE_BINARY, TRUE ) )
+    {
+        return dd_sd_data_s.file_s.p_handle;
+    }
+
+    return NULL;
+}
+
+BOOLEAN DD_SD_C::close_file( void )
+{
+    if ( 0U == fclose( dd_sd_data_s.file_s.p_handle ) )
+    {
+        ESP_LOGI( DD_SD_LOG_MSG_TAG, "File closed" );
+        dd_sd_data_s.file_s.p_handle  = NULL;
+        dd_sd_data_s.file_s.is_open_b = FALSE;
+        return TRUE;
+    }
+
+    ESP_LOGE( DD_SD_LOG_MSG_TAG, "File couln't be closed" );
+    return FALSE;
+}
+
+
+BOOLEAN DD_SD_C::is_file_open( void )
+{
+    return dd_sd_data_s.file_s.is_open_b;
+}
+

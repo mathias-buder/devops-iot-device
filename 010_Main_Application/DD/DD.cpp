@@ -59,7 +59,7 @@ FILE*   p_file;
 void dd_init(void)
 {
     /* Initialize SD card driver */
-    //dd_sd_init();
+    DD_SD_C::init();
 
     /* Initialize I2C basic device driver */
     DD_I2C_C::init();

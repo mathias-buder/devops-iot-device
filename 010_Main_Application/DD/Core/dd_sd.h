@@ -27,10 +27,34 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-BOOLEAN dd_sd_init( void );
-BOOLEAN dd_sd_deinit( void );
-BOOLEAN dd_sd_open_file( char*           p_file_name_c,
-                         const DD_SD_FILE_MODE file_mode_e,
-                         BOOLEAN               overwrite_b );
+
+class DD_SD_C {
+
+  private:
+
+    static BOOLEAN deinit( void );
+    static BOOLEAN open_file( char*                 p_file_name_c,
+                                    const DD_SD_FILE_MODE file_mode_e,
+                                    BOOLEAN               overwrite_b );
+
+  public:
+
+    /**
+     * @details Default constructor
+     */
+    DD_SD_C();
+
+    /**
+     * @details Default destructor
+     */
+    ~DD_SD_C();
+
+    static BOOLEAN init( void );
+    static FILE*   create_file( char* p_file_name_c );
+    static FILE*   create_binary_file( char* p_file_name_c );
+    static BOOLEAN close_file( void );
+    static BOOLEAN is_file_open( void );
+
+};
 
 #endif /* DD_DATABASE_H */
