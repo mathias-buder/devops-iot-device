@@ -59,7 +59,7 @@ FILE*   p_file;
 void dd_init(void)
 {
     /* Initialize SD card driver */
-    dd_sd_init();
+    //dd_sd_init();
 
     /* Initialize I2C basic device driver */
     DD_I2C_C::init();
@@ -71,10 +71,10 @@ void dd_init(void)
     }
 
     /* Initialize MAX-30102 HR+SpO2 sensor */
-    dd_max_30102_init();
+    //dd_max_30102_init();
 
     /* Initialize PGA-302 analog front-end */
-    dd_pga_302_init();
+    //dd_pga_302_init();
 
 }
 

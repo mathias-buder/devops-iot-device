@@ -49,7 +49,7 @@ extern "C" void app_main()
     // os_time_init();
 
     /* Initialize Device Drivers */
-    // dd_init();
+    dd_init();
 
     /* Initialize Data Logging*/
     // dlg_init();
