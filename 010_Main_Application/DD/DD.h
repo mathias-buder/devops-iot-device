@@ -21,12 +21,10 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/dd_i2c_if.h"
 #include "Interface/dd_icm-20600_if.h"
 #include "Interface/dd_max-30102_if.h"
 #include "Interface/dd_pga-302_if.h"
 #include "Interface/dd_public_types.h"
-#include "Interface/dd_sd_if.h"
 
 
 /*************************************************************/
@@ -51,7 +49,7 @@ extern void dd_init(void);
 
 /**
  * @details This function executes all Device Driver (DD) domain related
- * functions and shall be called in a cyclic fashon.
+ * functions and shall be called in a cyclic fashion.
  */
 extern void dd_main(void);
 

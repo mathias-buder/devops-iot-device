@@ -184,6 +184,20 @@ class DD_I2C_C
                                            U8 register_addr_u8,
                                            U8 mask_u8,
                                            U8 value_u8 );
+
+    /**
+     * @details This function returns a pointer to the current I2C error
+     * @return pointer to the I2C error of type DD_I2C_ERROR_INFO_TYPE
+     */
+   static DD_I2C_ERROR_INFO_TYPE* get_last_error( void );
+
+    /**
+     * @details This function returns a pointer to the I2C error database
+     * @return pointer to the current I2C error database of type DD_I2C_ERROR_TYPE
+     */
+   static DD_I2C_ERROR_TYPE*      get_error_database( void );
+
 };
+
 
 #endif /* DD_I2C_H_ */

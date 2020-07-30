@@ -67,7 +67,7 @@ void dd_init(void)
     /* Initialize ICM-2600 motion subsystem */
     if( FALSE == DD_ICM_20600_C::init() )
     {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_last_error()->error_e );
+        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n",  DD_I2C_C::get_last_error()->error_e );
     }
 
     /* Initialize MAX-30102 HR+SpO2 sensor */

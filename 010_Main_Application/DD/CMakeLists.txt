@@ -24,11 +24,9 @@ idf_component_register(SRCS
                             #"Core/dd_pga-302.c"
                             "Core/dd_i2c.cpp"
                             "Core/dd_sd.cpp"
-                            "Interface/dd_i2c_if.cpp"
-                            "Interface/dd_icm-20600_if.cpp"
+                            #"Interface/dd_icm-20600_if.cpp"
                             #"Interface/dd_max-30102_if.c"
                             #"Interface/dd_pga-302_if.c"
-                            #"Interface/dd_sd_if.c"
                             "DD.cpp"
                        INCLUDE_DIRS "."
                        REQUIRES fatfs)
