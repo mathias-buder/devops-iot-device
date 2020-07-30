@@ -61,7 +61,7 @@ extern "C" void app_main()
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
 
         /* Schedule Device Driver (DD) */
-        //dd_main();
+        dd_main();
 
        // dlg_main();
 

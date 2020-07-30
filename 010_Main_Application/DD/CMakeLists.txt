@@ -13,19 +13,19 @@
 # *********************************************************************/
 
 idf_component_register(SRCS 
-                            #"Config/dd_icm-20600_cfg.c"
+                            "Config/dd_icm-20600_cfg.cpp"
                             #"Config/dd_max-30102_cfg.c"
                             #"Config/dd_pga-302_cfg.c"
                             "Config/dd_i2c_cfg.cpp"
                             #"Config/dd_sd_cfg.c"
                             "Core/dd_database.cpp"
-                            #"Core/dd_icm-20600.c"
+                            "Core/dd_icm-20600.cpp"
                             #"Core/dd_max-30102.c"
                             #"Core/dd_pga-302.c"
                             "Core/dd_i2c.cpp"
                             #"Core/dd_sd.c"
                             "Interface/dd_i2c_if.cpp"
-                            #"Interface/dd_icm-20600_if.c"
+                            "Interface/dd_icm-20600_if.cpp"
                             #"Interface/dd_max-30102_if.c"
                             #"Interface/dd_pga-302_if.c"
                             #"Interface/dd_sd_if.c"

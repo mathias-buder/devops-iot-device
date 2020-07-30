@@ -192,15 +192,32 @@
 /*************************************************************/
 
 
+class DD_ICM_20600_C
+{
+  private:
+    /**
+     * @details This function performs a read/write test on the specified I2C device to make sure the
+     * low-level interface is working correctly.
+     * @param[in] error_t I2C error code
+     * @return TRUE if NO error is present
+     */
+    static BOOLEAN reset_soft( void );
+    static BOOLEAN who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
+    static BOOLEAN set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
+    static BOOLEAN set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
+    static BOOLEAN temperature_read( DD_ICM_20600_DATA* p_input_data_s );
+    static BOOLEAN accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+    static BOOLEAN gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
+    static BOOLEAN self_test( DD_ICM_20600_DATA* p_data_s );
+    static BOOLEAN calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_f32 );
 
-/**
- * @details Some details ...
- * @param[in]
- * @return
- */
+  public:
+    static BOOLEAN init( void );
+    static void    run( void );
+};
 
-BOOLEAN dd_icm_20600_init(void);
 
-void dd_icm_20600_main(void);
+
+
 
 #endif /* DD_ICM_20600_H */

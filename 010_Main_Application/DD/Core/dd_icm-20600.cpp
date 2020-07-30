@@ -34,21 +34,13 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-BOOLEAN         dd_icm_20600_reset_soft( void );
-BOOLEAN         dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
-PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
-PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
-BOOLEAN         dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN         dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN         dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s );
-BOOLEAN         dd_icm_20600_calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_f32 );
+
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-BOOLEAN dd_icm_20600_init( void )
+BOOLEAN DD_ICM_20600_C::init( void )
 {
     ESP_LOGI(DD_ICM_20600_LOG_MSG_TAG, "Initializing ..." );
 
@@ -58,14 +50,14 @@ BOOLEAN dd_icm_20600_init( void )
     dd_icm_20600_data_s.dev_state_s.state_e    = DD_STATE_TEST;
 
     /* Check for matching device id */
-    if (    ( TRUE != dd_icm_20600_who_am_i_read( &dd_icm_20600_data_s ) )
+    if (    ( TRUE != who_am_i_read( &dd_icm_20600_data_s )            )
          || ( DD_ICM_20600_DEVICE_ID != dd_icm_20600_data_s.chip_id_u8 ) )
     {
         return FALSE;
     }
 
     /* Clear sleep mode bit (6), enable all sensors */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
     {
         return FALSE;
     }
@@ -76,7 +68,7 @@ BOOLEAN dd_icm_20600_init( void )
 
     /* Get stable time source and set clock source to be PLL with x-axis
     * gyroscope reference, bits 2:0 = 001 */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
     {
         return FALSE;
     }
@@ -85,26 +77,26 @@ BOOLEAN dd_icm_20600_init( void )
     * Disable FSYNC and set accelerometer and gyro bandwidth to 44 and 42 Hz, respectively.
     * DLPF_CFG = bits 2:0 = 010; this sets the sample rate at 1 kHz for both
     * Maximum delay is 4.9 ms which is just over a 200 Hz maximum rate */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x03 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x03 ) )
     {
         return FALSE;
     }
 
     /* Set sample rate = gyroscope output rate / ( 1 + SMPLRT_DIV ).
      * Use a 200 Hz rate as it was set in CONFIG above */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x04 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x04 ) )
     {
         return FALSE;
     }
 
     /* Set gyroscope full scale range. */
-    if ( FALSE == dd_icm_20600_set_gyro_full_scale( DD_ICM_20600_G_SCALSE ) )
+    if ( FALSE == set_gyro_full_scale( DD_ICM_20600_G_SCALSE ) )
     {
         return FALSE;
     }
 
     /* Set gyroscope full scale range. */
-    if ( FALSE == dd_icm_20600_set_accel_full_scale( DD_ICM_20600_A_SCALSE ) )
+    if ( FALSE == set_accel_full_scale( DD_ICM_20600_A_SCALSE ) )
     {
         return FALSE;
     }
@@ -112,13 +104,13 @@ BOOLEAN dd_icm_20600_init( void )
     /* Configure Interrupts and Bypass Enable. Set interrupt pin active high,
      * push-pull, and clear on read of INT_STATUS, enable I2C_BYPASS_EN so
      * additional chips can join the I2C bus */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_INT_PIN_CFG, 0x22 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_INT_PIN_CFG, 0x22 ) )
     {
         return FALSE;
     }
 
     /* Enable data ready (bit 0) interrupt */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_INT_ENABLE, 0x01 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_INT_ENABLE, 0x01 ) )
     {
         return FALSE;
     }
@@ -128,7 +120,7 @@ BOOLEAN dd_icm_20600_init( void )
     return TRUE;
 }
 
-void dd_icm_20600_main( void )
+void DD_ICM_20600_C::run( void )
 {
 
     /* icm-20600 state-maschine */
@@ -138,7 +130,7 @@ void dd_icm_20600_main( void )
     case DD_STATE_TEST:
 
         /* Execute self test and store result */
-        dd_icm_20600_data_s.self_test_passed_b = dd_icm_20600_self_test( &dd_icm_20600_data_s );
+        dd_icm_20600_data_s.self_test_passed_b = self_test( &dd_icm_20600_data_s );
 
         /* Go to running state */
         dd_icm_20600_data_s.dev_state_s.state_e = DD_STATE_RUN;
@@ -151,9 +143,9 @@ void dd_icm_20600_main( void )
     case DD_STATE_RUN:
 
         /* Read all raw sensor data form ICM-20600 */
-        dd_icm_20600_temperature_read( &dd_icm_20600_data_s );
-        dd_icm_20600_accel_data_read_raw( &dd_icm_20600_data_s );
-        dd_icm_20600_gyro_data_read_raw( &dd_icm_20600_data_s );
+        temperature_read( &dd_icm_20600_data_s );
+        accel_data_read_raw( &dd_icm_20600_data_s );
+        gyro_data_read_raw( &dd_icm_20600_data_s );
 
         break;
 
@@ -168,21 +160,21 @@ void dd_icm_20600_main( void )
     }
 }
 
-BOOLEAN dd_icm_20600_reset_soft( void )
+BOOLEAN DD_ICM_20600_C::reset_soft( void )
 {
-    return dd_i2c_read_modify_write_bit( DD_ICM_20600_I2C_ADDR,
+    return DD_I2C_C::read_modify_write_bit( DD_ICM_20600_I2C_ADDR,
                                          DD_ICM_20600_PWR_MGMT_1,
                                          DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B,
                                          TRUE );
 }
 
-BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
 {
     U8 register_value_u8;
 
     if ( NULL != p_input_data_s )
     {
-        if ( TRUE == dd_i2c_read_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_WHO_AM_I, &register_value_u8 ) )
+        if ( TRUE == DD_I2C_C::read_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_WHO_AM_I, &register_value_u8 ) )
         {
             p_input_data_s->chip_id_u8 = register_value_u8;
         }
@@ -202,7 +194,7 @@ BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_e )
+BOOLEAN DD_ICM_20600_C::set_accel_full_scale( const DD_ICM_20600_AFS scale_e )
 {
     U8  scale_u8;
     F32 resolution_f32;
@@ -238,7 +230,7 @@ PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_
         return FALSE;
     }
 
-    if ( FALSE == dd_i2c_read_modify_write_mask( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, DD_ICM_20600_ACCL_CFG_FS_SEL_MASK, scale_u8 ) )
+    if ( FALSE == DD_I2C_C::read_modify_write_mask( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, DD_ICM_20600_ACCL_CFG_FS_SEL_MASK, scale_u8 ) )
     {
         return FALSE;
     }
@@ -255,7 +247,7 @@ PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e )
+BOOLEAN DD_ICM_20600_C::set_gyro_full_scale( const DD_ICM_20600_GFS scale_e )
 {
     U8  scale_u8;
     F32 resolution_f32;
@@ -291,7 +283,7 @@ PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e
         return FALSE;
     }
 
-    if ( FALSE == dd_i2c_read_modify_write_mask( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, DD_ICM_20600_GYRO_CFG_FS_SEL_MASK, scale_u8 ) )
+    if ( FALSE == DD_I2C_C::read_modify_write_mask( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, DD_ICM_20600_GYRO_CFG_FS_SEL_MASK, scale_u8 ) )
     {
         return FALSE;
     }
@@ -308,13 +300,13 @@ PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e
     return TRUE;
 }
 
-BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::temperature_read( DD_ICM_20600_DATA* p_input_data_s )
 {
     U8 register_data_vu8[2];
 
     if ( NULL != p_input_data_s )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_TEMP_OUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
+        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_TEMP_OUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
             p_input_data_s->temperature_raw_u16 =  0xFFFF;
             p_input_data_s->temperature_deg_f32 = -1000.0F;
@@ -338,13 +330,13 @@ BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s )
     return TRUE;
 }
 
-BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
 {
     U8 register_data_vu8[2U * DD_ICM_20600_ACCEL_SIZE];
 
     if ( NULL != p_input_data_s )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
+        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
             p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = 0U;
             p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = 0U;
@@ -372,13 +364,13 @@ BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
     return TRUE;
 }
 
-BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
 {
     U8 register_data_vu8[2U * DD_ICM_20600_ACCEL_SIZE];
 
     if ( NULL != p_input_data_s )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
+        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
             p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = 0U;
             p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = 0U;
@@ -408,7 +400,7 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
 
 /* Accelerometer and gyroscope self test; check calibration wrt factory settings
    Should return percent deviation from factory trim values, +/- 14 or less deviation is a pass */
-PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
+BOOLEAN DD_ICM_20600_C::self_test( DD_ICM_20600_DATA* p_data_s )
 {
     U8  idx_u8;
     U8  register_data_vu8[4];
@@ -421,13 +413,13 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
     if ( NULL != p_data_s )
     {
         /* Enable self test on all three axes and set accelerometer range to +/- 8 g */
-        if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0xF0 ) )
+        if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0xF0 ) )
         {
             return FALSE;
         }
 
         /* Enable self test on all three axes and set gyro range to +/- 250 degrees/s */
-        if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0xE0 ) )
+        if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0xE0 ) )
         {
             return FALSE;
         }
@@ -436,7 +428,7 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
         vTaskDelay( 3 * portTICK_PERIOD_MS );
 
         /* X-axis, Y-axis, Z-axis and Mixed-axis self-test results */
-        if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SELF_TEST_X, register_data_vu8, sizeof( register_data_vu8 ) ) )
+        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SELF_TEST_X, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
             return FALSE;
         }
@@ -518,8 +510,8 @@ PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
 
 // Function which accumulates gyro and accelerometer data after device initialization. It calculates the average
 // of the at-rest readings and then loads the resulting offsets into accelerometer and gyro bias registers.
-BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
-                                F32* p_accel_bias_f32 )
+BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
+                                   F32* p_accel_bias_f32 )
 {
     U8  register_data_vu8[12]; /* data array to hold accelerometer and gyro x, y, z, data */
     U16 idx_u16;
@@ -537,7 +529,7 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
 
     /* Reset device, reset all registers, clear gyro and accelerometer bias registers.
      * Write a one to bit 7 reset bit; toggle reset device */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x80 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x80 ) )
     {
         return FALSE;
     }
@@ -547,12 +539,12 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
 
     /* Get stable time source. Set clock source to be PLL with x-axis
      * gyroscope reference, bits 2:0 = 001 */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
     {
         return FALSE;
     }
 
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
     {
         return FALSE;
     }
@@ -562,37 +554,37 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     /* Configure device for bias calculation */
 
     /* Disable all interrupts */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR,  DD_ICM_20600_INT_ENABLE, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR,  DD_ICM_20600_INT_ENABLE, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Disable FIFO */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Turn on internal clock source */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Disable I2C master */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_I2C_MST_CTRL, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_I2C_MST_CTRL, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Disable FIFO and I2C master modes */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Reset FIFO and DMP */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x0C ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x0C ) )
     {
         return FALSE;
     }
@@ -601,40 +593,40 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
 
     /* Configure gyro and accelerometer for bias calculation
      * Set low-pass filter to 188 Hz */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x01 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x01 ) )
     {
         return FALSE;
     }
 
 
     /* Set sample rate to 1 kHz */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Set gyro full-scale to 250 degrees per second, maximum sensitivity */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Set accelerometer full-scale to 2 g, maximum sensitivity */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0x00 ) )
     {
         return FALSE;
     }
 
     /* Configure FIFO to capture accelerometer and gyro data for bias calculation
      * Enable FIFO */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x40 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x40 ) )
     {
         return FALSE;
     }
 
 
     /* Enable gyro and accelerometer sensors for FIFO  (max size 1024 bytes in MPU-6050) */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x78 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x78 ) )
     {
         return FALSE;
     }
@@ -644,13 +636,13 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
 
     /* At end of sample accumulation, turn off FIFO sensor read
     * Disable gyro and accelerometer sensors for FIFO */
-    if ( FALSE == dd_i2c_write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
     {
         return FALSE;
     }
 
     /* read FIFO sample count */
-    if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_COUNTH, &register_data_vu8[0], 2U ) )
+    if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_COUNTH, &register_data_vu8[0], 2U ) )
     {
         return FALSE;
     }
@@ -663,7 +655,7 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     for ( idx_u16 = 0; idx_u16 < packet_cnt_u16; idx_u16++ )
     {
         /* Read data for averaging */
-        if ( FALSE == dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_R_W, &register_data_vu8[0], sizeof( register_data_vu8 ) ) )
+        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_R_W, &register_data_vu8[0], sizeof( register_data_vu8 ) ) )
         {
             return FALSE;
         }
@@ -716,7 +708,7 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     register_data_vu8[5] = ( -gyro_bias_vs32[2] / 4 ) & 0xFF;
 
     /* Push gyro biases to hardware registers */
-    if ( dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XG_OFFS_USRH, &register_data_vu8[0], 6U ) )
+    if ( DD_I2C_C::write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XG_OFFS_USRH, &register_data_vu8[0], 6U ) )
     {
         return FALSE;
     }
@@ -733,7 +725,7 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
      * biases calculated above must be divided by 8. */
 
     /* Read factory accelerometer trim values */
-    if ( dd_i2c_read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
+    if ( DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
     {
         return FALSE;
     }
@@ -774,7 +766,7 @@ BOOLEAN dd_icm_20600_calibrate( F32* p_gyro_bias_f32,
     register_data_vu8[5] = register_data_vu8[5] | mask_bit_vu8[2];
 
     /* Push accelerometer biases to hardware registers */
-    if ( dd_i2c_write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
+    if ( DD_I2C_C::write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
     {
         return FALSE;
     }
