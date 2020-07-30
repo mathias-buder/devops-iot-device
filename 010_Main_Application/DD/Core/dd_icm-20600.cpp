@@ -163,9 +163,9 @@ void DD_ICM_20600_C::run( void )
 BOOLEAN DD_ICM_20600_C::reset_soft( void )
 {
     return DD_I2C_C::read_modify_write_bit( DD_ICM_20600_I2C_ADDR,
-                                         DD_ICM_20600_PWR_MGMT_1,
-                                         DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B,
-                                         TRUE );
+                                            DD_ICM_20600_PWR_MGMT_1,
+                                            DD_ICM_20600_PWR_MGMT_1_DEVICE_RESET_B,
+                                            TRUE );
 }
 
 BOOLEAN DD_ICM_20600_C::who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
@@ -294,7 +294,7 @@ BOOLEAN DD_ICM_20600_C::set_gyro_full_scale( const DD_ICM_20600_GFS scale_e )
         dd_icm_20600_data_s.gyro_resolution_f32 = resolution_f32;
 
         ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "GYRO - Scale: %i, Res: %f", dd_icm_20600_data_s.gyro_full_scale_sel_e,
-                                                                            dd_icm_20600_data_s.gyro_resolution_f32 );
+                                                                         dd_icm_20600_data_s.gyro_resolution_f32 );
     }
 
     return TRUE;
