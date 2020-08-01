@@ -31,20 +31,50 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 
-#define DD_PGA302_P_GAIN_SELECT                 0x47
-#define DD_PGA302_T_GAIN_SELECT                 0x48
-#define DD_PGA302_TEMP_CTRL                     0x4C
-#define DD_PGA302_OFFSET_CANCE_L                0x4E
-#define DD_PGA302_PADC_DATA1                    0x20
-#define DD_PGA302_PADC_DATA2                    0x21
-#define DD_PGA302_TADC_DATA1                    0x24
-#define DD_PGA302_TADC_DATA2                    0x25
-#define DD_PGA302_DAC_REG0_1                    0x30
-#define DD_PGA302_DAC_REG0_2                    0x31
-#define DD_PGA302_OP_STAGE_CTR_L                0x3B
-#define DD_PGA302_PSMON1                        0x58
-#define DD_PGA302_AFEDIAG                       0x5A
-#define DD_PGA302_MICRO_IF_CTL                  0x0C
+#define DD_PGA_302_P_GAIN_SELECT                 0x47
+#define DD_PGA_302_T_GAIN_SELECT                 0x48
+#define DD_PGA_302_TEMP_CTRL                     0x4C
+#define DD_PGA_302_OFFSET_CANCE_L                0x4E
+#define DD_PGA_302_PADC_DATA1                    0x20
+#define DD_PGA_302_PADC_DATA2                    0x21
+#define DD_PGA_302_TADC_DATA1                    0x24
+#define DD_PGA_302_TADC_DATA2                    0x25
+#define DD_PGA_302_DAC_REG0_1                    0x30
+#define DD_PGA_302_DAC_REG0_2                    0x31
+#define DD_PGA_302_OP_STAGE_CTRL                 0x3B
+#define DD_PGA_302_PSMON1                        0x58
+#define DD_PGA_302_AFEDIAG                       0x5A
+#define DD_PGA_302_MICRO_IF_CTRL                 0x0C
+
+
+/* P_GAIN_SELECT: Pressure channel configuration */
+
+/* P_GAIN: Pressure gain select */
+#define DD_PGA_302_P_GAIN_MASK                   0xF8 /* (byte)~0b00000111 */
+#define DD_PGA_302_P_GAIN_1_33                   0x00
+#define DD_PGA_302_P_GAIN_2                      0x01
+#define DD_PGA_302_P_GAIN_4                      0x02
+#define DD_PGA_302_P_GAIN_10                     0x03
+#define DD_PGA_302_P_GAIN_20                     0x04
+#define DD_PGA_302_P_GAIN_40                     0x05
+#define DD_PGA_302_P_GAIN_100                    0x06
+#define DD_PGA_302_P_GAIN_200                    0x07
+
+/* PSEM: Pressure input mode select */
+#define DD_PGA_302_PSEM_MASK                     0xF7 /* (byte)~0b00001000 */
+#define DD_PGA_302_SINGLE_ENDED                  0x00
+#define DD_PGA_302_DIFFERENTIAL                  0x01
+
+/* P_MUX_CTRL: Pressure input mux select */
+#define DD_PGA_302_P_MUX_CTRL_MASK               0xCF /* (byte)~0b01100000 */
+#define DD_PGA_302_P_MUX_CTRL_VINPP_VINPN        0x00
+#define DD_PGA_302_P_MUX_CTRL_VINPP_1_25V        0x10
+#define DD_PGA_302_P_MUX_CTRL_1_25V_VINPN        0x20
+
+/* P_INV: Pressure gain output inverse select */
+#define DD_PGA_302_P_INV_MASK                    0x7F /* (byte)~0b10000000 */
+#define DD_PGA_302_P_INV_DISABLE                 0x00
+#define DD_PGA_302_P_INV_ENABLE                  0x80
 
 
 /*************************************************************/

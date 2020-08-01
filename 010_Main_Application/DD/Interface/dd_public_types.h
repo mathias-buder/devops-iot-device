@@ -375,4 +375,21 @@ typedef struct DD_SD_DATA_TAG
     BOOLEAN    is_fs_mounted_b; /**< @details Flag indicating that file system is mounted on SD card */
 } DD_SD_DATA;
 
+
+/*************************************************************/
+/*                        DD_PGA_302                         */
+/*************************************************************/
+typedef enum DD_PGA_302_P_GAIN_TAG
+{
+    DD_PGA_302_P_GAIN_1_33 = 0U, /**< @details ... */
+    DD_PGA_302_P_GAIN_2,         /**< @details ... */
+    DD_PGA_302_P_GAIN_4,         /**< @details ... */
+    DD_PGA_302_P_GAIN_10,        /**< @details ... */
+    DD_PGA_302_P_GAIN_20,        /**< @details ... */
+    DD_PGA_302_P_GAIN_40,        /**< @details ... */
+    DD_PGA_302_P_GAIN_100,       /**< @details ... */
+    DD_PGA_302_P_GAIN_200,       /**< @details ... */
+    DD_PGA_302_P_GAIN_SIZE
+} DD_PGA_302_P_GAIN;
+
 #endif /* DD_PUBLIC_TYPES_H */
