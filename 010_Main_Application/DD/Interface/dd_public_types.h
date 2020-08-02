@@ -392,4 +392,21 @@ typedef enum DD_PGA_302_P_GAIN_TAG
     DD_PGA_302_P_GAIN_SIZE
 } DD_PGA_302_P_GAIN;
 
+
+typedef enum DD_PGA_302_P_INPUT_MODE_TAG
+{
+    DD_PGA_302_P_INPUT_MODE_SINGLE_ENDED = 0U, /**< @details ... */
+    DD_PGA_302_P_INPUT_MODE_DIFFERENTIAL,      /**< @details ... */
+    DD_PGA_302_P_INPUT_MODE_SIZE
+} DD_PGA_302_P_INPUT_MODE;
+
+
+typedef enum DD_PGA_302_P_INPUT_MUX_TAG
+{
+    DD_PGA_302_P_INPUT_MUX_VINPP_VINPN = 0U, /**< @details ... */
+    DD_PGA_302_P_INPUT_MUX_VINPP_1_25V,      /**< @details ... */
+    DD_PGA_302_P_INPUT_MUX_1_25V_VINPN,
+    DD_PGA_302_P_INPUT_MUX_SIZE
+} DD_PGA_302_P_INPUT_MUX;
+
 #endif /* DD_PUBLIC_TYPES_H */

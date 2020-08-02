@@ -45,6 +45,9 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
+extern DD_PGA_302_P_GAIN       dd_pga_303_p_gain_cfg_e;
+extern DD_PGA_302_P_INPUT_MODE dd_pga_303_p_mode_cfg_e;
+extern DD_PGA_302_P_INPUT_MUX  dd_pga_303_p_mux_cfg_e;
+extern BOOLEAN                 dd_pga_303_p_inverse_cfg_b;
 
 #endif /* DD_PGA_302_CFG_H */
