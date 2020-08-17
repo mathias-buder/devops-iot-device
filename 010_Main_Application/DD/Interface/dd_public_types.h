@@ -313,6 +313,10 @@ typedef enum DD_MAX_30102_INT_TYPE_TAG
     DD_MAX_30102_INT_TYPE_SIZE
 } DD_MAX_30102_INT_TYPE;
 
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
 /**
  * @brief   MAX-30102 Output Interface Data Structure
  * @details MAX-30102 Output Interface Data Structure ...
@@ -408,5 +412,22 @@ typedef enum DD_PGA_302_P_INPUT_MUX_TAG
     DD_PGA_302_P_INPUT_MUX_1_25V_VINPN,
     DD_PGA_302_P_INPUT_MUX_SIZE
 } DD_PGA_302_P_INPUT_MUX;
+
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+/**
+ * @brief   MAX-30102 Output Interface Data Structure
+ * @details MAX-30102 Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_PGA_302_DATA_TAG
+{
+
+    U8                part_id_u8;
+
+} DD_PGA_302_DATA;
 
 #endif /* DD_PUBLIC_TYPES_H */
