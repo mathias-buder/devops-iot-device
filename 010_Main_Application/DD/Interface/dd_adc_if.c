@@ -8,17 +8,23 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file dd_pga-302_if.c
+        @file dd_adc_if.c
         @details Some detailed description
 
+        (c) SEWELA 2020
+
 *********************************************************************/
+
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "dd_pga-302_if.h"
+#include "dd_adc_if.h"
 
+#include <stdio.h>
+#include <string.h>
+
+#include "../Core/dd_database.h"
+#include "../Core/dd_adc.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */

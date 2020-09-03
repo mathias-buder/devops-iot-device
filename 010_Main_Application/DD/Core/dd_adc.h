@@ -8,24 +8,38 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file dd_pga-302_if.h
+        @file dd_adc.h
         @details Some detailed description
 
+        (c) SEWELA 2020
+
 *********************************************************************/
-#ifndef DD_PGA_302_IF_H
-#define DD_PGA_302_IF_H
+
+#ifndef DD_ADC_H
+#define DD_ADC_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <driver/adc.h>
+#include <driver/gpio.h>
+#include <esp_log.h>
+#include <esp_err.h>
+#include "../Config/dd_adc_cfg.h"
+#include "../Config/dd_types_cfg.h"
 
-
+#include "dd_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
+/**
+ * @details This function initialized the ADC interface
+ */
+void dd_adc_init(void);
 
-#endif /* DD_PGA_302_IF_H */
+void dd_adc_main(void);
+                                       
+
+#endif /* DD_ADC_H */

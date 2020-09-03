@@ -8,46 +8,37 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file dd_pga-302_cfg.h
+        @file dd_adc_cfg.c
         @details Some detailed description
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
-#ifndef DD_PGA_302_CFG_H
-#define DD_PGA_302_CFG_H
+#ifndef DD_ADC_CFG_H
+#define DD_ADC_CFG_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../Core/dd_types.h"
+#include <driver/adc.h>
+#include <driver/gpio.h>
+#include <freertos/FreeRTOS.h>
 
+#include "../../types.h"
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 /* Log message TAG string */
-#define DD_PGA_302_LOG_MSG_TAG                    "DD_PGA_302"
+#define DD_ADC_LOG_MSG_TAG                          "DD_ADC"
 
-/* I2C configuration
- * The I2C digital interface (DI) is organized in different memory
- * pages which requires dedicated address offsets to access the
- * a certain memory page */
 
-#define DD_PGA_302_I2C_ADDR_TEST_REG              0x40     /* PGA-302 I2C slave address: test registers */
-#define DD_PGA_302_I2C_ADDR_DI_OFFSET_2           0x42     /* PGA-302 I2C slave address: test control and status register, offset: 0x02 */
-#define DD_PGA_302_I2C_ADDR_DI_OFFSET_7           0x47     /* PGA-302 I2C slave address: test control and status register, offset: 0x07 */
-#define DD_PGA_302_I2C_ADDR_DI_OFFSET_EEPROM      0x45     /* PGA-302 I2C address offset: EEPROM cach + cells */
-
-// #define DD_PGA_302_DEVICE_ID                      0x00 /* Unique device id */
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern DD_PGA_302_P_GAIN       dd_pga_303_p_gain_cfg_e;
-extern DD_PGA_302_P_INPUT_MODE dd_pga_303_p_mode_cfg_e;
-extern DD_PGA_302_P_INPUT_MUX  dd_pga_303_p_mux_cfg_e;
-extern BOOLEAN                 dd_pga_303_p_inverse_cfg_b;
 
-#endif /* DD_PGA_302_CFG_H */
+
+
+#endif /* DD_ADC_CFG_H */

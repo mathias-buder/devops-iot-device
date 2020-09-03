@@ -8,50 +8,30 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file DD.h
+        @file dd_adc_if.h
         @details Some detailed description
 
-*********************************************************************/
-#ifndef DD_H
-#define DD_H
+        (c) SEWELA 2020
 
+*********************************************************************/
+
+#ifndef DD_ADC_IF_H
+#define DD_ADC_IF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/dd_i2c_if.h"
-#include "Interface/dd_icm-20600_if.h"
-#include "Interface/dd_max-30102_if.h"
-#include "Interface/dd_public_types.h"
-#include "Interface/dd_sd_if.h"
+#include "esp_log.h"
 
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
+#include "dd_public_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 
-
-/*********************************************************************/
-/*   FUNCTION PROTOTYPES                                             */
-/*********************************************************************/
-
-/**
- * @details This function initializes the entire Device Driver (DD) domain
- * and shall by only called once.
- */
-extern void dd_init(void);
+/*************************************************************/
+/*      PROTOTYPES                                           */
+/*************************************************************/
 
 
-/**
- * @details This function executes all Device Driver (DD) domain related
- * functions and shall be called in a cyclic fashon.
- */
-extern void dd_main(void);
-
-#endif /* DD_H */
+#endif /* DD_ADC_IF_H */

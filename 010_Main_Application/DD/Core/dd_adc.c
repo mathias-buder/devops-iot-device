@@ -1,17 +1,17 @@
 /*********************************************************************
 
         SEWELA owns the copyright in this document and associated
-        documents and all rights are reserved. These documents must--
+        documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
         are supplied and must not be copied in whole or in part or
         disclosed to others without prior written consent of SEWELA.
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file DD.c
+        @file dd_adc.c
         @details Some detailed description
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
@@ -23,26 +23,15 @@
 
 #include "esp_log.h"
 
-#include "DD.h"
-#include "Core/dd_database.h"
-#include "Core/dd_sd.h"
-#include "Core/dd_i2c.h"
-#include "Core/dd_adc.h"
-#include "Core/dd_icm-20600.h"
-#include "Core/dd_max-30102.h"
+#include "dd_adc.h"
+#include "dd_database.h"
 
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-#define DD_LOG_MSG_TAG "DD"
+#include "../../types.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-BOOLEAN file_written_b = FALSE;
-U32     idx_u32        = 100U;
-U32     time_in_ms_u32;
-FILE*   p_file;
+
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
@@ -50,30 +39,25 @@ FILE*   p_file;
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void dd_init(void)
+
+void dd_adc_init( void )
 {
-    /* Initialize SD card driver */
-    dd_sd_init();
 
-    /* Initialize I2C basic device driver */
-    dd_i2c_init();
+    adc1_config_width(ADC_WIDTH_BIT_12);
+    adc1_config_channel_atten(ADC1_CHANNEL_0,ADC_ATTEN_DB_0);
 
-    /* Initialize ADC basic device driver */
-    dd_adc_init();
-
-    /* Initialize ICM-2600 motion subsystem */
-    if( FALSE == dd_icm_20600_init() )
-    {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_last_error()->error_e );
-    }
-
-    /* Initialize MAX-30102 HR+SpO2 sensor */
-    dd_max_30102_init();
 }
 
-void dd_main(void)
+
+void dd_adc_main( void )
 {
-    dd_adc_main();
-    dd_icm_20600_main();
-    dd_max_30102_main();
+
+
+    int val = adc1_get_raw(ADC1_CHANNEL_0);
+
+   ESP_LOGD(DD_ADC_LOG_MSG_TAG, "Current value: %i", val);
+
+
+
 }
+
