@@ -398,7 +398,7 @@ typedef struct DD_ADC_DATA_TAG
 {
     U16 raw_data_u16;          /**< @details Current raw 12-bit ADC value @unit [LSB] */
     U16 previous_raw_data_u16; /**< @details Previous raw 12-bit ADC value @unit [LSB] */
-    U32 voltage_u32;           /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
+    U16 voltage_u16;           /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
     F32 raw_level_f32;         /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
     F32 filtered_level_f32;    /**< @details Filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
 
