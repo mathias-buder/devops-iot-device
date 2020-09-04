@@ -29,6 +29,7 @@ DLG_DATA           dlg_database_s;
 DLG_LOG_DATA       dlg_log_database_s;
 DD_ICM_20600_DATA* p_dlg_icm_20600_data_s;
 DD_I2C_ERROR_TYPE* p_dlg_i2c_error_data_s;
+DD_ADC_DATA*       p_dlg_adc_data_s;
 DD_MAX_30102_DATA* p_dlg_max_30102_data_s;
 
 /*********************************************************************/

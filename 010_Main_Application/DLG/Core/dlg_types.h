@@ -65,11 +65,16 @@ typedef struct DLG_LOG_DATA_TAG
     F32 icm_20600_factory_trim_dev_yg_f32; /**< @details ICM-20600 YG factory trim deviation @unit % */
     F32 icm_20600_factory_trim_dev_zg_f32; /**< @details ICM-20600 ZG factory trim deviation @unit % */
     F32 max_30102_temperature_f32;         /**< @details MAX-30102 @unit °C */
+    F32 adc_raw_level_f32;
+    F32 adc_filtered_level_f32;
 
     U32 max_30102_red_data_raw_u32;        /**< @details MAX-30102 Red led ADC raw value */
     U32 max_30102_ir_data_raw_u32;         /**< @details MAX-30102 IR led ADC raw value */
 
     U16 icm_20600_temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
+    U16 adc_raw_data_u16;
+    U16 adc_previous_raw_data_u16;
+    U16 adc_voltage_u16;
 
     S16 icm_20600_accel_raw_data_x_s16;    /**< @details ICM-20600 X acceleration raw value */
     S16 icm_20600_accel_raw_data_y_s16;    /**< @details ICM-20600 Y acceleration raw value */

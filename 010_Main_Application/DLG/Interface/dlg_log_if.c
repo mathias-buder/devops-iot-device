@@ -47,6 +47,9 @@ void dlg_log_get_data( void )
     /* Acquire I2C error database pointer */
     p_dlg_i2c_error_data_s = dd_i2c_get_error_database();
 
+    /* Acquire ADC database pointer */
+    p_dlg_adc_data_s = dd_adc_get_database();
+
     /* Acquire ICM-20600 database pointer */
     p_dlg_icm_20600_data_s = dd_icm_20600_get_database();
 

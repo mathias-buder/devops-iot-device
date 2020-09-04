@@ -48,6 +48,7 @@ PRIVATE U8  log_test_mode_cnt_u8;
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
 PRIVATE void    dlg_log_create_i2c_data_frame( void );
+PRIVATE void    dlg_log_create_adc_data_frame( void );
 PRIVATE void    dlg_log_create_icm_20600_data_frame( void );
 PRIVATE void    dlg_log_create_max_30102_data_frame( void );
 PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 );
@@ -105,6 +106,7 @@ void dlg_log_main( void )
 
         /* Acquire current values for all logging structure */
         dlg_log_create_i2c_data_frame();
+        dlg_log_create_adc_data_frame();
         dlg_log_create_icm_20600_data_frame();
         dlg_log_create_max_30102_data_frame();
 
@@ -170,19 +172,35 @@ PRIVATE void dlg_log_create_i2c_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
     dlg_log_database_s.i2c_is_error_present_u8 = log_test_mode_cnt_u8;
-    dlg_log_database_s.i2c_error_code_s16     = log_test_mode_cnt_u8;
-    dlg_log_database_s.i2c_access_type_u8     = log_test_mode_cnt_u8;
-    dlg_log_database_s.i2c_device_addr_u8     = log_test_mode_cnt_u8;
-    dlg_log_database_s.i2c_register_addr_u8   = log_test_mode_cnt_u8;
+    dlg_log_database_s.i2c_error_code_s16      = log_test_mode_cnt_u8;
+    dlg_log_database_s.i2c_access_type_u8      = log_test_mode_cnt_u8;
+    dlg_log_database_s.i2c_device_addr_u8      = log_test_mode_cnt_u8;
+    dlg_log_database_s.i2c_register_addr_u8    = log_test_mode_cnt_u8;
 #else
     dlg_log_database_s.i2c_is_error_present_u8 = (U8) p_dlg_i2c_error_data_s->is_error_present_b;
-    dlg_log_database_s.i2c_error_code_s16     = (S16) p_dlg_i2c_error_data_s->error_info_vs[0U].error_e;
-    dlg_log_database_s.i2c_access_type_u8     = (U8) p_dlg_i2c_error_data_s->error_info_vs[0U].access_type_e;
-    dlg_log_database_s.i2c_device_addr_u8     = p_dlg_i2c_error_data_s->error_info_vs[0U].device_addr_u8;
-    dlg_log_database_s.i2c_register_addr_u8   = p_dlg_i2c_error_data_s->error_info_vs[0U].register_addr_u8;
+    dlg_log_database_s.i2c_error_code_s16      = (S16) p_dlg_i2c_error_data_s->error_info_vs[0U].error_e;
+    dlg_log_database_s.i2c_access_type_u8      = (U8) p_dlg_i2c_error_data_s->error_info_vs[0U].access_type_e;
+    dlg_log_database_s.i2c_device_addr_u8      = p_dlg_i2c_error_data_s->error_info_vs[0U].device_addr_u8;
+    dlg_log_database_s.i2c_register_addr_u8    = p_dlg_i2c_error_data_s->error_info_vs[0U].register_addr_u8;
 #endif
 }
 
+PRIVATE void dlg_log_create_adc_data_frame( void )
+{
+#ifdef DLG_LOG_TEST_ENABLE
+    dlg_log_database_s.adc_raw_data_u16          = log_test_mode_cnt_u8;
+    dlg_log_database_s.adc_previous_raw_data_u16 = log_test_mode_cnt_u8;
+    dlg_log_database_s.adc_voltage_u16           = log_test_mode_cnt_u8;
+    dlg_log_database_s.adc_raw_level_f32         = log_test_mode_cnt_u8;
+    dlg_log_database_s.adc_filtered_level_f32    = log_test_mode_cnt_u8;
+#else
+    dlg_log_database_s.adc_raw_data_u16          = p_dlg_adc_data_s->raw_data_u16;
+    dlg_log_database_s.adc_previous_raw_data_u16 = p_dlg_adc_data_s->previous_raw_data_u16;
+    dlg_log_database_s.adc_voltage_u16           = p_dlg_adc_data_s->voltage_u16;
+    dlg_log_database_s.adc_raw_level_f32         = p_dlg_adc_data_s->raw_level_f32;
+    dlg_log_database_s.adc_filtered_level_f32    = p_dlg_adc_data_s->filtered_level_f32;
+#endif
+}
 
 PRIVATE void dlg_log_create_icm_20600_data_frame( void )
 {
