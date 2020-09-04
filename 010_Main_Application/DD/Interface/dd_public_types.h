@@ -381,37 +381,8 @@ typedef struct DD_SD_DATA_TAG
 
 
 /*************************************************************/
-/*                        DD_PGA_302                         */
+/*                        DD_ADC                         */
 /*************************************************************/
-typedef enum DD_PGA_302_P_GAIN_TAG
-{
-    DD_PGA_302_P_GAIN_1_33 = 0U, /**< @details ... */
-    DD_PGA_302_P_GAIN_2,         /**< @details ... */
-    DD_PGA_302_P_GAIN_4,         /**< @details ... */
-    DD_PGA_302_P_GAIN_10,        /**< @details ... */
-    DD_PGA_302_P_GAIN_20,        /**< @details ... */
-    DD_PGA_302_P_GAIN_40,        /**< @details ... */
-    DD_PGA_302_P_GAIN_100,       /**< @details ... */
-    DD_PGA_302_P_GAIN_200,       /**< @details ... */
-    DD_PGA_302_P_GAIN_SIZE
-} DD_PGA_302_P_GAIN;
-
-
-typedef enum DD_PGA_302_P_INPUT_MODE_TAG
-{
-    DD_PGA_302_P_INPUT_MODE_SINGLE_ENDED = 0U, /**< @details ... */
-    DD_PGA_302_P_INPUT_MODE_DIFFERENTIAL,      /**< @details ... */
-    DD_PGA_302_P_INPUT_MODE_SIZE
-} DD_PGA_302_P_INPUT_MODE;
-
-
-typedef enum DD_PGA_302_P_INPUT_MUX_TAG
-{
-    DD_PGA_302_P_INPUT_MUX_VINPP_VINPN = 0U, /**< @details ... */
-    DD_PGA_302_P_INPUT_MUX_VINPP_1_25V,      /**< @details ... */
-    DD_PGA_302_P_INPUT_MUX_1_25V_VINPN,
-    DD_PGA_302_P_INPUT_MUX_SIZE
-} DD_PGA_302_P_INPUT_MUX;
 
 
 /*************************************************************/
@@ -419,15 +390,18 @@ typedef enum DD_PGA_302_P_INPUT_MUX_TAG
 /*************************************************************/
 
 /**
- * @brief   MAX-30102 Output Interface Data Structure
- * @details MAX-30102 Output Interface Data Structure ...
+ * @brief   ADC Output Interface Data Structure
+ * @details ADC Output Interface Data Structure ...
  * @ingroup DriverStructures
  */
-typedef struct DD_PGA_302_DATA_TAG
+typedef struct DD_ADC_DATA_TAG
 {
+    U16 raw_data_u16;          /**< @details Current raw 12-bit ADC value @unit [LSB] */
+    U16 previous_raw_data_u16; /**< @details Previous raw 12-bit ADC value @unit [LSB] */
+    U32 voltage_u32;           /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
+    F32 raw_level_f32;         /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32 filtered_level_f32;    /**< @details Filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
 
-    U8                part_id_u8;
-
-} DD_PGA_302_DATA;
+} DD_ADC_DATA;
 
 #endif /* DD_PUBLIC_TYPES_H */

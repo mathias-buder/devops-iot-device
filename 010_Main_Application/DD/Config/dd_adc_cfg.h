@@ -21,8 +21,8 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include <driver/adc.h>
-#include <driver/gpio.h>
+#include "driver/adc.h"
+#include "driver/gpio.h"
 #include <freertos/FreeRTOS.h>
 
 #include "../../types.h"
@@ -31,14 +31,26 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 /* Log message TAG string */
-#define DD_ADC_LOG_MSG_TAG                          "DD_ADC"
+#define DD_ADC_LOG_MSG_TAG              "DD_ADC"
 
+#define DD_ADC_UNIT                     ADC_UNIT_1              /**< @details ADC unit in use */
 
+#define DD_ADC_RESOLUTION               ADC_WIDTH_BIT_12        /**< @details ADC resolution */
+
+#define DD_ADC_FULL_SCALE_VALUE_12BIT   4095U                   /**< @details Maximum ADC value in 12-Bit mode */
+
+#define DD_ADC_DEFAULT_V_REF            1100U                   /**< @details Default reference voltage in mV */
+
+#define DD_ADC_NUM_SAMPLES_AVG          50U                     /**< @details Number of subsequent ADC readings to be averaged */
+
+#define DD_ADC_CHANNEL                  ADC1_CHANNEL_0
+
+#define DD_ADC_ATTENUATION              ADC_ATTEN_DB_0
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
+extern F32 dd_adc_level_alpha_filter_coeff_f32;
 
 
 #endif /* DD_ADC_CFG_H */

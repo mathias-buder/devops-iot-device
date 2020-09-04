@@ -30,4 +30,4 @@ idf_component_register(SRCS "Config/dd_icm-20600_cfg.c"
                             "Interface/dd_sd_if.c"
                             "DD.c"
                        INCLUDE_DIRS "."
-                       REQUIRES fatfs)
+                       REQUIRES fatfs esp_adc_cal)

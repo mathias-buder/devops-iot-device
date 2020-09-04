@@ -21,10 +21,10 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include <driver/adc.h>
-#include <driver/gpio.h>
-#include <esp_log.h>
-#include <esp_err.h>
+#include "driver/adc.h"
+#include "driver/gpio.h"
+#include "esp_log.h"
+#include "esp_err.h"
 #include "../Config/dd_adc_cfg.h"
 #include "../Config/dd_types_cfg.h"
 
@@ -37,9 +37,8 @@
 /**
  * @details This function initialized the ADC interface
  */
-void dd_adc_init(void);
+BOOLEAN dd_adc_init( void );
 
-void dd_adc_main(void);
-                                       
+void dd_adc_main( void );
 
 #endif /* DD_ADC_H */
