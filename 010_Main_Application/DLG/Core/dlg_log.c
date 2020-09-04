@@ -169,13 +169,13 @@ PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 )
 PRIVATE void dlg_log_create_i2c_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
-    dlg_log_database_s.i2c_is_error_present_b = log_test_mode_cnt_u8;
+    dlg_log_database_s.i2c_is_error_present_u8 = log_test_mode_cnt_u8;
     dlg_log_database_s.i2c_error_code_s16     = log_test_mode_cnt_u8;
     dlg_log_database_s.i2c_access_type_u8     = log_test_mode_cnt_u8;
     dlg_log_database_s.i2c_device_addr_u8     = log_test_mode_cnt_u8;
     dlg_log_database_s.i2c_register_addr_u8   = log_test_mode_cnt_u8;
 #else
-    dlg_log_database_s.i2c_is_error_present_b = (U8) p_dlg_i2c_error_data_s->is_error_present_b;
+    dlg_log_database_s.i2c_is_error_present_u8 = (U8) p_dlg_i2c_error_data_s->is_error_present_b;
     dlg_log_database_s.i2c_error_code_s16     = (S16) p_dlg_i2c_error_data_s->error_info_vs[0U].error_e;
     dlg_log_database_s.i2c_access_type_u8     = (U8) p_dlg_i2c_error_data_s->error_info_vs[0U].access_type_e;
     dlg_log_database_s.i2c_device_addr_u8     = p_dlg_i2c_error_data_s->error_info_vs[0U].device_addr_u8;

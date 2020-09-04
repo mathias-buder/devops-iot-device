@@ -89,7 +89,7 @@ typedef struct DLG_LOG_DATA_TAG
     U8  icm_20600_self_test_xg_u8;         /**< @details ICM-20600 X gyroscope self test value */
     U8  icm_20600_self_test_yg_u8;         /**< @details ICM-20600 Y gyroscope self test value */
     U8  icm_20600_self_test_zg_u8;         /**< @details ICM-20600 Z gyroscope self test value */
-    U8  i2c_is_error_present_b;            /**< @details I2C TRUE in case I2C error is present */
+    U8  i2c_is_error_present_u8;           /**< @details I2C TRUE in case I2C error is present */
     U8  i2c_access_type_u8;                /**< @details I2C Current access type, e.g. READ, WRITE */
     U8  i2c_device_addr_u8;                /**< @details I2C Current device address */
     U8  i2c_register_addr_u8;              /**< @details I2C Current register address that has been accessed */
