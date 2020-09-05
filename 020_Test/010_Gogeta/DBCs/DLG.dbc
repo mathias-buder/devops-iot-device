@@ -36,6 +36,15 @@ BS_:
 BU_: DLG
 
 
+BO_ 71 DD_ADC_B: 8 DLG
+ SG_ DD_ADC_filtered_level : 16|16@1- (0.01,0) [-327.68|327.67] "" Vector__XXX
+ SG_ DD_ADC_raw_level : 0|16@1- (0.01,0) [-327.68|327.67] "" Vector__XXX
+
+BO_ 70 DD_ADC_A: 8 DLG
+ SG_ DD_ADC_voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ DD_ADC_raw_data : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ DD_ADC_previous_raw_data : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
 BO_ 61 DD_MAX_30102_Data: 7 DLG
  SG_ DD_MAX_30102_ir_data_raw : 34|18@1+ (1,0) [0|262143] "" Vector__XXX
  SG_ DD_MAX_30102_red_data_raw : 16|18@1+ (1,0) [0|262143] "" Vector__XXX

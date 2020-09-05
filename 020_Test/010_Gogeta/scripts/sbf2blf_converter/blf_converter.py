@@ -28,6 +28,10 @@ DLG_I2C_ERROR_ID                        = 0x28 # 40
 # DLG specific
 DLG_LOG_General                         = 0x32 # 50
 
+# DLG specific
+DLG_ADC_A                               = 0x46 # 70
+DLG_ADC_B                               = 0x47 # 71
+
 # %% Helpers
 def atoi(text):
     return int(text) if text.isdigit() else text
@@ -76,7 +80,7 @@ writer.channel = 1
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 15f 2I H 7h 23B x'
+dlg_log_data_fmt = '< 17f 2I 4H 7h 23B 3x'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
@@ -105,12 +109,17 @@ for sfb_file in files:
             icm_20600_factory_trim_dev_xg_f32,
             icm_20600_factory_trim_dev_yg_f32,
             icm_20600_factory_trim_dev_zg_f32,
-            max_30102_temperature_f32,        
+            max_30102_temperature_f32,
+            adc_raw_level_f32,
+            adc_filtered_level_f32,
 
             max_30102_red_data_raw_u32,
             max_30102_ir_data_raw_u32,
 
             icm_20600_temperature_raw_u16,
+            adc_raw_data_u16,
+            adc_previous_raw_data_u16,
+            adc_voltage_u16,
 
             icm_20600_accel_raw_data_x_s16,
             icm_20600_accel_raw_data_y_s16,
@@ -294,6 +303,31 @@ for sfb_file in files:
                                                data=msg_dlg_log_general_data )
 
 
+
+            msg_adc_data_a_data = st.pack( '3H', np.uint16( adc_previous_raw_data_u16 ),
+                                                 np.uint16( adc_raw_data_u16 ),
+                                                 np.uint16( adc_voltage_u16 ) )
+
+            msg_adc_data_a = can.Message( arbitration_id=DLG_ADC_A,
+                                          is_extended_id=False,
+                                          timestamp=dlg_time_stamp_f32,
+                                          data=msg_adc_data_a_data )
+
+
+
+            # Scale (according to DLG.dbc) and pack data
+            adc_raw_level_f32       = adc_raw_level_f32       * 100.0
+            adc_filtered_level_f32  = adc_filtered_level_f32  * 100.0
+
+            msg_adc_data_b_data = st.pack( '2h', np.int16( adc_raw_level_f32 ),
+                                                 np.int16( adc_filtered_level_f32 ) )
+
+            msg_adc_data_b = can.Message( arbitration_id=DLG_ADC_B,
+                                          is_extended_id=False,
+                                          timestamp=dlg_time_stamp_f32,
+                                          data=msg_adc_data_b_data )
+
+
             # ICM-20600 Messages
             writer.on_message_received( msg_icm_20600_accel )
             writer.on_message_received( msg_icm_20600_gyro )
@@ -313,7 +347,9 @@ for sfb_file in files:
             # I2C Messaegs
             writer.on_message_received( msg_i2c_error )
 
-
+            # ADC Messaegs
+            writer.on_message_received( msg_adc_data_a )
+            writer.on_message_received( msg_adc_data_b )
 
 
             # print( "Time: " + str( global_time_f32 ) )
