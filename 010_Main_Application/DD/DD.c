@@ -18,18 +18,18 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include <stdio.h>
-#include <string.h>
-
-#include "esp_log.h"
-
 #include "DD.h"
-#include "Core/dd_database.h"
-#include "Core/dd_sd.h"
-#include "Core/dd_i2c.h"
+
 #include "Core/dd_adc.h"
+#include "Core/dd_database.h"
+#include "Core/dd_i2c.h"
 #include "Core/dd_icm-20600.h"
 #include "Core/dd_max-30102.h"
+#include "Core/dd_sd.h"
+#include "esp_log.h"
+
+#include <stdio.h>
+#include <string.h>
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
@@ -39,39 +39,20 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-BOOLEAN file_written_b = FALSE;
-U32     idx_u32        = 100U;
-U32     time_in_ms_u32;
-FILE*   p_file;
-/*********************************************************************/
-/*      PRIVATE FUNCTION DECLARATIONS                                */
-/*********************************************************************/
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void dd_init(void)
+void dd_init( void )
 {
-    /* Initialize SD card driver */
-    dd_sd_init();
-
-    /* Initialize I2C basic device driver */
-    dd_i2c_init();
-
-    /* Initialize ADC basic device driver */
-    dd_adc_init();
-
-    /* Initialize ICM-2600 motion subsystem */
-    if( FALSE == dd_icm_20600_init() )
-    {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n", dd_i2c_get_last_error()->error_e );
-    }
-
-    /* Initialize MAX-30102 HR+SpO2 sensor */
-    dd_max_30102_init();
+    dd_sd_init();        /* Initialize SD card driver */
+    dd_i2c_init();       /* Initialize I2C basic device driver */
+    dd_adc_init();       /* Initialize ADC basic device driver */
+    dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
+    dd_max_30102_init(); /* Initialize MAX-30102 HR+SpO2 subsystem */
 }
 
-void dd_main(void)
+void dd_main( void )
 {
     dd_adc_main();
     dd_icm_20600_main();
