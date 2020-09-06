@@ -19,6 +19,7 @@
 #ifndef SENSE_SENSE_H_
 #define SENSE_SENSE_H_
 
-extern void sense_main(void);
+extern void sense_init( void );
+extern void sense_main( void );
 
 #endif /* SENSE_SENSE_H_ */

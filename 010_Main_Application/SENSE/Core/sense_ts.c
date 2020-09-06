@@ -19,8 +19,17 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "sense_ts.h"
 
+
+
+#include <stdio.h>
+#include <math.h>
+
+#include "esp_log.h"
+
+#include "sense_ts.h"
+#include "../Config/sense_ts_cfg.h"
+#include "sense_database.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
@@ -39,3 +48,13 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
+BOOLEAN sense_ts_init( void )
+{
+    return TRUE;
+}
+
+
+void sense_ts_main( void )
+{
+
+}

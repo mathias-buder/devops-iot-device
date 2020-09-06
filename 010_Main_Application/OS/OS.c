@@ -44,25 +44,22 @@ void app_main()
     printf( "%dMB %s flash\n\n", spi_flash_get_chip_size() / ( 1024 * 1024 ),
             ( chip_info.features & CHIP_FEATURE_EMB_FLASH ) ? "embedded" : "external" );
 
-    os_time_init();
+    os_time_init(); /* Initialize Global Time Module */
+    dd_init();      /* Initialize Device Driver Domain ( DD ) */
+    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
+    dlg_init();     /* Initialize Data Logging Domain( DLG ) */
 
-    /* Initialize Device Drivers */
-    dd_init();
-
-    /* Initialize Data Logging*/
-    dlg_init();
-
-
+    /***********************************************
+     ********** Enter Infinite Main Loop ***********
+     ***********************************************/
     while ( TRUE )
     {
         /* Schedule every 100 ms */
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
 
-        /* Schedule Device Driver (DD) */
-        dd_main();
-
-        dlg_main();
-
-        os_time_update();
+        dd_main();        /* Schedule Device Driver Domain ( DD ) */
+        sense_main();     /* Schedule Sensor Processing Domain ( SENSE ) */
+        dlg_main();       /* Schedule Data Logging Domain( DLG ) */
+        os_time_update(); /* Update Global Time Module */
     }
 }
