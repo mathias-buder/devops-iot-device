@@ -57,4 +57,5 @@ BOOLEAN sense_ts_init( void )
 void sense_ts_main( void )
 {
 
+    ESP_LOGD( SENSE_TS_LOG_MSG_TAG, "Current ADC sample: %i", sense_ts_input_s.raw_adc_sample_u16 );
 }

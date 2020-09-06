@@ -34,10 +34,12 @@
 #include "Core/sense_mtn.h"
 #include "Core/sense_spo2.h"
 #include "Core/sense_ts.h"
+#include "Interface/sense_ts_if.h"
 
 
 void sense_init(void)
 {
+    sense_ts_if_init();
     sense_ts_init();
 }
 
@@ -45,5 +47,6 @@ void sense_init(void)
 
 void sense_main(void)
 {
+    sense_ts_if_main();
     sense_ts_main();
 }

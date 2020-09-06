@@ -39,7 +39,12 @@
 
 
 /*************************************************************/
-/*      STRUCTURES                                           */
+/*      HEART-RATE STRUCTURES                                */
+/*************************************************************/
+
+
+/*************************************************************/
+/*      MOTION STRUCTURES                                    */
 /*************************************************************/
 
 /**
@@ -68,5 +73,39 @@ typedef struct SENSE_MTN_DATA_TAG
     SENSE_MTN_QUATERNION Quaternion_s;  /**< @details Acceleration raw data */
 } SENSE_MTN_DATA;
 
+
+
+
+/*************************************************************/
+/*      SPO STRUCTURES                                       */
+/*************************************************************/
+
+
+/*************************************************************/
+/*      TOUCH SENSOR STRUCTURES                              */
+/*************************************************************/
+/**
+ * @brief   Touch Sensor Database Structure
+ * @details Contains all global data required to process the
+ *          touch sensor.
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_TS_DATA_TAG
+{
+    U16 raw_adc_sample_u16;                 /**< @details Current raw 12-bit ADC sample @unit [LSB] */
+    U16 alpha_filtered_adc_sample_u16;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
+    U16 alpha_beta_filtered_adc_sample_u16; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
+} SENSE_TS_DATA;
+
+/**
+ * @brief   Touch Sensor Input Data Structure
+ * @details Contains all data that is read in from different
+ *          domain.
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_TS_INPUT_TAG
+{
+    U16 raw_adc_sample_u16; /**< @details Current raw 12-bit ADC value @unit [LSB] */
+} SENSE_TS_INPUT;
 
 #endif /* SENSE_CORE_TYPES_H_ */
