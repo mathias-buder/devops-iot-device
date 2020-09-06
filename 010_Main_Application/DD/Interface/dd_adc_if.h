@@ -33,5 +33,6 @@
 /*      PROTOTYPES                                           */
 /*************************************************************/
 DD_ADC_DATA* dd_adc_get_database( void );
+U16          dd_adc_get_current_sample( void );
 
 #endif /* DD_ADC_IF_H */
