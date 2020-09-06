@@ -194,8 +194,8 @@ PRIVATE void dlg_log_create_adc_data_frame( void )
     dlg_log_database_s.adc_raw_level_f32         = log_test_mode_cnt_u8;
     dlg_log_database_s.adc_filtered_level_f32    = log_test_mode_cnt_u8;
 #else
-    dlg_log_database_s.adc_raw_data_u16          = p_dlg_adc_data_s->raw_data_u16;
-    dlg_log_database_s.adc_previous_raw_data_u16 = p_dlg_adc_data_s->previous_raw_data_u16;
+    dlg_log_database_s.adc_raw_data_u16          = p_dlg_adc_data_s->raw_sample_u16;
+    dlg_log_database_s.adc_previous_raw_data_u16 = p_dlg_adc_data_s->previous_raw_sample_u16;
     dlg_log_database_s.adc_voltage_u16           = p_dlg_adc_data_s->voltage_u16;
     dlg_log_database_s.adc_raw_level_f32         = p_dlg_adc_data_s->raw_level_f32;
     dlg_log_database_s.adc_filtered_level_f32    = p_dlg_adc_data_s->filtered_level_f32;

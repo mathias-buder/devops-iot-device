@@ -73,22 +73,22 @@ void dd_adc_main( void )
     }
 
     /* Store previous ADC reading */
-    dd_adc_data_s.previous_raw_data_u16 = dd_adc_data_s.raw_data_u16;
+    dd_adc_data_s.previous_raw_sample_u16 = dd_adc_data_s.raw_sample_u16;
 
     /* Scale current ADC reading */
-    dd_adc_data_s.raw_data_u16 = ( U16 )( accumulated_raw_value_u32 / DD_ADC_NUM_SAMPLES_AVG );
+    dd_adc_data_s.raw_sample_u16 = ( U16 )( accumulated_raw_value_u32 / DD_ADC_NUM_SAMPLES_AVG );
 
     /* Calculate corresponding voltage level */
-    dd_adc_data_s.voltage_u16 = esp_adc_cal_raw_to_voltage( dd_adc_data_s.raw_data_u16, &dd_adc_characteristics_s );
+    dd_adc_data_s.voltage_u16 = esp_adc_cal_raw_to_voltage( dd_adc_data_s.raw_sample_u16, &dd_adc_characteristics_s );
 
     /* Calculate ADC level */
-    dd_adc_data_s.raw_level_f32 = (F32) ( (F32) dd_adc_data_s.raw_data_u16 / (F32) DD_ADC_FULL_SCALE_VALUE_12BIT );
+    dd_adc_data_s.raw_level_f32 = (F32) ( (F32) dd_adc_data_s.raw_sample_u16 / (F32) DD_ADC_FULL_SCALE_VALUE_12BIT );
 
     /* Filter ADC reading using an alpha filter (1. Order) and store its result in a separate variable */
     dd_adc_data_s.filtered_level_f32 =   ( dd_adc_data_s.filtered_level_f32 * dd_adc_level_alpha_filter_coeff_f32 )
                                        + ( ( 1.0F - dd_adc_level_alpha_filter_coeff_f32 ) * dd_adc_data_s.raw_level_f32 );
 
-    ESP_LOGD( DD_ADC_LOG_MSG_TAG, "CVal: %i, CVol: %i mV, CLvl: %0.3f, FLvl: %0.3f", dd_adc_data_s.raw_data_u16,
+    ESP_LOGD( DD_ADC_LOG_MSG_TAG, "CVal: %i, CVol: %i mV, CLvl: %0.3f, FLvl: %0.3f", dd_adc_data_s.raw_sample_u16,
                                                                                      dd_adc_data_s.voltage_u16,
                                                                                      dd_adc_data_s.raw_level_f32,
                                                                                      dd_adc_data_s.filtered_level_f32 );
