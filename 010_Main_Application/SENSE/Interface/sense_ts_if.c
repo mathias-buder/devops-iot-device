@@ -42,9 +42,11 @@ void sense_ts_if_init( void )
 
 void sense_ts_if_main( void )
 {
+    /* Read raw ADC sample */
+    sense_ts_input_s.raw_adc_sample_u16 = dd_adc_get_raw_sample();
 
-    sense_ts_input_s.raw_adc_sample_u16 = dd_adc_get_current_sample();
-
+    /* Read raw ADC level */
+    sense_ts_input_s.raw_adc_level_f32 = dd_adc_get_raw_level();
 }
 
 

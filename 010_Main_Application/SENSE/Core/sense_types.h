@@ -84,18 +84,6 @@ typedef struct SENSE_MTN_DATA_TAG
 /*************************************************************/
 /*      TOUCH SENSOR STRUCTURES                              */
 /*************************************************************/
-/**
- * @brief   Touch Sensor Database Structure
- * @details Contains all global data required to process the
- *          touch sensor.
- * @ingroup SenseStructures
- */
-typedef struct SENSE_TS_DATA_TAG
-{
-    U16 raw_adc_sample_u16;                 /**< @details Current raw 12-bit ADC sample @unit [LSB] */
-    U16 alpha_filtered_adc_sample_u16;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
-    U16 alpha_beta_filtered_adc_sample_u16; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
-} SENSE_TS_DATA;
 
 /**
  * @brief   Touch Sensor Input Data Structure
@@ -106,6 +94,20 @@ typedef struct SENSE_TS_DATA_TAG
 typedef struct SENSE_TS_INPUT_TAG
 {
     U16 raw_adc_sample_u16; /**< @details Current raw 12-bit ADC value @unit [LSB] */
+    F32 raw_adc_level_f32;  /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
 } SENSE_TS_INPUT;
+
+/**
+ * @brief   Touch Sensor Database Structure
+ * @details Contains all global data required to process the
+ *          touch sensor.
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_TS_DATA_TAG
+{
+    SENSE_TS_INPUT* p_input_s;                         /**< @details Pointer to the touch sensor input data structure */
+    F32             alpha_filtered_adc_level_f32;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
+    F32             alpha_beta_filtered_adc_level_f32; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
+} SENSE_TS_DATA;
 
 #endif /* SENSE_CORE_TYPES_H_ */
