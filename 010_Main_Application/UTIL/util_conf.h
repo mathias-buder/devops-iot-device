@@ -25,8 +25,8 @@
  * @brief general details of file
  */
 
-#ifndef _CONFRADVID_H_
-#define _CONFRADVID_H_
+#ifndef UTIL_CONF_H
+#define UTIL_CONF_H
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -38,16 +38,16 @@
 /*      DEFINES                                              */
 /*************************************************************/
 
-#define MAX_FIR_CONFIDENCE_BUFFER_LENGTH 64U
+#define UTIL_CONF_MAX_FIR_CONFIDENCE_BUFFER_LENGTH      64U
 
 /*************************************************************/
 /*      DATATYPES                                            */
 /*************************************************************/
-typedef enum DETECTION_STATE_TYPE
+typedef enum UTIL_CONF_DETECTION_STATE_TYPE
 {
     NO_UPDATE,
     IS_DETECTION
-} DETECTION_STATE;
+} UTIL_CONF_DETECTION_STATE;
 
 typedef struct UTIL_FIR_CONFIDENCE_STRUCT_TAG
 {
@@ -67,10 +67,10 @@ typedef struct UTIL_FIR_CONFIDENCE_STRUCT_TAG
  * @param[in] 'history_length_u8' length of history that shall be taken into account (max length: 64)
  * @param[in] 'detection_status_e' current detection status
  */
-void util_update_fir_confidence( F32* const            p_confidence_f32,
-                                 F32* const            p_confidence_max_f32,
-                                 U64* const            p_asso_history_u64,
-                                 const U8              history_length_u8,
-                                 const DETECTION_STATE detection_status_e );
+void util_update_fir_confidence( F32* const                      p_confidence_f32,
+                                 F32* const                      p_confidence_max_f32,
+                                 U64* const                      p_asso_history_u64,
+                                 const U8                        history_length_u8,
+                                 const UTIL_CONF_DETECTION_STATE detection_status_e );
 
-#endif /* _CONFRADVID_H_ */
+#endif /* UTIL_CONF_H */

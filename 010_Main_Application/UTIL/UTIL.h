@@ -22,8 +22,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "util_confidence.h"
-#include "util_general.h"
+#include "util_conf.h"
+#include "util_gen.h"
 #include "util_types.h"
 
 #endif /* UTIL_H */

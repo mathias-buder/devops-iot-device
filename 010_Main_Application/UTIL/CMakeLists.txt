@@ -12,7 +12,7 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS "util_confidence.c"
-							"util_general.c"
+idf_component_register(SRCS "util_conf.c"
+							"util_gen.c"
                        INCLUDE_DIRS ".")
 

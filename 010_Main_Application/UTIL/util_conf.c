@@ -34,8 +34,8 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "util_confidence.h"
-#include "util_general.h"
+#include "util_conf.h"
+#include "util_gen.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -50,11 +50,11 @@
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
 
-void util_update_fir_confidence( F32* const            p_confidence_f32,
-                                 F32* const            p_confidence_max_f32,
-                                 U64* const            p_asso_history_u64,
-                                 const U8              history_length_u8,
-                                 const DETECTION_STATE detection_status_e )
+void util_update_fir_confidence( F32* const                      p_confidence_f32,
+                                 F32* const                      p_confidence_max_f32,
+                                 U64* const                      p_asso_history_u64,
+                                 const U8                        history_length_u8,
+                                 const UTIL_CONF_DETECTION_STATE detection_status_e )
 {
     /* local variables*/
     U8  fir_index_u8;
@@ -63,7 +63,7 @@ void util_update_fir_confidence( F32* const            p_confidence_f32,
     U8  fir_length_u8;
 
     /* length of ring buffer of FIR filter */
-    fir_length_u8 = min( history_length_u8, MAX_FIR_CONFIDENCE_BUFFER_LENGTH );
+    fir_length_u8 = min( history_length_u8, UTIL_CONF_MAX_FIR_CONFIDENCE_BUFFER_LENGTH );
 
     if (    ( NULL != p_confidence_f32     )
          && ( NULL != p_confidence_max_f32 )
@@ -127,8 +127,8 @@ void util_update_fir_confidence( F32* const            p_confidence_f32,
         *p_confidence_f32 /= sum_fir_weights_32;
 
         /* compute maxima ... */
-        if ( ( *p_confidence_f32 > *p_confidence_max_f32 )
-             || ( *p_confidence_f32 < SMALL_NUMBER ) )
+        if (    ( *p_confidence_f32 > *p_confidence_max_f32 )
+             || ( *p_confidence_f32 < SMALL_NUMBER          ) )
         {
             *p_confidence_max_f32 = *p_confidence_f32;
         }
