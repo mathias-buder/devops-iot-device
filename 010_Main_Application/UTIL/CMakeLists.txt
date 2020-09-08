@@ -12,23 +12,7 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS "assignment.c
-							"ConfRadVid.c"
-							"coordinate_transformations.c"
-							"filter_utility.c"
-							"KalFil1D.c"
-							"KalFilChk.c"
-							"KalFilChk_Cfg.c"
-							"KalFilGen.c"
-							"least_squares.c"
-							"linear_buffer.c"
-							"matrix_manipulation.c"
-							"ModCAA.c"
-							"ModCACV.c"
-							"newton_raphson.c"
-							"polynomial_line.c"
-							"queue.c"
-							"ring_structure.c"
-							"vector_manipulation.c"
+idf_component_register(SRCS "util_confidence.c"
+							"util_general.c"
                        INCLUDE_DIRS ".")
 

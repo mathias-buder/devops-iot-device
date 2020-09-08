@@ -34,12 +34,13 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "confidence.h"
+#include "util_confidence.h"
+#include "util_general.h"
 
-#include <mathf.h>
-
-#include "../FOUNDATION/FOUNDATION.h"
-
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
 
 /*************************************************************/
 /*      LOCAL VARIABLES                                      */
@@ -49,35 +50,35 @@
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
 
-void Update_FIR_Confidence( F32* const p_confidence_f32,
-                            F32* const p_confidence_max_f32,
-                            U64* const p_asso_history_u64,
-                            const U8 history_length_u8,
-                            const DETECTION_STATI_ENUM detection_status_e )
+void util_update_fir_confidence( F32* const            p_confidence_f32,
+                                 F32* const            p_confidence_max_f32,
+                                 U64* const            p_asso_history_u64,
+                                 const U8              history_length_u8,
+                                 const DETECTION_STATE detection_status_e )
 {
     /* local variables*/
-    U8      FIR_index_u8;
-    F32     current_FIR_weight_f32;
-    F32     sum_FIR_weights_32;
-    U8      fir_length_u8;
+    U8  fir_index_u8;
+    F32 current_fir_weight_f32;
+    F32 sum_fir_weights_32;
+    U8  fir_length_u8;
 
     /* length of ring buffer of FIR filter */
     fir_length_u8 = min( history_length_u8, MAX_FIR_CONFIDENCE_BUFFER_LENGTH );
 
-    if (   ( NULL != p_confidence_f32 )
-        && ( NULL != p_confidence_max_f32 )
-        && ( NULL != p_asso_history_u64 )   )
+    if (    ( NULL != p_confidence_f32     )
+         && ( NULL != p_confidence_max_f32 )
+         && ( NULL != p_asso_history_u64   ) )
     {
         if ( detection_status_e > NO_UPDATE )
         {
             /* advance ring buffer */
-            *p_asso_history_u64 = ( (*p_asso_history_u64) << 1 );
+            *p_asso_history_u64 = ( ( *p_asso_history_u64 ) << 1 );
 
             /* update FIR confidence*/
-            if (IS_DETECTION == detection_status_e)
+            if ( IS_DETECTION == detection_status_e )
             {
                 /* set rightmost bit to one*/
-                *p_asso_history_u64 = ( (*p_asso_history_u64) | BIT0 );
+                *p_asso_history_u64 = ( ( *p_asso_history_u64 ) | BIT_0 );
             }
             else
             {
@@ -96,25 +97,25 @@ void Update_FIR_Confidence( F32* const p_confidence_f32,
         *p_confidence_f32 = 0.0F;
 
         /* initialize normalization */
-        sum_FIR_weights_32          = 0.0F;
+        sum_fir_weights_32 = 0.0F;
 
         /* loop through all FIR_LENGTH bits*/
-        for (FIR_index_u8 = 0; FIR_index_u8 < fir_length_u8; FIR_index_u8++)
+        for ( fir_index_u8 = 0; fir_index_u8 < fir_length_u8; fir_index_u8++ )
         {
             /* compute weight, e. g. linear */
-            current_FIR_weight_f32 = (F32)(fir_length_u8 - FIR_index_u8);
+            current_fir_weight_f32 = ( F32 )( fir_length_u8 - fir_index_u8 );
             /* compute weight, e. g. constant = association counter */
             /*current_FIR_weight_f32 = 1.0F;*/
 
             /* compute sum for normalization */
-            sum_FIR_weights_32 += current_FIR_weight_f32;
+            sum_fir_weights_32 += current_fir_weight_f32;
 
             /* check only the bit under consideration: right shift to desired bit location and check this one bit,
                cast to U32 for bit operations with BIT0 since this is also U32
             */
-            if ( BIT0 == ( (U32)( (*p_asso_history_u64) >> FIR_index_u8 ) & BIT0 ) )
+            if ( BIT_0 == ( ( U32 )( ( *p_asso_history_u64 ) >> fir_index_u8 ) & BIT_0 ) )
             {
-                *p_confidence_f32 += current_FIR_weight_f32;
+                *p_confidence_f32 += current_fir_weight_f32;
             }
             else
             {
@@ -123,11 +124,11 @@ void Update_FIR_Confidence( F32* const p_confidence_f32,
         }
 
         /* normalize confidences*/
-        *p_confidence_f32 /= sum_FIR_weights_32;
+        *p_confidence_f32 /= sum_fir_weights_32;
 
         /* compute maxima ... */
-        if (   ( *p_confidence_f32 > *p_confidence_max_f32 )
-            || ( *p_confidence_f32 < SMALL_NUMBER )   )
+        if ( ( *p_confidence_f32 > *p_confidence_max_f32 )
+             || ( *p_confidence_f32 < SMALL_NUMBER ) )
         {
             *p_confidence_max_f32 = *p_confidence_f32;
         }
@@ -139,9 +140,8 @@ void Update_FIR_Confidence( F32* const p_confidence_f32,
     else
     {
         /* do nothing */
-        ASSERT(NULL != p_confidence_f32)
-        ASSERT(NULL != p_confidence_max_f32)
-        ASSERT(NULL != p_asso_history_u64)
+        assert( NULL != p_confidence_f32     );
+        assert( NULL != p_confidence_max_f32 );
+        assert( NULL != p_asso_history_u64   );
     }
 }
-

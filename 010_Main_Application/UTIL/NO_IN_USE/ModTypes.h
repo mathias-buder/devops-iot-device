@@ -32,8 +32,8 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 #include "../FOUNDATION/types.h"
+#include "../util_matrix_indices.h"
 #include "../UTIL/util_types.h"
-#include "../UTIL/matrix_indices.h"
 #include "../UTIL/KalFilChk_Cfg.h"
 
 /*************************************************************/

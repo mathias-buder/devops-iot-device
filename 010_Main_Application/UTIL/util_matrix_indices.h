@@ -1,26 +1,23 @@
-/* PRQA S 0292 17 */
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        $ProjectName: /DAS/060_Projects/<WBC> Wabco/<WAB1Fus> CV MY2021i AC1000T Fusion/060_Software_Construction/MainApplication/UTIL/project.pj $
-        $RCSfile: matrix_indices.h $
-        $Revision: 1.1 $
-        $Date: 2018/05/28 16:34:26CEST $
-
-        TRW Ltd owns the copyright in this document and associated
-        documents and all rights are reserved.  These documents must
+        SEWELA owns the copyright in this document and associated
+        documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
         are supplied and must not be copied in whole or in part or
-        disclosed to others without prior written consent of TRW
-        Ltd. Any copy of this drawing or document made by any method
+        disclosed to others without prior written consent of SEWELA.
+        Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-    $CopyrightDate: (c) ZF 2019 $
+        (c) SEWELA 2020
+
+        @file util_matrix_indices.h
+        @details Some detailed description
 
 *********************************************************************/
 
-#ifndef MATRIX_INDICES_H_
-#define MATRIX_INDICES_H_
+#ifndef UTIL_MATRIX_INDICES_H_
+#define UTIL_MATRIX_INDICES_H_
 
 /*************************************************************/
 /*      MACROS                                               */
@@ -49,4 +46,4 @@
 #define NR_ELEMENTS_SYM(_DIM1) (((_DIM1) * ((_DIM1) + 1U)) / 2U)
 
 
-#endif /* MATRIX_INDICES_H_ */
+#endif /* UTIL_MATRIX_INDICES_H_ */

@@ -23,7 +23,7 @@ set(EXTRA_COMPONENT_DIRS "OS"
                          "DD"
                          "SENSE"
                          "VE"
-                         # "UTIL"
+                         "UTIL"
                          )
 
 # Add IDF specific environment

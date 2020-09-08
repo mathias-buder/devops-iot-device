@@ -22,24 +22,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-    #include "../UTIL/util_types.h"
-    #include "../UTIL/vector_manipulation.h"
-    #include "../UTIL/matrix_manipulation.h"
-    #include "../UTIL/filter_utility.h"
-    #include "../UTIL/ring_structure.h"
-    #include "../UTIL/linear_buffer.h"
-    #include "../UTIL/least_squares.h"
-    #include "../UTIL/coordinate_transformations.h"
-    #include "../UTIL/assignment.h"
-    #include "../UTIL/polynomial_line.h"
-    #include "../UTIL/newton_raphson.h"
-    #include "../UTIL/ModTypes.h"
-    #include "../UTIL/ModCAA.h"
-    #include "../UTIL/ModCACV.h"
-    #include "../UTIL/KalFil1D.h"
-    #include "../UTIL/KalFilGen.h"
-    #include "../UTIL/KalFilChk.h"
-    #include "../UTIL/queue.h"
-#include "confidence.h"
+#include "util_confidence.h"
+#include "util_general.h"
+#include "util_types.h"
 
 #endif /* UTIL_H */

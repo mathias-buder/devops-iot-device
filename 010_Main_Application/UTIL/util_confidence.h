@@ -32,7 +32,7 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 
-#include "../TRACK/declar.h"
+#include "../types.h"
 
 /*************************************************************/
 /*      DEFINES                                              */
@@ -43,15 +43,18 @@
 /*************************************************************/
 /*      DATATYPES                                            */
 /*************************************************************/
-
+typedef enum DETECTION_STATE_TYPE
+{
+    NO_UPDATE,
+    IS_DETECTION
+} DETECTION_STATE;
 
 typedef struct UTIL_FIR_CONFIDENCE_STRUCT_TAG
 {
-    F32         confidence_f32;
-    F32         confidence_max_f32;
-    U64         asso_history_u64;
+    F32 confidence_f32;
+    F32 confidence_max_f32;
+    U64 asso_history_u64;
 } UTIL_FIR_CONFIDENCE_STRUCT;
-
 
 /*************************************************************/
 /*   FUNCTION DECLARATIONS                                   */
@@ -64,10 +67,10 @@ typedef struct UTIL_FIR_CONFIDENCE_STRUCT_TAG
  * @param[in] 'history_length_u8' length of history that shall be taken into account (max length: 64)
  * @param[in] 'detection_status_e' current detection status
  */
-void Update_FIR_Confidence( F32* const p_confidence_f32,
-                            F32* const p_confidence_max_f32,
-                            U64* const p_asso_history_u64,
-                            const U8 history_length_u8,
-                            const DETECTION_STATI_ENUM detection_status_e );
+void util_update_fir_confidence( F32* const            p_confidence_f32,
+                                 F32* const            p_confidence_max_f32,
+                                 U64* const            p_asso_history_u64,
+                                 const U8              history_length_u8,
+                                 const DETECTION_STATE detection_status_e );
 
 #endif /* _CONFRADVID_H_ */
