@@ -1,0 +1,9 @@
+{
+    "rootChain": {
+        "children": "SmartV/children.json",
+        "links": "SmartV/links.json"
+    },
+    "exporters": "SmartV/exporters.json",
+    "customControls": "SmartV/customControls.json",
+    "expressionGroups": "SmartV/expressionGroups.json"
+}

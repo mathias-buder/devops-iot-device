@@ -1,9 +1,0 @@
-{
-    "rootChain": {
-        "children": "Smart_Vibrator/children.json",
-        "links": "Smart_Vibrator/links.json"
-    },
-    "exporters": "Smart_Vibrator/exporters.json",
-    "customControls": "Smart_Vibrator/customControls.json",
-    "expressionGroups": "Smart_Vibrator/expressionGroups.json"
-}

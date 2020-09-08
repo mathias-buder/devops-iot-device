@@ -1,8 +1,8 @@
 {
     "alignment": "horizontal",
     "subWindowSizes": [
-        17,
-        83
+        23,
+        77
     ],
     "subWindows": [
         {
@@ -61,9 +61,10 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                19,
-                46,
-                35
+                21,
+                24,
+                26,
+                29
             ],
             "subWindows": [
                 {
@@ -88,7 +89,7 @@
                         "legend_position": "RIGHT",
                         "show_legend": true,
                         "show_lines": true,
-                        "show_points": true,
+                        "show_points": false,
                         "timestamp_for_x_axis": true
                     },
                     "items": [
@@ -100,7 +101,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         },
                         {
                             "active": false,
@@ -110,7 +111,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         }
                     ],
                     "locked": false,
@@ -121,6 +122,8 @@
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
                         "cycle_width": 100,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
                         "max_x": 1425.1892753502113,
                         "max_y": 32.08130092382687,
                         "min_x": -294.5089581047809,
@@ -149,7 +152,7 @@
                         "legend_position": "RIGHT",
                         "show_legend": true,
                         "show_lines": true,
-                        "show_points": true,
+                        "show_points": false,
                         "timestamp_for_x_axis": true
                     },
                     "items": [
@@ -161,7 +164,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         },
                         {
                             "active": true,
@@ -171,7 +174,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         },
                         {
                             "active": true,
@@ -181,7 +184,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         }
                     ],
                     "locked": false,
@@ -191,10 +194,12 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 53,
-                        "max_x": 879.2943469947297,
+                        "cycle_width": 104,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
+                        "max_x": 403.9411882576896,
                         "max_y": 125821.4633649638,
-                        "min_x": 486.9492856781606,
+                        "min_x": 288.38563270213405,
                         "min_y": -20531.147325174446
                     }
                 },
@@ -220,7 +225,7 @@
                         "legend_position": "RIGHT",
                         "show_legend": true,
                         "show_lines": true,
-                        "show_points": true,
+                        "show_points": false,
                         "timestamp_for_x_axis": true
                     },
                     "items": [
@@ -232,7 +237,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         },
                         {
                             "active": true,
@@ -242,7 +247,7 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         },
                         {
                             "active": true,
@@ -252,21 +257,86 @@
                             "rules": [
                             ],
                             "type": "SOLID",
-                            "width": 1
+                            "width": 2
                         }
                     ],
                     "locked": false,
-                    "name": "TimePlot",
+                    "name": "ICM-20600 Accel",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 63,
-                        "max_x": 936.2842899947544,
-                        "max_y": 84820.83064925122,
-                        "min_x": 560.3253406476017,
-                        "min_y": -11201.11722454858
+                        "cycle_width": 144,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
+                        "max_x": 426.726618705036,
+                        "max_y": 33000.00000000001,
+                        "min_x": 282.72661870503595,
+                        "min_y": -3000.0000000000073
+                    }
+                },
+                {
+                    "TimePlotPlugin_X_Appearance_configuration": {
+                        "Color": "#7dc8c8ff",
+                        "StepAutoCalculate": true,
+                        "StepSize": null,
+                        "Style": "SolidLine",
+                        "Thickness": 0,
+                        "Visible": true
+                    },
+                    "TimePlotPlugin_Y_Appearance_configuration": {
+                        "Color": "#7dc8c8ff",
+                        "StepAutoCalculate": true,
+                        "StepSize": null,
+                        "Style": "SolidLine",
+                        "Thickness": 0,
+                        "Visible": true
+                    },
+                    "editor": {
+                        "antialiasing": true,
+                        "legend_position": "RIGHT",
+                        "show_legend": true,
+                        "show_lines": true,
+                        "show_points": false,
+                        "timestamp_for_x_axis": true
+                    },
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "DD_ADC_filtered_level",
+                            "color": "#ff0075dc",
+                            "expression": "BLFLoader.DLG.DD_ADC_B.DD_ADC_filtered_level",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "DD_ADC_raw_level",
+                            "color": "#ff993f00",
+                            "expression": "BLFLoader.DLG.DD_ADC_B.DD_ADC_raw_level",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        }
+                    ],
+                    "locked": false,
+                    "name": "ADC",
+                    "type": "TimePlot",
+                    "viewport": {
+                        "auto_adjust_x": true,
+                        "auto_adjust_y": false,
+                        "background_color": "#ffffffff",
+                        "cycle_width": 291,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
+                        "max_x": 100,
+                        "max_y": 1.1,
+                        "min_x": 0,
+                        "min_y": -0.1
                     }
                 }
             ]
