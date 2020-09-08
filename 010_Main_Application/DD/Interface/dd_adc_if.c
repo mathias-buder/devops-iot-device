@@ -47,7 +47,12 @@ DD_ADC_DATA* dd_adc_get_database( void )
     return &dd_adc_data_s;
 }
 
-U16 dd_adc_get_current_sample( void )
+U16 dd_adc_get_raw_sample( void )
 {
     return dd_adc_data_s.raw_sample_u16;
+}
+
+F32 dd_adc_get_raw_level( void )
+{
+    return dd_adc_data_s.raw_level_f32;
 }
