@@ -19,6 +19,9 @@
     #include <stdint.h>
 #endif
 
+/* =============================== */
+/*  Application-specific switches  */
+/* =============================== */
 
 /* =========================== */
 /* STANDARD TYPES & FUNCTIONS  */
@@ -52,13 +55,13 @@
     #endif
 #endif
 
-typedef U8                  BOOLEAN; /* 1 Byte */
+    typedef U8                  BOOLEAN; /* 1 Byte */
 
-typedef float               F32;     /* 4 Byte */
-typedef double              F64;     /* 8 Byte */
+    typedef float               F32;     /* 4 Byte */
+    typedef double              F64;     /* 8 Byte */
 
-typedef unsigned char*      U8ptr;   /* 4 Byte */
-typedef unsigned int        bit_fld; /* 4 Byte */
+    typedef unsigned char*      U8ptr;   /* 4 Byte */
+    typedef unsigned int        bit_fld; /* 4 Byte */
 
 
 #ifdef simulator
@@ -71,23 +74,23 @@ __attribute__((aligned(8))) typedef struct
     F32     imag;
 } COMPLEX;
 
-typedef struct
-{
-    bit_fld flag7 : 1;
-    bit_fld flag6 : 1;
-    bit_fld flag5 : 1;
-    bit_fld flag4 : 1;
-    bit_fld flag3 : 1;
-    bit_fld flag2 : 1;
-    bit_fld flag1 : 1;
-    bit_fld flag0 : 1;
-} __attribute__ ((packed)) t_flags;
+    typedef struct
+    {
+        bit_fld flag7 : 1;
+        bit_fld flag6 : 1;
+        bit_fld flag5 : 1;
+        bit_fld flag4 : 1;
+        bit_fld flag3 : 1;
+        bit_fld flag2 : 1;
+        bit_fld flag1 : 1;
+        bit_fld flag0 : 1;
+    } __attribute__ ((packed)) t_flags;
 
-typedef union
-{
-    t_flags flags;
-    U8      flag_byte;
-} __attribute__ ((packed)) t_flag_type ;
+    typedef union
+    {
+        t_flags flags;
+        U8      flag_byte;
+    } __attribute__ ((packed)) t_flag_type ;
 
 #ifndef PRIVATE
     #define PRIVATE    static
@@ -103,6 +106,13 @@ typedef union
 #ifndef TRUE
     #define TRUE                1U
 #endif
+
+#define NOT_USED                0U
+
+#define ZERO                    0U
+
+#define CHANNEL_0               0U
+#define CHANNEL_1               1U
 
 /* Define a structure for the maps */
 struct MAPTYPE {
@@ -234,6 +244,39 @@ typedef enum {
 #define MIN_U16           0UL
 #define MAX_U32  4294967295UL
 #define MIN_U32           0UL
+
+#define BIT_0             0x00000001U
+#define BIT_1             0x00000002U
+#define BIT_2             0x00000004U
+#define BIT_3             0x00000008U
+#define BIT_4             0x00000010U
+#define BIT_5             0x00000020U
+#define BIT_6             0x00000040U
+#define BIT_7             0x00000080U
+#define BIT_8             0x00000100U
+#define BIT_9             0x00000200U
+#define BIT_10            0x00000400U
+#define BIT_11            0x00000800U
+#define BIT_12            0x00001000U
+#define BIT_13            0x00002000U
+#define BIT_14            0x00004000U
+#define BIT_15            0x00008000U
+#define BIT_16            0x00010000U
+#define BIT_17            0x00020000U
+#define BIT_18            0x00040000U
+#define BIT_19            0x00080000U
+#define BIT_20            0x00100000U
+#define BIT_21            0x00200000U
+#define BIT_22            0x00400000U
+#define BIT_23            0x00800000U
+#define BIT_24            0x01000000U
+#define BIT_25            0x02000000U
+#define BIT_26            0x04000000U
+#define BIT_27            0x08000000U
+#define BIT_28            0x10000000U
+#define BIT_29            0x20000000U
+#define BIT_30            0x40000000U
+#define BIT_31            0x80000000U
 
 #endif /* TYPES_H */
 
