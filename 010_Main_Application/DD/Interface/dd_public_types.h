@@ -171,13 +171,13 @@ typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
 /**
  * @details enumerator of ...
  */
-typedef struct DD_I2C_ERROR_TYPE_TAG
+typedef struct DD_I2C_ERROR_DATA_TAG
 {
     DD_I2C_ERROR_INFO_TYPE error_info_vs[DD_I2C_ERROR_BUFFER_LENGTH]; /**< @details ... */
     U8                     current_error_idx_u8;                      /**< @details ... */
     U8                     last_error_idx_u8;                         /**< @details ... */
     BOOLEAN                is_error_present_b;                        /**< @details ... */
-} DD_I2C_ERROR_TYPE;
+} DD_I2C_ERROR_DATA;
 
 /**
  * @brief   ICM-20600 Output Interface Data Structure

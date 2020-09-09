@@ -22,7 +22,7 @@
 /*********************************************************************/
 DD_SD_DATA        dd_sd_data_s;
 DD_ADC_DATA       dd_adc_data_s;
-DD_I2C_ERROR_TYPE dd_i2c_error_s;
+DD_I2C_ERROR_DATA dd_i2c_error_s;
 DD_ICM_20600_DATA dd_icm_20600_data_s;
 DD_MAX_30102_DATA dd_max_30102_data_s;
 
