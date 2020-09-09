@@ -20,10 +20,7 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 #include "sense_ts_if.h"
-
 #include "../Core/sense_database.h"
-
-#include <string.h>
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
@@ -33,5 +30,7 @@
 /*************************************************************/
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
-
-
+SENSE_TS_DATA * sense_ts_get_database( void )
+{
+    return &sense_ts_data_s;
+}

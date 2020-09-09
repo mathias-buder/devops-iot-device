@@ -36,11 +36,15 @@ BS_:
 BU_: DLG
 
 
-BO_ 71 DD_ADC_B: 8 DLG
- SG_ DD_ADC_filtered_level : 16|16@1- (0.01,0) [-327.68|327.67] "" Vector__XXX
- SG_ DD_ADC_raw_level : 0|16@1- (0.01,0) [-327.68|327.67] "" Vector__XXX
+BO_ 80 SENSE_TS_Data: 8 Vector__XXX
+ SG_ SENSE_TS_touch_confidence_max : 24|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
+ SG_ SENSE_TS_touch_confidence : 16|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
+ SG_ SENSE_TS_alpha_beta_adc_level : 8|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
+ SG_ SENSE_TS_alpha_adc_level : 0|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
 
-BO_ 70 DD_ADC_A: 8 DLG
+BO_ 70 DD_ADC_DATA: 8 DLG
+ SG_ DD_ADC_filtered_level : 56|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
+ SG_ DD_ADC_raw_level : 48|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
  SG_ DD_ADC_voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
  SG_ DD_ADC_raw_data : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
  SG_ DD_ADC_previous_raw_data : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
@@ -120,6 +124,10 @@ BO_ 21 DD_ICM_20600_raw_accel: 8 DLG
 
 
 
+CM_ SG_ 80 SENSE_TS_touch_confidence_max "Maximum touch confidence with a range of 0.0 to 1.0";
+CM_ SG_ 80 SENSE_TS_touch_confidence "Touch confidence with a range of 0.0 to 1.0";
+CM_ SG_ 80 SENSE_TS_alpha_beta_adc_level "Current alpha/beta  filtered ADC value";
+CM_ SG_ 80 SENSE_TS_alpha_adc_level "Current alpha filtered ADC value";
 BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
 BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
 BA_DEF_  "DBName" STRING ;

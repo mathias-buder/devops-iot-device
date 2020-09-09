@@ -55,4 +55,8 @@ void dlg_log_get_data( void )
 
     /* Acquire MAX-30102 database pointer */
     p_dlg_dd_max_30102_data_s = dd_max_30102_get_database();
+
+    /* Acquire touch sensor database pointer */
+    p_dlg_sense_ts_data_s = sense_ts_get_database();
+
 }

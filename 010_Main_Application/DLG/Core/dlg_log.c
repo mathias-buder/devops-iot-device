@@ -51,6 +51,7 @@ PRIVATE void    dlg_log_create_i2c_data_frame( void );
 PRIVATE void    dlg_log_create_adc_data_frame( void );
 PRIVATE void    dlg_log_create_icm_20600_data_frame( void );
 PRIVATE void    dlg_log_create_max_30102_data_frame( void );
+PRIVATE void    dlg_log_create_sense_ts_data_frame( void );
 PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 );
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -109,6 +110,7 @@ void dlg_log_main( void )
         dlg_log_create_adc_data_frame();
         dlg_log_create_icm_20600_data_frame();
         dlg_log_create_max_30102_data_frame();
+        dlg_log_create_sense_ts_data_frame();
 
         /* Acquire current time stamp */
         dlg_log_database_s.dlg_time_stamp_f32 = os_time_stamp_ms_f32;
@@ -322,5 +324,20 @@ PRIVATE void dlg_log_create_max_30102_data_frame( void )
     dlg_log_database_s.max_30102_temperature_raw_frac_u8 = p_dlg_dd_max_30102_data_s->temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_FRAC];
     dlg_log_database_s.max_30102_temperature_f32         = p_dlg_dd_max_30102_data_s->temperature_f32;
     dlg_log_database_s.max_30102_mode_u8                 = (U8) p_dlg_dd_max_30102_data_s->mode_e;
+#endif
+}
+
+PRIVATE void dlg_log_create_sense_ts_data_frame( void )
+{
+#ifdef DLG_LOG_TEST_ENABLE
+    dlg_log_database_s.sense_ts_alpha_filtered_adc_level_f32      = log_test_mode_cnt_u8;
+    dlg_log_database_s.sense_ts_alpha_beta_filtered_adc_level_f32 = log_test_mode_cnt_u8;
+    dlg_log_database_s.sense_ts_touch_confidence_f32              = log_test_mode_cnt_u8;
+    dlg_log_database_s.sense_ts_touch_confidence_max_f32          = log_test_mode_cnt_u8;
+#else
+    dlg_log_database_s.sense_ts_alpha_filtered_adc_level_f32      = p_dlg_sense_ts_data_s->alpha_filtered_adc_level_f32;
+    dlg_log_database_s.sense_ts_alpha_beta_filtered_adc_level_f32 = p_dlg_sense_ts_data_s->alpha_beta_filtered_adc_level_f32;
+    dlg_log_database_s.sense_ts_touch_confidence_f32              = p_dlg_sense_ts_data_s->touch_conf_s.confidence_f32;
+    dlg_log_database_s.sense_ts_touch_confidence_max_f32          = p_dlg_sense_ts_data_s->touch_conf_s.confidence_max_f32;
 #endif
 }

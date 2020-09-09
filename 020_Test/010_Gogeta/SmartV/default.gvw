@@ -1,70 +1,178 @@
 {
     "alignment": "horizontal",
     "subWindowSizes": [
-        23,
-        77
+        34,
+        66
     ],
     "subWindows": [
         {
-            "firstColumnWidth": 188,
-            "items": [
-                {
-                    "active": true,
-                    "alias": "",
-                    "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_chip_id",
-                    "precision": 4,
-                    "readAsChar": false,
-                    "rules": [
-                    ]
-                },
-                {
-                    "active": true,
-                    "alias": "",
-                    "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_self_test_passed",
-                    "precision": 4,
-                    "readAsChar": false,
-                    "rules": [
-                    ]
-                },
-                {
-                    "active": true,
-                    "alias": "",
-                    "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_is_calibrated",
-                    "precision": 4,
-                    "readAsChar": false,
-                    "rules": [
-                    ]
-                },
-                {
-                    "active": true,
-                    "alias": "",
-                    "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_device_state",
-                    "precision": 4,
-                    "readAsChar": false,
-                    "rules": [
-                    ]
-                },
-                {
-                    "active": true,
-                    "alias": "",
-                    "expression": "BLFLoader.DLG.DD_ICM_20600_temperature.DD_ICM_20600_temperature_deg",
-                    "precision": 4,
-                    "readAsChar": false,
-                    "rules": [
-                    ]
-                }
+            "alignment": "vertical",
+            "subWindowSizes": [
+                15,
+                16,
+                69
             ],
-            "locked": false,
-            "name": "ValueTable",
-            "type": "ValueTable"
+            "subWindows": [
+                {
+                    "firstColumnWidth": 188,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_chip_id",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_self_test_passed",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_is_calibrated",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_general.DD_ICM_20600_device_state",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_temperature.DD_ICM_20600_temperature_deg",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "ValueTable",
+                    "type": "ValueTable"
+                },
+                {
+                    "firstColumnWidth": 164,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_filtered_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_voltage",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_data",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_previous_raw_data",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "DD_ADC",
+                    "type": "ValueTable"
+                },
+                {
+                    "firstColumnWidth": 189,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence_max",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_beta_adc_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "SENSE_TS",
+                    "type": "ValueTable"
+                }
+            ]
         },
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                21,
-                24,
-                26,
-                29
+                14,
+                16,
+                17,
+                25,
+                28
             ],
             "subWindows": [
                 {
@@ -121,7 +229,7 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 100,
+                        "cycle_width": 647,
                         "decimals_x": 2,
                         "decimals_y": 2,
                         "max_x": 1425.1892753502113,
@@ -194,7 +302,7 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 104,
+                        "cycle_width": 676,
                         "decimals_x": 2,
                         "decimals_y": 2,
                         "max_x": 403.9411882576896,
@@ -267,13 +375,13 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 144,
+                        "cycle_width": 521,
                         "decimals_x": 2,
                         "decimals_y": 2,
                         "max_x": 426.726618705036,
-                        "max_y": 33000.00000000001,
+                        "max_y": 33500,
                         "min_x": 282.72661870503595,
-                        "min_y": -3000.0000000000073
+                        "min_y": 6500
                     }
                 },
                 {
@@ -304,19 +412,9 @@
                     "items": [
                         {
                             "active": true,
-                            "alias": "DD_ADC_filtered_level",
-                            "color": "#ff0075dc",
-                            "expression": "BLFLoader.DLG.DD_ADC_B.DD_ADC_filtered_level",
-                            "rules": [
-                            ],
-                            "type": "SOLID",
-                            "width": 2
-                        },
-                        {
-                            "active": true,
                             "alias": "DD_ADC_raw_level",
-                            "color": "#ff993f00",
-                            "expression": "BLFLoader.DLG.DD_ADC_B.DD_ADC_raw_level",
+                            "color": "#ff0075dc",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
                             "rules": [
                             ],
                             "type": "SOLID",
@@ -334,8 +432,81 @@
                         "decimals_x": 2,
                         "decimals_y": 2,
                         "max_x": 100,
-                        "max_y": 1.1,
+                        "max_y": 1.166666666666667,
                         "min_x": 0,
+                        "min_y": -0.16666666666666707
+                    }
+                },
+                {
+                    "TimePlotPlugin_X_Appearance_configuration": {
+                        "Color": "#7dc8c8ff",
+                        "StepAutoCalculate": true,
+                        "StepSize": null,
+                        "Style": "SolidLine",
+                        "Thickness": 0,
+                        "Visible": true
+                    },
+                    "TimePlotPlugin_Y_Appearance_configuration": {
+                        "Color": "#7dc8c8ff",
+                        "StepAutoCalculate": true,
+                        "StepSize": null,
+                        "Style": "SolidLine",
+                        "Thickness": 0,
+                        "Visible": true
+                    },
+                    "editor": {
+                        "antialiasing": true,
+                        "legend_position": "RIGHT",
+                        "show_legend": true,
+                        "show_lines": true,
+                        "show_points": false,
+                        "timestamp_for_x_axis": true
+                    },
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "SENSE_TS_alpha_adc_level",
+                            "color": "#ff0075dc",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "SENSE_TS_touch_confidence",
+                            "color": "#ff993f00",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "SENSE_TS_touch_confidence_max",
+                            "color": "#80008000",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence_max",
+                            "rules": [
+                            ],
+                            "type": "DASH DOT DOT",
+                            "width": 2
+                        }
+                    ],
+                    "locked": false,
+                    "name": "SENSE TS",
+                    "type": "TimePlot",
+                    "viewport": {
+                        "auto_adjust_x": true,
+                        "auto_adjust_y": false,
+                        "background_color": "#ffffffff",
+                        "cycle_width": 324,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
+                        "max_x": 484.07411290657353,
+                        "max_y": 1.1,
+                        "min_x": 165.41055837408007,
                         "min_y": -0.1
                     }
                 }

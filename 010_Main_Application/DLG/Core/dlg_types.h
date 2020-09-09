@@ -69,6 +69,11 @@ typedef struct DLG_LOG_DATA_TAG
     F32 max_30102_temperature_f32;         /**< @details MAX-30102 @unit °C */
     F32 adc_raw_level_f32;
     F32 adc_filtered_level_f32;
+    F32 sense_ts_alpha_filtered_adc_level_f32;
+    F32 sense_ts_alpha_beta_filtered_adc_level_f32;
+    F32 sense_ts_touch_confidence_f32;
+    F32 sense_ts_touch_confidence_max_f32;
+
 
     U32 max_30102_red_data_raw_u32;        /**< @details MAX-30102 Red led ADC raw value */
     U32 max_30102_ir_data_raw_u32;         /**< @details MAX-30102 IR led ADC raw value */

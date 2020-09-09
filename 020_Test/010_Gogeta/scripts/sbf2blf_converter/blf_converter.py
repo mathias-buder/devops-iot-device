@@ -28,9 +28,11 @@ DLG_I2C_ERROR_ID                        = 0x28 # 40
 # DLG specific
 DLG_LOG_General                         = 0x32 # 50
 
-# DLG specific
-DLG_ADC_A                               = 0x46 # 70
-DLG_ADC_B                               = 0x47 # 71
+# ADC specific
+DLG_ADC                                 = 0x46 # 70
+
+# SENSE TS specific
+DLG_SENSE_TS                            = 0x50 # 80
 
 # %% Helpers
 def atoi(text):
@@ -80,7 +82,7 @@ writer.channel = 1
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 17f 2I 4H 7h 23B 3x'
+dlg_log_data_fmt = '< 21f 2I 4H 7h 23B 3x'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
@@ -112,6 +114,10 @@ for sfb_file in files:
             max_30102_temperature_f32,
             adc_raw_level_f32,
             adc_filtered_level_f32,
+            sense_ts_alpha_filtered_adc_level_f32,
+            sense_ts_alpha_beta_filtered_adc_level_f32,
+            sense_ts_touch_confidence_f32,
+            sense_ts_touch_confidence_max_f32,
 
             max_30102_red_data_raw_u32,
             max_30102_ir_data_raw_u32,
@@ -303,29 +309,38 @@ for sfb_file in files:
                                                data=msg_dlg_log_general_data )
 
 
-
-            msg_adc_data_a_data = st.pack( '3H', np.uint16( adc_previous_raw_data_u16 ),
-                                                 np.uint16( adc_raw_data_u16 ),
-                                                 np.uint16( adc_voltage_u16 ) )
-
-            msg_adc_data_a = can.Message( arbitration_id=DLG_ADC_A,
-                                          is_extended_id=False,
-                                          timestamp=dlg_time_stamp_f32,
-                                          data=msg_adc_data_a_data )
-
-
-
             # Scale (according to DLG.dbc) and pack data
             adc_raw_level_f32       = adc_raw_level_f32       * 100.0
             adc_filtered_level_f32  = adc_filtered_level_f32  * 100.0
 
-            msg_adc_data_b_data = st.pack( '2h', np.int16( adc_raw_level_f32 ),
-                                                 np.int16( adc_filtered_level_f32 ) )
+            msg_adc_data_data = st.pack( '3H 2B', np.uint16( adc_previous_raw_data_u16 ),
+                                                  np.uint16( adc_raw_data_u16 ),
+                                                  np.uint16( adc_voltage_u16 ),
+                                                  np.uint8( adc_raw_level_f32 ),
+                                                  np.uint8( adc_filtered_level_f32 ) )
 
-            msg_adc_data_b = can.Message( arbitration_id=DLG_ADC_B,
+            msg_adc_data = can.Message( arbitration_id=DLG_ADC,
                                           is_extended_id=False,
                                           timestamp=dlg_time_stamp_f32,
-                                          data=msg_adc_data_b_data )
+                                          data=msg_adc_data_data )
+
+
+            # Scale (according to DLG.dbc) and pack data
+            sense_ts_alpha_filtered_adc_level_f32       = sense_ts_alpha_filtered_adc_level_f32 * 100.0
+            sense_ts_alpha_beta_filtered_adc_level_f32  = sense_ts_alpha_beta_filtered_adc_level_f32 * 100.0
+            sense_ts_touch_confidence_f32               = sense_ts_touch_confidence_f32 * 100.0
+            sense_ts_touch_confidence_max_f32           = sense_ts_touch_confidence_max_f32 * 100.0
+
+
+            msg_sense_ts_data_data = st.pack( '4B', np.uint8( sense_ts_alpha_filtered_adc_level_f32 ),
+                                                    np.uint8( sense_ts_alpha_beta_filtered_adc_level_f32 ),
+                                                    np.uint8( sense_ts_touch_confidence_f32 ),
+                                                    np.uint8( sense_ts_touch_confidence_max_f32 ) )
+
+            msg_sense_ts_data = can.Message( arbitration_id=DLG_SENSE_TS,
+                                             is_extended_id=False,
+                                             timestamp=dlg_time_stamp_f32,
+                                             data=msg_sense_ts_data_data )
 
 
             # ICM-20600 Messages
@@ -348,8 +363,10 @@ for sfb_file in files:
             writer.on_message_received( msg_i2c_error )
 
             # ADC Messaegs
-            writer.on_message_received( msg_adc_data_a )
-            writer.on_message_received( msg_adc_data_b )
+            writer.on_message_received( msg_adc_data )
+
+            # SENSE TS Messaegs
+            writer.on_message_received( msg_sense_ts_data )
 
 
             # print( "Time: " + str( global_time_f32 ) )
