@@ -168,10 +168,10 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                14,
                 16,
-                17,
-                25,
+                18,
+                16,
+                22,
                 28
             ],
             "subWindows": [
@@ -230,8 +230,6 @@
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
                         "cycle_width": 647,
-                        "decimals_x": 2,
-                        "decimals_y": 2,
                         "max_x": 1425.1892753502113,
                         "max_y": 32.08130092382687,
                         "min_x": -294.5089581047809,
@@ -303,8 +301,6 @@
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
                         "cycle_width": 676,
-                        "decimals_x": 2,
-                        "decimals_y": 2,
                         "max_x": 403.9411882576896,
                         "max_y": 125821.4633649638,
                         "min_x": 288.38563270213405,
@@ -375,12 +371,10 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 521,
-                        "decimals_x": 2,
-                        "decimals_y": 2,
-                        "max_x": 426.726618705036,
+                        "cycle_width": 378,
+                        "max_x": 526.2124463519314,
                         "max_y": 33500,
-                        "min_x": 282.72661870503595,
+                        "min_x": 5.212446351931334,
                         "min_y": 6500
                     }
                 },
@@ -412,6 +406,26 @@
                     "items": [
                         {
                             "active": true,
+                            "alias": "SENSE_TS_alpha_beta_adc_level",
+                            "color": "#ffff00ff",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_beta_adc_level",
+                            "rules": [
+                            ],
+                            "type": "DASH DOT",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "SENSE_TS_alpha_adc_level",
+                            "color": "#ff993f00",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
+                            "rules": [
+                            ],
+                            "type": "DASH DOT DOT",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
                             "alias": "DD_ADC_raw_level",
                             "color": "#ff0075dc",
                             "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
@@ -428,13 +442,11 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
-                        "cycle_width": 291,
-                        "decimals_x": 2,
-                        "decimals_y": 2,
-                        "max_x": 100,
-                        "max_y": 1.166666666666667,
-                        "min_x": 0,
-                        "min_y": -0.16666666666666707
+                        "cycle_width": 275,
+                        "max_x": 448.6508472718594,
+                        "max_y": 1.3472739754028238,
+                        "min_x": 166.399383798021,
+                        "min_y": 0.0139406420694832
                     }
                 },
                 {
@@ -502,8 +514,6 @@
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
                         "cycle_width": 324,
-                        "decimals_x": 2,
-                        "decimals_y": 2,
                         "max_x": 484.07411290657353,
                         "max_y": 1.1,
                         "min_x": 165.41055837408007,
