@@ -118,9 +118,6 @@
 
 #define max(val_1,val_2 )      (((val_1) >= (val_2))?(val_1):(val_2))
 #define min(val_1,val_2 )      (((val_1) <= (val_2))?(val_1):(val_2))
-#define fmaxf max
-#define fminf min
-
 
 /************************************************************************************/
 
