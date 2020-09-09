@@ -86,8 +86,6 @@ typedef struct SENSE_MTN_DATA_TAG
 } SENSE_MTN_DATA;
 
 
-
-
 /*************************************************************/
 /*      SPO STRUCTURES                                       */
 /*************************************************************/
@@ -108,7 +106,7 @@ typedef struct SENSE_TS_DATA_TAG
     DD_ADC_DATA*         p_adc_input_s;                     /**< @details Pointer to ADC input structure */
     F32                  alpha_filtered_adc_level_f32;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
     F32                  alpha_beta_filtered_adc_level_f32; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
-    SENSE_FIR_CONFIDENCE sensor_conf_s;                     /**< @details Touch confidence with a range of 0.0 to 1.0 */
+    SENSE_FIR_CONFIDENCE touch_conf_s;                      /**< @details Touch confidence with a range of 0.0 to 1.0 */
 } SENSE_TS_DATA;
 
 #endif /* SENSE_CORE_TYPES_H_ */

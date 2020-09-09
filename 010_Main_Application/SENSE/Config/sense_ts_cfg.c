@@ -28,3 +28,6 @@ F32 sense_ts_adc_alpha_filter_coeff_a_f32      = 0.4F;
 
 F32 sense_ts_adc_alpha_beta_filter_coeff_a_f32 = 1.5F;
 F32 sense_ts_adc_alpha_beta_filter_coeff_b_f32 = 0.5F;
+
+F32 sense_ts_min_touch_conf_level_f32          = 0.2F;
+F32 sense_ts_min_touch_hyst_conf_level_f32     = 0.1F;

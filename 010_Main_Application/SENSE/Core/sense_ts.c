@@ -40,7 +40,7 @@ F32 dt_f32 = 0.1F;                      /* TODO: Use global cycle time define he
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
 PRIVATE void sense_ts_filter_pressure( void );
-PRIVATE void sense_ts_calc_sensor_confidence( void );
+PRIVATE void sense_ts_compute_sensor_confidence( void );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -61,9 +61,11 @@ void sense_ts_main( void )
 {
 
     sense_ts_filter_pressure();
+    sense_ts_compute_sensor_confidence();
 
-    ESP_LOGD( SENSE_TS_LOG_MSG_TAG, "ALvl: %0.3f, ABLvl: %0.3f", sense_ts_data_s.alpha_filtered_adc_level_f32,
-                                                                 sense_ts_data_s.alpha_beta_filtered_adc_level_f32 );
+    ESP_LOGD( SENSE_TS_LOG_MSG_TAG, "ALvl: %0.3f, ABLvl: %0.3f, TConf: %0.3f", sense_ts_data_s.alpha_filtered_adc_level_f32,
+                                                                               sense_ts_data_s.alpha_beta_filtered_adc_level_f32,
+                                                                               sense_ts_data_s.touch_conf_s.confidence_f32 );
 }
 
 PRIVATE void sense_ts_filter_pressure( void )
@@ -84,14 +86,35 @@ PRIVATE void sense_ts_filter_pressure( void )
     xk_1 = xk_f32;
     vk_1 = vk_f32;
 
-    /* Store filtered output */
-    /* TODO: Output need to be clamped to a range of 0.0 to 1.0 */
-    sense_ts_data_s.alpha_beta_filtered_adc_level_f32 = xk_1;
+    /* Store filtered output ( clamped to a range of 0.0 to 1.0 ) */
+    sense_ts_data_s.alpha_beta_filtered_adc_level_f32 = CLAMP( xk_1, 0.0F, 1.0F );
 }
 
-PRIVATE void sense_ts_calc_sensor_confidence( void )
+PRIVATE void sense_ts_compute_sensor_confidence( void )
 {
+    UTIL_CONF_DETECTION_STATE detection_status_e;
 
+    if( sense_ts_data_s.p_adc_input_s->raw_level_f32 > sense_ts_min_touch_conf_level_f32 )
+    {
+        if( sense_ts_data_s.p_adc_input_s->raw_level_f32 > ( sense_ts_min_touch_conf_level_f32 + sense_ts_min_touch_hyst_conf_level_f32 ) )
+        {
+            detection_status_e = IS_DETECTION;
+        }
+        else
+        {
+            detection_status_e = NO_UPDATE;
+        }
+    }
+    else
+    {
+        detection_status_e = NO_DETECTION;
+    }
+
+    util_update_fir_confidence( &sense_ts_data_s.touch_conf_s.confidence_f32,
+                                &sense_ts_data_s.touch_conf_s.confidence_max_f32,
+                                &sense_ts_data_s.touch_conf_s.asso_history_u64,
+                                UTIL_CONF_MAX_FIR_CONFIDENCE_BUFFER_LENGTH,
+                                detection_status_e );
 }
 
 
