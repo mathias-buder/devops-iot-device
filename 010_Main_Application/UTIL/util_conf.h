@@ -46,8 +46,8 @@
 typedef enum UTIL_CONF_DETECTION_STATE_TYPE
 {
     NO_UPDATE,
-    IS_DETECTION,
-    NO_DETECTION
+    NO_DETECTION,
+    IS_DETECTION
 } UTIL_CONF_DETECTION_STATE;
 
 typedef struct UTIL_FIR_CONFIDENCE_STRUCT_TAG
@@ -65,8 +65,8 @@ typedef struct UTIL_FIR_CONFIDENCE_STRUCT_TAG
  * @param[out] 'p_confidence_f32' confidence value to be updated
  * @param[out] 'p_confidence_max_f32' max confidence value to be updated
  * @param[out] 'p_asso_history_u64' association history (64-bit bitfield) used as history for confidence calculation
- * @param[in] 'history_length_u8' length of history that shall be taken into account (max length: 64)
- * @param[in] 'detection_status_e' current detection status
+ * @param[in]  'history_length_u8' length of history that shall be taken into account (max length: 64)
+ * @param[in]  'detection_status_e' current detection status
  */
 void util_update_fir_confidence( F32* const                      p_confidence_f32,
                                  F32* const                      p_confidence_max_f32,
