@@ -33,17 +33,7 @@
 
 #include "../Interface/sense_public_types.h"
 
-#include "../../DD/DD.h"
 
-/*************************************************************/
-/*      GENERAL STRUCTURES                                   */
-/*************************************************************/
-typedef struct SENSE_FIR_CONFIDENCE_TAG
-{
-    U64 asso_history_u64;   /**< bit field association history */
-    F32 confidence_f32;     /**< confidence, FIR on association history */
-    F32 confidence_max_f32; /**< maximum of confidence, FIR on association history */
-} SENSE_FIR_CONFIDENCE;
 
 /*************************************************************/
 /*      ENUMERATORS                                          */
@@ -91,22 +81,5 @@ typedef struct SENSE_MTN_DATA_TAG
 /*************************************************************/
 
 
-/*************************************************************/
-/*      TOUCH SENSOR STRUCTURES                              */
-/*************************************************************/
-
-/**
- * @brief   Touch Sensor Database Structure
- * @details Contains all global data required to process the
- *          touch sensor.
- * @ingroup SenseStructures
- */
-typedef struct SENSE_TS_DATA_TAG
-{
-    DD_ADC_DATA*         p_adc_input_s;                     /**< @details Pointer to ADC input structure */
-    F32                  alpha_filtered_adc_level_f32;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
-    F32                  alpha_beta_filtered_adc_level_f32; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
-    SENSE_FIR_CONFIDENCE touch_conf_s;                      /**< @details Touch confidence with a range of 0.0 to 1.0 */
-} SENSE_TS_DATA;
 
 #endif /* SENSE_CORE_TYPES_H_ */
