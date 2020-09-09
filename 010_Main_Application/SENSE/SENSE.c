@@ -39,7 +39,6 @@
 
 void sense_init(void)
 {
-    sense_ts_if_init();
     sense_ts_init();
 }
 
@@ -47,6 +46,5 @@ void sense_init(void)
 
 void sense_main(void)
 {
-    sense_ts_if_main();
     sense_ts_main();
 }

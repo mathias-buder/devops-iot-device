@@ -19,12 +19,14 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include "../Config/sense_ts_cfg.h"
+#include "sense_database.h"
 #include "sense_ts.h"
 
-#include "../Config/sense_ts_cfg.h"
-#include "esp_log.h"
-#include "sense_database.h"
+#include "../../DD/DD.h"
+#include "../../UTIL/UTIL.h"
 
+#include "esp_log.h"
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -48,8 +50,8 @@ BOOLEAN sense_ts_init( void )
     /* Initialize database to 0 */
     memset( &sense_ts_data_s, 0U, sizeof( sense_ts_data_s ) );
 
-    /* Set pointer of input data structure */
-    sense_ts_data_s.p_input_s = &sense_ts_input_s;
+    /* Get pointer to ADC database structure */
+    sense_ts_data_s.p_adc_input_s = dd_adc_get_database();
 
     return TRUE;
 }
@@ -67,14 +69,14 @@ void sense_ts_main( void )
 PRIVATE void sense_ts_filter_pressure( void )
 {
     /* Alpha filter signal */
-    sense_ts_data_s.alpha_filtered_adc_level_f32 =   ( sense_ts_data_s.alpha_filtered_adc_level_f32 * sense_ts_adc_alpha_filter_coeff_a_f32 )
-                                                   + ( ( 1.0F - sense_ts_adc_alpha_filter_coeff_a_f32 ) * sense_ts_input_s.raw_adc_level_f32 );
+    sense_ts_data_s.alpha_filtered_adc_level_f32 =   ( sense_ts_data_s.alpha_filtered_adc_level_f32 * sense_ts_adc_alpha_filter_coeff_a_f32            )
+                                                   + ( ( 1.0F - sense_ts_adc_alpha_filter_coeff_a_f32 ) * sense_ts_data_s.p_adc_input_s->raw_level_f32 );
 
     /* Alpha-Beta filter signal */
     xk_f32 = xk_1 + ( vk_1 * dt_f32 );
     vk_f32 = vk_1;
 
-    rk_f32 = sense_ts_input_s.raw_adc_level_f32 - xk_f32;
+    rk_f32 = sense_ts_data_s.p_adc_input_s->raw_level_f32 - xk_f32;
 
     xk_f32 += sense_ts_adc_alpha_beta_filter_coeff_a_f32 * rk_f32;
     vk_f32 += ( sense_ts_adc_alpha_beta_filter_coeff_b_f32 * rk_f32 ) / dt_f32;

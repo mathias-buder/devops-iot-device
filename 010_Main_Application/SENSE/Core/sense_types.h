@@ -33,6 +33,18 @@
 
 #include "../Interface/sense_public_types.h"
 
+#include "../../DD/DD.h"
+
+/*************************************************************/
+/*      GENERAL STRUCTURES                                   */
+/*************************************************************/
+typedef struct SENSE_FIR_CONFIDENCE_TAG
+{
+    U64 asso_history_u64;   /**< bit field association history */
+    F32 confidence_f32;     /**< confidence, FIR on association history */
+    F32 confidence_max_f32; /**< maximum of confidence, FIR on association history */
+} SENSE_FIR_CONFIDENCE;
+
 /*************************************************************/
 /*      ENUMERATORS                                          */
 /*************************************************************/
@@ -86,18 +98,6 @@ typedef struct SENSE_MTN_DATA_TAG
 /*************************************************************/
 
 /**
- * @brief   Touch Sensor Input Data Structure
- * @details Contains all data that is read in from different
- *          domain.
- * @ingroup SenseStructures
- */
-typedef struct SENSE_TS_INPUT_TAG
-{
-    U16 raw_adc_sample_u16; /**< @details Current raw 12-bit ADC value @unit [LSB] */
-    F32 raw_adc_level_f32;  /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
-} SENSE_TS_INPUT;
-
-/**
  * @brief   Touch Sensor Database Structure
  * @details Contains all global data required to process the
  *          touch sensor.
@@ -105,9 +105,10 @@ typedef struct SENSE_TS_INPUT_TAG
  */
 typedef struct SENSE_TS_DATA_TAG
 {
-    SENSE_TS_INPUT* p_input_s;                         /**< @details Pointer to the touch sensor input data structure */
-    F32             alpha_filtered_adc_level_f32;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
-    F32             alpha_beta_filtered_adc_level_f32; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
+    DD_ADC_DATA*         p_adc_input_s;                     /**< @details Pointer to ADC input structure */
+    F32                  alpha_filtered_adc_level_f32;      /**< @details Current alpha filtered raw 12-bit ADC value @unit [LSB] */
+    F32                  alpha_beta_filtered_adc_level_f32; /**< @details Current alpha/beta filtered raw 12-bit ADC value @unit [LSB] */
+    SENSE_FIR_CONFIDENCE sensor_conf_s;                     /**< @details Touch confidence with a range of 0.0 to 1.0 */
 } SENSE_TS_DATA;
 
 #endif /* SENSE_CORE_TYPES_H_ */
