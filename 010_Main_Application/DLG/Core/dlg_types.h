@@ -52,69 +52,67 @@ typedef struct DLG_DATA_TAG
  */
 typedef struct DLG_LOG_DATA_TAG
 {
-    F32 dlg_time_stamp_f32;                /**< @details Global time stamp in ms */
-    F32 icm_20600_temperature_deg_f32;     /**< @details ICM-20600 Internal core (die) temperature @unit °C */
-    F32 icm_20600_factory_trim_xa_f32;     /**< @details ICM-20600 XA factory trim value */
-    F32 icm_20600_factory_trim_ya_f32;     /**< @details ICM-20600 YA factory trim value */
-    F32 icm_20600_factory_trim_za_f32;     /**< @details ICM-20600 ZA factory trim value */
-    F32 icm_20600_factory_trim_xg_f32;     /**< @details ICM-20600 XG factory trim value */
-    F32 icm_20600_factory_trim_yg_f32;     /**< @details ICM-20600 YG factory trim value */
-    F32 icm_20600_factory_trim_zg_f32;     /**< @details ICM-20600 ZG factory trim value */
-    F32 icm_20600_factory_trim_dev_xa_f32; /**< @details ICM-20600 XA factory trim deviation @unit % */
-    F32 icm_20600_factory_trim_dev_ya_f32; /**< @details ICM-20600 YA factory trim deviation @unit % */
-    F32 icm_20600_factory_trim_dev_za_f32; /**< @details ICM-20600 ZA factory trim deviation @unit % */
-    F32 icm_20600_factory_trim_dev_xg_f32; /**< @details ICM-20600 XG factory trim deviation @unit % */
-    F32 icm_20600_factory_trim_dev_yg_f32; /**< @details ICM-20600 YG factory trim deviation @unit % */
-    F32 icm_20600_factory_trim_dev_zg_f32; /**< @details ICM-20600 ZG factory trim deviation @unit % */
-    F32 max_30102_temperature_f32;         /**< @details MAX-30102 @unit °C */
-    F32 adc_raw_level_f32;
-    F32 adc_filtered_level_f32;
-    F32 sense_ts_alpha_filtered_adc_level_f32;
-    F32 sense_ts_alpha_beta_filtered_adc_level_f32;
-    F32 sense_ts_touch_confidence_f32;
-    F32 sense_ts_touch_confidence_max_f32;
+    F32 dlg_time_stamp_f32;                         /**< @details Global time stamp in ms */
+    F32 dd_icm_20600_temperature_deg_f32;           /**< @details ICM-20600 Internal core (die) temperature @unit °C */
+    F32 dd_icm_20600_factory_trim_xa_f32;           /**< @details ICM-20600 XA factory trim value */
+    F32 dd_icm_20600_factory_trim_ya_f32;           /**< @details ICM-20600 YA factory trim value */
+    F32 dd_icm_20600_factory_trim_za_f32;           /**< @details ICM-20600 ZA factory trim value */
+    F32 dd_icm_20600_factory_trim_xg_f32;           /**< @details ICM-20600 XG factory trim value */
+    F32 dd_icm_20600_factory_trim_yg_f32;           /**< @details ICM-20600 YG factory trim value */
+    F32 dd_icm_20600_factory_trim_zg_f32;           /**< @details ICM-20600 ZG factory trim value */
+    F32 dd_icm_20600_factory_trim_dev_xa_f32;       /**< @details ICM-20600 XA factory trim deviation @unit % */
+    F32 dd_icm_20600_factory_trim_dev_ya_f32;       /**< @details ICM-20600 YA factory trim deviation @unit % */
+    F32 dd_icm_20600_factory_trim_dev_za_f32;       /**< @details ICM-20600 ZA factory trim deviation @unit % */
+    F32 dd_icm_20600_factory_trim_dev_xg_f32;       /**< @details ICM-20600 XG factory trim deviation @unit % */
+    F32 dd_icm_20600_factory_trim_dev_yg_f32;       /**< @details ICM-20600 YG factory trim deviation @unit % */
+    F32 dd_icm_20600_factory_trim_dev_zg_f32;       /**< @details ICM-20600 ZG factory trim deviation @unit % */
+    F32 dd_max_30102_temperature_f32;               /**< @details MAX-30102 Internal core (die) temperature @unit °C */
+    F32 dd_adc_raw_level_f32;                       /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32 dd_adc_filtered_level_f32;                  /**< @details Filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32 sense_ts_alpha_filtered_adc_level_f32;      /**< @details Alpha filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32 sense_ts_alpha_beta_filtered_adc_level_f32; /**< @details Alpha/Beta filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32 sense_ts_touch_confidence_f32;              /**< @details Touch confidence with a range of 0.0 to 1.0 */
+    F32 sense_ts_touch_confidence_max_f32;          /**< @details Maximum touch confidence with a range of 0.0 to 1.0 °C */
 
+    U32 dd_max_30102_red_data_raw_u32;              /**< @details MAX-30102 Red led ADC raw value */
+    U32 dd_max_30102_ir_data_raw_u32;               /**< @details MAX-30102 IR led ADC raw value */
 
-    U32 max_30102_red_data_raw_u32;        /**< @details MAX-30102 Red led ADC raw value */
-    U32 max_30102_ir_data_raw_u32;         /**< @details MAX-30102 IR led ADC raw value */
+    U16 dd_icm_20600_temperature_raw_u16;           /**< @details Internal core (die) temperature raw data */
+    U16 dd_adc_raw_data_u16;                        /**< @details Current raw 12-bit ADC sample @unit LSB */
+    U16 dd_adc_previous_raw_data_u16;               /**< @details Previous raw 12-bit ADC sample @unit LSB */
+    U16 dd_adc_voltage_u16;                         /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
 
-    U16 icm_20600_temperature_raw_u16;     /**< @details Internal core (die) temperature raw data */
-    U16 adc_raw_data_u16;
-    U16 adc_previous_raw_data_u16;
-    U16 adc_voltage_u16;
+    S16 dd_icm_20600_accel_raw_data_x_s16;          /**< @details ICM-20600 X acceleration raw value */
+    S16 dd_icm_20600_accel_raw_data_y_s16;          /**< @details ICM-20600 Y acceleration raw value */
+    S16 dd_icm_20600_accel_raw_data_z_s16;          /**< @details ICM-20600 Z acceleration raw value */
+    S16 dd_icm_20600_gyro_raw_data_x_s16;           /**< @details ICM-20600 X gyroscope raw value */
+    S16 dd_icm_20600_gyro_raw_data_y_s16;           /**< @details ICM-20600 Y gyroscope raw value */
+    S16 dd_icm_20600_gyro_raw_data_z_s16;           /**< @details ICM-20600 Z gyroscope raw value */
+    S16 dd_i2c_error_code_s16;                      /**< @details I2C Current error code */
 
-    S16 icm_20600_accel_raw_data_x_s16;    /**< @details ICM-20600 X acceleration raw value */
-    S16 icm_20600_accel_raw_data_y_s16;    /**< @details ICM-20600 Y acceleration raw value */
-    S16 icm_20600_accel_raw_data_z_s16;    /**< @details ICM-20600 Z acceleration raw value */
-    S16 icm_20600_gyro_raw_data_x_s16;     /**< @details ICM-20600 X gyroscope raw value */
-    S16 icm_20600_gyro_raw_data_y_s16;     /**< @details ICM-20600 Y gyroscope raw value */
-    S16 icm_20600_gyro_raw_data_z_s16;     /**< @details ICM-20600 Z gyroscope raw value */
-    S16 i2c_error_code_s16;                /**< @details I2C Current error code */
-
-    U8  icm_20600_chip_id_u8;              /**< @details ICM-20600 Unique chip id */
-    U8  icm_20600_dev_state_u8;            /**< @details ICM-20600 Current device state */
-    U8  icm_20600_is_calibrated_u8;        /**< @details ICM-20600 TRUE in case device has been calibrated */
-    U8  icm_20600_self_test_passed_u8;     /**< @details ICM-20600 TRUE in case self-test has passed */
-    U8  icm_20600_self_test_xa_u8;         /**< @details ICM-20600 X acceleration self test value */
-    U8  icm_20600_self_test_ya_u8;         /**< @details ICM-20600 Y acceleration self test value */
-    U8  icm_20600_self_test_za_u8;         /**< @details ICM-20600 Z acceleration self test value */
-    U8  icm_20600_self_test_xg_u8;         /**< @details ICM-20600 X gyroscope self test value */
-    U8  icm_20600_self_test_yg_u8;         /**< @details ICM-20600 Y gyroscope self test value */
-    U8  icm_20600_self_test_zg_u8;         /**< @details ICM-20600 Z gyroscope self test value */
-    U8  i2c_is_error_present_u8;           /**< @details I2C TRUE in case I2C error is present */
-    U8  i2c_access_type_u8;                /**< @details I2C Current access type, e.g. READ, WRITE */
-    U8  i2c_device_addr_u8;                /**< @details I2C Current device address */
-    U8  i2c_register_addr_u8;              /**< @details I2C Current register address that has been accessed */
-    U8  max_30102_int_status_u8;           /**< @details MAX-30102 Status of all interrupt bits */
-    U8  max_30102_part_id_u8;              /**< @details MAX-30102 Devices part id*/
-    U8  max_30102_rev_id_u8;               /**< @details MAX-30102 Devices revision id*/
-    U8  max_30102_read_ptr_u8;             /**< @details MAX-30102 Current read pointer position */
-    U8  max_30102_write_ptr_u8;            /**< @details MAX-30102 Current read write position */
-    U8  max_30102_mode_u8;                 /**< @details MAX-30102 Current device mode */
-    U8  max_30102_temperature_raw_int_u8;  /**< @details MAX-30102 Internal raw die temperature, integer part */
-    U8  max_30102_temperature_raw_frac_u8; /**< @details MAX-30102 Internal raw die temperature, fractional part */
-
-    U8  dlg_global_msg_cnt_u8;             /**< @details Global message counter, shall always be the last entry */
+    U8  dd_icm_20600_chip_id_u8;                    /**< @details ICM-20600 Unique chip id */
+    U8  dd_icm_20600_dev_state_u8;                  /**< @details ICM-20600 Current device state */
+    U8  dd_icm_20600_is_calibrated_u8;              /**< @details ICM-20600 TRUE in case device has been calibrated */
+    U8  dd_icm_20600_self_test_passed_u8;           /**< @details ICM-20600 TRUE in case self-test has passed */
+    U8  dd_icm_20600_self_test_xa_u8;               /**< @details ICM-20600 X acceleration self test value */
+    U8  dd_icm_20600_self_test_ya_u8;               /**< @details ICM-20600 Y acceleration self test value */
+    U8  dd_icm_20600_self_test_za_u8;               /**< @details ICM-20600 Z acceleration self test value */
+    U8  dd_icm_20600_self_test_xg_u8;               /**< @details ICM-20600 X gyroscope self test value */
+    U8  dd_icm_20600_self_test_yg_u8;               /**< @details ICM-20600 Y gyroscope self test value */
+    U8  dd_icm_20600_self_test_zg_u8;               /**< @details ICM-20600 Z gyroscope self test value */
+    U8  dd_i2c_is_error_present_u8;                 /**< @details I2C TRUE in case I2C error is present */
+    U8  dd_i2c_access_type_u8;                      /**< @details I2C Current access type, e.g. READ, WRITE */
+    U8  dd_i2c_device_addr_u8;                      /**< @details I2C Current device address */
+    U8  dd_i2c_register_addr_u8;                    /**< @details I2C Current register address that has been accessed */
+    U8  dd_max_30102_int_status_u8;                 /**< @details MAX-30102 Status of all interrupt bits */
+    U8  dd_max_30102_part_id_u8;                    /**< @details MAX-30102 Devices part id*/
+    U8  dd_max_30102_rev_id_u8;                     /**< @details MAX-30102 Devices revision id*/
+    U8  dd_max_30102_read_ptr_u8;                   /**< @details MAX-30102 Current read pointer position */
+    U8  dd_max_30102_write_ptr_u8;                  /**< @details MAX-30102 Current read write position */
+    U8  dd_max_30102_mode_u8;                       /**< @details MAX-30102 Current device mode */
+    U8  dd_max_30102_temperature_raw_int_u8;        /**< @details MAX-30102 Internal raw die temperature, integer part */
+    U8  dd_max_30102_temperature_raw_frac_u8;       /**< @details MAX-30102 Internal raw die temperature, fractional part */
+    U8  dlg_global_msg_cnt_u8;                      /**< @details Global message counter, shall always be the last entry */
 
 } DLG_LOG_DATA;
 
