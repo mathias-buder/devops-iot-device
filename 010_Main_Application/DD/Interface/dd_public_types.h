@@ -401,7 +401,42 @@ typedef struct DD_ADC_DATA_TAG
     U16 voltage_u16;             /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
     F32 raw_level_f32;           /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
     F32 filtered_level_f32;      /**< @details Filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
-
 } DD_ADC_DATA;
+
+
+
+
+
+/*************************************************************/
+/*                        DD_MCPWM                           */
+/*************************************************************/
+
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+/**
+ * @brief   MCPWM Output Interface Data Structure
+ * @details MCPWM Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_MCPWM_DATA_TAG
+{
+    U16 dummy_u16;          /**< @details Dummy */
+} DD_MCPWM_DATA;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif /* DD_PUBLIC_TYPES_H */

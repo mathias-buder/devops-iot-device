@@ -20,9 +20,10 @@
 /*********************************************************************/
 #include "DD.h"
 
-#include "Core/dd_adc.h"
 #include "Core/dd_database.h"
 #include "Core/dd_i2c.h"
+#include "Core/dd_adc.h"
+#include "Core/dd_mcpwm.h"
 #include "Core/dd_icm-20600.h"
 #include "Core/dd_max-30102.h"
 #include "Core/dd_sd.h"
@@ -48,6 +49,7 @@ void dd_init( void )
     dd_sd_init();        /* Initialize SD card driver */
     dd_i2c_init();       /* Initialize I2C basic device driver */
     dd_adc_init();       /* Initialize ADC basic device driver */
+    dd_mcpwm_init();     /* Initialize MCPWM basic device driver */
     dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
     dd_max_30102_init(); /* Initialize MAX-30102 HR+SpO2 subsystem */
 }
@@ -55,6 +57,7 @@ void dd_init( void )
 void dd_main( void )
 {
     dd_adc_main();
+    dd_mcpwm_main();
     dd_icm_20600_main();
     dd_max_30102_main();
 }
