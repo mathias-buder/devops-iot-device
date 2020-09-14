@@ -15,10 +15,29 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "dd_max-30102_cfg.h"
+#include "dd_mcpwm_cfg.h"
 #include "dd_types_cfg.h"
+#include "../Core/dd_types.h"
 
 /*********************************************************************/
 /*      GLOBAL PARAMETERS                                            */
 /*********************************************************************/
 
+DD_MCPWM_CHANNEL channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE] = {
+    {   /* CHANNEL_1 */
+        .unit_e         = MCPWM_UNIT_0,
+        .io_signal_e    = MCPWM0A,
+        .timer_e        = MCPWM_TIMER_0,
+        .operator_e     = MCPWM_OPR_A,
+        .mode_e         = DD_MCPWM_MODE_OFF,
+        .duty_cycle_f32 = 0.0F
+    },
+    {   /* CHANNEL_2 */
+        .unit_e         = MCPWM_UNIT_0,
+        .io_signal_e    = MCPWM0A,
+        .timer_e        = MCPWM_TIMER_0,
+        .operator_e     = MCPWM_OPR_A,
+        .mode_e         = DD_MCPWM_MODE_OFF,
+        .duty_cycle_f32 = 0.0F
+    }
+};

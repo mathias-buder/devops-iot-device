@@ -25,6 +25,9 @@
 
 #include <esp_err.h>
 
+/* To get all MCPWM dependent defines/enums */
+#include "driver/mcpwm.h"
+
 #include "../../types.h"
 
 /* TODO: DD-Types include concept needs to be reworked */
@@ -412,9 +415,53 @@ typedef struct DD_ADC_DATA_TAG
 /*************************************************************/
 
 
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_MCPWM_MODE_TAG
+{
+    DD_MCPWM_MODE_OFF,  /**< @details Default mode: Output is constant low/GND (0.0V) */
+    DD_MCPWM_MODE_ON, /**< @details Output is constant high (3.3V) */
+    DD_MCPWM_MODE_PWM,  /**< @details Output is running an PWM signal with an duty cycle of duty_cycle_f32 */
+    DD_MCPWM_MODE_SIZE
+} DD_MCPWM_MODE;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_MCPWM_CHANNEL_NUM_TAG
+{
+    DD_MCPWM_CHANNEL_1,
+    DD_MCPWM_CHANNEL_2,
+    DD_MCPWM_CHANNEL_3,
+    DD_MCPWM_CHANNEL_4,
+    DD_MCPWM_CHANNEL_5,
+    DD_MCPWM_CHANNEL_6,
+    DD_MCPWM_CHANNEL_7,
+    DD_MCPWM_CHANNEL_8,
+    DD_MCPWM_CHANNEL_9,
+    DD_MCPWM_CHANNEL_10,
+    DD_MCPWM_CHANNEL_11,
+    DD_MCPWM_CHANNEL_12,
+    DD_MCPWM_CHANNEL_SIZE
+} DD_MCPWM_CHANNEL_NUM;
+
+
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
+
+typedef struct DD_MCPWM_CHANNEL_TAG
+{
+    /* Hardware dependent (ESP32) configuration */
+    const mcpwm_unit_t       unit_e;         /**< @details MCPWM unit(0-1) */
+    const mcpwm_io_signals_t io_signal_e;    /**< @details MCPWM signals, each MCPWM unit has 6 output(MCPWMXA, MCPWMXB) and 9 input(SYNC_X, FAULT_X, CAP_X) 'X' is timer_num(0-2) */
+    const mcpwm_timer_t      timer_e;        /**< @details Timer number(0-2) of MCPWM, each MCPWM unit has 3 timers */
+    const mcpwm_operator_t   operator_e;     /**< @details The operator(MCPWMXA/MCPWMXB), 'X' is timer number selected */
+
+    DD_MCPWM_MODE            mode_e;         /**< @details Channel mode */
+    F32                      duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
+} DD_MCPWM_CHANNEL;
 
 /**
  * @brief   MCPWM Output Interface Data Structure
@@ -423,20 +470,7 @@ typedef struct DD_ADC_DATA_TAG
  */
 typedef struct DD_MCPWM_DATA_TAG
 {
-    U16 dummy_u16;          /**< @details Dummy */
+    DD_MCPWM_CHANNEL* p_channel_s; /**< @details Pointer to array containing all PWM channels */
 } DD_MCPWM_DATA;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif /* DD_PUBLIC_TYPES_H */

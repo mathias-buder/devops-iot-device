@@ -113,18 +113,18 @@ BOOLEAN dd_mcpwm_init( void )
     mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_B );
 
 
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, (duty_cycle_f32 / (F32 ) N_MCPWM) * 1.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_B, (duty_cycle_f32 / (F32 ) N_MCPWM) * 2.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_A, (duty_cycle_f32 / (F32 ) N_MCPWM) * 3.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_B, (duty_cycle_f32 / (F32 ) N_MCPWM) * 4.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_A, (duty_cycle_f32 / (F32 ) N_MCPWM) * 5.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_B, (duty_cycle_f32 / (F32 ) N_MCPWM) * 6.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_A, (duty_cycle_f32 / (F32 ) N_MCPWM) * 7.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_B, (duty_cycle_f32 / (F32 ) N_MCPWM) * 8.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_A, (duty_cycle_f32 / (F32 ) N_MCPWM) * 9.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_B, (duty_cycle_f32 / (F32 ) N_MCPWM) * 10.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_A, (duty_cycle_f32 / (F32 ) N_MCPWM) * 11.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_B, (duty_cycle_f32 / (F32 ) N_MCPWM) * 12.0F );
+    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 100.0F );
+    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_B, 50.0F );
+    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_A, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_B, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_A, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_B, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_A, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_B, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_A, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_B, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_A, 80.0F );
+    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_B, 80.0F );
 
 
     mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
