@@ -33,35 +33,12 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-#define GPIO_U0_PWM0A_OUT 32   //Set GPIO 32 as PWM0A
-#define GPIO_U0_PWM0B_OUT 33   //Set GPIO 33 as PWM0B
 
-#define GPIO_U0_PWM1A_OUT 25   //Set GPIO 25 as PWM1A
-#define GPIO_U0_PWM1B_OUT 26   //Set GPIO 26 as PWM1B
-
-#define GPIO_U0_PWM2A_OUT 27   //Set GPIO 27 as PWM2A
-#define GPIO_U0_PWM2B_OUT 14   //Set GPIO 14 as PWM2B
-
-
-
-#define GPIO_U1_PWM0A_OUT 12   //Set GPIO 32 as PWM0A
-#define GPIO_U1_PWM0B_OUT 13   //Set GPIO 33 as PWM0B
-
-#define GPIO_U1_PWM1A_OUT 19   //Set GPIO 25 as PWM1A
-#define GPIO_U1_PWM1B_OUT 23   //Set GPIO 26 as PWM1B
-
-#define GPIO_U1_PWM2A_OUT 18   //Set GPIO 27 as PWM2A
-#define GPIO_U1_PWM2B_OUT 5    //Set GPIO 14 as PWM2B
-
-#define N_MCPWM           12U
-
-mcpwm_config_t pwm_config_s;
-
-F32 duty_cycle_f32 = 90.0F;
 
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
+
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -69,78 +46,114 @@ F32 duty_cycle_f32 = 90.0F;
 
 BOOLEAN dd_mcpwm_init( void )
 {
+    U8        idx_u8, idy_u8;
+    esp_err_t error_t = ESP_OK;
+
     ESP_LOGI( DD_MCPWM_LOG_MSG_TAG, "Initializing ..." );
 
+    /* Assign pointer to global channel configuration */
+    dd_mcpwm_data_s.p_channel_s = &dd_mcpwm_channel_cfg_vs[0U];
 
-    pwm_config_s.frequency    = 1000;   //frequency = 1000Hz,
-    pwm_config_s.cmpr_a       = 0;      //duty cycle of PWMxA = 0
-    pwm_config_s.cmpr_b       = 0;      //duty cycle of PWMxb = 0
-    pwm_config_s.counter_mode = MCPWM_UP_COUNTER;
-    pwm_config_s.duty_mode    = MCPWM_DUTY_MODE_0;
+    /* Initialize all timers with global configuration dd_mcpwm_timer_cfg_s */
+    for ( idx_u8 = 0U; idx_u8 < MCPWM_UNIT_MAX; ++idx_u8 )
+    {
+        for ( idy_u8 = 0U; idy_u8 < MCPWM_TIMER_MAX; ++idy_u8 )
+        {
+            error_t = mcpwm_init( (mcpwm_unit_t) idx_u8, (mcpwm_timer_t) idy_u8, &dd_mcpwm_timer_cfg_s );
 
-    mcpwm_gpio_init( MCPWM_UNIT_0, MCPWM0A, GPIO_U0_PWM0A_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_0, MCPWM0B, GPIO_U0_PWM0B_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_0, MCPWM1A, GPIO_U0_PWM1A_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_0, MCPWM1B, GPIO_U0_PWM1B_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_0, MCPWM2A, GPIO_U0_PWM2A_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_0, MCPWM2B, GPIO_U0_PWM2B_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_1, MCPWM0A, GPIO_U1_PWM0A_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_1, MCPWM0B, GPIO_U1_PWM0B_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_1, MCPWM1A, GPIO_U1_PWM1A_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_1, MCPWM1B, GPIO_U1_PWM1B_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_1, MCPWM2A, GPIO_U1_PWM2A_OUT );
-    mcpwm_gpio_init( MCPWM_UNIT_1, MCPWM2B, GPIO_U1_PWM2B_OUT );
+            if ( ESP_OK != error_t )
+            {
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize timers with global configuration: %s", esp_err_to_name( error_t ) );
+                return FALSE;
+            }
+        }
+    }
 
+    /* Initialize all PWM channels according to configuration in dd_mcpwm_channel_cfg_vs */
+    for ( idx_u8 = 0U; idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++idx_u8 )
+    {
+        /* Set I/O pin multiplexing to output a PWM signal */
+        error_t = mcpwm_gpio_init( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                   dd_mcpwm_channel_cfg_vs[idx_u8].io_signal_e,
+                                   dd_mcpwm_channel_cfg_vs[idx_u8].io_pin_u8 );
 
-    mcpwm_init( MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config_s );
-    mcpwm_init( MCPWM_UNIT_0, MCPWM_TIMER_1, &pwm_config_s );
-    mcpwm_init( MCPWM_UNIT_0, MCPWM_TIMER_2, &pwm_config_s );
-    mcpwm_init( MCPWM_UNIT_1, MCPWM_TIMER_0, &pwm_config_s );
-    mcpwm_init( MCPWM_UNIT_1, MCPWM_TIMER_1, &pwm_config_s );
-    mcpwm_init( MCPWM_UNIT_1, MCPWM_TIMER_2, &pwm_config_s );
+        if ( ESP_OK != error_t )
+        {
+            ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize I/O pin multiplexing: %s", esp_err_to_name( error_t ) );
+            return FALSE;
+        }
 
-    mcpwm_set_signal_low( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A );
-    mcpwm_set_signal_low( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_B );
-    mcpwm_set_signal_low( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_A );
-    mcpwm_set_signal_low( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_B );
-    mcpwm_set_signal_low( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_A );
-    mcpwm_set_signal_low( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_B );
-    mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_A );
-    mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_B );
-    mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_A );
-    mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_B );
-    mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_A );
-    mcpwm_set_signal_low( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_B );
+        switch ( dd_mcpwm_channel_cfg_vs[idx_u8].mode_e )
+        {
+        case DD_MCPWM_MODE_OFF:
+            /* Set corresponding I/O pin to permanent high-level */
+            error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                            dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
+                                            dd_mcpwm_channel_cfg_vs[idx_u8].operator_e );
 
+            if ( ESP_OK != error_t )
+            {
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                return FALSE;
+            }
 
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 100.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_B, 50.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_A, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_B, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_A, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_B, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_A, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_B, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_A, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_B, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_A, 80.0F );
-    mcpwm_set_duty( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_B, 80.0F );
+            break;
 
+        case DD_MCPWM_MODE_ON:
+            /* Set corresponding I/O pin to permanent low-level */
+            error_t = mcpwm_set_signal_high( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                             dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
+                                             dd_mcpwm_channel_cfg_vs[idx_u8].operator_e );
 
-    mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_B, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_1, MCPWM_OPR_B, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_0, MCPWM_TIMER_2, MCPWM_OPR_B, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_1, MCPWM_TIMER_0, MCPWM_OPR_B, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_1, MCPWM_TIMER_1, MCPWM_OPR_B, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_A, MCPWM_DUTY_MODE_0 );
-    mcpwm_set_duty_type( MCPWM_UNIT_1, MCPWM_TIMER_2, MCPWM_OPR_B, MCPWM_DUTY_MODE_0 );
+            if ( ESP_OK != error_t )
+            {
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                return FALSE;
+            }
 
+            break;
 
+        case DD_MCPWM_MODE_PWM:
+
+            error_t = mcpwm_set_duty( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                      dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
+                                      dd_mcpwm_channel_cfg_vs[idx_u8].operator_e,
+                                      dd_mcpwm_channel_cfg_vs[idx_u8].duty_cycle_f32 );
+
+            if ( ESP_OK != error_t )
+            {
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                return FALSE;
+            }
+
+            error_t = mcpwm_set_duty_type( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                           dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
+                                           dd_mcpwm_channel_cfg_vs[idx_u8].operator_e,
+                                           dd_mcpwm_timer_cfg_s.duty_mode );
+
+            if ( ESP_OK != error_t )
+            {
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                return FALSE;
+            }
+
+            break;
+
+        default:
+            /* Set corresponding I/O pin to permanent high-level */
+            error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                            dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
+                                            dd_mcpwm_channel_cfg_vs[idx_u8].operator_e );
+
+            if ( ESP_OK != error_t )
+            {
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize default channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                return FALSE;
+            }
+
+            break;
+        }
+    }
 
     ESP_LOGI( DD_MCPWM_LOG_MSG_TAG, "Done" );
 

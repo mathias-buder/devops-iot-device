@@ -17,27 +17,32 @@
 /*********************************************************************/
 #include "dd_mcpwm_cfg.h"
 #include "dd_types_cfg.h"
-#include "../Core/dd_types.h"
 
 /*********************************************************************/
 /*      GLOBAL PARAMETERS                                            */
 /*********************************************************************/
 
-DD_MCPWM_CHANNEL channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE] = {
-    {   /* CHANNEL_1 */
-        .unit_e         = MCPWM_UNIT_0,
-        .io_signal_e    = MCPWM0A,
-        .timer_e        = MCPWM_TIMER_0,
-        .operator_e     = MCPWM_OPR_A,
-        .mode_e         = DD_MCPWM_MODE_OFF,
-        .duty_cycle_f32 = 0.0F
-    },
-    {   /* CHANNEL_2 */
-        .unit_e         = MCPWM_UNIT_0,
-        .io_signal_e    = MCPWM0A,
-        .timer_e        = MCPWM_TIMER_0,
-        .operator_e     = MCPWM_OPR_A,
-        .mode_e         = DD_MCPWM_MODE_OFF,
-        .duty_cycle_f32 = 0.0F
-    }
+DD_MCPWM_CHANNEL dd_mcpwm_channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE] = {
+
+                           /* PWM Unit          UNIT I/O Signal    I/O Pin          Timer             PWM Operator    Operation Mode        Duty Cycle */
+        /* CHANNEL_1 */  {    MCPWM_UNIT_0,     MCPWM0A,           GPIO_NUM_32,     MCPWM_TIMER_0,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_2 */  {    MCPWM_UNIT_0,     MCPWM0B,           GPIO_NUM_33,     MCPWM_TIMER_0,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_3 */  {    MCPWM_UNIT_0,     MCPWM1A,           GPIO_NUM_25,     MCPWM_TIMER_1,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_4 */  {    MCPWM_UNIT_0,     MCPWM1B,           GPIO_NUM_26,     MCPWM_TIMER_1,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_5 */  {    MCPWM_UNIT_0,     MCPWM2A,           GPIO_NUM_27,     MCPWM_TIMER_2,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_6 */  {    MCPWM_UNIT_0,     MCPWM2B,           GPIO_NUM_14,     MCPWM_TIMER_2,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_7 */  {    MCPWM_UNIT_1,     MCPWM0A,           GPIO_NUM_12,     MCPWM_TIMER_0,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_8 */  {    MCPWM_UNIT_1,     MCPWM0B,           GPIO_NUM_13,     MCPWM_TIMER_0,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_9 */  {    MCPWM_UNIT_1,     MCPWM1A,           GPIO_NUM_4,      MCPWM_TIMER_1,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_10 */ {    MCPWM_UNIT_1,     MCPWM1B,           GPIO_NUM_0,      MCPWM_TIMER_1,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_11 */ {    MCPWM_UNIT_1,     MCPWM2A,           GPIO_NUM_2,      MCPWM_TIMER_2,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F        },
+        /* CHANNEL_12 */ {    MCPWM_UNIT_1,     MCPWM2B,           GPIO_NUM_15,     MCPWM_TIMER_2,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F        }
+};
+
+const mcpwm_config_t dd_mcpwm_timer_cfg_s = {
+    .frequency    = DD_MCPWM_FREQUANCY,
+    .cmpr_a       = 0.0F,   /* Default duty cycle for operator a(MCPWMXA) set to 0.0 */
+    .cmpr_b       = 0.0F,   /* Default duty cycle for operator b(MCPWMXB) set to 0.0 */
+    .counter_mode = DD_MCPWM_COUNTER_MODE,
+    .duty_mode    = DD_MCPWM_DUTY_MODE
 };
