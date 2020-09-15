@@ -407,13 +407,9 @@ typedef struct DD_ADC_DATA_TAG
 } DD_ADC_DATA;
 
 
-
-
-
 /*************************************************************/
 /*                        DD_MCPWM                           */
 /*************************************************************/
-
 
 /**
  * @details enumerator of ...
@@ -446,7 +442,6 @@ typedef enum DD_MCPWM_CHANNEL_NUM_TAG
     DD_MCPWM_CHANNEL_SIZE
 } DD_MCPWM_CHANNEL_NUM;
 
-
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
@@ -456,6 +451,7 @@ typedef struct DD_MCPWM_CHANNEL_TAG
     /* Hardware dependent (ESP32) configuration */
     const mcpwm_unit_t       unit_e;         /**< @details MCPWM unit(0-1) */
     const mcpwm_io_signals_t io_signal_e;    /**< @details MCPWM signals, each MCPWM unit has 6 output(MCPWMXA, MCPWMXB) and 9 input(SYNC_X, FAULT_X, CAP_X) 'X' is timer_num(0-2) */
+    const U8                 io_pin_u8;      /**< @details Corresponding I/O pin to be multiplexed to output the PWM signal */
     const mcpwm_timer_t      timer_e;        /**< @details Timer number(0-2) of MCPWM, each MCPWM unit has 3 timers */
     const mcpwm_operator_t   operator_e;     /**< @details The operator(MCPWMXA/MCPWMXB), 'X' is timer number selected */
 
