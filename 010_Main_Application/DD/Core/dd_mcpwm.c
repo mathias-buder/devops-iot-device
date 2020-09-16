@@ -38,7 +38,7 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-
+PRIVATE BOOLEAN dd_mcpwm_update_channel( DD_MCPWM_CHANNEL_NUM channel_e );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -163,6 +163,86 @@ BOOLEAN dd_mcpwm_init( void )
 void dd_mcpwm_main( void )
 {
 
+
+
+
+
+
+
 }
 
+PRIVATE BOOLEAN dd_mcpwm_update_channel( DD_MCPWM_CHANNEL_NUM channel_e )
+{
 
+    esp_err_t error_t = ESP_OK;
+
+    if ( DD_MCPWM_CHANNEL_SIZE > channel_e )
+    {
+            switch ( dd_mcpwm_channel_cfg_vs[channel_e].mode_e )
+            {
+
+            case DD_MCPWM_MODE_OFF:
+                /* Set corresponding I/O pin to permanent low-level */
+                error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
+                                                dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
+                                                dd_mcpwm_channel_cfg_vs[channel_e].operator_e );
+
+                if ( ESP_OK != error_t )
+                {
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    return FALSE;
+                }
+
+                break;
+
+            case DD_MCPWM_MODE_ON:
+                /* Set corresponding I/O pin to permanent high-level */
+                error_t = mcpwm_set_signal_high( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
+                                                 dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
+                                                 dd_mcpwm_channel_cfg_vs[channel_e].operator_e );
+
+                if ( ESP_OK != error_t )
+                {
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    return FALSE;
+                }
+
+                break;
+
+            case DD_MCPWM_MODE_PWM:
+                /* Update corresponding PWM settings */
+                error_t = mcpwm_set_duty( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
+                                          dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
+                                          dd_mcpwm_channel_cfg_vs[channel_e].operator_e,
+                                          dd_mcpwm_channel_cfg_vs[channel_e].duty_cycle_f32 );
+
+                if ( ESP_OK != error_t )
+                {
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    return FALSE;
+                }
+
+                error_t = mcpwm_set_duty_type( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
+                                               dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
+                                               dd_mcpwm_channel_cfg_vs[channel_e].operator_e,
+                                               dd_mcpwm_timer_cfg_s.duty_mode );
+
+                if ( ESP_OK != error_t )
+                {
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    return FALSE;
+                }
+
+                break;
+
+            default:
+                break;
+            }
+    }
+    else
+    {
+        assert( DD_MCPWM_CHANNEL_SIZE > channel_e );
+    }
+
+    return TRUE;
+}
