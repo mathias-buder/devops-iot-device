@@ -9,8 +9,9 @@
             "alignment": "vertical",
             "subWindowSizes": [
                 15,
-                16,
-                69
+                15,
+                14,
+                56
             ],
             "subWindows": [
                 {
@@ -63,7 +64,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "ValueTable",
+                    "name": "ICM_20600",
                     "type": "ValueTable"
                 },
                 {
@@ -162,17 +163,124 @@
                     "locked": false,
                     "name": "SENSE_TS",
                     "type": "ValueTable"
+                },
+                {
+                    "firstColumnWidth": 218,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_Data.DD_MAX_30102_ir_data_raw",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_Data.DD_MAX_30102_red_data_raw",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_Data.DD_MAX_30102_temperature",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_temp_raw_frac",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_temp_raw_int",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_mode",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_write_ptr",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_read_ptr",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_rev_id",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_part_id",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_General.DD_MAX_30102_int_status",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "MAX_30102",
+                    "type": "ValueTable"
                 }
             ]
         },
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                16,
                 18,
-                16,
-                22,
-                28
+                18,
+                23,
+                21,
+                20
             ],
             "subWindows": [
                 {
@@ -230,6 +338,8 @@
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
                         "cycle_width": 647,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
                         "max_x": 1425.1892753502113,
                         "max_y": 32.08130092382687,
                         "min_x": -294.5089581047809,
@@ -264,29 +374,19 @@
                     "items": [
                         {
                             "active": true,
-                            "alias": "gyro_z [raw]",
+                            "alias": "ir_data_raw",
                             "color": "#ff0075dc",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_z",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_Data.DD_MAX_30102_ir_data_raw",
                             "rules": [
                             ],
                             "type": "SOLID",
                             "width": 2
                         },
                         {
-                            "active": true,
-                            "alias": "gyro_y [raw]",
+                            "active": false,
+                            "alias": "red_data_raw",
                             "color": "#ff993f00",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_y",
-                            "rules": [
-                            ],
-                            "type": "SOLID",
-                            "width": 2
-                        },
-                        {
-                            "active": true,
-                            "alias": "gyro_x [raw]",
-                            "color": "#ff4c005c",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_x",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_Data.DD_MAX_30102_red_data_raw",
                             "rules": [
                             ],
                             "type": "SOLID",
@@ -294,89 +394,172 @@
                         }
                     ],
                     "locked": false,
-                    "name": "ICM-20600 Gyro",
+                    "name": "MAX_30102 IR/RED",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 676,
-                        "max_x": 403.9411882576896,
-                        "max_y": 125821.4633649638,
-                        "min_x": 288.38563270213405,
-                        "min_y": -20531.147325174446
+                        "cycle_width": 100,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
+                        "max_x": 100,
+                        "max_y": 1000,
+                        "min_x": 0,
+                        "min_y": -1000
                     }
                 },
                 {
-                    "TimePlotPlugin_X_Appearance_configuration": {
-                        "Color": "#7dc8c8ff",
-                        "StepAutoCalculate": true,
-                        "StepSize": null,
-                        "Style": "SolidLine",
-                        "Thickness": 0,
-                        "Visible": true
-                    },
-                    "TimePlotPlugin_Y_Appearance_configuration": {
-                        "Color": "#7dc8c8ff",
-                        "StepAutoCalculate": true,
-                        "StepSize": null,
-                        "Style": "SolidLine",
-                        "Thickness": 0,
-                        "Visible": true
-                    },
-                    "editor": {
-                        "antialiasing": true,
-                        "legend_position": "RIGHT",
-                        "show_legend": true,
-                        "show_lines": true,
-                        "show_points": false,
-                        "timestamp_for_x_axis": true
-                    },
-                    "items": [
+                    "alignment": "tabbed",
+                    "currentTab": 1,
+                    "subWindows": [
                         {
-                            "active": true,
-                            "alias": "accel_z [raw]",
-                            "color": "#ff0075dc",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_z",
-                            "rules": [
+                            "TimePlotPlugin_X_Appearance_configuration": {
+                                "Color": "#7dc8c8ff",
+                                "StepAutoCalculate": true,
+                                "StepSize": null,
+                                "Style": "SolidLine",
+                                "Thickness": 0,
+                                "Visible": true
+                            },
+                            "TimePlotPlugin_Y_Appearance_configuration": {
+                                "Color": "#7dc8c8ff",
+                                "StepAutoCalculate": true,
+                                "StepSize": null,
+                                "Style": "SolidLine",
+                                "Thickness": 0,
+                                "Visible": true
+                            },
+                            "editor": {
+                                "antialiasing": true,
+                                "legend_position": "RIGHT",
+                                "show_legend": true,
+                                "show_lines": true,
+                                "show_points": false,
+                                "timestamp_for_x_axis": true
+                            },
+                            "items": [
+                                {
+                                    "active": true,
+                                    "alias": "gyro_z [raw]",
+                                    "color": "#ff0075dc",
+                                    "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_z",
+                                    "rules": [
+                                    ],
+                                    "type": "SOLID",
+                                    "width": 2
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "gyro_y [raw]",
+                                    "color": "#ff993f00",
+                                    "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_y",
+                                    "rules": [
+                                    ],
+                                    "type": "SOLID",
+                                    "width": 2
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "gyro_x [raw]",
+                                    "color": "#ff4c005c",
+                                    "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_x",
+                                    "rules": [
+                                    ],
+                                    "type": "SOLID",
+                                    "width": 2
+                                }
                             ],
-                            "type": "SOLID",
-                            "width": 2
+                            "locked": false,
+                            "name": "ICM-20600 Gyro",
+                            "type": "TimePlot",
+                            "viewport": {
+                                "auto_adjust_x": true,
+                                "auto_adjust_y": true,
+                                "background_color": "#ffffffff",
+                                "cycle_width": 289,
+                                "decimals_x": 2,
+                                "decimals_y": 2,
+                                "max_x": 441.19553514351173,
+                                "max_y": 13649.861901434231,
+                                "min_x": 150.19970118351176,
+                                "min_y": -4350.138098565776
+                            }
                         },
                         {
-                            "active": true,
-                            "alias": "accel_y [raw]",
-                            "color": "#ff993f00",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_y",
-                            "rules": [
+                            "TimePlotPlugin_X_Appearance_configuration": {
+                                "Color": "#7dc8c8ff",
+                                "StepAutoCalculate": true,
+                                "StepSize": null,
+                                "Style": "SolidLine",
+                                "Thickness": 0,
+                                "Visible": true
+                            },
+                            "TimePlotPlugin_Y_Appearance_configuration": {
+                                "Color": "#7dc8c8ff",
+                                "StepAutoCalculate": true,
+                                "StepSize": null,
+                                "Style": "SolidLine",
+                                "Thickness": 0,
+                                "Visible": true
+                            },
+                            "editor": {
+                                "antialiasing": true,
+                                "legend_position": "RIGHT",
+                                "show_legend": true,
+                                "show_lines": true,
+                                "show_points": false,
+                                "timestamp_for_x_axis": true
+                            },
+                            "items": [
+                                {
+                                    "active": true,
+                                    "alias": "accel_z [raw]",
+                                    "color": "#ff0075dc",
+                                    "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_z",
+                                    "rules": [
+                                    ],
+                                    "type": "SOLID",
+                                    "width": 2
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "accel_y [raw]",
+                                    "color": "#ff993f00",
+                                    "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_y",
+                                    "rules": [
+                                    ],
+                                    "type": "SOLID",
+                                    "width": 2
+                                },
+                                {
+                                    "active": true,
+                                    "alias": "accel_x [raw]",
+                                    "color": "#ff4c005c",
+                                    "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_x",
+                                    "rules": [
+                                    ],
+                                    "type": "SOLID",
+                                    "width": 2
+                                }
                             ],
-                            "type": "SOLID",
-                            "width": 2
-                        },
-                        {
-                            "active": true,
-                            "alias": "accel_x [raw]",
-                            "color": "#ff4c005c",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_x",
-                            "rules": [
-                            ],
-                            "type": "SOLID",
-                            "width": 2
+                            "locked": false,
+                            "name": "ICM-20600 Accel",
+                            "type": "TimePlot",
+                            "viewport": {
+                                "auto_adjust_x": true,
+                                "auto_adjust_y": true,
+                                "background_color": "#ffffffff",
+                                "cycle_width": 378,
+                                "decimals_x": 2,
+                                "decimals_y": 2,
+                                "max_x": 526.2124463519314,
+                                "max_y": 33500,
+                                "min_x": 5.212446351931334,
+                                "min_y": 6500
+                            }
                         }
-                    ],
-                    "locked": false,
-                    "name": "ICM-20600 Accel",
-                    "type": "TimePlot",
-                    "viewport": {
-                        "auto_adjust_x": true,
-                        "auto_adjust_y": true,
-                        "background_color": "#ffffffff",
-                        "cycle_width": 378,
-                        "max_x": 526.2124463519314,
-                        "max_y": 33500,
-                        "min_x": 5.212446351931334,
-                        "min_y": 6500
-                    }
+                    ]
                 },
                 {
                     "TimePlotPlugin_X_Appearance_configuration": {
@@ -443,10 +626,12 @@
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
                         "cycle_width": 275,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
                         "max_x": 448.6508472718594,
-                        "max_y": 1.3472739754028238,
+                        "max_y": 1.35,
                         "min_x": 166.399383798021,
-                        "min_y": 0.0139406420694832
+                        "min_y": 0.1
                     }
                 },
                 {
@@ -514,6 +699,8 @@
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
                         "cycle_width": 324,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
                         "max_x": 484.07411290657353,
                         "max_y": 1.1,
                         "min_x": 165.41055837408007,
