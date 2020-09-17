@@ -32,5 +32,9 @@
 /*************************************************************/
 /*      PROTOTYPES                                           */
 /*************************************************************/
+BOOLEAN       dd_mcpwm_set_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e, F32 duty_cycle_f32 );
+F32           dd_mcpwm_get_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e );
+BOOLEAN       dd_mcpwm_set_mode( DD_MCPWM_CHANNEL_NUM channel_e, DD_MCPWM_MODE mode_e );
+DD_MCPWM_MODE dd_mcpwm_get_mode( DD_MCPWM_CHANNEL_NUM channel_e );
 
 #endif /* DD_MCPWM_IF_H */

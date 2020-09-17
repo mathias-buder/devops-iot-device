@@ -38,7 +38,7 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-PRIVATE BOOLEAN dd_mcpwm_update_channel( DD_MCPWM_CHANNEL_NUM channel_e );
+PRIVATE BOOLEAN dd_mcpwm_update_channel( void );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -63,96 +63,17 @@ BOOLEAN dd_mcpwm_init( void )
 
             if ( ESP_OK != error_t )
             {
-                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize timers with global configuration: %s", esp_err_to_name( error_t ) );
+                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Couldn't initialize timers with global configuration: %s", esp_err_to_name( error_t ) );
                 return FALSE;
             }
         }
     }
 
     /* Initialize all PWM channels according to configuration in dd_mcpwm_channel_cfg_vs */
-    for ( idx_u8 = 0U; idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++idx_u8 )
+    if( FALSE == dd_mcpwm_update_channel() )
     {
-        /* Set I/O pin multiplexing to output a PWM signal */
-        error_t = mcpwm_gpio_init( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
-                                   dd_mcpwm_channel_cfg_vs[idx_u8].io_signal_e,
-                                   dd_mcpwm_channel_cfg_vs[idx_u8].io_pin_u8 );
-
-        if ( ESP_OK != error_t )
-        {
-            ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize I/O pin multiplexing: %s", esp_err_to_name( error_t ) );
-            return FALSE;
-        }
-
-        switch ( dd_mcpwm_channel_cfg_vs[idx_u8].mode_e )
-        {
-        case DD_MCPWM_MODE_OFF:
-            /* Set corresponding I/O pin to permanent high-level */
-            error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
-                                            dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
-                                            dd_mcpwm_channel_cfg_vs[idx_u8].operator_e );
-
-            if ( ESP_OK != error_t )
-            {
-                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
-                return FALSE;
-            }
-
-            break;
-
-        case DD_MCPWM_MODE_ON:
-            /* Set corresponding I/O pin to permanent low-level */
-            error_t = mcpwm_set_signal_high( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
-                                             dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
-                                             dd_mcpwm_channel_cfg_vs[idx_u8].operator_e );
-
-            if ( ESP_OK != error_t )
-            {
-                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
-                return FALSE;
-            }
-
-            break;
-
-        case DD_MCPWM_MODE_PWM:
-
-            error_t = mcpwm_set_duty( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
-                                      dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
-                                      dd_mcpwm_channel_cfg_vs[idx_u8].operator_e,
-                                      dd_mcpwm_channel_cfg_vs[idx_u8].duty_cycle_f32 );
-
-            if ( ESP_OK != error_t )
-            {
-                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
-                return FALSE;
-            }
-
-            error_t = mcpwm_set_duty_type( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
-                                           dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
-                                           dd_mcpwm_channel_cfg_vs[idx_u8].operator_e,
-                                           dd_mcpwm_timer_cfg_s.duty_mode );
-
-            if ( ESP_OK != error_t )
-            {
-                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize channel-mode configuration: %s", esp_err_to_name( error_t ) );
-                return FALSE;
-            }
-
-            break;
-
-        default:
-            /* Set corresponding I/O pin to permanent high-level */
-            error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
-                                            dd_mcpwm_channel_cfg_vs[idx_u8].timer_e,
-                                            dd_mcpwm_channel_cfg_vs[idx_u8].operator_e );
-
-            if ( ESP_OK != error_t )
-            {
-                ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't initialize default channel-mode configuration: %s", esp_err_to_name( error_t ) );
-                return FALSE;
-            }
-
-            break;
-        }
+        ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Couldn't initialize PWM channels according to global configuration dd_mcpwm_channel_cfg_vs." );
+        return FALSE;
     }
 
     ESP_LOGI( DD_MCPWM_LOG_MSG_TAG, "Done" );
@@ -160,36 +81,37 @@ BOOLEAN dd_mcpwm_init( void )
     return TRUE;
 }
 
+
 void dd_mcpwm_main( void )
 {
 
-
-
-
-
-
+    /* Continuously update all PWM channels according to global configuration dd_mcpwm_channel_cfg_vs */
+    dd_mcpwm_update_channel();
 
 }
 
-PRIVATE BOOLEAN dd_mcpwm_update_channel( DD_MCPWM_CHANNEL_NUM channel_e )
+
+
+PRIVATE BOOLEAN dd_mcpwm_update_channel( void )
 {
 
+    U8        channel_idx_u8;
     esp_err_t error_t = ESP_OK;
 
-    if ( DD_MCPWM_CHANNEL_SIZE > channel_e )
+    for ( channel_idx_u8 = 0U; channel_idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++channel_idx_u8 )
     {
-            switch ( dd_mcpwm_channel_cfg_vs[channel_e].mode_e )
+            switch ( dd_mcpwm_channel_cfg_vs[channel_idx_u8].mode_e )
             {
 
             case DD_MCPWM_MODE_OFF:
                 /* Set corresponding I/O pin to permanent low-level */
-                error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
-                                                dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
-                                                dd_mcpwm_channel_cfg_vs[channel_e].operator_e );
+                error_t = mcpwm_set_signal_low( dd_mcpwm_channel_cfg_vs[channel_idx_u8].unit_e,
+                                                dd_mcpwm_channel_cfg_vs[channel_idx_u8].timer_e,
+                                                dd_mcpwm_channel_cfg_vs[channel_idx_u8].operator_e );
 
                 if ( ESP_OK != error_t )
                 {
-                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't set channel-mode configuration: %s", esp_err_to_name( error_t ) );
                     return FALSE;
                 }
 
@@ -197,13 +119,13 @@ PRIVATE BOOLEAN dd_mcpwm_update_channel( DD_MCPWM_CHANNEL_NUM channel_e )
 
             case DD_MCPWM_MODE_ON:
                 /* Set corresponding I/O pin to permanent high-level */
-                error_t = mcpwm_set_signal_high( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
-                                                 dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
-                                                 dd_mcpwm_channel_cfg_vs[channel_e].operator_e );
+                error_t = mcpwm_set_signal_high( dd_mcpwm_channel_cfg_vs[channel_idx_u8].unit_e,
+                                                 dd_mcpwm_channel_cfg_vs[channel_idx_u8].timer_e,
+                                                 dd_mcpwm_channel_cfg_vs[channel_idx_u8].operator_e );
 
                 if ( ESP_OK != error_t )
                 {
-                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't set channel-mode configuration: %s", esp_err_to_name( error_t ) );
                     return FALSE;
                 }
 
@@ -211,37 +133,38 @@ PRIVATE BOOLEAN dd_mcpwm_update_channel( DD_MCPWM_CHANNEL_NUM channel_e )
 
             case DD_MCPWM_MODE_PWM:
                 /* Update corresponding PWM settings */
-                error_t = mcpwm_set_duty( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
-                                          dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
-                                          dd_mcpwm_channel_cfg_vs[channel_e].operator_e,
-                                          dd_mcpwm_channel_cfg_vs[channel_e].duty_cycle_f32 );
+                error_t = mcpwm_set_duty( dd_mcpwm_channel_cfg_vs[channel_idx_u8].unit_e,
+                                          dd_mcpwm_channel_cfg_vs[channel_idx_u8].timer_e,
+                                          dd_mcpwm_channel_cfg_vs[channel_idx_u8].operator_e,
+                                          dd_mcpwm_channel_cfg_vs[channel_idx_u8].duty_cycle_f32 );
 
                 if ( ESP_OK != error_t )
                 {
-                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't set channel-mode configuration: %s", esp_err_to_name( error_t ) );
                     return FALSE;
                 }
 
-                error_t = mcpwm_set_duty_type( dd_mcpwm_channel_cfg_vs[channel_e].unit_e,
-                                               dd_mcpwm_channel_cfg_vs[channel_e].timer_e,
-                                               dd_mcpwm_channel_cfg_vs[channel_e].operator_e,
+                error_t = mcpwm_set_duty_type( dd_mcpwm_channel_cfg_vs[channel_idx_u8].unit_e,
+                                               dd_mcpwm_channel_cfg_vs[channel_idx_u8].timer_e,
+                                               dd_mcpwm_channel_cfg_vs[channel_idx_u8].operator_e,
                                                dd_mcpwm_timer_cfg_s.duty_mode );
 
                 if ( ESP_OK != error_t )
                 {
-                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't update channel-mode configuration: %s", esp_err_to_name( error_t ) );
+                    ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Can't set channel-mode configuration: %s", esp_err_to_name( error_t ) );
                     return FALSE;
                 }
 
                 break;
 
             default:
+                /* Should never happen */
+                assert( dd_mcpwm_channel_cfg_vs[channel_idx_u8].mode_e == DD_MCPWM_MODE_OFF );
+                assert( dd_mcpwm_channel_cfg_vs[channel_idx_u8].mode_e == DD_MCPWM_MODE_ON  );
+                assert( dd_mcpwm_channel_cfg_vs[channel_idx_u8].mode_e == DD_MCPWM_MODE_PWM );
+
                 break;
             }
-    }
-    else
-    {
-        assert( DD_MCPWM_CHANNEL_SIZE > channel_e );
     }
 
     return TRUE;

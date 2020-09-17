@@ -34,7 +34,9 @@
 
 #define DD_MCPWM_FREQUANCY                1000.0F               /*!< Hz */
 #define DD_MCPWM_COUNTER_MODE             MCPWM_UP_COUNTER      /*!< Asymmetric MCPWM*/
-#define DD_MCPWM_DUTY_MODE                MCPWM_DUTY_MODE_0     /*!<Active high duty, i.e. duty cycle proportional to high time for asymmetric MCPWM */
+#define DD_MCPWM_DUTY_MODE                MCPWM_DUTY_MODE_0     /*!< Active high duty, i.e. duty cycle proportional to high time for asymmetric MCPWM */
+
+#define DD_MCPWM_MAX_DUTY_CYCLE           100.0F               /*!< Active Maximum allowed duty cycle per channel @unit % */
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
