@@ -8,10 +8,10 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                15,
-                15,
-                14,
-                56
+                27,
+                31,
+                19,
+                23
             ],
             "subWindows": [
                 {
@@ -61,19 +61,11 @@
                             "readAsChar": false,
                             "rules": [
                             ]
-                        }
-                    ],
-                    "locked": false,
-                    "name": "ICM_20600",
-                    "type": "ValueTable"
-                },
-                {
-                    "firstColumnWidth": 164,
-                    "items": [
+                        },
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_filtered_level",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_z",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -82,7 +74,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_y",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -91,7 +83,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_voltage",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_gyro.DD_ICM_20600_raw_gyro_x",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -100,7 +92,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_data",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_z",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -109,24 +101,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_previous_raw_data",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        }
-                    ],
-                    "locked": false,
-                    "name": "DD_ADC",
-                    "type": "ValueTable"
-                },
-                {
-                    "firstColumnWidth": 189,
-                    "items": [
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence_max",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_y",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -135,25 +110,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_beta_adc_level",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
+                            "expression": "BLFLoader.DLG.DD_ICM_20600_raw_accel.DD_ICM_20600_raw_accel_x",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -161,7 +118,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "SENSE_TS",
+                    "name": "DD_ICM_20600",
                     "type": "ValueTable"
                 },
                 {
@@ -268,7 +225,104 @@
                         }
                     ],
                     "locked": false,
-                    "name": "MAX_30102",
+                    "name": "DD_MAX_30102",
+                    "type": "ValueTable"
+                },
+                {
+                    "firstColumnWidth": 164,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_filtered_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_voltage",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_data",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_previous_raw_data",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "DD_ADC",
+                    "type": "ValueTable"
+                },
+                {
+                    "firstColumnWidth": 189,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence_max",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_beta_adc_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "SENSE_TS",
                     "type": "ValueTable"
                 }
             ]
@@ -276,11 +330,11 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                18,
-                18,
-                23,
+                16,
+                16,
+                30,
                 21,
-                20
+                17
             ],
             "subWindows": [
                 {
@@ -331,7 +385,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "ICM-20600 Temperature",
+                    "name": "DD_ICM-20600 Temperature",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
@@ -394,24 +448,27 @@
                         }
                     ],
                     "locked": false,
-                    "name": "MAX_30102 IR/RED",
+                    "name": "DD_MAX_30102 IR/RED",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
                         "auto_adjust_y": true,
                         "background_color": "#ffffffff",
-                        "cycle_width": 100,
+                        "cycle_width": 303,
                         "decimals_x": 2,
                         "decimals_y": 2,
-                        "max_x": 100,
+                        "max_x": 304.1865509761388,
                         "max_y": 1000,
-                        "min_x": 0,
+                        "min_x": 1.1865509761388182,
                         "min_y": -1000
                     }
                 },
                 {
-                    "alignment": "tabbed",
-                    "currentTab": 1,
+                    "alignment": "horizontal",
+                    "subWindowSizes": [
+                        49,
+                        51
+                    ],
                     "subWindows": [
                         {
                             "TimePlotPlugin_X_Appearance_configuration": {
@@ -471,18 +528,18 @@
                                 }
                             ],
                             "locked": false,
-                            "name": "ICM-20600 Gyro",
+                            "name": "DD_ICM-20600 Gyro",
                             "type": "TimePlot",
                             "viewport": {
                                 "auto_adjust_x": true,
                                 "auto_adjust_y": true,
                                 "background_color": "#ffffffff",
-                                "cycle_width": 289,
+                                "cycle_width": 250,
                                 "decimals_x": 2,
                                 "decimals_y": 2,
-                                "max_x": 441.19553514351173,
+                                "max_x": 377.6659528907923,
                                 "max_y": 13649.861901434231,
-                                "min_x": 150.19970118351176,
+                                "min_x": 241.66595289079228,
                                 "min_y": -4350.138098565776
                             }
                         },
@@ -544,7 +601,7 @@
                                 }
                             ],
                             "locked": false,
-                            "name": "ICM-20600 Accel",
+                            "name": "DD_ICM-20600 Accel",
                             "type": "TimePlot",
                             "viewport": {
                                 "auto_adjust_x": true,
@@ -619,19 +676,19 @@
                         }
                     ],
                     "locked": false,
-                    "name": "ADC",
+                    "name": "DD_ADC",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
-                        "cycle_width": 275,
+                        "cycle_width": 568,
                         "decimals_x": 2,
                         "decimals_y": 2,
                         "max_x": 448.6508472718594,
-                        "max_y": 1.35,
+                        "max_y": 1.1700757575757577,
                         "min_x": 166.399383798021,
-                        "min_y": 0.1
+                        "min_y": -0.07992424242424234
                     }
                 },
                 {
@@ -698,12 +755,12 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
-                        "cycle_width": 324,
+                        "cycle_width": 547,
                         "decimals_x": 2,
                         "decimals_y": 2,
-                        "max_x": 484.07411290657353,
+                        "max_x": 533.0539906103287,
                         "max_y": 1.1,
-                        "min_x": 165.41055837408007,
+                        "min_x": -13.94600938967136,
                         "min_y": -0.1
                     }
                 }
