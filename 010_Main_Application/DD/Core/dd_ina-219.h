@@ -28,16 +28,16 @@
 /*************************************************************/
 
 /* Configuration Registers */
-#define DD_INA_219_CONFIG                       0x00 /**< All-register reset, settings for bus voltage range, PGA Gain, ADC resolution/averaging (16 bit)*/
+#define DD_INA_219_CONFIG                       0x00   /**< All-register reset, settings for bus voltage range, PGA Gain, ADC resolution/averaging (16 bit)*/
 
 /* Data Output Registers */
-#define DD_INA_219_SHUNT_VOLTAGE_DATA           0x01 /**< Shunt voltage measurement data */
-#define DD_INA_219_BUS_VOLTAGE_DATA             0x02 /**< Bus voltage measurement data */
-#define DD_INA_219_POWER_DATA                   0x03 /**< Power measurement data */
-#define DD_INA_219_CURRENT_DATA                 0x04 /**< Contains the value of the current flowing through the shunt resistor */
+#define DD_INA_219_SHUNT_VOLTAGE_DATA           0x01   /**< Shunt voltage measurement data */
+#define DD_INA_219_BUS_VOLTAGE_DATA             0x02   /**< Bus voltage measurement data */
+#define DD_INA_219_POWER_DATA                   0x03   /**< Power measurement data */
+#define DD_INA_219_CURRENT_DATA                 0x04   /**< Contains the value of the current flowing through the shunt resistor */
 
 /* Calibration Register */
-#define DD_INA_219_CALIB_DATA                   0x05 /**< Sets full-scale range and LSB of current and power measurements. Overall system calibration.*/
+#define DD_INA_219_CALIB_DATA                   0x05   /**< Sets full-scale range and LSB of current and power measurements. Overall system calibration.*/
 
 
 /* RST: System reset Flag

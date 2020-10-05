@@ -37,7 +37,7 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-
+PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( U16* const p_value_u16 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -88,3 +88,21 @@ void dd_ina_219_main( void )
 }
 
 
+
+PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( U16* const p_value_u16 )
+{
+    if ( NULL != p_value_u16 )
+    {
+        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_BUS_VOLTAGE_DATA, (U8*) p_value_u16, sizeof( U16 ) ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_value_u16 );
+        return FALSE;
+    }
+
+    return TRUE;
+}
