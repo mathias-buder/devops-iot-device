@@ -26,6 +26,7 @@
 #include "Core/dd_mcpwm.h"
 #include "Core/dd_icm-20600.h"
 #include "Core/dd_max-30102.h"
+#include "Core/dd_ina-219.h"
 #include "Core/dd_sd.h"
 #include "esp_log.h"
 
@@ -52,12 +53,14 @@ void dd_init( void )
     dd_mcpwm_init();     /* Initialize MCPWM basic device driver */
     dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
     dd_max_30102_init(); /* Initialize MAX-30102 HR+SpO2 subsystem */
+    dd_ina_219_init();   /* Initialize INA-219 Current/Voltage/Power measuring subsystem */
 }
 
 void dd_main( void )
 {
-    dd_adc_main();
-    dd_mcpwm_main();
-    dd_icm_20600_main();
-    dd_max_30102_main();
+    dd_adc_main();       /* Schedule ADC basic device driver */
+    dd_mcpwm_main();     /* Schedule MCPWM basic device driver */
+    dd_icm_20600_main(); /* Schedule ICM-2600 motion subsystem */
+    dd_max_30102_main(); /* Schedule MAX-30102 HR+SpO2 subsystem */
+    dd_ina_219_main();   /* Schedule INA-219 Current/Voltage/Power measuring subsystem */
 }
