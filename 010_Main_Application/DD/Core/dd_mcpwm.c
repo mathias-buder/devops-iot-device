@@ -54,6 +54,20 @@ BOOLEAN dd_mcpwm_init( void )
     /* Assign pointer to global channel configuration */
     dd_mcpwm_data_s.p_channel_s = &dd_mcpwm_channel_cfg_vs[0U];
 
+    /* Initialize all GPIOs to be multiplexed to the corresponding PWM channel */
+    for ( idx_u8 = 0U; idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++idx_u8 )
+    {
+        error_t = mcpwm_gpio_init( dd_mcpwm_channel_cfg_vs[idx_u8].unit_e,
+                                   dd_mcpwm_channel_cfg_vs[idx_u8].operator_e,
+                                   dd_mcpwm_channel_cfg_vs[idx_u8].io_pin_e );
+
+        if ( ESP_OK != error_t )
+        {
+            ESP_LOGE( DD_MCPWM_LOG_MSG_TAG, "Couldn't initialize all GPIOs to be multiplexed to the corresponding PWM channel: %s", esp_err_to_name( error_t ) );
+            return FALSE;
+        }
+    }
+
     /* Initialize all timers with global configuration dd_mcpwm_timer_cfg_s */
     for ( idx_u8 = 0U; idx_u8 < MCPWM_UNIT_MAX; ++idx_u8 )
     {
