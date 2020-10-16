@@ -32,7 +32,7 @@
 /* Log message TAG string */
 #define DD_MCPWM_LOG_MSG_TAG              "DD_MCPWM"
 
-#define DD_MCPWM_FREQUANCY                1000.0F               /*!< Hz */
+#define DD_MCPWM_FREQUANCY                1000U                 /*!< Hz */
 #define DD_MCPWM_COUNTER_MODE             MCPWM_UP_COUNTER      /*!< Asymmetric MCPWM*/
 #define DD_MCPWM_DUTY_MODE                MCPWM_DUTY_MODE_0     /*!< Active high duty, i.e. duty cycle proportional to high time for asymmetric MCPWM */
 
