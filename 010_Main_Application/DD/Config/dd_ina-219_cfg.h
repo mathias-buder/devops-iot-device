@@ -31,7 +31,7 @@
 /* Log message TAG string */
 #define DD_INA_219_LOG_MSG_TAG           "DD_INA_219"
 
-#define DD_INA_219_I2C_ADDR               0x45 /* Write Address, A0 = A1 = VDD */
+#define DD_INA_219_I2C_ADDR               0x40 /* Write Address, A0 = A1 = VDD */
 
 
 /*************************************************************/
