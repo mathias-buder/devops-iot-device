@@ -34,5 +34,6 @@ extern DD_MCPWM_DATA     dd_mcpwm_data_s;
 extern DD_I2C_ERROR_DATA dd_i2c_error_s;
 extern DD_ICM_20600_DATA dd_icm_20600_data_s;
 extern DD_MAX_30102_DATA dd_max_30102_data_s;
+extern DD_INA_219_DATA   dd_ina_219_data_s;
 
 #endif /* DD_DATABASE_H */

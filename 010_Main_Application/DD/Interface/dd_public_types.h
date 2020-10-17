@@ -475,4 +475,24 @@ typedef struct DD_MCPWM_DATA_TAG
     DD_MCPWM_CHANNEL* p_channel_s; /**< @details Pointer to array containing all PWM channels */
 } DD_MCPWM_DATA;
 
+
+/*************************************************************/
+/*                        DD_INA_219                         */
+/*************************************************************/
+
+/**
+ * @brief   INA-219 Output Interface Data Structure
+ * @details INA-219 Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_INA_219_DATA_TAG
+{
+    U16 shunt_voltage_raw_u16; /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    U16 bus_voltage_raw_u16;   /**< @details Raw most recent bus voltage ADC reading */
+    U16 power_raw_u16;         /**< @details Records power in watts by multiplying the value of the current with the
+                                             value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
+    U16 current_raw_u16;       /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
+                                             with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
+} DD_INA_219_DATA;
+
 #endif /* DD_PUBLIC_TYPES_H */

@@ -37,7 +37,10 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
+PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( U16* const p_value_u16 );
 PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( U16* const p_value_u16 );
+PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 );
+PRIVATE BOOLEAN dd_ina_219_get_current_raw( U16* const p_value_u16 );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -66,27 +69,35 @@ BOOLEAN dd_ina_219_init( void )
 
 void dd_ina_219_main( void )
 {
-//    /* Clear data from previous cycle */
-//    memset( &dd_max_30102_data_s.temperature_raw_vu8[0U], 0U, sizeof( dd_max_30102_data_s.temperature_raw_vu8 ) );
-//    dd_max_30102_data_s.temperature_f32  = 0.0F;
-//    dd_max_30102_data_s.red_data_raw_u32 = 0U;
-//    dd_max_30102_data_s.ir_data_raw_u32  = 0U;
-//
-//    /* Read device temperature */
-//    dd_max_30102_get_temperature( &dd_max_30102_data_s );
-//
-//    /* Read all interrupt flags */
-//    dd_max_30102_get_int_status( dd_max_30102_data_s.int_status_vb );
-//
-//    /* Read new data from FIFO */
-//    dd_max_30102_get_fifo_data( &dd_max_30102_data_s );
-//
-//    ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "Part-Id: %i @ Rev: %i, Temp: %0.4f, Prox-Int: %i", dd_max_30102_data_s.part_id_u8,
-//                                                                                            dd_max_30102_data_s.rev_id_u8,
-//                                                                                            dd_max_30102_data_s.temperature_f32,
-//                                                                                            dd_max_30102_data_s.int_status_vb[DD_MAX_30102_INT_TYPE_PROX_INT] );
+    /* Read raw ADC measurements */
+    dd_ina_219_get_shunt_voltage_raw( &dd_ina_219_data_s.shunt_voltage_raw_u16 );
+    dd_ina_219_get_bus_voltage_raw( &dd_ina_219_data_s.bus_voltage_raw_u16 );
+    dd_ina_219_get_power_raw( &dd_ina_219_data_s.power_raw_u16 );
+    dd_ina_219_get_current_raw( &dd_ina_219_data_s.current_raw_u16 );
+
+    ESP_LOGD( DD_INA_219_LOG_MSG_TAG, "Raw ShuntV %i, Raw BusV %i, Raw Power %i, Raw Current %i", dd_ina_219_data_s.shunt_voltage_raw_u16,
+                                                                                                  dd_ina_219_data_s.bus_voltage_raw_u16,
+                                                                                                  dd_ina_219_data_s.power_raw_u16,
+                                                                                                  dd_ina_219_data_s.current_raw_u16 );
 }
 
+PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( U16* const p_value_u16 )
+{
+    if ( NULL != p_value_u16 )
+    {
+        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_SHUNT_VOLTAGE_DATA, (U8*) p_value_u16, sizeof( U16 ) ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_value_u16 );
+        return FALSE;
+    }
+
+    return TRUE;
+}
 
 
 PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( U16* const p_value_u16 )
@@ -94,6 +105,44 @@ PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( U16* const p_value_u16 )
     if ( NULL != p_value_u16 )
     {
         if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_BUS_VOLTAGE_DATA, (U8*) p_value_u16, sizeof( U16 ) ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_value_u16 );
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+
+PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 )
+{
+    if ( NULL != p_value_u16 )
+    {
+        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_POWER_DATA, (U8*) p_value_u16, sizeof( U16 ) ) )
+        {
+            return FALSE;
+        }
+    }
+    else
+    {
+        assert( NULL != p_value_u16 );
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+
+PRIVATE BOOLEAN dd_ina_219_get_current_raw( U16* const p_value_u16 )
+{
+    if ( NULL != p_value_u16 )
+    {
+        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CURRENT_DATA, (U8*) p_value_u16, sizeof( U16 ) ) )
         {
             return FALSE;
         }
