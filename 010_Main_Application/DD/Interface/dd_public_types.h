@@ -493,6 +493,10 @@ typedef struct DD_INA_219_DATA_TAG
                                              value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
     U16 current_raw_u16;       /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
                                              with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
+    F32 shunt_voltage_mV_f32;  /**< @details Voltage across the shunt resistor in mV */
+    F32 bus_voltage_mV_f32;    /**< @details Bus voltage @unit mV */
+    F32 power_mW_f32;          /**< @details Power @unit mW */
+    F32 current_mA_f32;        /**< @details Current @unit mA */
 } DD_INA_219_DATA;
 
 #endif /* DD_PUBLIC_TYPES_H */

@@ -39,7 +39,6 @@
 /* Calibration Register */
 #define DD_INA_219_CALIB_DATA                   0x05   /**< Sets full-scale range and LSB of current and power measurements. Overall system calibration.*/
 
-
 /* RST: System reset Flag
  * setting this bit to '1' generates a system reset that is
  * the same as power-on reset. Resets all registers to default

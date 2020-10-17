@@ -8,14 +8,12 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file dd_ina-219_Cfg.h
+        @details Some detailed description
+
         (c) SEWELA 2020
 
 *********************************************************************/
-
-/**
- * @file dd_ina-219_Cfg.h
- * @details Some detailed description
- */
 
 #ifndef DD_INA_219_CFG_H
 #define DD_INA_219_CFG_H
@@ -29,9 +27,10 @@
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 /* Log message TAG string */
-#define DD_INA_219_LOG_MSG_TAG           "DD_INA_219"
+#define DD_INA_219_LOG_MSG_TAG                  "DD_INA_219"
 
-#define DD_INA_219_I2C_ADDR               0x40 /* Write Address, A0 = A1 = VDD */
+#define DD_INA_219_I2C_ADDR                     0x40        /**< I2C write address, A0 = A1 = VDD */
+#define DD_INA_219_SHUNT_RESISTOR_VALUE_OHM     ( 0.1F )    /**< Shunt resistor value @unit Ohm */
 
 
 /*************************************************************/
