@@ -179,14 +179,6 @@ PRIVATE BOOLEAN dd_mcpwm_update_channel( void )
 
                 break;
             }
-
-            ESP_LOGD( DD_MCPWM_LOG_MSG_TAG, "Channel %i: mode: %i, unit %i, timer %i, operator %i, duty cycle: %0.2f, duty mode: %i", channel_idx_u8 + 1U,
-                                                                                                                                      dd_mcpwm_channel_cfg_vs[channel_idx_u8].mode_e,
-                                                                                                                                      dd_mcpwm_channel_cfg_vs[channel_idx_u8].unit_e,
-                                                                                                                                      dd_mcpwm_channel_cfg_vs[channel_idx_u8].timer_e,
-                                                                                                                                      dd_mcpwm_channel_cfg_vs[channel_idx_u8].operator_e,
-                                                                                                                                      dd_mcpwm_channel_cfg_vs[channel_idx_u8].duty_cycle_f32,
-                                                                                                                                      dd_mcpwm_timer_cfg_s.duty_mode );
     }
 
     return TRUE;
