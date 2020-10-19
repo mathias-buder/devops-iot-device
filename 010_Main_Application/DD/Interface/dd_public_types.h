@@ -481,22 +481,46 @@ typedef struct DD_MCPWM_DATA_TAG
 /*************************************************************/
 
 /**
+ * @details Full-scale current sense (input) voltage range
+ */
+typedef enum DD_INA_219_SHUNT_VOL_RANGE_TAG
+{
+    DD_INA_219_SHUNT_VOL_RANGE_40MV = 0U, /**< @details FS range: +/- 40 mV  @ PGA = / 1 */
+    DD_INA_219_SHUNT_VOL_RANGE_80MV,      /**< @details FS range: +/- 80 mV  @ PGA = / 2 */
+    DD_INA_219_SHUNT_VOL_RANGE_160MV,     /**< @details FS range: +/- 160 mV @ PGA = / 4 */
+    DD_INA_219_SHUNT_VOL_RANGE_320MV,     /**< @details FS range: +/- 320 mV @ PGA = / 8 */
+    DD_INA_219_SHUNT_VOL_RANGE_SIZE
+} DD_INA_219_SHUNT_VOL_RANGE;
+
+/**
+ * @details Bus voltage (input voltage) range
+ */
+typedef enum DD_INA_219_BUS_VOL_RANGE_TAG
+{
+    DD_INA_219_BUS_VOL_RANGE_16V = 0U, /**< @details 16V Bus voltage range */
+    DD_INA_219_BUS_VOL_RANGE_32V,      /**< @details 32V Bus voltage range */
+    DD_INA_219_BUS_VOL_RANGE_SIZE
+} DD_INA_219_BUS_VOL_RANGE;
+
+/**
  * @brief   INA-219 Output Interface Data Structure
  * @details INA-219 Output Interface Data Structure ...
  * @ingroup DriverStructures
  */
 typedef struct DD_INA_219_DATA_TAG
 {
-    U16 shunt_voltage_raw_u16; /**< @details Raw ADC reading representing the voltage across the shunt resistor */
-    U16 bus_voltage_raw_u16;   /**< @details Raw most recent bus voltage ADC reading */
-    U16 power_raw_u16;         /**< @details Records power in watts by multiplying the value of the current with the
-                                             value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
-    U16 current_raw_u16;       /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
-                                             with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
-    F32 shunt_voltage_mV_f32;  /**< @details Voltage across the shunt resistor in mV */
-    F32 bus_voltage_mV_f32;    /**< @details Bus voltage @unit mV */
-    F32 power_mW_f32;          /**< @details Power @unit mW */
-    F32 current_mA_f32;        /**< @details Current @unit mA */
+    DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e; /**< @details Current full-scale current sense (input) voltage range */
+    DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e;   /**< @details Current bus voltage (input voltage) range */
+    U16                        shunt_voltage_raw_u16; /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    U16                        bus_voltage_raw_u16;   /**< @details Raw most recent bus voltage ADC reading */
+    U16                        power_raw_u16;         /**< @details Records power in watts by multiplying the value of the current with the
+                                                                    value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
+    U16                        current_raw_u16;       /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
+                                                                    with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
+    F32                        shunt_voltage_mV_f32;  /**< @details Voltage across the shunt resistor @unit mV */
+    F32                        bus_voltage_mV_f32;    /**< @details Bus voltage @unit mV */
+    F32                        power_mW_f32;          /**< @details Power @unit mW */
+    F32                        current_mA_f32;        /**< @details Current @unit mA */
 } DD_INA_219_DATA;
 
 #endif /* DD_PUBLIC_TYPES_H */

@@ -58,10 +58,10 @@
  * Table 4 (datasheet pg. 19) shows the gain and range for the various
  * product gain settings. */
 #define DD_INA_219_PG_MASK                      0xE7FF /**< (word) ~0b 00110000 00000000 */
-#define DD_INA_219_PG_GAIN_1_40MV               0x0000 /**< Range: +/- 40 mV */
-#define DD_INA_219_PG_GAIN_1_2_80MV             0x0800 /**< Range: +/- 80 mV */
-#define DD_INA_219_PG_GAIN_1_4_160MV            0x1000 /**< Range: +/- 160 mV */
-#define DD_INA_219_PG_GAIN_1_8_320MV            0x1800 /**< Range: +/- 320 mV, default */
+#define DD_INA_219_PG_GAIN_1_40MV               0x0000 /**< Full-scale current sense (input) voltage range: +/- 40 mV */
+#define DD_INA_219_PG_GAIN_1_2_80MV             0x0800 /**< Full-scale current sense (input) voltage range: +/- 80 mV */
+#define DD_INA_219_PG_GAIN_1_4_160MV            0x1000 /**< Full-scale current sense (input) voltage range: +/- 160 mV */
+#define DD_INA_219_PG_GAIN_1_8_320MV            0x1800 /**< Full-scale current sense (input) voltage range: +/- 320 mV, default */
 
 /* BADC: BADC Bus ADC Resolution/Averaging
  * These bits adjust the Bus ADC resolution (9-, 10-, 11-, or 12-bit)
@@ -102,14 +102,16 @@
  * These bits default to continuous shunt and bus measurement mode.
  * The mode settings are shown in Table 6. (datasheet pg. 20) */
 #define DD_INA_219_MODE_MASK                    0xFFF8 /**< (word) ~0b 00000000 00000111 */
-#define DD_INA_219_MODE_POWER_DOWN              0x0001
-#define DD_INA_219_MODE_SHUNT_VOLT_TRG          0x0002 /**< Shunt voltage, triggered */
-#define DD_INA_219_MODE_BUS_VOLT_TRG            0x0003 /**< Bus voltage, triggered */
-#define DD_INA_219_MODE_SHUNT_BUS_VOLT_TRG      0x0004 /**< Shunt and bus, triggered */
-#define DD_INA_219_MODE_ADC_OFF                 0x0005 /**< ADC off (disabled) */
-#define DD_INA_219_MODE_BUS_VOLT_CONT           0x0006 /**< Shunt voltage, continuous*/
-#define DD_INA_219_MODE_SHUNT_VOLT_CONT         0x0007 /**< Bus voltage, continuous */
-#define DD_INA_219_MODE_SHUNT_BUS_VOLT_CONT     0x0008 /**< Shunt and bus, continuous, default */
+#define DD_INA_219_MODE_POWER_DOWN              0x0000
+#define DD_INA_219_MODE_SHUNT_VOLT_TRG          0x0001 /**< Shunt voltage, triggered */
+#define DD_INA_219_MODE_BUS_VOLT_TRG            0x0002 /**< Bus voltage, triggered */
+#define DD_INA_219_MODE_SHUNT_BUS_VOLT_TRG      0x0003 /**< Shunt and bus, triggered */
+#define DD_INA_219_MODE_ADC_OFF                 0x0004 /**< ADC off (disabled) */
+#define DD_INA_219_MODE_BUS_VOLT_CONT           0x0005 /**< Shunt voltage, continuous*/
+#define DD_INA_219_MODE_SHUNT_VOLT_CONT         0x0006 /**< Bus voltage, continuous */
+#define DD_INA_219_MODE_SHUNT_BUS_VOLT_CONT     0x0007 /**< Shunt and bus, continuous, default */
+
+/* */
 
 
 /*************************************************************/
