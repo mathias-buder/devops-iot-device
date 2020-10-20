@@ -41,7 +41,7 @@ PRIVATE U32 file_count_u32 = 1U;
 PRIVATE U32 data_chunk_cnt_u32;
 
 #ifdef DLG_LOG_TEST_ENABLE
-PRIVATE U8  log_test_mode_cnt_u8;
+PRIVATE U32  log_test_mode_cnt_u32;
 #endif
 
 /*********************************************************************/
@@ -51,6 +51,7 @@ PRIVATE void    dlg_log_create_dd_i2c_data_frame( void );
 PRIVATE void    dlg_log_create_dd_adc_data_frame( void );
 PRIVATE void    dlg_log_create_dd_icm_20600_data_frame( void );
 PRIVATE void    dlg_log_create_dd_max_30102_data_frame( void );
+PRIVATE void    dlg_log_create_dd_ina_219_data_frame( void );
 PRIVATE void    dlg_log_create_sense_ts_data_frame( void );
 PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 );
 /*********************************************************************/
@@ -110,6 +111,7 @@ void dlg_log_main( void )
         dlg_log_create_dd_adc_data_frame();
         dlg_log_create_dd_icm_20600_data_frame();
         dlg_log_create_dd_max_30102_data_frame();
+        dlg_log_create_dd_ina_219_data_frame();
         dlg_log_create_sense_ts_data_frame();
 
         /* Acquire current time stamp */
@@ -132,7 +134,7 @@ void dlg_log_main( void )
         ++data_chunk_cnt_u32;
 
 #ifdef DLG_LOG_TEST_ENABLE
-        ++log_test_mode_cnt_u8;
+        ++log_test_mode_cnt_u32;
 #endif
 
     }
@@ -173,11 +175,11 @@ PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 )
 PRIVATE void dlg_log_create_dd_i2c_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
-    dlg_log_database_s.dd_i2c_is_error_present_u8 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_i2c_error_code_s16      = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_i2c_access_type_u8      = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_i2c_device_addr_u8      = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_i2c_register_addr_u8    = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_i2c_is_error_present_u8 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_i2c_error_code_s16      = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_i2c_access_type_u8      = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_i2c_device_addr_u8      = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_i2c_register_addr_u8    = log_test_mode_cnt_u32;
 #else
     dlg_log_database_s.dd_i2c_is_error_present_u8   = (U8) p_dlg_dd_i2c_error_data_s->is_error_present_b;
     dlg_log_database_s.dd_i2c_error_code_s16        = (S16) p_dlg_dd_i2c_error_data_s->error_info_vs[0U].error_e;
@@ -190,11 +192,11 @@ PRIVATE void dlg_log_create_dd_i2c_data_frame( void )
 PRIVATE void dlg_log_create_dd_adc_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
-    dlg_log_database_s.dd_adc_raw_data_u16          = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_adc_previous_raw_data_u16 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_adc_voltage_u16           = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_adc_raw_level_f32         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_adc_filtered_level_f32    = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_adc_raw_data_u16          = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_adc_previous_raw_data_u16 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_adc_voltage_u16           = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_adc_raw_level_f32         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_adc_filtered_level_f32    = log_test_mode_cnt_u32;
 #else
     dlg_log_database_s.dd_adc_raw_data_u16          = p_dlg_dd_adc_data_s->raw_sample_u16;
     dlg_log_database_s.dd_adc_previous_raw_data_u16 = p_dlg_dd_adc_data_s->previous_raw_sample_u16;
@@ -208,48 +210,48 @@ PRIVATE void dlg_log_create_dd_icm_20600_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
     /* DD_ICM_20600_raw_accel ( 0x14 )*/
-    dlg_log_database_s.dd_icm_20600_accel_raw_data_x_s16    = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_accel_raw_data_y_s16    = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_accel_raw_data_z_s16    = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_accel_raw_data_x_s16    = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_accel_raw_data_y_s16    = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_accel_raw_data_z_s16    = log_test_mode_cnt_u32;
 
     /* DD_ICM_20600_raw_gyro ( 0x15 ) */
-    dlg_log_database_s.dd_icm_20600_gyro_raw_data_x_s16     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_gyro_raw_data_y_s16     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_gyro_raw_data_z_s16     = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_gyro_raw_data_x_s16     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_gyro_raw_data_y_s16     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_gyro_raw_data_z_s16     = log_test_mode_cnt_u32;
 
     /* DD_ICM_20600_temperature ( 0x16 )*/
-    dlg_log_database_s.dd_icm_20600_temperature_raw_u16     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_temperature_deg_f32     = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_temperature_raw_u16     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_temperature_deg_f32     = log_test_mode_cnt_u32;
 
     /* DD_ICM_20600_selt_test ( 0x17 )*/
-    dlg_log_database_s.dd_icm_20600_self_test_xa_u8         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_self_test_ya_u8         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_self_test_za_u8         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_self_test_xg_u8         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_self_test_yg_u8         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_self_test_zg_u8         = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_self_test_xa_u8         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_self_test_ya_u8         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_self_test_za_u8         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_self_test_xg_u8         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_self_test_yg_u8         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_self_test_zg_u8         = log_test_mode_cnt_u32;
 
     /* DD_ICM_20600_factory_trim ( 0x18 )*/
-    dlg_log_database_s.dd_icm_20600_factory_trim_xa_f32     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_ya_f32     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_za_f32     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_xg_f32     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_yg_f32     = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_zg_f32     = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_factory_trim_xa_f32     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_ya_f32     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_za_f32     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_xg_f32     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_yg_f32     = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_zg_f32     = log_test_mode_cnt_u32;
 
     /* DD_ICM_20600_factory_trim_dev ( 0x19 )*/
-    dlg_log_database_s.dd_icm_20600_factory_trim_dev_xa_f32 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_dev_ya_f32 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_dev_za_f32 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_dev_xg_f32 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_dev_yg_f32 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_factory_trim_dev_zg_f32 = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_factory_trim_dev_xa_f32 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_dev_ya_f32 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_dev_za_f32 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_dev_xg_f32 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_dev_yg_f32 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_factory_trim_dev_zg_f32 = log_test_mode_cnt_u32;
 
     /* DD_ICM_20600_general ( 0x1A) */
-    dlg_log_database_s.dd_icm_20600_chip_id_u8              = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_dev_state_u8            = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_is_calibrated_u8        = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_icm_20600_self_test_passed_u8     = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_icm_20600_chip_id_u8              = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_dev_state_u8            = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_is_calibrated_u8        = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_icm_20600_self_test_passed_u8     = log_test_mode_cnt_u32;
 #else
     /* DD_ICM_20600_raw_accel ( 0x14 )*/
     dlg_log_database_s.dd_icm_20600_accel_raw_data_x_s16    = p_dlg_dd_icm_20600_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X];
@@ -301,17 +303,17 @@ PRIVATE void dlg_log_create_dd_icm_20600_data_frame( void )
 PRIVATE void dlg_log_create_dd_max_30102_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
-    dlg_log_database_s.dd_max_30102_int_status_u8           = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_part_id_u8              = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_rev_id_u8               = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_read_ptr_u8             = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_write_ptr_u8            = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_red_data_raw_u32        = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_ir_data_raw_u32         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_temperature_raw_int_u8  = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_temperature_raw_frac_u8 = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_temperature_f32         = log_test_mode_cnt_u8;
-    dlg_log_database_s.dd_max_30102_mode_u8                 = log_test_mode_cnt_u8;
+    dlg_log_database_s.dd_max_30102_int_status_u8           = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_part_id_u8              = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_rev_id_u8               = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_read_ptr_u8             = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_write_ptr_u8            = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_red_data_raw_u32        = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_ir_data_raw_u32         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_temperature_raw_int_u8  = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_temperature_raw_frac_u8 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_temperature_f32         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_max_30102_mode_u8                 = log_test_mode_cnt_u32;
 #else
     // dlg_log_database_s.dd_max_30102_int_status_u8           = p_dlg_max_30102_data_s->int_status_vb[];
     dlg_log_database_s.dd_max_30102_part_id_u8              = p_dlg_dd_max_30102_data_s->part_id_u8;
@@ -327,13 +329,42 @@ PRIVATE void dlg_log_create_dd_max_30102_data_frame( void )
 #endif
 }
 
+
+PRIVATE void dlg_log_create_dd_ina_219_data_frame( void )
+{
+#ifdef DLG_LOG_TEST_ENABLE
+    dlg_log_database_s.dd_ina_219_shunt_voltage_mV_f32   = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_bus_voltage_V_f32      = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_power_mW_f32           = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_current_mA_f32         = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_shunt_voltage_raw_u16  = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_power_raw_u16          = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_current_raw_u16        = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_bus_voltage_raw_u16    = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_shunt_voltage_range_u8 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_ina_219_bus_voltage_range_u8   = log_test_mode_cnt_u32;
+#else
+    dlg_log_database_s.dd_ina_219_shunt_voltage_mV_f32   = p_dlg_dd_ina_219_data_s->shunt_voltage_mV_f32;
+    dlg_log_database_s.dd_ina_219_bus_voltage_V_f32      = p_dlg_dd_ina_219_data_s->bus_voltage_V_f32;
+    dlg_log_database_s.dd_ina_219_power_mW_f32           = p_dlg_dd_ina_219_data_s->power_mW_f32;
+    dlg_log_database_s.dd_ina_219_current_mA_f32         = p_dlg_dd_ina_219_data_s->current_mA_f32;
+    dlg_log_database_s.dd_ina_219_shunt_voltage_raw_u16  = p_dlg_dd_ina_219_data_s->shunt_voltage_raw_u16;
+    dlg_log_database_s.dd_ina_219_power_raw_u16          = p_dlg_dd_ina_219_data_s->power_raw_u16;
+    dlg_log_database_s.dd_ina_219_current_raw_u16        = p_dlg_dd_ina_219_data_s->current_raw_u16;
+    dlg_log_database_s.dd_ina_219_bus_voltage_raw_u16    = p_dlg_dd_ina_219_data_s->bus_voltage_raw_s.bus_voltage_raw_u16;
+    dlg_log_database_s.dd_ina_219_shunt_voltage_range_u8 = (U8) p_dlg_dd_ina_219_data_s->shunt_voltage_range_e;
+    dlg_log_database_s.dd_ina_219_bus_voltage_range_u8   = (U8) p_dlg_dd_ina_219_data_s->bus_voltage_range_e;
+#endif
+}
+
+
 PRIVATE void dlg_log_create_sense_ts_data_frame( void )
 {
 #ifdef DLG_LOG_TEST_ENABLE
-    dlg_log_database_s.sense_ts_alpha_filtered_adc_level_f32      = log_test_mode_cnt_u8;
-    dlg_log_database_s.sense_ts_alpha_beta_filtered_adc_level_f32 = log_test_mode_cnt_u8;
-    dlg_log_database_s.sense_ts_touch_confidence_f32              = log_test_mode_cnt_u8;
-    dlg_log_database_s.sense_ts_touch_confidence_max_f32          = log_test_mode_cnt_u8;
+    dlg_log_database_s.sense_ts_alpha_filtered_adc_level_f32      = log_test_mode_cnt_u32;
+    dlg_log_database_s.sense_ts_alpha_beta_filtered_adc_level_f32 = log_test_mode_cnt_u32;
+    dlg_log_database_s.sense_ts_touch_confidence_f32              = log_test_mode_cnt_u32;
+    dlg_log_database_s.sense_ts_touch_confidence_max_f32          = log_test_mode_cnt_u32;
 #else
     dlg_log_database_s.sense_ts_alpha_filtered_adc_level_f32      = p_dlg_sense_ts_data_s->alpha_filtered_adc_level_f32;
     dlg_log_database_s.sense_ts_alpha_beta_filtered_adc_level_f32 = p_dlg_sense_ts_data_s->alpha_beta_filtered_adc_level_f32;

@@ -18,6 +18,10 @@ DLG_ICM_20600_FACTORY_GYRO_TRIM_ID      = 0x1A # 26
 DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV_ID  = 0x1B # 27
 DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV_ID  = 0x1C # 28
 
+# INA-219
+DD_INA_219_DATA_A                        = 0x1E # 30
+DD_INA_219_DATA_B                        = 0x1F # 31
+
 # MAX-30102
 DLG_MAX_30102_GENERAL_ID                = 0x3C # 60
 DLG_MAX_30102_DATA_ID                   = 0x3D # 61
@@ -82,7 +86,7 @@ writer.channel = 1
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 21f 2I 4H 7h 23B 3x'
+dlg_log_data_fmt = '< 25f 2I 8H 7h 25B x'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
@@ -118,6 +122,10 @@ for sfb_file in files:
             sense_ts_alpha_beta_filtered_adc_level_f32,
             sense_ts_touch_confidence_f32,
             sense_ts_touch_confidence_max_f32,
+            dd_ina_219_shunt_voltage_mV_f32,
+            dd_ina_219_bus_voltage_V_f32,
+            dd_ina_219_power_mW_f32,
+            dd_ina_219_current_mA_f32,
 
             max_30102_red_data_raw_u32,
             max_30102_ir_data_raw_u32,
@@ -126,6 +134,10 @@ for sfb_file in files:
             adc_raw_data_u16,
             adc_previous_raw_data_u16,
             adc_voltage_u16,
+            dd_ina_219_shunt_voltage_raw_u16,
+            dd_ina_219_power_raw_u16,
+            dd_ina_219_current_raw_u16,
+            dd_ina_219_bus_voltage_raw_u16,
 
             icm_20600_accel_raw_data_x_s16,
             icm_20600_accel_raw_data_y_s16,
@@ -157,6 +169,8 @@ for sfb_file in files:
             max_30102_mode_u8,
             max_30102_temperature_raw_int_u8,
             max_30102_temperature_raw_frac_u8,
+            dd_ina_219_shunt_voltage_range_u8,
+            dd_ina_219_bus_voltage_range_u8,
 
             dlg_global_msg_cnt_u8,
 
@@ -308,7 +322,8 @@ for sfb_file in files:
                                                timestamp=dlg_time_stamp_f32,
                                                data=msg_dlg_log_general_data )
 
-
+            # DLG_ADC
+            
             # Scale (according to DLG.dbc) and pack data
             adc_raw_level_f32       = adc_raw_level_f32       * 100.0
             adc_filtered_level_f32  = adc_filtered_level_f32  * 100.0
@@ -324,6 +339,7 @@ for sfb_file in files:
                                           timestamp=dlg_time_stamp_f32,
                                           data=msg_adc_data_data )
 
+            # DLG_SENSE_TS
 
             # Scale (according to DLG.dbc) and pack data
             sense_ts_alpha_filtered_adc_level_f32       = sense_ts_alpha_filtered_adc_level_f32 * 100.0
@@ -332,18 +348,50 @@ for sfb_file in files:
             sense_ts_touch_confidence_max_f32           = sense_ts_touch_confidence_max_f32 * 100.0
 
 
-            msg_sense_ts_data_data = st.pack( '4B', np.uint8( sense_ts_alpha_filtered_adc_level_f32 ),
-                                                    np.uint8( sense_ts_alpha_beta_filtered_adc_level_f32 ),
-                                                    np.uint8( sense_ts_touch_confidence_f32 ),
-                                                    np.uint8( sense_ts_touch_confidence_max_f32 ) )
+            msg_sense_ts_data_b_data = st.pack( '4B', np.uint8( sense_ts_alpha_filtered_adc_level_f32 ),
+                                                      np.uint8( sense_ts_alpha_beta_filtered_adc_level_f32 ),
+                                                      np.uint8( sense_ts_touch_confidence_f32 ),
+                                                      np.uint8( sense_ts_touch_confidence_max_f32 ) )
 
             msg_sense_ts_data = can.Message( arbitration_id=DLG_SENSE_TS,
                                              is_extended_id=False,
                                              timestamp=dlg_time_stamp_f32,
-                                             data=msg_sense_ts_data_data )
+                                             data=msg_sense_ts_data_b_data )
+
+            # DD_INA_219_DATA_A
+            msg_ina_219_data_a_data = st.pack( '4H', np.uint16( dd_ina_219_bus_voltage_raw_u16   ),
+                                                     np.uint16( dd_ina_219_shunt_voltage_raw_u16 ),
+                                                     np.uint16( dd_ina_219_current_raw_u16       ),
+                                                     np.uint16( dd_ina_219_power_raw_u16         ) )
+
+            msg_ina_219_data_a = can.Message( arbitration_id=DD_INA_219_DATA_A,
+                                              is_extended_id=False,
+                                              timestamp=dlg_time_stamp_f32,
+                                              data=msg_ina_219_data_a_data )
 
 
-            # ICM-20600 Messages
+            # DD_INA_219_DATA_B
+            
+            # Scale (according to DLG.dbc) and pack data
+            dd_ina_219_shunt_voltage_mV_f32 = dd_ina_219_shunt_voltage_mV_f32 * 10.0
+            dd_ina_219_bus_voltage_V_f32    = dd_ina_219_bus_voltage_V_f32 * 10.0
+
+            msg_ina_219_data_b_data = st.pack( '4B 2H', np.uint8( dd_ina_219_current_mA_f32 ),
+                                                        np.uint8( dd_ina_219_bus_voltage_V_f32 ),
+                                                        np.uint8( dd_ina_219_shunt_voltage_range_u8),
+                                                        np.uint8( dd_ina_219_bus_voltage_range_u8 ),
+                                                        np.uint16( dd_ina_219_shunt_voltage_mV_f32 ),
+                                                        np.uint16( dd_ina_219_power_mW_f32 ) )
+
+            msg_ina_219_data_b = can.Message( arbitration_id=DD_INA_219_DATA_B,
+                                              is_extended_id=False,
+                                              timestamp=dlg_time_stamp_f32,
+                                              data=msg_ina_219_data_b_data )
+
+
+
+
+            # DD ICM-20600 Messages
             writer.on_message_received( msg_icm_20600_accel )
             writer.on_message_received( msg_icm_20600_gyro )
             writer.on_message_received( msg_icm_20600_general )
@@ -355,18 +403,23 @@ for sfb_file in files:
             writer.on_message_received( msg_icm_20600_gyro_factory_trim_dev )
             writer.on_message_received( msg_dlg_log_general )
 
-            # MAX-30102 Messages
+            # DD MAX-30102 Messages
             writer.on_message_received( msg_max_30102_general )
             writer.on_message_received( msg_max_30102_data )
 
-            # I2C Messaegs
+            # DD I2C Messaegs
             writer.on_message_received( msg_i2c_error )
 
-            # ADC Messaegs
+            # DD ADC Messaegs
             writer.on_message_received( msg_adc_data )
+
+            # DD INA-219 Messaegs
+            writer.on_message_received( msg_ina_219_data_a )
+            writer.on_message_received( msg_ina_219_data_b )
 
             # SENSE TS Messaegs
             writer.on_message_received( msg_sense_ts_data )
+
 
 
             # print( "Time: " + str( global_time_f32 ) )

@@ -73,6 +73,10 @@ typedef struct DLG_LOG_DATA_TAG
     F32 sense_ts_alpha_beta_filtered_adc_level_f32; /**< @details Alpha/Beta filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
     F32 sense_ts_touch_confidence_f32;              /**< @details Touch confidence with a range of 0.0 to 1.0 */
     F32 sense_ts_touch_confidence_max_f32;          /**< @details Maximum touch confidence with a range of 0.0 to 1.0 °C */
+    F32 dd_ina_219_shunt_voltage_mV_f32;            /**< @details Voltage across the shunt resistor @unit mV */
+    F32 dd_ina_219_bus_voltage_V_f32;               /**< @details Bus voltage @unit V */
+    F32 dd_ina_219_power_mW_f32;                    /**< @details Power @unit mW */
+    F32 dd_ina_219_current_mA_f32;                  /**< @details Current @unit mA */
 
     U32 dd_max_30102_red_data_raw_u32;              /**< @details MAX-30102 Red led ADC raw value */
     U32 dd_max_30102_ir_data_raw_u32;               /**< @details MAX-30102 IR led ADC raw value */
@@ -80,7 +84,11 @@ typedef struct DLG_LOG_DATA_TAG
     U16 dd_icm_20600_temperature_raw_u16;           /**< @details Internal core (die) temperature raw data */
     U16 dd_adc_raw_data_u16;                        /**< @details Current raw 12-bit ADC sample @unit LSB */
     U16 dd_adc_previous_raw_data_u16;               /**< @details Previous raw 12-bit ADC sample @unit LSB */
-    U16 dd_adc_voltage_u16;                         /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
+    U16 dd_adc_voltage_u16;                         /**< @details Actual voltage measured at the ADC input pin @unit mV */
+    U16 dd_ina_219_shunt_voltage_raw_u16;           /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    U16 dd_ina_219_power_raw_u16;                   /**< @details Main system power ADC reading */
+    U16 dd_ina_219_current_raw_u16;                 /**< @details Main system current ADC reading */
+    U16 dd_ina_219_bus_voltage_raw_u16;             /**< @details Raw most recent bus voltage ADC reading */
 
     S16 dd_icm_20600_accel_raw_data_x_s16;          /**< @details ICM-20600 X acceleration raw value */
     S16 dd_icm_20600_accel_raw_data_y_s16;          /**< @details ICM-20600 Y acceleration raw value */
@@ -112,6 +120,8 @@ typedef struct DLG_LOG_DATA_TAG
     U8  dd_max_30102_mode_u8;                       /**< @details MAX-30102 Current device mode */
     U8  dd_max_30102_temperature_raw_int_u8;        /**< @details MAX-30102 Internal raw die temperature, integer part */
     U8  dd_max_30102_temperature_raw_frac_u8;       /**< @details MAX-30102 Internal raw die temperature, fractional part */
+    U8  dd_ina_219_shunt_voltage_range_u8;          /**< @details Current full-scale current sense (input) voltage range */
+    U8  dd_ina_219_bus_voltage_range_u8;            /**< @details Current bus voltage (input voltage) range */
     U8  dlg_global_msg_cnt_u8;                      /**< @details Global message counter, shall always be the last entry */
 
 } DLG_LOG_DATA;
