@@ -45,7 +45,7 @@
 /*      MACROS                                               */
 /*************************************************************/
 
-#define isINVALID(xf32) (((F32) (xf32)) > (INVALID_NUMBER-INVALID_NUMBER_VICINITY))
+#define IS_INVALID(xf32) (((F32) (xf32)) > (INVALID_NUMBER-INVALID_NUMBER_VICINITY))
 
 /*************************************************************/
 /*      DATATYPES                                            */
