@@ -111,12 +111,28 @@
 #define DD_INA_219_MODE_SHUNT_VOLT_CONT         0x0006 /**< Bus voltage, continuous */
 #define DD_INA_219_MODE_SHUNT_BUS_VOLT_CONT     0x0007 /**< Shunt and bus, continuous, default */
 
-/* */
+/* Bus Voltage Register
+ * The Bus Voltage register stores the most recent bus voltage reading, VBUS.
+ * At full-scale range = 32 V (decimal = 8000, hex = 1F40), and LSB = 4 mV. */
+#define DD_INA_219_V_BUS_LSB_VOLT               ( 0.004F ) /**< V/LSB */
+#define DD_INA_219_V_BUS_LSB_MILLI_VOLT         ( 4.0F )  /**< mV/LSB */
 
+#define DD_INA_219_V_BUS_STAT_MASK              0xFFFC /**< (word) ~0b 00000000 00000011 */
+#define DD_INA_219_V_BUS_STAT_OVF               0x0001 /**< Math Overflow Flag */
+#define DD_INA_219_V_BUS_STAT_CNVR              0x0002 /**< Conversion Ready */
 
-/*************************************************************/
-/*      GLOBAL VARIABLES                                     */
-/*************************************************************/
+/* Shunt Voltage Register
+ * The Shunt Voltage register stores the current shunt voltage reading, VSHUNT.
+ * At PGA = /1, full-scale range = ±40 mV (decimal = 4000). For VSHUNT = +40 mV,
+ * Value = 0FA0h; For VSHUNT = –40 mV, Value = F060h; and LSB = 10uV. */
+#define DD_INA_219_V_SHUNT_LSB_MILLI_VOLT       ( 0.01F )
+
+/* Calibration Register */
+#define DD_INA_219_CALIB_R_SHUNT_OHM            ( 0.1F     )
+#define DD_INA_219_CALIB_CURRENT_LSB_AMP        ( 0.00001F )
+#define DD_INA_219_CALIB_CURRENT_LSB_MILLI_AMP  ( 0.01F    )
+#define DD_INA_219_CALIB_POWER_LSB_WATT         ( 0.0002F  )
+#define DD_INA_219_CALIB_POWER_LSB_MILLI_WATT   ( 0.2F     )
 
 /*************************************************************/
 /*      PROTOTYPES                                           */
