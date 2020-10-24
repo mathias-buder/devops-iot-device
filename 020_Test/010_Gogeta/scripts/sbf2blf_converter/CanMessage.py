@@ -2,21 +2,20 @@ import sys
 import os
 import re
 import numpy as np
+import struct as st
 import can.io.logger
 
 class CanMessage:
 
-    # Global member variables
-    CanId              = 0            # Default CAN-ID
-    MaxLengthInBit     = 64           # Maximum size of the message in bit
-    CurrentLengthInBit = 0            # Current size of the message in bit
-    signals            = []           # Empty signal list
-    CanDataFrame_u64   = np.uint64(0) # Default/empty CAN message
-
+    MaxLengthInBit = 64  # Maximum size of the message in bit
 
     # Constructor
-    def __init__(self, CanId):
+    def __init__(self, CanId, name):
         self.CanId = CanId
+        self.name = name
+        self.CurrentLengthInBit = 0            # Current size of the message in bit
+        self.signals            = []           # Empty signal list
+        self.CanDataFrame_u64   = np.uint64(0) # Default/empty CAN message
 
 
     def __UpdateDataFrame(self):
@@ -100,25 +99,33 @@ class CanMessage:
 
 
     def PrintSignals(self):
-        print('Signals:')
+        print('{} signals:'.format(self.name))
         for signal in self.signals:
             print('Name: {}, Signed: {}, ScaleFactor: {}, LengthInBit: {}, StartBit: {}, BitMask: {}' .format(signal['name'], signal['signed'], signal['ScaleFactor'], signal['LengthInBit'], signal['StartBit'], np.binary_repr(signal['BitMask'], width=self.MaxLengthInBit) ))
 
 
-    def GetDataFrame(self):
-        # print('{}' .format(np.binary_repr(self.CanDataFrame_u64, width=self.MaxLengthInBit)))
+    def PrintSignalLayout(self):
+        print('{} signal layout:'.format(self.name))
+        for signal in self.signals:
+            print('{0:>30}: {1:>64}' .format(signal['name'],  np.binary_repr( (signal['BitMask'] << signal['StartBit'] ), width=self.MaxLengthInBit)))
+ 
+
+    def GetDataFrame(self, PrintFrame=False):
+        if(True == PrintFrame):
+            print('Data frame: {}'.format(np.binary_repr( self.CanDataFrame_u64, width=self.MaxLengthInBit)))
         return self.CanDataFrame_u64
 
 
 
-DD_INA_219_Data_A = CanMessage(30)
-DD_INA_219_Data_B = CanMessage(31)
+DD_INA_219_Data_A = CanMessage(30, 'DD_INA_219_Data_A')
+DD_INA_219_Data_B = CanMessage(31, 'DD_INA_219_Data_B')
 
 DD_INA_219_Data_A.AddSignal('DD_INA_219_bus_voltage_raw',     False, 1, 0.0, 16, 0)
 DD_INA_219_Data_A.AddSignal('DD_INA_219_shunt_voltage_raw',   False, 1, 0.0, 16, 16)
 DD_INA_219_Data_A.AddSignal('DD_INA_219_current_raw',         False, 1, 0.0, 16, 32)
 DD_INA_219_Data_A.AddSignal('DD_INA_219_power_raw',           False, 1, 0.0, 16, 48)
-
+DD_INA_219_Data_A.PrintSignals()
+DD_INA_219_Data_A.PrintSignalLayout()
 
 DD_INA_219_Data_B.AddSignal('DD_INA_219_current',             False, 1,   0.0, 7, 0)
 DD_INA_219_Data_B.AddSignal('DD_INA_219_bus_voltage',         False, 0.1, 0.0, 8, 8)
@@ -126,10 +133,15 @@ DD_INA_219_Data_B.AddSignal('DD_INA_219_shunt_voltage',       False, 1,   0.0, 2
 DD_INA_219_Data_B.AddSignal('DD_INA_219_bus_voltage_range',   False, 1,   0.0, 1, 24)
 DD_INA_219_Data_B.AddSignal('DD_INA_219_shunt_voltage_range', False, 0.1, 0.0, 9, 32)
 DD_INA_219_Data_B.AddSignal('DD_INA_219_power',               False, 1,   0.0, 10, 48)
-
-
-DD_INA_219_Data_A.PrintSignals()
 DD_INA_219_Data_B.PrintSignals()
+DD_INA_219_Data_B.PrintSignalLayout()
+
+DD_INA_219_Data_B.SetSignal('DD_INA_219_current', 8)
+DD_INA_219_Data_B.SetSignal('DD_INA_219_bus_voltage', 10)
+
+DataFrame = DD_INA_219_Data_B.GetDataFrame(True)
+
+
 
 
 
