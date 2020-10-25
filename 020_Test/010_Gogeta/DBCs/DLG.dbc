@@ -36,13 +36,13 @@ BS_:
 BU_: DLG
 
 
-BO_ 31 DD_INA_219_Data_B: 8 Vector__XXX
- SG_ DD_INA_219_shunt_voltage_range : 16|2@1+ (1,0) [0|3] "" Vector__XXX
+BO_ 31 DD_INA_219_Data_B: 7 Vector__XXX
+ SG_ DD_INA_219_shunt_voltage_range : 14|2@1+ (1,0) [0|3] "" Vector__XXX
  SG_ DD_INA_219_shunt_voltage : 32|9@1+ (0.1,0) [0|51.1] "mV" Vector__XXX
- SG_ DD_INA_219_power : 48|10@1+ (1,0) [0|1023] "mW" Vector__XXX
- SG_ DD_INA_219_current : 0|7@1+ (1,0) [0|127] "mA" Vector__XXX
- SG_ DD_INA_219_bus_voltage_range : 24|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DD_INA_219_bus_voltage : 8|8@1+ (0.1,0) [0|25.5] "V" Vector__XXX
+ SG_ DD_INA_219_power : 16|14@1+ (0.1,0) [0|1638.3] "mW" Vector__XXX
+ SG_ DD_INA_219_current : 0|14@1+ (0.1,0) [0|1638.3] "mA" Vector__XXX
+ SG_ DD_INA_219_bus_voltage_range : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DD_INA_219_bus_voltage : 48|8@1+ (0.1,0) [0|25.5] "V" Vector__XXX
 
 BO_ 30 DD_INA_219_Data_A: 8 Vector__XXX
  SG_ DD_INA_219_shunt_voltage_raw : 16|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
