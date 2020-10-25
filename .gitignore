@@ -3,5 +3,6 @@
 *.blf
 *.sbf
 ~$*.*
+*.pyc
 
 /010_Main_Application/build/
