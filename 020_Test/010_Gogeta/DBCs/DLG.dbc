@@ -56,7 +56,7 @@ BO_ 80 SENSE_TS_Data: 8 Vector__XXX
  SG_ SENSE_TS_alpha_beta_adc_level : 8|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
  SG_ SENSE_TS_alpha_adc_level : 0|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
 
-BO_ 70 DD_ADC_DATA: 8 DLG
+BO_ 70 DD_ADC_Data: 8 DLG
  SG_ DD_ADC_filtered_level : 56|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
  SG_ DD_ADC_raw_level : 48|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
  SG_ DD_ADC_voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
@@ -110,9 +110,9 @@ BO_ 27 DD_ICM_20600_accl_fac_trim_dev: 8 DLG
  SG_ DD_ICM_20600_factory_trim_dev_xa : 0|16@1- (0.001,0) [-32.768|32.767] "" Vector__XXX
 
 BO_ 25 DD_ICM_20600_accl_fac_trim: 8 DLG
- SG_ DD_ICM_20600_factory_trim_za : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
- SG_ DD_ICM_20600_factory_trim_ya : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
- SG_ DD_ICM_20600_factory_trim_xa : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_za : 32|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_ya : 16|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_factory_trim_xa : 0|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
 
 BO_ 24 DD_ICM_20600_selt_test: 8 DLG
  SG_ DD_ICM_20600_self_test_zg : 40|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -127,14 +127,14 @@ BO_ 23 DD_ICM_20600_temperature: 8 DLG
  SG_ DD_ICM_20600_temperature_raw : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 22 DD_ICM_20600_raw_gyro: 8 DLG
- SG_ DD_ICM_20600_raw_gyro_z : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
- SG_ DD_ICM_20600_raw_gyro_y : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
- SG_ DD_ICM_20600_raw_gyro_x : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_gyro_z : 32|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_gyro_y : 16|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_gyro_x : 0|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
 
 BO_ 21 DD_ICM_20600_raw_accel: 8 DLG
- SG_ DD_ICM_20600_raw_accel_z : 32|16@1- (1,0) [-32768|32767] "" Vector__XXX
- SG_ DD_ICM_20600_raw_accel_y : 16|16@1- (1,0) [-32768|32767] "" Vector__XXX
- SG_ DD_ICM_20600_raw_accel_x : 0|16@1- (1,0) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_accel_z : 32|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_accel_y : 16|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
+ SG_ DD_ICM_20600_raw_accel_x : 0|16@1+ (1,-32768) [-32768|32767] "" Vector__XXX
 
 
 

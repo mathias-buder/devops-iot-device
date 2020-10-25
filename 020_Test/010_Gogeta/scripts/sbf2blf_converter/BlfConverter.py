@@ -5,6 +5,7 @@ import can.io.logger
 import numpy as np
 import struct as st
 import ctypes
+from CanMessage import CanMessage
 
 #%% CAN Message IDs
 # ICM-20600
@@ -68,9 +69,6 @@ print("Found " + str(len(files)) + " .sfb files")
 # Sort files
 files.sort(key=natural_keys, reverse=False)
 
-#for f in files:
-#   print(f)
-
 path, base_name = os.path.split(files[0])
 blf_file_name = path + os.sep + base_name.split('_')[0] + ".blf"
 
@@ -79,8 +77,68 @@ print("Opening file " + blf_file_name)
 # .blf file name
 writer = can.io.logger.Logger(blf_file_name)
 
-# CAN channel
+# %% CAN Setup
+# Channel number
 writer.channel = 1
+
+# Message layout
+DLG_ICM_20600_GENERAL = CanMessage('DLG_ICM_20600_GENERAL', 20)
+# DLG_ICM_20600_GENERAL signals
+DLG_ICM_20600_GENERAL.AddSignal('DD_ICM_20600_chip_id',          1, 0.0, 8, 0)
+DLG_ICM_20600_GENERAL.AddSignal('DD_ICM_20600_device_state',     1, 0.0, 8, 8)
+DLG_ICM_20600_GENERAL.AddSignal('DD_ICM_20600_is_calibrated',    1, 0.0, 1, 16)
+DLG_ICM_20600_GENERAL.AddSignal('DD_ICM_20600_self_test_passed', 1, 0.0, 1, 17)
+
+# def AddSignal(self, name, ScaleFactor, offset, LengthInBit, Startbit):
+
+DLG_ICM_20600_ACCEL = CanMessage('DLG_ICM_20600_ACCEL', 21)
+# DLG_ICM_20600_ACCEL signals
+DLG_ICM_20600_ACCEL.AddSignal('DD_ICM_20600_raw_accel_x', 1, -32768, 16, 0)
+DLG_ICM_20600_ACCEL.AddSignal('DD_ICM_20600_raw_accel_y', 1, -32768, 16, 16)
+DLG_ICM_20600_ACCEL.AddSignal('DD_ICM_20600_raw_accel_z', 1, -32768, 16, 32)
+
+
+DLG_ICM_20600_GYRO = CanMessage('DLG_ICM_20600_GYRO', 22)
+# DLG_ICM_20600_GYRO signals
+DLG_ICM_20600_GYRO.AddSignal('DD_ICM_20600_raw_gyro_x', 1, -32768, 16, 0)
+DLG_ICM_20600_GYRO.AddSignal('DD_ICM_20600_raw_gyro_y', 1, -32768, 16, 16)
+DLG_ICM_20600_GYRO.AddSignal('DD_ICM_20600_raw_gyro_z', 1, -32768, 16, 32)
+
+
+DLG_ICM_20600_TEMPERATURE = CanMessage('DLG_ICM_20600_TEMPERATURE', 23)
+# DLG_ICM_20600_TEMPERATURE signals
+DLG_ICM_20600_TEMPERATURE.AddSignal('DD_ICM_20600_temperature_raw', 1,        0.0, 16, 0)
+DLG_ICM_20600_TEMPERATURE.AddSignal('DD_ICM_20600_temperature_deg', 0.01, -327.68, 16, 16)
+
+
+DLG_ICM_20600_SELF_TEST             = CanMessage('DLG_ICM_20600_SELF_TEST', 24)
+# DLG_ICM_20600_SELF_TEST signals
+DLG_ICM_20600_SELF_TEST.AddSignal('DD_ICM_20600_self_test_xa', 1, 0.0, 8, 0)
+DLG_ICM_20600_SELF_TEST.AddSignal('DD_ICM_20600_self_test_xg', 1, 0.0, 8, 8)
+DLG_ICM_20600_SELF_TEST.AddSignal('DD_ICM_20600_self_test_ya', 1, 0.0, 8, 16)
+DLG_ICM_20600_SELF_TEST.AddSignal('DD_ICM_20600_self_test_yg', 1, 0.0, 8, 24)
+DLG_ICM_20600_SELF_TEST.AddSignal('DD_ICM_20600_self_test_za', 1, 0.0, 8, 32)
+DLG_ICM_20600_SELF_TEST.AddSignal('DD_ICM_20600_self_test_zg', 1, 0.0, 8, 40)
+
+
+
+DLG_ICM_20600_FACTORY_ACCEL_TRIM = CanMessage('DLG_ICM_20600_FACTORY_ACCEL_TRIM', 25)
+DLG_ICM_20600_FACTORY_ACCEL_TRIM.AddSignal('DD_ICM_20600_factory_trim_xa', 1, 0.0, 16, 0)
+DLG_ICM_20600_FACTORY_ACCEL_TRIM.AddSignal('DD_ICM_20600_factory_trim_ya', 1, 0.0, 16, 16)
+DLG_ICM_20600_FACTORY_ACCEL_TRIM.AddSignal('DD_ICM_20600_factory_trim_za', 1, 0.0, 16, 32)
+
+DLG_ICM_20600_FACTORY_GYRO_TRIM     = CanMessage('DLG_ICM_20600_GENERAL', 26)
+DLG_ICM_20600_FACTORY_ACCL_TRIM_DEV = CanMessage('DLG_ICM_20600_GENERAL', 27)
+DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV = CanMessage('DLG_ICM_20600_GENERAL', 28)
+DLG_INA_219_DATA_A                  = CanMessage('DLG_ICM_20600_GENERAL', 30)
+DLG_INA_219_DATA_B                  = CanMessage('DLG_ICM_20600_GENERAL', 31)
+DLG_I2C_ERROR                       = CanMessage('DLG_ICM_20600_GENERAL', 40)
+DLG_LOG_GENERAL                     = CanMessage('DLG_ICM_20600_GENERAL', 50)
+DLG_MAX_30102_GENERAL               = CanMessage('DLG_ICM_20600_GENERAL', 60)
+DLG_MAX_30102_DATA                  = CanMessage('DLG_ICM_20600_GENERAL', 61)
+DLG_ADC_DATA                        = CanMessage('DLG_ICM_20600_GENERAL', 70)
+DLG_SENSE_TS_DATA                   = CanMessage('DLG_ICM_20600_GENERAL', 80)
+
 
 
 # %% Define .sbf file layout
