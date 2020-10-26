@@ -50,6 +50,9 @@ void dlg_log_get_data( void )
     /* Acquire ADC database pointer */
     p_dlg_dd_adc_data_s = dd_adc_get_database();
 
+    /* Acquire MCPWM database pointer */
+    p_dlg_dd_mcpwm_data_s = dd_mcpwm_get_database();
+
     /* Acquire ICM-20600 database pointer */
     p_dlg_dd_icm_20600_data_s = dd_icm_20600_get_database();
 

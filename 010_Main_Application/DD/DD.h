@@ -23,6 +23,7 @@
 /*************************************************************/
 #include "Interface/dd_i2c_if.h"
 #include "Interface/dd_adc_if.h"
+#include "Interface/dd_mcpwm_if.h"
 #include "Interface/dd_icm-20600_if.h"
 #include "Interface/dd_max-30102_if.h"
 #include "Interface/dd_ina-219_if.h"

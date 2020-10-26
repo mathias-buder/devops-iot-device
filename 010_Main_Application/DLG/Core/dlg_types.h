@@ -22,15 +22,13 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../Config/dlg_log_cfg.h"
-
 #include "../../DD/DD.h"
 #include "../../SENSE/SENSE.h"
+#include "../Config/dlg_log_cfg.h"
 
 /*************************************************************/
 /*      ENUMERATORS                                          */
 /*************************************************************/
-
 
 /*************************************************************/
 /*      STRUCTURES                                           */
@@ -77,6 +75,18 @@ typedef struct DLG_LOG_DATA_TAG
     F32 dd_ina_219_bus_voltage_V_f32;               /**< @details Bus voltage @unit V */
     F32 dd_ina_219_power_mW_f32;                    /**< @details Power @unit mW */
     F32 dd_ina_219_current_mA_f32;                  /**< @details Current @unit mA */
+    F32 dd_mcpwm_ch_1_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 1 */
+    F32 dd_mcpwm_ch_2_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 2 */
+    F32 dd_mcpwm_ch_3_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 3 */
+    F32 dd_mcpwm_ch_4_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 4 */
+    F32 dd_mcpwm_ch_5_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 5 */
+    F32 dd_mcpwm_ch_6_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 6 */
+    F32 dd_mcpwm_ch_7_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 7 */
+    F32 dd_mcpwm_ch_8_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 8 */
+    F32 dd_mcpwm_ch_9_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 9 */
+    F32 dd_mcpwm_ch_10_duty_cycle_f32;              /**< @details MCPWM duty cycle for channels 10 */
+    F32 dd_mcpwm_ch_11_duty_cycle_f32;              /**< @details MCPWM duty cycle for channels 11 */
+    F32 dd_mcpwm_ch_12_duty_cycle_f32;              /**< @details MCPWM duty cycle for channels 12 */
 
     U32 dd_max_30102_red_data_raw_u32;              /**< @details MAX-30102 Red led ADC raw value */
     U32 dd_max_30102_ir_data_raw_u32;               /**< @details MAX-30102 IR led ADC raw value */
@@ -122,7 +132,20 @@ typedef struct DLG_LOG_DATA_TAG
     U8  dd_max_30102_temperature_raw_frac_u8;       /**< @details MAX-30102 Internal raw die temperature, fractional part */
     U8  dd_ina_219_shunt_voltage_range_u8;          /**< @details Current full-scale current sense (input) voltage range */
     U8  dd_ina_219_bus_voltage_range_u8;            /**< @details Current bus voltage (input voltage) range */
-    U8  dlg_global_msg_cnt_u8;                      /**< @details Global message counter, shall always be the last entry */
+    U8  dd_mcpwm_ch_1_mode_u8;                      /**< @details MCPWM mode for channels 1 */
+    U8  dd_mcpwm_ch_2_mode_u8;                      /**< @details MCPWM mode for channels 2 */
+    U8  dd_mcpwm_ch_3_mode_u8;                      /**< @details MCPWM mode for channels 3 */
+    U8  dd_mcpwm_ch_4_mode_u8;                      /**< @details MCPWM mode for channels 4 */
+    U8  dd_mcpwm_ch_5_mode_u8;                      /**< @details MCPWM mode for channels 5 */
+    U8  dd_mcpwm_ch_6_mode_u8;                      /**< @details MCPWM mode for channels 6 */
+    U8  dd_mcpwm_ch_7_mode_u8;                      /**< @details MCPWM mode for channels 7 */
+    U8  dd_mcpwm_ch_8_mode_u8;                      /**< @details MCPWM mode for channels 8 */
+    U8  dd_mcpwm_ch_9_mode_u8;                      /**< @details MCPWM mode for channels 9 */
+    U8  dd_mcpwm_ch_10_mode_u8;                     /**< @details MCPWM mode for channels 10 */
+    U8  dd_mcpwm_ch_11_mode_u8;                     /**< @details MCPWM mode for channels 11 */
+    U8  dd_mcpwm_ch_12_mode_u8;                     /**< @details MCPWM mode for channels 12 */
+
+    U8 dlg_global_msg_cnt_u8;                       /**< @details Global message counter, shall always be the last entry */
 
 } DLG_LOG_DATA;
 

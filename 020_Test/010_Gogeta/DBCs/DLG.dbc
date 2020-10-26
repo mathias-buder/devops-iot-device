@@ -36,7 +36,37 @@ BS_:
 BU_: DLG
 
 
-BO_ 31 DD_INA_219_Data_B: 7 Vector__XXX
+BO_ 92 DD_MCPWM_Data_C: 8 Vector__XXX
+ SG_ DD_MCPWM_Ch_9_mode : 16|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_8_mode : 14|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_7_mode : 12|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_6_mode : 10|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_5_mode : 8|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_4_mode : 6|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_3_mode : 4|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_2_mode : 2|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_1_mode : 0|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_12_mode : 22|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_11_mode : 20|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ DD_MCPWM_Ch_10_mode : 18|2@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 91 DD_MCPWM_Data_B: 8 Vector__XXX
+ SG_ DD_MCPWM_Ch_10_Duty_Cycle : 30|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_11_Duty_Cycle : 40|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_12_Duty_Cycle : 50|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_7_Duty_Cycle : 0|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_8_Duty_Cycle : 10|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_9_Duty_Cycle : 20|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+
+BO_ 90 DD_MCPWM_Data_A: 8 DLG
+ SG_ DD_MCPWM_Ch_6_Duty_Cycle : 50|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_5_Duty_Cycle : 40|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_4_Duty_Cycle : 30|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_3_Duty_Cycle : 20|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_2_Duty_Cycle : 10|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+ SG_ DD_MCPWM_Ch_1_Duty_Cycle : 0|10@1+ (0.1,0) [0|102.3] "%" Vector__XXX
+
+BO_ 31 DD_INA_219_Data_B: 7 DLG
  SG_ DD_INA_219_shunt_voltage_range : 14|2@1+ (1,0) [0|3] "" Vector__XXX
  SG_ DD_INA_219_shunt_voltage : 32|9@1+ (0.1,0) [0|51.1] "mV" Vector__XXX
  SG_ DD_INA_219_power : 16|14@1+ (0.1,0) [0|1638.3] "mW" Vector__XXX
@@ -44,13 +74,13 @@ BO_ 31 DD_INA_219_Data_B: 7 Vector__XXX
  SG_ DD_INA_219_bus_voltage_range : 30|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ DD_INA_219_bus_voltage : 48|8@1+ (0.1,0) [0|25.5] "V" Vector__XXX
 
-BO_ 30 DD_INA_219_Data_A: 8 Vector__XXX
+BO_ 30 DD_INA_219_Data_A: 8 DLG
  SG_ DD_INA_219_shunt_voltage_raw : 16|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
  SG_ DD_INA_219_power_raw : 48|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
  SG_ DD_INA_219_current_raw : 32|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
  SG_ DD_INA_219_bus_voltage_raw : 0|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
 
-BO_ 80 SENSE_TS_Data: 8 Vector__XXX
+BO_ 80 SENSE_TS_Data: 8 DLG
  SG_ SENSE_TS_touch_confidence_max : 24|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
  SG_ SENSE_TS_touch_confidence : 16|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
  SG_ SENSE_TS_alpha_beta_adc_level : 8|8@1+ (0.01,0) [0|2.55] "" Vector__XXX
@@ -138,6 +168,30 @@ BO_ 21 DD_ICM_20600_raw_accel: 8 DLG
 
 
 
+CM_ SG_ 92 DD_MCPWM_Ch_9_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_8_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_7_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_6_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_5_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_4_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_3_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_2_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_1_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_12_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_11_mode "Current alpha filtered ADC value";
+CM_ SG_ 92 DD_MCPWM_Ch_10_mode "Current alpha filtered ADC value";
+CM_ SG_ 91 DD_MCPWM_Ch_10_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 91 DD_MCPWM_Ch_11_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 91 DD_MCPWM_Ch_12_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 91 DD_MCPWM_Ch_7_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 91 DD_MCPWM_Ch_8_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 91 DD_MCPWM_Ch_9_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 90 DD_MCPWM_Ch_6_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 90 DD_MCPWM_Ch_5_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 90 DD_MCPWM_Ch_4_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 90 DD_MCPWM_Ch_3_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 90 DD_MCPWM_Ch_2_Duty_Cycle "Current alpha filtered ADC value";
+CM_ SG_ 90 DD_MCPWM_Ch_1_Duty_Cycle "Current alpha filtered ADC value";
 CM_ SG_ 31 DD_INA_219_shunt_voltage_range "Current alpha filtered ADC value";
 CM_ SG_ 31 DD_INA_219_shunt_voltage "Current alpha filtered ADC value";
 CM_ SG_ 31 DD_INA_219_power "Current alpha filtered ADC value";
@@ -168,6 +222,18 @@ BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
 BA_DEF_DEF_  "BusType" "";
 BA_ "BusType" "CAN";
 BA_ "DBName" "DLG";
+VAL_ 92 DD_MCPWM_Ch_9_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_8_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_7_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_6_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_5_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_4_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_3_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_2_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_1_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_12_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_11_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
+VAL_ 92 DD_MCPWM_Ch_10_mode 2 "DD_MCPWM_MODE_PWM" 1 "DD_MCPWM_MODE_ON" 0 "DD_MCPWM_MODE_OFF" ;
 VAL_ 31 DD_INA_219_shunt_voltage_range 3 "DD_INA_219_SHUNT_VOL_RANGE_320MV" 2 "DD_INA_219_SHUNT_VOL_RANGE_160MV" 1 "DD_INA_219_SHUNT_VOL_RANGE_80MV" 0 "DD_INA_219_SHUNT_VOL_RANGE_40MV" ;
 VAL_ 31 DD_INA_219_bus_voltage_range 1 "DD_INA_219_BUS_VOL_RANGE_32V" 0 "DD_INA_219_BUS_VOL_RANGE_16V" ;
 VAL_ 60 DD_MAX_30102_mode 3 "DD_MAX_30102_MODE_MULTI_LED" 2 "DD_MAX_30102_MODE_SPO2" 1 "DD_MAX_30102_MODE_HR" 0 "DD_MAX_30102_MODE_SLEEP" ;

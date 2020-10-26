@@ -22,6 +22,10 @@
 /* =============================== */
 /*  Application-specific switches  */
 /* =============================== */
+/* Global definition to setup all required peripherals to
+ * support JTAG debugging */
+#define JTAG_DEBUG_SUPPORT                             /*!< If defined, JTAG debugging enabled */
+
 
 /* =========================== */
 /* STANDARD TYPES & FUNCTIONS  */

@@ -184,10 +184,43 @@ DLG_SENSE_TS_DATA.AddSignal('SENSE_TS_alpha_beta_adc_level', 0.01, 0.0, 8, 8)
 DLG_SENSE_TS_DATA.AddSignal('SENSE_TS_touch_confidence',     0.01, 0.0, 8, 16)
 DLG_SENSE_TS_DATA.AddSignal('SENSE_TS_touch_confidence_max', 0.01, 0.0, 8, 24)
 
+DLG_DD_MCPWM_DATA_A = CanMessage('DLG_DD_MCPWM_DATA_A', 90)
+# DLG_DD_MCPWM_DATA_A signals
+DLG_DD_MCPWM_DATA_A.AddSignal('DD_MCPWM_Ch_1_Duty_Cycle', 0.1, 0.0, 10, 0)
+DLG_DD_MCPWM_DATA_A.AddSignal('DD_MCPWM_Ch_2_Duty_Cycle', 0.1, 0.0, 10, 10)
+DLG_DD_MCPWM_DATA_A.AddSignal('DD_MCPWM_Ch_3_Duty_Cycle', 0.1, 0.0, 10, 20)
+DLG_DD_MCPWM_DATA_A.AddSignal('DD_MCPWM_Ch_4_Duty_Cycle', 0.1, 0.0, 10, 30)
+DLG_DD_MCPWM_DATA_A.AddSignal('DD_MCPWM_Ch_5_Duty_Cycle', 0.1, 0.0, 10, 40)
+DLG_DD_MCPWM_DATA_A.AddSignal('DD_MCPWM_Ch_6_Duty_Cycle', 0.1, 0.0, 10, 50)
+
+DLG_DD_MCPWM_DATA_B = CanMessage('DLG_DD_MCPWM_DATA_B', 91)
+# DLG_DD_MCPWM_DATA_B signals
+DLG_DD_MCPWM_DATA_B.AddSignal('DD_MCPWM_Ch_7_Duty_Cycle',  0.1, 0.0, 10, 0)
+DLG_DD_MCPWM_DATA_B.AddSignal('DD_MCPWM_Ch_8_Duty_Cycle',  0.1, 0.0, 10, 10)
+DLG_DD_MCPWM_DATA_B.AddSignal('DD_MCPWM_Ch_9_Duty_Cycle',  0.1, 0.0, 10, 20)
+DLG_DD_MCPWM_DATA_B.AddSignal('DD_MCPWM_Ch_10_Duty_Cycle', 0.1, 0.0, 10, 30)
+DLG_DD_MCPWM_DATA_B.AddSignal('DD_MCPWM_Ch_11_Duty_Cycle', 0.1, 0.0, 10, 40)
+DLG_DD_MCPWM_DATA_B.AddSignal('DD_MCPWM_Ch_12_Duty_Cycle', 0.1, 0.0, 10, 50)
+
+DLG_DD_MCPWM_DATA_C = CanMessage('DLG_DD_MCPWM_DATA_C', 92)
+# DLG_DD_MCPWM_DATA_C signals
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_1_mode',  1, 0.0, 2, 0)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_2_mode',  1, 0.0, 2, 2)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_3_mode',  1, 0.0, 2, 4)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_4_mode',  1, 0.0, 2, 6)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_5_mode',  1, 0.0, 2, 8)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_6_mode',  1, 0.0, 2, 10)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_7_mode',  1, 0.0, 2, 12)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_8_mode',  1, 0.0, 2, 14)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_9_mode',  1, 0.0, 2, 16)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_10_mode', 1, 0.0, 2, 18)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_11_mode', 1, 0.0, 2, 20)
+DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_12_mode', 1, 0.0, 2, 22)
+
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 25f 2I 8H 7h 25B x'
+dlg_log_data_fmt = '< 37f 2I 8H 7h 37B x'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
@@ -227,6 +260,18 @@ for sfb_file in files:
             dd_ina_219_bus_voltage_V_f32,
             dd_ina_219_power_mW_f32,
             dd_ina_219_current_mA_f32,
+            dd_mcpwm_ch_1_duty_cycle_f32,
+            dd_mcpwm_ch_2_duty_cycle_f32,
+            dd_mcpwm_ch_3_duty_cycle_f32,
+            dd_mcpwm_ch_4_duty_cycle_f32,
+            dd_mcpwm_ch_5_duty_cycle_f32,
+            dd_mcpwm_ch_6_duty_cycle_f32,
+            dd_mcpwm_ch_7_duty_cycle_f32,
+            dd_mcpwm_ch_8_duty_cycle_f32,
+            dd_mcpwm_ch_9_duty_cycle_f32,
+            dd_mcpwm_ch_10_duty_cycle_f32,
+            dd_mcpwm_ch_11_duty_cycle_f32,
+            dd_mcpwm_ch_12_duty_cycle_f32,
 
             max_30102_red_data_raw_u32,
             max_30102_ir_data_raw_u32,
@@ -272,6 +317,18 @@ for sfb_file in files:
             max_30102_temperature_raw_frac_u8,
             dd_ina_219_shunt_voltage_range_u8,
             dd_ina_219_bus_voltage_range_u8,
+            dd_mcpwm_ch_1_mode_u8,
+            dd_mcpwm_ch_2_mode_u8,
+            dd_mcpwm_ch_3_mode_u8,
+            dd_mcpwm_ch_4_mode_u8,
+            dd_mcpwm_ch_5_mode_u8,
+            dd_mcpwm_ch_6_mode_u8,
+            dd_mcpwm_ch_7_mode_u8,
+            dd_mcpwm_ch_8_mode_u8,
+            dd_mcpwm_ch_9_mode_u8,
+            dd_mcpwm_ch_10_mode_u8,
+            dd_mcpwm_ch_11_mode_u8,
+            dd_mcpwm_ch_12_mode_u8,
 
             dlg_global_msg_cnt_u8,
 
@@ -375,6 +432,36 @@ for sfb_file in files:
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_bus_voltage',         dd_ina_219_bus_voltage_V_f32 )
             DLG_INA_219_DATA_B.SetTimeStamp( dlg_time_stamp_f32 )
             
+            DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_1_Duty_Cycle', dd_mcpwm_ch_1_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_2_Duty_Cycle', dd_mcpwm_ch_2_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_3_Duty_Cycle', dd_mcpwm_ch_3_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_4_Duty_Cycle', dd_mcpwm_ch_4_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_5_Duty_Cycle', dd_mcpwm_ch_5_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_6_Duty_Cycle', dd_mcpwm_ch_6_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_A.SetTimeStamp( dlg_time_stamp_f32 )
+
+            DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_7_Duty_Cycle',  dd_mcpwm_ch_7_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_8_Duty_Cycle',  dd_mcpwm_ch_8_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_9_Duty_Cycle',  dd_mcpwm_ch_9_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_10_Duty_Cycle', dd_mcpwm_ch_10_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_11_Duty_Cycle', dd_mcpwm_ch_11_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_12_Duty_Cycle', dd_mcpwm_ch_12_duty_cycle_f32 )
+            DLG_DD_MCPWM_DATA_B.SetTimeStamp( dlg_time_stamp_f32 )
+
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_1_mode',  dd_mcpwm_ch_1_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_2_mode',  dd_mcpwm_ch_2_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_3_mode',  dd_mcpwm_ch_3_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_4_mode',  dd_mcpwm_ch_4_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_5_mode',  dd_mcpwm_ch_5_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_6_mode',  dd_mcpwm_ch_6_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_7_mode',  dd_mcpwm_ch_7_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_8_mode',  dd_mcpwm_ch_8_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_9_mode',  dd_mcpwm_ch_9_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_10_mode', dd_mcpwm_ch_10_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_11_mode', dd_mcpwm_ch_11_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_12_mode', dd_mcpwm_ch_12_mode_u8 )
+            DLG_DD_MCPWM_DATA_C.SetTimeStamp( dlg_time_stamp_f32 )
+
             DLG_LOG_GENERAL.SetSignal('DLG_LOG_global_msg_counter', dlg_global_msg_cnt_u8)
             DLG_LOG_GENERAL.SetTimeStamp( dlg_time_stamp_f32 )
 
@@ -400,6 +487,10 @@ for sfb_file in files:
             writer.on_message_received( DLG_INA_219_DATA_B.GetMessage() )
 
             writer.on_message_received( DLG_SENSE_TS_DATA.GetMessage() )
+
+            writer.on_message_received( DLG_DD_MCPWM_DATA_A.GetMessage() )
+            writer.on_message_received( DLG_DD_MCPWM_DATA_B.GetMessage() )
+            writer.on_message_received( DLG_DD_MCPWM_DATA_C.GetMessage() )
 
             writer.on_message_received( DLG_LOG_GENERAL.GetMessage() )
 

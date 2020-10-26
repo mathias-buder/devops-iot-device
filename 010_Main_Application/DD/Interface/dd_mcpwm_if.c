@@ -42,6 +42,12 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
+DD_MCPWM_DATA* dd_mcpwm_get_database( void )
+{
+    return &dd_mcpwm_data_s;
+}
+
+
 BOOLEAN dd_mcpwm_set_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e,
                                  F32                  duty_cycle_f32 )
 {
