@@ -351,7 +351,7 @@ PRIVATE void dlg_log_create_dd_ina_219_data_frame( void )
     dlg_log_database_s.dd_ina_219_shunt_voltage_raw_u16  = p_dlg_dd_ina_219_data_s->shunt_voltage_raw_u16;
     dlg_log_database_s.dd_ina_219_power_raw_u16          = p_dlg_dd_ina_219_data_s->power_raw_u16;
     dlg_log_database_s.dd_ina_219_current_raw_u16        = p_dlg_dd_ina_219_data_s->current_raw_u16;
-    dlg_log_database_s.dd_ina_219_bus_voltage_raw_u16    = p_dlg_dd_ina_219_data_s->bus_voltage_raw_s.bus_voltage_raw_u16;
+    dlg_log_database_s.dd_ina_219_bus_voltage_raw_u16    = p_dlg_dd_ina_219_data_s->bus_voltage_data_s.voltage_raw_u16;
     dlg_log_database_s.dd_ina_219_shunt_voltage_range_u8 = (U8) p_dlg_dd_ina_219_data_s->shunt_voltage_range_e;
     dlg_log_database_s.dd_ina_219_bus_voltage_range_u8   = (U8) p_dlg_dd_ina_219_data_s->bus_voltage_range_e;
 #endif

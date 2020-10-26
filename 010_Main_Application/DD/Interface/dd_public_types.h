@@ -514,7 +514,7 @@ typedef struct DD_INA_219_BUS_VOL_DATA_TAG
                                                Conversion Ready bit (CNVR) indicates when data from a conversion is available
                                                in the data output registers. The CNVR bit is set after all conversions, averaging,
                                                and multiplications are complete. */
-    U16     bus_voltage_raw_u16; /**< @details Raw most recent bus voltage ADC reading */
+    U16     voltage_raw_u16;    /**< @details Raw most recent bus voltage ADC reading */
 
 } DD_INA_219_BUS_VOL_DATA;
 
@@ -527,7 +527,7 @@ typedef struct DD_INA_219_DATA_TAG
 {
     DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e; /**< @details Current full-scale current sense (input) voltage range */
     DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e;   /**< @details Current bus voltage (input voltage) range */
-    DD_INA_219_BUS_VOL_DATA    bus_voltage_raw_s;     /**< @details Raw most recent bus voltage ADC reading and status information */
+    DD_INA_219_BUS_VOL_DATA    bus_voltage_data_s;    /**< @details Raw most recent bus voltage ADC reading and status information */
     U16                        shunt_voltage_raw_u16; /**< @details Raw ADC reading representing the voltage across the shunt resistor */
     U16                        power_raw_u16;         /**< @details Records power in watts by multiplying the value of the current with the
                                                                     value of the bus voltage according to the Equation 5 (datasheet pg. 13) */

@@ -38,7 +38,7 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
                                       DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e );
 PRIVATE BOOLEAN dd_ina_219_calibrate( void );
 PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( U16* const p_value_u16 );
-PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p_bus_voltage_s );
+PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p_bus_data_s );
 PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 );
 PRIVATE BOOLEAN dd_ina_219_get_current_raw( U16* const p_value_u16 );
 
@@ -71,13 +71,13 @@ void dd_ina_219_main( void )
 {
     /* Read raw ADC measurements */
     dd_ina_219_get_shunt_voltage_raw( &dd_ina_219_data_s.shunt_voltage_raw_u16 );
-    dd_ina_219_get_bus_voltage_raw( &dd_ina_219_data_s.bus_voltage_raw_s );
+    dd_ina_219_get_bus_voltage_raw( &dd_ina_219_data_s.bus_voltage_data_s );
     dd_ina_219_get_power_raw( &dd_ina_219_data_s.power_raw_u16 );
     dd_ina_219_get_current_raw( &dd_ina_219_data_s.current_raw_u16 );
 
     /* Convert Bus Voltage into mV / V */
-    dd_ina_219_data_s.bus_voltage_mV_f32 = dd_ina_219_data_s.bus_voltage_raw_s.bus_voltage_raw_u16 * DD_INA_219_V_BUS_LSB_MILLI_VOLT;
-    dd_ina_219_data_s.bus_voltage_V_f32  = dd_ina_219_data_s.bus_voltage_raw_s.bus_voltage_raw_u16 * DD_INA_219_V_BUS_LSB_VOLT;
+    dd_ina_219_data_s.bus_voltage_mV_f32 = dd_ina_219_data_s.bus_voltage_data_s.voltage_raw_u16 * DD_INA_219_V_BUS_LSB_MILLI_VOLT;
+    dd_ina_219_data_s.bus_voltage_V_f32  = dd_ina_219_data_s.bus_voltage_data_s.voltage_raw_u16 * DD_INA_219_V_BUS_LSB_VOLT;
 
     /* Convert Shunt Voltage into mV */
     dd_ina_219_data_s.shunt_voltage_mV_f32  = dd_ina_219_data_s.shunt_voltage_raw_u16 * DD_INA_219_V_SHUNT_LSB_MILLI_VOLT;
@@ -236,11 +236,11 @@ PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( U16* const p_value_u16 )
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p_bus_voltage_s )
+PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p_bus_data_s )
 {
     U16 register_u16;
 
-    if ( NULL != p_bus_voltage_s )
+    if ( NULL != p_bus_data_s )
     {
         if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_BUS_VOLTAGE_DATA, (U8*) &register_u16, sizeof( register_u16 ) ) )
         {
@@ -248,8 +248,8 @@ PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p
         }
 
         /* Extract status information (datasheet pg. 23) */
-        p_bus_voltage_s->math_overflow_b = TEST_BIT( SWAP_BYTES_IN_WORD( register_u16 ), DD_INA_219_V_BUS_STAT_OVF );
-        p_bus_voltage_s->conv_ready_b    = TEST_BIT( SWAP_BYTES_IN_WORD( register_u16 ), DD_INA_219_V_BUS_STAT_CNVR );
+        p_bus_data_s->math_overflow_b = TEST_BIT( SWAP_BYTES_IN_WORD( register_u16 ), DD_INA_219_V_BUS_STAT_OVF );
+        p_bus_data_s->conv_ready_b    = TEST_BIT( SWAP_BYTES_IN_WORD( register_u16 ), DD_INA_219_V_BUS_STAT_CNVR );
 
         /* Extract raw ADC reading (datasheet pg. 23) */
 
@@ -257,11 +257,11 @@ PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p
          * of 16-bit variable register_u16 need to be swapped. Additionally, the Bus Voltage register
          * bits are not right-aligned. In order to compute the value of the Bus Voltage, Bus Voltage
          * Register contents must be shifted right by three bits. */
-        p_bus_voltage_s->bus_voltage_raw_u16 = SWAP_BYTES_IN_WORD( register_u16 ) >> 3U;
+        p_bus_data_s->voltage_raw_u16 = SWAP_BYTES_IN_WORD( register_u16 ) >> 3U;
     }
     else
     {
-        assert( NULL != p_bus_voltage_s );
+        assert( NULL != p_bus_data_s );
         return FALSE;
     }
 
