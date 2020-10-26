@@ -8,10 +8,11 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
+                21,
                 27,
-                31,
-                19,
-                23
+                11,
+                13,
+                28
             ],
             "subWindows": [
                 {
@@ -229,12 +230,12 @@
                     "type": "ValueTable"
                 },
                 {
-                    "firstColumnWidth": 164,
+                    "firstColumnWidth": 339,
                     "items": [
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_filtered_level",
+                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_filtered_level",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -243,7 +244,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
+                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_raw_level",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -252,7 +253,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_voltage",
+                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_voltage",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -261,7 +262,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_data",
+                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_raw_data",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -270,7 +271,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_previous_raw_data",
+                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_previous_raw_data",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -324,6 +325,104 @@
                     "locked": false,
                     "name": "SENSE_TS",
                     "type": "ValueTable"
+                },
+                {
+                    "firstColumnWidth": 268,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_B.DD_INA_219_shunt_voltage_range",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_B.DD_INA_219_shunt_voltage",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_B.DD_INA_219_power",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_B.DD_INA_219_current",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_B.DD_INA_219_bus_voltage_range",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_B.DD_INA_219_bus_voltage",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_A.DD_INA_219_shunt_voltage_raw",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_A.DD_INA_219_power_raw",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_A.DD_INA_219_current_raw",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "BLFLoader.DLG.DD_INA_219_Data_A.DD_INA_219_bus_voltage_raw",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "INA_219",
+                    "type": "ValueTable"
                 }
             ]
         },
@@ -331,8 +430,8 @@
             "alignment": "vertical",
             "subWindowSizes": [
                 16,
-                16,
-                30,
+                20,
+                26,
                 21,
                 17
             ],
@@ -457,10 +556,10 @@
                         "cycle_width": 303,
                         "decimals_x": 2,
                         "decimals_y": 2,
-                        "max_x": 304.1865509761388,
-                        "max_y": 1000,
-                        "min_x": 1.1865509761388182,
-                        "min_y": -1000
+                        "max_x": 483.0054631638145,
+                        "max_y": 190188.48213910664,
+                        "min_x": 108.93138908974048,
+                        "min_y": 185119.5922414953
                     }
                 },
                 {
@@ -668,7 +767,7 @@
                             "active": true,
                             "alias": "DD_ADC_raw_level",
                             "color": "#ff0075dc",
-                            "expression": "BLFLoader.DLG.DD_ADC_DATA.DD_ADC_raw_level",
+                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_raw_level",
                             "rules": [
                             ],
                             "type": "SOLID",
@@ -686,9 +785,9 @@
                         "decimals_x": 2,
                         "decimals_y": 2,
                         "max_x": 448.6508472718594,
-                        "max_y": 1.1700757575757577,
+                        "max_y": 1.17,
                         "min_x": 166.399383798021,
-                        "min_y": -0.07992424242424234
+                        "min_y": -0.8
                     }
                 },
                 {
