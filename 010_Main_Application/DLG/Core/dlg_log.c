@@ -448,7 +448,7 @@ PRIVATE void dlg_log_create_dd_mcpwm_data_frame( void )
     dlg_log_database_s.dd_mcpwm_ch_7_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_7].duty_cycle_f32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_8_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_8].duty_cycle_f32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_9_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_9].duty_cycle_f32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_10_duty_cycle_f32 = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_10].duty_cycle_f32;
