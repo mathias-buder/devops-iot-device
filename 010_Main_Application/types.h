@@ -24,7 +24,7 @@
 /* =============================== */
 /* Global definition to setup all required peripherals to
  * support JTAG debugging */
-#define JTAG_DEBUG_SUPPORT                             /*!< If defined, JTAG debugging enabled */
+#define JTAG_DEBUG_SUPPORT_ENABLE                 /*!< If defined, JTAG debugging enabled */
 
 
 /* =========================== */

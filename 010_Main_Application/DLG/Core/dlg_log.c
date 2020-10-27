@@ -381,17 +381,17 @@ PRIVATE void dlg_log_create_dd_mcpwm_data_frame( void )
 #ifdef DLG_LOG_TEST_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = log_test_mode_cnt_u32;
@@ -400,17 +400,17 @@ PRIVATE void dlg_log_create_dd_mcpwm_data_frame( void )
 
     dlg_log_database_s.dd_mcpwm_ch_1_duty_cycle_f32  = log_test_mode_cnt_u32;
     dlg_log_database_s.dd_mcpwm_ch_2_duty_cycle_f32  = log_test_mode_cnt_u32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_3_duty_cycle_f32  = log_test_mode_cnt_u32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_4_duty_cycle_f32  = log_test_mode_cnt_u32;
     dlg_log_database_s.dd_mcpwm_ch_5_duty_cycle_f32  = log_test_mode_cnt_u32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_6_duty_cycle_f32  = log_test_mode_cnt_u32;
     dlg_log_database_s.dd_mcpwm_ch_7_duty_cycle_f32  = log_test_mode_cnt_u32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_8_duty_cycle_f32  = log_test_mode_cnt_u32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_9_duty_cycle_f32  = log_test_mode_cnt_u32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_10_duty_cycle_f32 = log_test_mode_cnt_u32;
@@ -419,17 +419,17 @@ PRIVATE void dlg_log_create_dd_mcpwm_data_frame( void )
 #else
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_1].mode_e;
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_2].mode_e;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_3].mode_e;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_4].mode_e;
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_5].mode_e;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_6].mode_e;
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_7].mode_e;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_8].mode_e;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_9].mode_e;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_1_mode_u8         = (U8) p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_10].mode_e;
@@ -438,12 +438,12 @@ PRIVATE void dlg_log_create_dd_mcpwm_data_frame( void )
 
     dlg_log_database_s.dd_mcpwm_ch_1_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_1].duty_cycle_f32;
     dlg_log_database_s.dd_mcpwm_ch_2_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_2].duty_cycle_f32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_3_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_3].duty_cycle_f32;
 #endif
     dlg_log_database_s.dd_mcpwm_ch_4_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_4].duty_cycle_f32;
     dlg_log_database_s.dd_mcpwm_ch_5_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_5].duty_cycle_f32;
-#ifndef JTAG_DEBUG_SUPPORT
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
     dlg_log_database_s.dd_mcpwm_ch_6_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_6].duty_cycle_f32;
     dlg_log_database_s.dd_mcpwm_ch_7_duty_cycle_f32  = p_dlg_dd_mcpwm_data_s->p_channel_s[DD_MCPWM_CHANNEL_7].duty_cycle_f32;
 #endif
