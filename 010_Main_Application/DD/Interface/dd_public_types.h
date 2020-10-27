@@ -433,11 +433,11 @@ typedef enum DD_MCPWM_CHANNEL_NUM_TAG
     DD_MCPWM_CHANNEL_3, /* JTAG: Mapped to TMS */
 #endif
     DD_MCPWM_CHANNEL_4,
-    DD_MCPWM_CHANNEL_5,
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    DD_MCPWM_CHANNEL_6, /* JTAG: Mapped to TCK */
-    DD_MCPWM_CHANNEL_7, /* JTAG: Mapped to TDI */
+    DD_MCPWM_CHANNEL_5, /* JTAG: Mapped to TCK */
+    DD_MCPWM_CHANNEL_6, /* JTAG: Mapped to TDI */
 #endif
+    DD_MCPWM_CHANNEL_7,
     DD_MCPWM_CHANNEL_8,
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
     DD_MCPWM_CHANNEL_9, /* JTAG: Mapped to TDO */
