@@ -8,17 +8,14 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_types.h
+        @details ...
+
         (c) SEWELA 2020
 
 *********************************************************************/
-/**
- * @file dd_types.h
- * @details This files defines the domain specific types
- * used in the device driver domain.
- */
-
-#ifndef DD_TYPES_H
-#define DD_TYPES_H
+#ifndef VE_TYPES_H_
+#define VE_TYPES_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -34,16 +31,5 @@
 /*                      ENUMERATORS                           */
 /*************************************************************/
 
-/**
- * @brief   ICM-20600 Output Interface Data Structure
- * @details ICM-20600 Output Interface Data Structure gathers all required
-            motion information such as pitch, roll, yaw, ...
- * @ingroup SensorStructures
- */
-typedef struct VE_DATA_TAG
-{
-    U8                      chip_id_u8;                                  /** @details Unique chip id */
-    F32                     temperature_deg_f32;                         /** @details Internal core (die) temperature @unit °C */
-} VE_DATA;
 
-#endif /* DD_TYPES_H */
+#endif /* VE_TYPES_H_ */

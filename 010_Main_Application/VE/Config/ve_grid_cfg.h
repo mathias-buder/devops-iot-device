@@ -8,21 +8,26 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_grid_cfg.h
+        @details Some detailed description
+
         (c) SEWELA 2020
 
 *********************************************************************/
 
-/**
- * @file dd_icm-20600_oif.h
- * @details Some detailed description
- */
-
-#ifndef VE_INPUT_INTERFACE_H
-#define VE_INPUT_INTERFACE_H
+#ifndef VE_GRID_CFG_H_
+#define VE_GRID_CFG_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+
+#include "../../types.h"
+
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+
 
 
 /*************************************************************/
@@ -31,4 +36,4 @@
 
 
 
-#endif /* DD_ICM_20600_IF_H */
+#endif /* VE_GRID_CFG_H_ */

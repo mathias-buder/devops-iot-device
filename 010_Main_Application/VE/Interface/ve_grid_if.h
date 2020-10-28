@@ -8,28 +8,19 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_grid_if.h
+        @details Some detailed description
+
         (c) SEWELA 2020
 
 *********************************************************************/
 
-/**
- * @file dd_i2c_Cfg.h
- * @details Some detailed description
- */
-
-#ifndef VE_CFG_H
-#define VE_CFG_H
+#ifndef VE_GRID_IF_H_
+#define VE_GRID_IF_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-
-#include "../../types.h"
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-
 
 
 /*************************************************************/
@@ -38,4 +29,4 @@
 
 
 
-#endif /* DD_I2C_CFG_H */
+#endif /* VE_GRID_IF_H_ */

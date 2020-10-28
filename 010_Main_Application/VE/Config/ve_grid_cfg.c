@@ -8,6 +8,9 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_grid.c
+        @details ...
+
         (c) SEWELA 2020
 
 *********************************************************************/
@@ -15,8 +18,8 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "ve_Cfg.h"
-#include "ve_types_Cfg.h"
+#include "ve_types_cfg.h"
+#include "ve_grid_cfg.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */

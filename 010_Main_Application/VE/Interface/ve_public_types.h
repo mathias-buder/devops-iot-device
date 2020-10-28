@@ -8,17 +8,15 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_public_types.h
+        @details ...
+
         (c) SEWELA 2020
 
 *********************************************************************/
 
-/**
- * @file dd_public_types.h
- * @details
- */
-
-#ifndef VE_PUBLIC_TYPES_H
-#define VE_PUBLIC_TYPES_H
+#ifndef VE_PUBLIC_TYPES_H_
+#define VE_PUBLIC_TYPES_H_
 
 /* INCLUDES */
 
@@ -27,5 +25,5 @@
 
 
 
-#endif /* DD_PUBLIC_TYPES_H */
+#endif /* VE_PUBLIC_TYPES_H_ */
 

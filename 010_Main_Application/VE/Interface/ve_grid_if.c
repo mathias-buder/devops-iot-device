@@ -8,6 +8,9 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_grid_if.c
+        @details Some detailed description
+
         (c) SEWELA 2020
 
 *********************************************************************/
@@ -18,9 +21,8 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "ve_input_interface.h"
 #include "../Core/ve_database.h"
-
+#include "ve_grid_if.h"
 
 
 /*********************************************************************/
@@ -40,8 +42,6 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-
 
 
 

@@ -8,17 +8,15 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_database.h
+        @details Some detailed description
+
         (c) SEWELA 2020
 
 *********************************************************************/
 
-/**
- * @file dd_database.h
- * @details Some detailed description
- */
-
-#ifndef VE_DATABASE_H
-#define VE_DATABASE_H
+#ifndef VE_DATABASE_H_
+#define VE_DATABASE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -31,7 +29,4 @@
 /*************************************************************/
 
 
-
-
-
-#endif /* VE_DATABASE_H */
+#endif /* VE_DATABASE_H_ */
