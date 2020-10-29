@@ -427,20 +427,18 @@ typedef enum DD_MCPWM_MODE_TAG
  */
 typedef enum DD_MCPWM_CHANNEL_NUM_TAG
 {
-    DD_MCPWM_CHANNEL_1,
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
+    DD_MCPWM_CHANNEL_1,     /*!< Shared with JTAG pin: TMS (14) */
+#endif
     DD_MCPWM_CHANNEL_2,
-#ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    DD_MCPWM_CHANNEL_3, /* JTAG: Mapped to TMS */
-#endif
+    DD_MCPWM_CHANNEL_3,
     DD_MCPWM_CHANNEL_4,
+    DD_MCPWM_CHANNEL_5,
+    DD_MCPWM_CHANNEL_6,
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    DD_MCPWM_CHANNEL_5, /* JTAG: Mapped to TCK */
-    DD_MCPWM_CHANNEL_6, /* JTAG: Mapped to TDI */
-#endif
-    DD_MCPWM_CHANNEL_7,
-    DD_MCPWM_CHANNEL_8,
-#ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    DD_MCPWM_CHANNEL_9, /* JTAG: Mapped to TDO */
+    DD_MCPWM_CHANNEL_7,     /*!< Shared with JTAG pin: TCK (13) */
+    DD_MCPWM_CHANNEL_8,     /*!< Shared with JTAG pin: TDI (12) */
+    DD_MCPWM_CHANNEL_9,     /*!< Shared with JTAG pin: TDO (15) */
 #endif
     DD_MCPWM_CHANNEL_10,
     DD_MCPWM_CHANNEL_11,
