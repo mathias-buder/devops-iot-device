@@ -24,6 +24,7 @@
 
 #include "../DD/DD.h"
 #include "../SENSE/SENSE.h"
+#include "../VE/VE.h"
 #include "../DLG/DLG.h"
 
 void app_main()
@@ -47,6 +48,7 @@ void app_main()
     os_time_init(); /* Initialize Global Time Module */
     dd_init();      /* Initialize Device Driver Domain ( DD ) */
     sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
+    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
     dlg_init();     /* Initialize Data Logging Domain( DLG ) */
 
     /***********************************************
@@ -59,6 +61,7 @@ void app_main()
 
         dd_main();        /* Schedule Device Driver Domain ( DD ) */
         sense_main();     /* Schedule Sensor Processing Domain ( SENSE ) */
+        ve_main();        /* Schedule Vibration Engine Domain ( VE ) */
         dlg_main();       /* Schedule Data Logging Domain( DLG ) */
         os_time_update(); /* Update Global Time Module */
     }

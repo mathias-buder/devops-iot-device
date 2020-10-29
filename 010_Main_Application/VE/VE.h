@@ -18,10 +18,36 @@
 #ifndef TS_TS_H_
 #define TS_TS_H_
 
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "Interface/ve_public_types.h"
+#include "Interface/ve_grid_if.h"
 
-void ve_init(void);
 
-void ve_main(void);
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
 
+/*************************************************************/
+/*      GLOBAL VARIABLES                                     */
+/*************************************************************/
+
+
+/*********************************************************************/
+/*   FUNCTION PROTOTYPES                                             */
+/*********************************************************************/
+
+/**
+ * @details This function initializes the entire Vibration Engine (VE) domain
+ * and shall by only called once.
+ */
+extern void ve_init( void );
+
+/**
+ * @details This function executes all Vibration Engine (VE) domain related
+ * functions and shall be called in a cyclic fashion.
+ */
+extern void ve_main( void );
 
 #endif /* TS_TS_H_ */
