@@ -18,12 +18,44 @@
 #ifndef VE_PUBLIC_TYPES_H_
 #define VE_PUBLIC_TYPES_H_
 
-/* INCLUDES */
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "../../DD/DD.h"
 
-/* TYPES */
+/*************************************************************/
+/*                        VE_GRID                            */
+/*************************************************************/
+
+/*************************************************************/
+/*                      ENUMERATORS                          */
+/*************************************************************/
 
 
+/*************************************************************/
+/*                      STRUCTURES                           */
+/*************************************************************/
+typedef struct VE_GRID_CHANNEL_TAG
+{
+    DD_MCPWM_CHANNEL_NUM assignment_e;   /**< @details Channel assignment */
+    F32                  duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
+    F32                  x_f32;          /**< @details Vibrator x-distance to reference
+                                                       point within grid @unit [mm] */
+    F32                  y_f32;          /**< @details Vibrator y-distance to reference
+                                                       point within grid @unit [mm] */
+} VE_GRID_CHANNEL;
 
+/**
+ * @brief   Vibration Engine Grid Output Interface Data Structure
+ * @details Data structure that holds all data provided by the Vibration
+ *          Engine Grid module.
+ * @ingroup VibrationEngineStructures
+ */
+typedef struct VE_GRID_DATA_TAG
+{
+    VE_GRID_CHANNEL* p_channel_s;
+
+} VE_GRID_DATA;
 
 #endif /* VE_PUBLIC_TYPES_H_ */
 
