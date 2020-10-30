@@ -14,6 +14,7 @@
 
 idf_component_register(SRCS "Config/ve_grid_cfg.c"
                             "Core/ve_database.c"
+                            "Core/ve_grid.c"
                             "Interface/ve_grid_if.c"
                             "VE.c"
                        INCLUDE_DIRS ".")

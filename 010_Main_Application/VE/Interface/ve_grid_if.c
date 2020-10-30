@@ -38,11 +38,8 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-BOOLEAN ve_grid_init( void )
-{
-    return TRUE;
-}
 
-void ve_grid_main( void )
+VE_GRID_VIRBATOR_TYPE* ve_get_vibrator_config( void )
 {
+    return ve_grid_data_s.p_vibrator_config_s;
 }

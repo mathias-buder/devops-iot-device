@@ -27,7 +27,6 @@
 /*************************************************************/
 /*      PROTOTYPES                                           */
 /*************************************************************/
-extern BOOLEAN ve_grid_init( void );
-extern void    ve_grid_main( void );
+extern VE_GRID_VIRBATOR_TYPE* ve_get_vibrator_config( void );
 
 #endif /* VE_GRID_IF_H_ */

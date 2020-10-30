@@ -32,6 +32,8 @@
 /*************************************************************/
 /*      PROTOTYPES                                           */
 /*************************************************************/
+extern BOOLEAN        dd_mcpwm_if_init( void );
+extern void           dd_mcpwm_if_main( void );
 extern DD_MCPWM_DATA* dd_mcpwm_get_database( void );
 extern BOOLEAN        dd_mcpwm_set_duty_cycle( DD_MCPWM_CHANNEL channel_e, F32 duty_cycle_f32 );
 extern F32            dd_mcpwm_get_duty_cycle( DD_MCPWM_CHANNEL channel_e );

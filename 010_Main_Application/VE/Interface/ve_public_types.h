@@ -30,20 +30,36 @@
 /*************************************************************/
 /*                      ENUMERATORS                          */
 /*************************************************************/
-
+/**
+ * @details enumerator of ...
+ */
+typedef enum VE_GRID_VIBRATOR_TAG
+{
+    VE_GRID_VIBRATOR_1,
+    VE_GRID_VIBRATOR_2,
+    VE_GRID_VIBRATOR_3,
+    VE_GRID_VIBRATOR_4,
+    VE_GRID_VIBRATOR_5,
+    VE_GRID_VIBRATOR_6,
+    VE_GRID_VIBRATOR_7,
+    VE_GRID_VIBRATOR_8,
+    VE_GRID_VIBRATOR_9,
+    VE_GRID_VIBRATOR_10,
+    VE_GRID_VIBRATOR_SIZE
+} VE_GRID_VIBRATOR;
 
 /*************************************************************/
 /*                      STRUCTURES                           */
 /*************************************************************/
-typedef struct VE_GRID_CHANNEL_TAG
+typedef struct VE_GRID_VIRBATOR_TYPE_TAG
 {
-    DD_MCPWM_CHANNEL_NUM assignment_e;   /**< @details Channel assignment */
-    F32                  duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
-    F32                  x_f32;          /**< @details Vibrator x-distance to reference
-                                                       point within grid @unit [mm] */
-    F32                  y_f32;          /**< @details Vibrator y-distance to reference
-                                                       point within grid @unit [mm] */
-} VE_GRID_CHANNEL;
+    const DD_MCPWM_CHANNEL assignment_e;   /**< @details Channel assignment */
+    const F32              x_f32;          /**< @details Vibrator x-distance to reference
+                                                                  point within grid @unit [mm] */
+    const F32              y_f32;          /**< @details Vibrator y-distance to reference
+                                                                  point within grid @unit [mm] */
+    F32                    duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
+} VE_GRID_VIRBATOR_TYPE;
 
 /**
  * @brief   Vibration Engine Grid Output Interface Data Structure
@@ -53,7 +69,7 @@ typedef struct VE_GRID_CHANNEL_TAG
  */
 typedef struct VE_GRID_DATA_TAG
 {
-    VE_GRID_CHANNEL* p_channel_s;
+    VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
 
 } VE_GRID_DATA;
 

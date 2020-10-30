@@ -15,8 +15,8 @@
 
 *********************************************************************/
 
-#ifndef VE_GRID_H
-#define VE_GRID_H
+#ifndef VE_GRID_H_
+#define VE_GRID_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -25,7 +25,9 @@
 
 
 /*************************************************************/
-/*      GLOBAL VARIABLES                                     */
+/*      PROTOTYPES                                           */
 /*************************************************************/
+extern BOOLEAN ve_grid_init( void );
+extern void    ve_grid_main( void );
 
-#endif /* VE_GRID_H */
+#endif /* VE_GRID_H_ */

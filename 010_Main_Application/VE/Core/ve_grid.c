@@ -42,6 +42,7 @@
 /*********************************************************************/
 BOOLEAN ve_grid_init( void )
 {
+    ve_grid_data_s.p_vibrator_config_s = &ve_grid_vibrator_config_vs[0U];
 
     return TRUE;
 }
