@@ -425,7 +425,7 @@ typedef enum DD_MCPWM_MODE_TAG
 /**
  * @details enumerator of ...
  */
-typedef enum DD_MCPWM_CHANNEL_NUM_TAG
+typedef enum DD_MCPWM_CHANNEL_TAG
 {
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
     DD_MCPWM_CHANNEL_1,     /*!< Shared with JTAG pin: TMS (14) */
@@ -450,7 +450,7 @@ typedef enum DD_MCPWM_CHANNEL_NUM_TAG
 /*      STRUCTURES                                           */
 /*************************************************************/
 
-typedef struct DD_MCPWM_CHANNEL_TAG
+typedef struct DD_MCPWM_CHANNEL_TYPE_TAG
 {
     /* Hardware dependent (ESP32) configuration */
     const mcpwm_unit_t       unit_e;         /**< @details MCPWM unit(0-1) */
