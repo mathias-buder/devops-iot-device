@@ -41,7 +41,7 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern DD_MCPWM_CHANNEL     dd_mcpwm_channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE];
+extern DD_MCPWM_CHANNEL_TYPE     dd_mcpwm_channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE];
 extern const mcpwm_config_t dd_mcpwm_timer_cfg_s;
 
 #endif /* DD_MCPWM_CFG_H */

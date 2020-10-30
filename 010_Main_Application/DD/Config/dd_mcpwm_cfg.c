@@ -22,7 +22,7 @@
 /*      GLOBAL PARAMETERS                                            */
 /*********************************************************************/
 
-DD_MCPWM_CHANNEL dd_mcpwm_channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE] = {
+DD_MCPWM_CHANNEL_TYPE dd_mcpwm_channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE] = {
 
                            /* PWM Unit          UNIT I/O Signal    I/O Pin          Timer             PWM Operator    Operation Mode        Duty Cycle */
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE

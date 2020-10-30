@@ -444,7 +444,7 @@ typedef enum DD_MCPWM_CHANNEL_NUM_TAG
     DD_MCPWM_CHANNEL_11,
     DD_MCPWM_CHANNEL_12,
     DD_MCPWM_CHANNEL_SIZE
-} DD_MCPWM_CHANNEL_NUM;
+} DD_MCPWM_CHANNEL;
 
 /*************************************************************/
 /*      STRUCTURES                                           */
@@ -461,7 +461,7 @@ typedef struct DD_MCPWM_CHANNEL_TAG
 
     DD_MCPWM_MODE            mode_e;         /**< @details Channel mode */
     F32                      duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
-} DD_MCPWM_CHANNEL;
+} DD_MCPWM_CHANNEL_TYPE;
 
 /**
  * @brief   MCPWM Output Interface Data Structure
@@ -470,7 +470,7 @@ typedef struct DD_MCPWM_CHANNEL_TAG
  */
 typedef struct DD_MCPWM_DATA_TAG
 {
-    DD_MCPWM_CHANNEL* p_channel_s; /**< @details Pointer to array containing all PWM channels */
+    DD_MCPWM_CHANNEL_TYPE* p_channel_s; /**< @details Pointer to array containing all PWM channels */
 } DD_MCPWM_DATA;
 
 

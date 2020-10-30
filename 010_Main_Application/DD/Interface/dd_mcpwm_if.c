@@ -47,11 +47,10 @@ DD_MCPWM_DATA* dd_mcpwm_get_database( void )
     return &dd_mcpwm_data_s;
 }
 
-
-BOOLEAN dd_mcpwm_set_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e,
-                                 F32                  duty_cycle_f32 )
+BOOLEAN dd_mcpwm_set_duty_cycle( DD_MCPWM_CHANNEL channel_e,
+                                 F32              duty_cycle_f32 )
 {
-    if (    ( DD_MCPWM_CHANNEL_SIZE   > channel_e       )
+    if (    ( DD_MCPWM_CHANNEL_SIZE   > channel_e )
          && ( 0.0F                    <= duty_cycle_f32 )
          && ( DD_MCPWM_MAX_DUTY_CYCLE >= duty_cycle_f32 ) )
     {
@@ -64,8 +63,7 @@ BOOLEAN dd_mcpwm_set_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e,
     return FALSE;
 }
 
-
-F32 dd_mcpwm_get_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e )
+F32 dd_mcpwm_get_duty_cycle( DD_MCPWM_CHANNEL channel_e )
 {
     F32 duty_cycle_f32 = BIG_NUMBER;
 
@@ -78,12 +76,11 @@ F32 dd_mcpwm_get_duty_cycle( DD_MCPWM_CHANNEL_NUM channel_e )
     return duty_cycle_f32;
 }
 
-
-BOOLEAN dd_mcpwm_set_mode( DD_MCPWM_CHANNEL_NUM channel_e,
-                           DD_MCPWM_MODE        mode_e )
+BOOLEAN dd_mcpwm_set_mode( DD_MCPWM_CHANNEL channel_e,
+                           DD_MCPWM_MODE    mode_e )
 {
-    if (    ( DD_MCPWM_CHANNEL_SIZE > channel_e )
-         && ( DD_MCPWM_MODE_SIZE    > mode_e    ) )
+    if ( ( DD_MCPWM_CHANNEL_SIZE > channel_e )
+         && ( DD_MCPWM_MODE_SIZE > mode_e ) )
     {
         /* Update corresponding channel mode in case all values are in range */
         dd_mcpwm_data_s.p_channel_s[channel_e].mode_e = mode_e;
@@ -94,8 +91,7 @@ BOOLEAN dd_mcpwm_set_mode( DD_MCPWM_CHANNEL_NUM channel_e,
     return FALSE;
 }
 
-
-DD_MCPWM_MODE dd_mcpwm_get_mode( DD_MCPWM_CHANNEL_NUM channel_e )
+DD_MCPWM_MODE dd_mcpwm_get_mode( DD_MCPWM_CHANNEL channel_e )
 {
     DD_MCPWM_MODE mode_e = DD_MCPWM_MODE_SIZE;
 
