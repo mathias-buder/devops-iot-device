@@ -52,5 +52,5 @@ BOOLEAN dd_icm_20600_get_gyro_raw_data( S16*                   p_data_s16,
  * data structure
  * @return pointer to the DD_ICM_20600_DATA data structure
  */
-DD_ICM_20600_DATA* dd_icm_20600_get_database( void );
+DD_ICM_20600_DATA_TYPE* dd_icm_20600_get_database( void );
 #endif /* DD_ICM_20600_IF_H */

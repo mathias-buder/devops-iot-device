@@ -67,11 +67,11 @@ typedef struct VE_GRID_VIRBATOR_TYPE_TAG
  *          Engine Grid module.
  * @ingroup VibrationEngineStructures
  */
-typedef struct VE_GRID_DATA_TAG
+typedef struct VE_GRID_DATA_TYPE_TAG
 {
     VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
 
-} VE_GRID_DATA;
+} VE_GRID_DATA_TYPE;
 
 #endif /* VE_PUBLIC_TYPES_H_ */
 

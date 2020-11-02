@@ -35,13 +35,13 @@
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
 BOOLEAN         dd_icm_20600_reset_soft( void );
-BOOLEAN         dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s );
+BOOLEAN         dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA_TYPE* p_input_data_s );
 PRIVATE BOOLEAN dd_icm_20600_set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
 PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
-BOOLEAN         dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN         dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-BOOLEAN         dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s );
-PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s );
+BOOLEAN         dd_icm_20600_temperature_read( DD_ICM_20600_DATA_TYPE* p_input_data_s );
+BOOLEAN         dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA_TYPE* p_input_data_s );
+BOOLEAN         dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA_TYPE* p_input_data_s );
+PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA_TYPE* p_data_s );
 BOOLEAN         dd_icm_20600_calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_f32 );
 
 /*********************************************************************/
@@ -176,7 +176,7 @@ BOOLEAN dd_icm_20600_reset_soft( void )
                                          TRUE );
 }
 
-BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN dd_icm_20600_who_am_i_read( DD_ICM_20600_DATA_TYPE* p_input_data_s )
 {
     U8 register_value_u8;
 
@@ -308,7 +308,7 @@ PRIVATE BOOLEAN dd_icm_20600_set_gyro_full_scale( const DD_ICM_20600_GFS scale_e
     return TRUE;
 }
 
-BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA_TYPE* p_input_data_s )
 {
     U8 register_data_vu8[2];
 
@@ -338,7 +338,7 @@ BOOLEAN dd_icm_20600_temperature_read( DD_ICM_20600_DATA* p_input_data_s )
     return TRUE;
 }
 
-BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA_TYPE* p_input_data_s )
 {
     U8 register_data_vu8[2U * DD_ICM_20600_ACCEL_SIZE];
 
@@ -372,7 +372,7 @@ BOOLEAN dd_icm_20600_accel_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
     return TRUE;
 }
 
-BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
+BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA_TYPE* p_input_data_s )
 {
     U8 register_data_vu8[2U * DD_ICM_20600_ACCEL_SIZE];
 
@@ -408,7 +408,7 @@ BOOLEAN dd_icm_20600_gyro_data_read_raw( DD_ICM_20600_DATA* p_input_data_s )
 
 /* Accelerometer and gyroscope self test; check calibration wrt factory settings
    Should return percent deviation from factory trim values, +/- 14 or less deviation is a pass */
-PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA* p_data_s )
+PRIVATE BOOLEAN dd_icm_20600_self_test( DD_ICM_20600_DATA_TYPE* p_data_s )
 {
     U8  idx_u8;
     U8  register_data_vu8[4];

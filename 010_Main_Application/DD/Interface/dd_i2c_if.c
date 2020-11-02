@@ -59,7 +59,7 @@ DD_I2C_ERROR_INFO_TYPE* dd_i2c_get_last_error( void )
 }
 
 
-DD_I2C_ERROR_DATA* dd_i2c_get_error_database( void )
+DD_I2C_ERROR_DATA_TYPE* dd_i2c_get_error_database( void )
 {
     return &dd_i2c_error_s;
 }

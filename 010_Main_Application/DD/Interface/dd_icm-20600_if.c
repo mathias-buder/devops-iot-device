@@ -45,7 +45,7 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-DD_ICM_20600_DATA* dd_icm_20600_get_database( void )
+DD_ICM_20600_DATA_TYPE* dd_icm_20600_get_database( void )
 {
     return &dd_icm_20600_data_s;
 }

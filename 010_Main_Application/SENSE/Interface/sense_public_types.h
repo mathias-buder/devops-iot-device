@@ -36,13 +36,12 @@
 /*************************************************************/
 /*      GENERAL STRUCTURES                                   */
 /*************************************************************/
-typedef struct SENSE_FIR_CONFIDENCE_TAG
+typedef struct SENSE_FIR_CONFIDENCE_TYPE_TAG
 {
     U64 asso_history_u64;   /**< bit field association history */
     F32 confidence_f32;     /**< confidence, FIR on association history */
     F32 confidence_max_f32; /**< maximum of confidence, FIR on association history */
-} SENSE_FIR_CONFIDENCE;
-
+} SENSE_FIR_CONFIDENCE_TYPE;
 
 /*************************************************************/
 /*      TOUCH SENSOR STRUCTURES                              */
@@ -54,14 +53,12 @@ typedef struct SENSE_FIR_CONFIDENCE_TAG
  *          touch sensor.
  * @ingroup SenseStructures
  */
-typedef struct SENSE_TS_DATA_TAG
+typedef struct SENSE_TS_DATA_TYPE_TAG
 {
-    DD_ADC_DATA*         p_adc_input_s;                     /**< @details Pointer to ADC input structure */
-    F32                  alpha_filtered_adc_level_f32;      /**< @details Alpha filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
-    F32                  alpha_beta_filtered_adc_level_f32; /**< @details Alpha/Beta filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
-    SENSE_FIR_CONFIDENCE touch_conf_s;                      /**< @details Touch confidence with a range of 0.0 to 1.0 */
-} SENSE_TS_DATA;
-
+    DD_ADC_DATA_TYPE*         p_adc_input_s;                     /**< @details Pointer to ADC input structure */
+    F32                       alpha_filtered_adc_level_f32;      /**< @details Alpha filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32                       alpha_beta_filtered_adc_level_f32; /**< @details Alpha/Beta filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    SENSE_FIR_CONFIDENCE_TYPE touch_conf_s;                      /**< @details Touch confidence with a range of 0.0 to 1.0 */
+} SENSE_TS_DATA_TYPE;
 
 #endif /* SENSE_INTERFACE_PUBLIC_TYPES_H_ */
-

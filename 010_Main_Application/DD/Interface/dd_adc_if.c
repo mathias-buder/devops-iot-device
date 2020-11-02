@@ -42,7 +42,7 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-DD_ADC_DATA * dd_adc_get_database( void )
+DD_ADC_DATA_TYPE* dd_adc_get_database( void )
 {
     return &dd_adc_data_s;
 }

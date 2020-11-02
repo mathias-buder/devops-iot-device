@@ -48,7 +48,7 @@ PRIVATE BOOLEAN dd_max_30102_set_prox_int( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_set_die_temp_rdy_int( const BOOLEAN enable_b );
 PRIVATE BOOLEAN dd_max_30102_soft_reset( void );
 PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b );
-PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA * const p_data_s, const DD_MAX_30102_MODE  mode_e );
+PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA_TYPE * const p_data_s, const DD_MAX_30102_MODE  mode_e );
 PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e );
 PRIVATE BOOLEAN dd_max_30102_set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e );
 PRIVATE BOOLEAN dd_max_30102_set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e );
@@ -61,10 +61,10 @@ PRIVATE BOOLEAN dd_max_30102_set_fifo_a_full_value( U8 value_u8 );
 PRIVATE BOOLEAN dd_max_30102_set_fifo_clear( void );
 PRIVATE BOOLEAN dd_max_30102_get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_fifo_ovf_cnt( U8* const p_ovf_cnt_u8 );
-PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA* const p_data_s );
+PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA_TYPE* const p_data_s );
 PRIVATE BOOLEAN dd_max_30102_get_part_id( U8* const p_register_u8 );
 PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 );
-PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA* p_data_s );
+PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA_TYPE* p_data_s );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -300,8 +300,8 @@ PRIVATE BOOLEAN dd_max_30102_set_wake_up( const BOOLEAN enable_b )
                                             ( ( TRUE == enable_b ) ? DD_MAX_30102_WAKEUP : DD_MAX_30102_SHUTDOWN ) ) );
 }
 
-PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA * const p_data_s,
-                                       const DD_MAX_30102_MODE  mode_e )
+PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA_TYPE* const p_data_s,
+                                       const DD_MAX_30102_MODE       mode_e )
 {
     U8 mode_u8 = 0xFF;
 
@@ -338,8 +338,6 @@ PRIVATE BOOLEAN dd_max_30102_set_mode( DD_MAX_30102_DATA * const p_data_s,
 
     return TRUE;
 }
-
-
 
 PRIVATE BOOLEAN dd_max_30102_set_adc_range( const DD_MAX_30102_ADC_RANGE range_e )
 {
@@ -764,7 +762,7 @@ PRIVATE BOOLEAN dd_max_30102_get_fifo_ovf_cnt( U8* const p_ovf_cnt_u8 )
 
 
 
-PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA* const p_data_s )
+PRIVATE BOOLEAN dd_max_30102_get_temperature( DD_MAX_30102_DATA_TYPE* const p_data_s )
 {
     U8 time_out_cnt_u8 = dd_max_30102_temp_time_out_cnt_cfg_u8;
     U8 register_value_u8;
@@ -851,7 +849,7 @@ PRIVATE BOOLEAN dd_max_30102_get_rev_id( U8* const p_register_u8 )
     }
 }
 
-PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA* p_data_s )
+PRIVATE BOOLEAN dd_max_30102_get_fifo_data( DD_MAX_30102_DATA_TYPE* p_data_s )
 {
     U8  idx_u8;
     S8  num_samples_s8;

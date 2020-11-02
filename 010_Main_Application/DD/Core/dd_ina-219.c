@@ -38,7 +38,7 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
                                       DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e );
 PRIVATE BOOLEAN dd_ina_219_calibrate( void );
 PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( U16* const p_value_u16 );
-PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p_bus_data_s );
+PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s );
 PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 );
 PRIVATE BOOLEAN dd_ina_219_get_current_raw( U16* const p_value_u16 );
 
@@ -236,7 +236,7 @@ PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( U16* const p_value_u16 )
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA* const p_bus_data_s )
+PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s )
 {
     U16 register_u16;
 

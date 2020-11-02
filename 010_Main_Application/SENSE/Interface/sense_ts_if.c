@@ -30,7 +30,7 @@
 /*************************************************************/
 /*   FUNCTION DEFINITIONS                                    */
 /*************************************************************/
-SENSE_TS_DATA * sense_ts_get_database( void )
+SENSE_TS_DATA_TYPE * sense_ts_get_database( void )
 {
     return &sense_ts_data_s;
 }

@@ -34,7 +34,7 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-DD_INA_219_DATA* dd_ina_219_get_database( void )
+DD_INA_219_DATA_TYPE* dd_ina_219_get_database( void )
 {
     return &dd_ina_219_data_s;
 }

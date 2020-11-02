@@ -29,14 +29,14 @@ DLG_DATA           dlg_database_s;
 DLG_LOG_DATA       dlg_log_database_s;
 
 /* Pointers to external domains */
-DD_ICM_20600_DATA* p_dlg_dd_icm_20600_data_s;
-DD_I2C_ERROR_DATA* p_dlg_dd_i2c_error_data_s;
-DD_ADC_DATA*       p_dlg_dd_adc_data_s;
-DD_MCPWM_DATA*     p_dlg_dd_mcpwm_data_s;
-DD_MAX_30102_DATA* p_dlg_dd_max_30102_data_s;
-DD_INA_219_DATA*   p_dlg_dd_ina_219_data_s;
+DD_ICM_20600_DATA_TYPE* p_dlg_dd_icm_20600_data_s;
+DD_I2C_ERROR_DATA_TYPE* p_dlg_dd_i2c_error_data_s;
+DD_ADC_DATA_TYPE*       p_dlg_dd_adc_data_s;
+DD_MCPWM_DATA_TYPE*     p_dlg_dd_mcpwm_data_s;
+DD_MAX_30102_DATA_TYPE* p_dlg_dd_max_30102_data_s;
+DD_INA_219_DATA_TYPE*   p_dlg_dd_ina_219_data_s;
 
-SENSE_TS_DATA*     p_dlg_sense_ts_data_s;
+SENSE_TS_DATA_TYPE*     p_dlg_sense_ts_data_s;
 
 /*********************************************************************/
 /*      LOCAL VARIABLES                                              */

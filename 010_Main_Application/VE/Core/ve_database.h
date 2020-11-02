@@ -26,6 +26,6 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern VE_GRID_DATA ve_grid_data_s;
+extern VE_GRID_DATA_TYPE ve_grid_data_s;
 
 #endif /* VE_DATABASE_H_ */

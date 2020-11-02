@@ -29,7 +29,7 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern SENSE_TS_DATA * sense_ts_get_database( void );
+extern SENSE_TS_DATA_TYPE * sense_ts_get_database( void );
 
 
 #endif /* SENSE_INTERFACE_TS_IF_H_ */

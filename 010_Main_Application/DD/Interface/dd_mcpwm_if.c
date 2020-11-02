@@ -85,7 +85,7 @@ PRIVATE void dd_mcpwm_if_wrap_ve_grid( VE_GRID_VIRBATOR_TYPE* p_vibrator_config_
     }
 }
 
-DD_MCPWM_DATA* dd_mcpwm_get_database( void )
+DD_MCPWM_DATA_TYPE* dd_mcpwm_get_database( void )
 {
     return &dd_mcpwm_data_s;
 }

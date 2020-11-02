@@ -26,6 +26,6 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern DD_INA_219_DATA* dd_ina_219_get_database( void );
+extern DD_INA_219_DATA_TYPE* dd_ina_219_get_database( void );
 
 #endif /* DD_INA_219_IF_H */
