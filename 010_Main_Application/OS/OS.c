@@ -14,13 +14,12 @@
         @details Some detailed description
 
 *********************************************************************/
+#include <os_tm.h>
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
 #include "esp_spi_flash.h"
-
-#include "os_time.h"
 
 #include "../DD/DD.h"
 #include "../SENSE/SENSE.h"
@@ -45,11 +44,11 @@ void app_main()
     printf( "%dMB %s flash\n\n", spi_flash_get_chip_size() / ( 1024 * 1024 ),
             ( chip_info.features & CHIP_FEATURE_EMB_FLASH ) ? "embedded" : "external" );
 
-    os_time_init(); /* Initialize Global Time Module */
-    dd_init();      /* Initialize Device Driver Domain ( DD ) */
-    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
-    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
-    dlg_init();     /* Initialize Data Logging Domain( DLG ) */
+    os_tm_init(); /* Initialize Global Time Module */
+    dd_init();    /* Initialize Device Driver Domain ( DD ) */
+    sense_init(); /* Initialize Sensor Processing Domain ( SENSE ) */
+    ve_init();    /* Initialize Vibration Engine Domain ( VE ) */
+    dlg_init();   /* Initialize Data Logging Domain( DLG ) */
 
     /***********************************************
      ********** Enter Infinite Main Loop ***********
@@ -59,10 +58,10 @@ void app_main()
         /* Schedule every 100 ms */
         vTaskDelayUntil( &xLastWakeTime, xFrequency );
 
-        dd_main();        /* Schedule Device Driver Domain ( DD ) */
-        sense_main();     /* Schedule Sensor Processing Domain ( SENSE ) */
-        ve_main();        /* Schedule Vibration Engine Domain ( VE ) */
-        dlg_main();       /* Schedule Data Logging Domain( DLG ) */
-        os_time_update(); /* Update Global Time Module */
+        dd_main();      /* Schedule Device Driver Domain ( DD ) */
+        sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */
+        ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
+        dlg_main();     /* Schedule Data Logging Domain( DLG ) */
+        os_tm_update(); /* Update Global Time Module */
     }
 }

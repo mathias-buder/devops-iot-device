@@ -18,7 +18,8 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "os_time.h"
+#include "os_tm.h"
+
 #include "OS.h"
 
 #include <time.h>
@@ -46,7 +47,7 @@ char      os_time_str_buf[64];
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void os_time_init( void )
+void os_tm_init( void )
 {
 
     os_time_info_s.tm_sec   = 0U;    /**< tm_sec — the number of seconds after the minute, normally in the range 0 to 59, but can be up to 60 to allow for leap seconds. */
@@ -66,7 +67,7 @@ void os_time_init( void )
     tzset();
 }
 
-void os_time_update( void )
+void os_tm_update( void )
 {
 
     os_time_stamp_ms_f32 += 0.1F;

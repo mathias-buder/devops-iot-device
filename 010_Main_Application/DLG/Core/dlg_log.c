@@ -31,7 +31,7 @@
 #include "../Interface/dlg_log_if.h"
 
 #include "../../DD/DD.h"
-#include "../../OS/os_time.h"
+#include "../../OS/os_tm.h"
 
 
 /*********************************************************************/

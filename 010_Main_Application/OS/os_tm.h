@@ -27,7 +27,7 @@
 /*************************************************************/
 extern F32 os_time_stamp_ms_f32;
 
-void os_time_init( void );
-void os_time_update( void );
+void os_tm_init( void );
+void os_tm_update( void );
 
 #endif /* OS_TIME_H_ */

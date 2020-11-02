@@ -27,7 +27,7 @@
 #include "../Core/dlg_database.h"
 #include "../Core/dlg_log.h"
 
-#include "../OS/os_time.h"
+#include "../../OS/os_tm.h"
 #include "../DD/DD.h"
 
 /*************************************************************/
