@@ -20,6 +20,7 @@
 
 #include "esp_system.h"
 #include "esp_spi_flash.h"
+#include "freertos/task.h"
 
 #include "os_tm.h"
 
@@ -31,7 +32,7 @@
 void app_main()
 {
     /* Get current OS tick count */
-    TickType_t xLastWakeTime = xTaskGetTickCount();
+    TickType_t last_wake_time_t = xTaskGetTickCount();
 
     os_tm_init(); /* Initialize Global Time Module */
     dd_init();    /* Initialize Device Driver Domain ( DD ) */
@@ -45,7 +46,7 @@ void app_main()
     while ( TRUE )
     {
         /* Schedule every 100 ms */
-        vTaskDelayUntil( &xLastWakeTime, (TickType_t) OS_X_FREQUENCY );
+        vTaskDelayUntil( &last_wake_time_t, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
         dd_main();      /* Schedule Device Driver Domain ( DD ) */
         sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */

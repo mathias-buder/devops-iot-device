@@ -23,15 +23,23 @@
 #include "../../types.h"
 
 #include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+
+#include "os_ota.h"
+#include "os_sc.h"
+#include "os_tm.h"
+#include "os_ws.h"
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 /* Log message TAG string */
-#define OS_LOG_MSG_TAG           "OS"
+#define OS_LOG_MSG_TAG                 "OS"
 
-#define OS_X_FREQUENCY            10U
+#define OS_MAIN_CYCLE_TIME_MS          100U   /* 100 ms cycle time ( minimum cycle time = portTICK_PERIOD_MS ) */
+
+#define OS_MAIN_CYCLE_TIME_SEC         ( OS_MAIN_CYCLE_TIME_MS / 1000.0F )
+
+#define OS_MAIN_CYCLE_TIME_INCREMENT   ( OS_MAIN_CYCLE_TIME_MS / portTICK_PERIOD_MS )
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
