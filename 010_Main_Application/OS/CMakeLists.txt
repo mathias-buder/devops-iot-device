@@ -11,7 +11,10 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-idf_component_register(SRCS "os_tm.c"
+idf_component_register(SRCS "os_ota.c"
+							"os_sc.c"
+							"os_tm.c"
+							"os_ws.c"
                             "OS.c"
                        INCLUDE_DIRS "."
                        REQUIRES spi_flash)
