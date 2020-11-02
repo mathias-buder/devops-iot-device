@@ -14,12 +14,14 @@
         @details Some detailed description
 
 *********************************************************************/
-#include <os_tm.h>
+#include "OS.h"
+
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+
 #include "esp_system.h"
 #include "esp_spi_flash.h"
+
+#include "os_tm.h"
 
 #include "../DD/DD.h"
 #include "../SENSE/SENSE.h"
@@ -28,21 +30,8 @@
 
 void app_main()
 {
-    /* Print chip information */
-    esp_chip_info_t  chip_info;
-    TickType_t       xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xFrequency    = 10U;
-
-    esp_chip_info( &chip_info );
-    printf( "This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
-            chip_info.cores,
-            ( chip_info.features & CHIP_FEATURE_BT ) ? "/BT" : "",
-            ( chip_info.features & CHIP_FEATURE_BLE ) ? "/BLE" : "" );
-
-    printf( "silicon revision %d, ", chip_info.revision );
-
-    printf( "%dMB %s flash\n\n", spi_flash_get_chip_size() / ( 1024 * 1024 ),
-            ( chip_info.features & CHIP_FEATURE_EMB_FLASH ) ? "embedded" : "external" );
+    /* Get current OS tick count */
+    TickType_t xLastWakeTime = xTaskGetTickCount();
 
     os_tm_init(); /* Initialize Global Time Module */
     dd_init();    /* Initialize Device Driver Domain ( DD ) */
@@ -56,7 +45,7 @@ void app_main()
     while ( TRUE )
     {
         /* Schedule every 100 ms */
-        vTaskDelayUntil( &xLastWakeTime, xFrequency );
+        vTaskDelayUntil( &xLastWakeTime, (TickType_t) OS_X_FREQUENCY );
 
         dd_main();      /* Schedule Device Driver Domain ( DD ) */
         sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */

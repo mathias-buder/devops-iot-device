@@ -11,7 +11,6 @@
         (c) SEWELA 2020
 
         @file OS.h
-        @details Some detailed description
 
 *********************************************************************/
 
@@ -23,11 +22,16 @@
 /*************************************************************/
 #include "../../types.h"
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
 /* Log message TAG string */
 #define OS_LOG_MSG_TAG           "OS"
+
+#define OS_X_FREQUENCY            10U
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
