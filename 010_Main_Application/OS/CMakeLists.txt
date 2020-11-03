@@ -17,4 +17,4 @@ idf_component_register(SRCS "os_ota.c"
 							"os_ws.c"
                             "OS.c"
                        INCLUDE_DIRS "."
-                       REQUIRES spi_flash)
+                       REQUIRES spi_flash esp_wifi wpa_supplicant nvs_flash )
