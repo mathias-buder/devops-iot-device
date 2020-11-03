@@ -70,7 +70,7 @@ void os_tm_init( void )
 void os_tm_update( void )
 {
 
-    os_time_stamp_ms_f32 += 0.1F;
+    os_time_stamp_ms_f32 += OS_MAIN_CYCLE_TIME_SEC;
 
 
     time( &os_time_t );
