@@ -50,8 +50,8 @@
 #define EXAMPLE_INTERFACE TCPIP_ADAPTER_IF_STA
 #endif
 
-#define CONFIG_EXAMPLE_WIFI_SSID        ""
-#define CONFIG_EXAMPLE_WIFI_PASSWORD    ""
+#define CONFIG_EXAMPLE_WIFI_SSID        "FRITZ!Box Fon WLAN 7390"
+#define CONFIG_EXAMPLE_WIFI_PASSWORD    "2909401785480560"
 
 /*********************************************************************/
 /*      LOCAL VARIABLES                                              */
@@ -64,25 +64,6 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-
-
-
-
-
-
-
-
-
-/* Common functions for protocol examples, to establish Wi-Fi or Ethernet connection.
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
- */
-
 
 
 #define GOT_IPV4_BIT BIT(0)
