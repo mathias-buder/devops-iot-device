@@ -35,6 +35,8 @@ void app_main()
     TickType_t last_wake_time_t = xTaskGetTickCount();
 
     os_tm_init(); /* Initialize Global Time Module */
+    os_wifi_init();
+
     dd_init();    /* Initialize Device Driver Domain ( DD ) */
     sense_init(); /* Initialize Sensor Processing Domain ( SENSE ) */
     ve_init();    /* Initialize Vibration Engine Domain ( VE ) */
@@ -45,7 +47,7 @@ void app_main()
      ***********************************************/
     while ( TRUE )
     {
-        /* Schedule every 100 ms */
+        /* Schedule every OS_MAIN_CYCLE_TIME_INCREMENT ms */
         vTaskDelayUntil( &last_wake_time_t, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
         dd_main();      /* Schedule Device Driver Domain ( DD ) */
