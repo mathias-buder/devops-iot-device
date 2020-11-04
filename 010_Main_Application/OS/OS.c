@@ -22,7 +22,7 @@
 #include "esp_spi_flash.h"
 #include "freertos/task.h"
 
-#include "os_tm.h"
+#include "Core/os_tm.h"
 
 #include "../DD/DD.h"
 #include "../SENSE/SENSE.h"

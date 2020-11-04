@@ -11,10 +11,14 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-idf_component_register(SRCS "os_ota.c"
-							"os_sc.c"
-							"os_tm.c"
-							"os_ws.c"
+idf_component_register(SRCS "Config/os_ota_cfg.c"
+							"Config/os_tm_cfg.c"
+							"Config/os_wifi_cfg.c"
+							"Config/os_ws_cfg.c"
+							"Core/os_ota.c"
+							"Core/os_tm.c"
+							"Core/os_wifi.c"
+							"Core/os_ws.c"
                             "OS.c"
                        INCLUDE_DIRS "."
-                       REQUIRES spi_flash esp_wifi wpa_supplicant nvs_flash )
+                       REQUIRES spi_flash )
