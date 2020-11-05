@@ -29,6 +29,9 @@
 /* Log message TAG string */
 #define OS_WIFI_LOG_MSG_TAG              "OS_WIFI"
 
+#define OS_WIFI_DEFAULT_SSID             "FRITZ!Box Fon WLAN 7390"
+#define OS_WIFI_DEFAULT_PASSWORD         "2909401785480560"
+
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/

@@ -34,13 +34,12 @@ void app_main()
     /* Get current OS tick count */
     TickType_t last_wake_time_t = xTaskGetTickCount();
 
-    os_tm_init(); /* Initialize Global Time Module */
-    os_wifi_init();
-
-    dd_init();    /* Initialize Device Driver Domain ( DD ) */
-    sense_init(); /* Initialize Sensor Processing Domain ( SENSE ) */
-    ve_init();    /* Initialize Vibration Engine Domain ( VE ) */
-    dlg_init();   /* Initialize Data Logging Domain( DLG ) */
+    os_tm_init();   /* Initialize Global Time Module */
+    os_wifi_init(); /* Initialize and connect to wifi network */
+    dd_init();      /* Initialize Device Driver Domain ( DD ) */
+    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
+    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
+    dlg_init();     /* Initialize Data Logging Domain( DLG ) */
 
     /***********************************************
      ********** Enter Infinite Main Loop ***********
