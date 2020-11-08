@@ -535,4 +535,19 @@ typedef struct DD_INA_219_DATA_TYPE_TAG
     F32                          current_mA_f32;        /**< @details Current @unit mA */
 } DD_INA_219_DATA_TYPE;
 
+
+/*************************************************************/
+/*                        DD_TMP_102                         */
+/*************************************************************/
+/**
+ * @brief   TMP-102 Output Interface Data Structure
+ * @details TMP-102 Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_TMP_102_DATA_TYPE_TAG
+{
+    U16 temperature_raw_u16; /**< @details Raw ADC temperature reading @unit LSB */
+    F32 temperature_deg_f32; /**< @details Current temperature reading @unit °C */
+} DD_TMP_102_DATA_TYPE;
+
 #endif /* DD_PUBLIC_TYPES_H */

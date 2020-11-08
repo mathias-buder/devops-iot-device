@@ -10,30 +10,22 @@
 
         (c) SEWELA 2020
 
+        @file dd_tmp-102_if.h
+        @details Some detailed description
+
 *********************************************************************/
-
-/**
- * @file dd_database.h
- * @details Some detailed description
- */
-
-#ifndef DD_DATABASE_H
-#define DD_DATABASE_H
+#ifndef DD_TMP_102_IF_H_
+#define DD_TMP_102_IF_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "dd_types.h"
+#include "dd_public_types.h"
+
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern DD_SD_DATA_TYPE        dd_sd_data_s;
-extern DD_ADC_DATA_TYPE       dd_adc_data_s;
-extern DD_MCPWM_DATA_TYPE     dd_mcpwm_data_s;
-extern DD_I2C_ERROR_DATA_TYPE dd_i2c_error_s;
-extern DD_ICM_20600_DATA_TYPE dd_icm_20600_data_s;
-extern DD_MAX_30102_DATA_TYPE dd_max_30102_data_s;
-extern DD_INA_219_DATA_TYPE   dd_ina_219_data_s;
-extern DD_TMP_102_DATA_TYPE   dd_tmp_102_data_s;
-#endif /* DD_DATABASE_H */
+extern DD_TMP_102_DATA_TYPE* dd_tmp_102_get_database( void );
+
+#endif /* DD_TMP_102_IF_H_ */
