@@ -546,7 +546,7 @@ typedef struct DD_INA_219_DATA_TYPE_TAG
  */
 typedef struct DD_TMP_102_DATA_TYPE_TAG
 {
-    U16 temperature_raw_u16; /**< @details Raw ADC temperature reading @unit LSB */
+    S16 temperature_raw_s16; /**< @details Raw ADC temperature reading @unit LSB */
     F32 temperature_deg_f32; /**< @details Current temperature reading @unit °C */
 } DD_TMP_102_DATA_TYPE;
 
