@@ -62,6 +62,9 @@ void dlg_log_get_data( void )
     /* Acquire INA-219 database pointer */
     p_dlg_dd_ina_219_data_s = dd_ina_219_get_database();
 
+    /* Acquire TMP-102 database pointer */
+    p_dlg_dd_tmp_102_data_s = dd_tmp_102_get_database();
+
     /* Acquire touch sensor database pointer */
     p_dlg_sense_ts_data_s = sense_ts_get_database();
 

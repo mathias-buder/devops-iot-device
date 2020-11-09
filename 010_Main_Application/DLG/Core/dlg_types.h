@@ -75,6 +75,7 @@ typedef struct DLG_LOG_DATA_TAG
     F32 dd_ina_219_bus_voltage_V_f32;               /**< @details Bus voltage @unit V */
     F32 dd_ina_219_power_mW_f32;                    /**< @details Power @unit mW */
     F32 dd_ina_219_current_mA_f32;                  /**< @details Current @unit mA */
+    F32 dd_tmp_102_temperature_deg_f32;             /**< @details Current temperature reading @unit °C */
     F32 dd_mcpwm_ch_1_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 1 */
     F32 dd_mcpwm_ch_2_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 2 */
     F32 dd_mcpwm_ch_3_duty_cycle_f32;               /**< @details MCPWM duty cycle for channels 3 */
@@ -107,6 +108,7 @@ typedef struct DLG_LOG_DATA_TAG
     S16 dd_icm_20600_gyro_raw_data_y_s16;           /**< @details ICM-20600 Y gyroscope raw value */
     S16 dd_icm_20600_gyro_raw_data_z_s16;           /**< @details ICM-20600 Z gyroscope raw value */
     S16 dd_i2c_error_code_s16;                      /**< @details I2C Current error code */
+    S16 dd_tmp_102_temperature_raw_s16;             /**< @details Raw ADC temperature reading @unit LSB */
 
     U8  dd_icm_20600_chip_id_u8;                    /**< @details ICM-20600 Unique chip id */
     U8  dd_icm_20600_dev_state_u8;                  /**< @details ICM-20600 Current device state */

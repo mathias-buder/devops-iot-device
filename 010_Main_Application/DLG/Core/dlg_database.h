@@ -39,6 +39,7 @@ extern DD_ADC_DATA_TYPE*       p_dlg_dd_adc_data_s;
 extern DD_MCPWM_DATA_TYPE*     p_dlg_dd_mcpwm_data_s;
 extern DD_MAX_30102_DATA_TYPE* p_dlg_dd_max_30102_data_s;
 extern DD_INA_219_DATA_TYPE*   p_dlg_dd_ina_219_data_s;
+extern DD_TMP_102_DATA_TYPE*   p_dlg_dd_tmp_102_data_s;
 
 extern SENSE_TS_DATA_TYPE*     p_dlg_sense_ts_data_s;
 

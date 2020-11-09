@@ -217,10 +217,15 @@ DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_10_mode', 1, 0.0, 2, 18)
 DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_11_mode', 1, 0.0, 2, 20)
 DLG_DD_MCPWM_DATA_C.AddSignal('DD_MCPWM_Ch_12_mode', 1, 0.0, 2, 22)
 
+DLG_DD_TMP_102_DATA = CanMessage('DD_TMP_102_DATA', 100)
+# DLG_DD_TMP_102_DATA signals
+DLG_DD_TMP_102_DATA.AddSignal('DD_TMP_102_temperature_raw',  1,   -32768.0, 16, 0)
+DLG_DD_TMP_102_DATA.AddSignal('DD_TMP_102_temperature_deg',  0.01, -81.92,  14, 16)
+
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 37f 2I 8H 7h 37B x'
+dlg_log_data_fmt = '< 38f 2I 8H 8h 37B 3x'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
@@ -260,6 +265,7 @@ for sfb_file in files:
             dd_ina_219_bus_voltage_V_f32,
             dd_ina_219_power_mW_f32,
             dd_ina_219_current_mA_f32,
+            dd_tmp_102_temperature_deg_f32,
             dd_mcpwm_ch_1_duty_cycle_f32,
             dd_mcpwm_ch_2_duty_cycle_f32,
             dd_mcpwm_ch_3_duty_cycle_f32,
@@ -292,6 +298,7 @@ for sfb_file in files:
             icm_20600_gyro_raw_data_y_s16,
             icm_20600_gyro_raw_data_z_s16,
             i2c_error_code_s16,
+            dd_tmp_102_temperature_raw_s16,
 
             icm_20600_chip_id_u8,
             icm_20600_dev_state_u8,
@@ -432,6 +439,12 @@ for sfb_file in files:
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_bus_voltage',         dd_ina_219_bus_voltage_V_f32 )
             DLG_INA_219_DATA_B.SetTimeStamp( dlg_time_stamp_f32 )
             
+
+            DLG_DD_TMP_102_DATA.SetSignal( 'DD_TMP_102_temperature_raw',    dd_tmp_102_temperature_raw_s16 )
+            DLG_DD_TMP_102_DATA.SetSignal( 'DD_TMP_102_temperature_deg',    dd_tmp_102_temperature_deg_f32 )
+            DLG_DD_TMP_102_DATA.SetTimeStamp( dlg_time_stamp_f32 )
+
+
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_1_Duty_Cycle', dd_mcpwm_ch_1_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_2_Duty_Cycle', dd_mcpwm_ch_2_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_3_Duty_Cycle', dd_mcpwm_ch_3_duty_cycle_f32 )
@@ -485,6 +498,8 @@ for sfb_file in files:
 
             writer.on_message_received( DLG_INA_219_DATA_A.GetMessage() )
             writer.on_message_received( DLG_INA_219_DATA_B.GetMessage() )
+
+            writer.on_message_received( DLG_DD_TMP_102_DATA.GetMessage() )
 
             writer.on_message_received( DLG_SENSE_TS_DATA.GetMessage() )
 

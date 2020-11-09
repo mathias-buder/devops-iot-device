@@ -53,6 +53,7 @@ PRIVATE void    dlg_log_create_dd_mcpwm_data_frame( void );
 PRIVATE void    dlg_log_create_dd_icm_20600_data_frame( void );
 PRIVATE void    dlg_log_create_dd_max_30102_data_frame( void );
 PRIVATE void    dlg_log_create_dd_ina_219_data_frame( void );
+PRIVATE void    dlg_log_create_dd_tmp_102_data_frame( void );
 PRIVATE void    dlg_log_create_sense_ts_data_frame( void );
 PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 );
 /*********************************************************************/
@@ -114,6 +115,7 @@ void dlg_log_main( void )
         dlg_log_create_dd_icm_20600_data_frame();
         dlg_log_create_dd_max_30102_data_frame();
         dlg_log_create_dd_ina_219_data_frame();
+        dlg_log_create_dd_tmp_102_data_frame();
         dlg_log_create_sense_ts_data_frame();
 
         /* Acquire current time stamp */
@@ -356,6 +358,18 @@ PRIVATE void dlg_log_create_dd_ina_219_data_frame( void )
     dlg_log_database_s.dd_ina_219_bus_voltage_raw_u16    = p_dlg_dd_ina_219_data_s->bus_voltage_data_s.voltage_raw_u16;
     dlg_log_database_s.dd_ina_219_shunt_voltage_range_u8 = (U8) p_dlg_dd_ina_219_data_s->shunt_voltage_range_e;
     dlg_log_database_s.dd_ina_219_bus_voltage_range_u8   = (U8) p_dlg_dd_ina_219_data_s->bus_voltage_range_e;
+#endif
+}
+
+
+PRIVATE void dlg_log_create_dd_tmp_102_data_frame( void )
+{
+#ifdef DLG_LOG_TEST_ENABLE
+    dlg_log_database_s.dd_tmp_102_temperature_raw_s16 = log_test_mode_cnt_u32;
+    dlg_log_database_s.dd_tmp_102_temperature_deg_f32 = log_test_mode_cnt_u32;
+#else
+    dlg_log_database_s.dd_tmp_102_temperature_raw_s16 = p_dlg_dd_tmp_102_data_s->temperature_raw_s16;
+    dlg_log_database_s.dd_tmp_102_temperature_deg_f32 = p_dlg_dd_tmp_102_data_s->temperature_deg_f32;
 #endif
 }
 

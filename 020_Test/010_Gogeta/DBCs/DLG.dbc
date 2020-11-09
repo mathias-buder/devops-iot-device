@@ -36,6 +36,10 @@ BS_:
 BU_: DLG
 
 
+BO_ 100 DD_TMP_102_Data: 8 Vector__XXX
+ SG_ DD_TMP_102_temperature_raw : 0|16@1+ (1,-32768) [-32768|32767] "LSB" Vector__XXX
+ SG_ DD_TMP_102_temperature_deg : 16|14@1+ (0.01,-81.92) [-81.92|81.91] "°C" Vector__XXX
+
 BO_ 92 DD_MCPWM_Data_C: 8 Vector__XXX
  SG_ DD_MCPWM_Ch_9_mode : 16|2@1+ (1,0) [0|3] "" Vector__XXX
  SG_ DD_MCPWM_Ch_8_mode : 14|2@1+ (1,0) [0|3] "" Vector__XXX
@@ -168,6 +172,8 @@ BO_ 21 DD_ICM_20600_raw_accel: 8 DLG
 
 
 
+CM_ SG_ 100 DD_TMP_102_temperature_raw "Current temperature reading in LSB (0.0625°C / LSB)";
+CM_ SG_ 100 DD_TMP_102_temperature_deg "Current temperature reading in °C";
 CM_ SG_ 92 DD_MCPWM_Ch_9_mode "Current alpha filtered ADC value";
 CM_ SG_ 92 DD_MCPWM_Ch_8_mode "Current alpha filtered ADC value";
 CM_ SG_ 92 DD_MCPWM_Ch_7_mode "Current alpha filtered ADC value";
