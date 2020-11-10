@@ -96,9 +96,7 @@ typedef struct DLG_LOG_DATA_TAG
     U16 dd_adc_raw_data_u16;                        /**< @details Current raw 12-bit ADC sample @unit LSB */
     U16 dd_adc_previous_raw_data_u16;               /**< @details Previous raw 12-bit ADC sample @unit LSB */
     U16 dd_adc_voltage_u16;                         /**< @details Actual voltage measured at the ADC input pin @unit mV */
-    U16 dd_ina_219_shunt_voltage_raw_u16;           /**< @details Raw ADC reading representing the voltage across the shunt resistor */
     U16 dd_ina_219_power_raw_u16;                   /**< @details Main system power ADC reading */
-    U16 dd_ina_219_current_raw_u16;                 /**< @details Main system current ADC reading */
     U16 dd_ina_219_bus_voltage_raw_u16;             /**< @details Raw most recent bus voltage ADC reading */
 
     S16 dd_icm_20600_accel_raw_data_x_s16;          /**< @details ICM-20600 X acceleration raw value */
@@ -108,6 +106,8 @@ typedef struct DLG_LOG_DATA_TAG
     S16 dd_icm_20600_gyro_raw_data_y_s16;           /**< @details ICM-20600 Y gyroscope raw value */
     S16 dd_icm_20600_gyro_raw_data_z_s16;           /**< @details ICM-20600 Z gyroscope raw value */
     S16 dd_i2c_error_code_s16;                      /**< @details I2C Current error code */
+    S16 dd_ina_219_shunt_voltage_raw_s16;           /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    S16 dd_ina_219_current_raw_s16;                 /**< @details Main system current ADC reading */
     S16 dd_tmp_102_temperature_raw_s16;             /**< @details Raw ADC temperature reading @unit LSB */
 
     U8  dd_icm_20600_chip_id_u8;                    /**< @details ICM-20600 Unique chip id */
