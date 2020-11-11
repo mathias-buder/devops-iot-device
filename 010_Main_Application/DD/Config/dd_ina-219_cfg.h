@@ -32,10 +32,12 @@
 #define DD_INA_219_I2C_ADDR                     0x40        /**< I2C write address, A0 = A1 = VDD */
 #define DD_INA_219_SHUNT_RESISTOR_VALUE_OHM     ( 0.1F )    /**< Shunt resistor value @unit Ohm */
 
+
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 extern DD_INA_219_SHUNT_VOL_RANGE dd_ina_219_shunt_voltage_range_cfg_e;
 extern DD_INA_219_BUS_VOL_RANGE   dd_ina_219_bus_voltage_range_cfg_e;
+extern F32                        dd_ina_219_max_current_mA_f32;
 
 #endif /* DD_INA_219_CFG_H */

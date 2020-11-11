@@ -27,3 +27,5 @@
 /*********************************************************************/
 DD_INA_219_SHUNT_VOL_RANGE dd_ina_219_shunt_voltage_range_cfg_e = DD_INA_219_SHUNT_VOL_RANGE_40MV;
 DD_INA_219_BUS_VOL_RANGE   dd_ina_219_bus_voltage_range_cfg_e   = DD_INA_219_BUS_VOL_RANGE_16V;
+
+F32                        dd_ina_219_max_current_mA_f32        = 500.0F;

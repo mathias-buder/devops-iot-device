@@ -34,8 +34,7 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e,
-                                      DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e );
+PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e, DD_INA_219_BUS_VOL_RANGE bus_voltage_range_e );
 PRIVATE BOOLEAN dd_ina_219_calibrate( void );
 PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 );
 PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s );
@@ -83,10 +82,10 @@ void dd_ina_219_main( void )
     dd_ina_219_data_s.shunt_voltage_mV_f32  = dd_ina_219_data_s.shunt_voltage_raw_s16 * DD_INA_219_V_SHUNT_LSB_MILLI_VOLT;
 
     /* Convert Current into mA */
-    dd_ina_219_data_s.current_mA_f32 = dd_ina_219_data_s.current_raw_s16 * DD_INA_219_CALIB_CURRENT_LSB_MILLI_AMP;
+    dd_ina_219_data_s.current_mA_f32 = dd_ina_219_data_s.current_raw_s16 * dd_ina_219_data_s.current_lsb_A_f32 * 1000.0F;
 
     /* Convert Power into mW */
-    dd_ina_219_data_s.power_mW_f32 = dd_ina_219_data_s.power_raw_u16 * DD_INA_219_CALIB_POWER_LSB_MILLI_WATT;
+    dd_ina_219_data_s.power_mW_f32 = dd_ina_219_data_s.power_raw_u16 * dd_ina_219_data_s.power_lsb_W_f32 * 1000.0F;
 
 
     ESP_LOGD( DD_INA_219_LOG_MSG_TAG, "ShuntV %0.2f mV, BusV %0.2f V, Current %0.2f mA, Power %0.3f mW", dd_ina_219_data_s.shunt_voltage_mV_f32,
@@ -165,45 +164,16 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
     return TRUE;
 }
 
-
 PRIVATE BOOLEAN dd_ina_219_calibrate( void )
 {
-    /*
-     * VBUS_MAX   = 16V
-     * VSHUNT_MAX = 0.16      (Assumes Gain 8, 320mV, can also be 0.16, 0.08, 0.04)
-     * RSHUNT     = 0.1       (Resistor value in ohms) R = U/I
-
-     * 1. Determine max possible current
-     * MaxPossible_I = VSHUNT_MAX / RSHUNT
-     * MaxPossible_I = 3.2A
-
-     2. Determine max expected current
-     MaxExpected_I = 0.3A
-
-     3. Calculate possible range of LSBs (Min = 15-bit, Max = 12-bit)
-     MinimumLSB = MaxExpected_I/32767
-     MinimumLSB = 0.0000091              (9.1uA per bit)
-     MaximumLSB = MaxExpected_I/4096
-     MaximumLSB = 0.000073               (73uA per bit)
-
-     4. Choose an LSB between the min and max values
-        (Preferrably a roundish number close to MinLSB)
-     CurrentLSB = 0.00001 (10uA per bit)
-
-     5. Compute the calibration register
-     Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
-     Cal = 40960
-
-     6. Calculate the power LSB
-     PowerLSB = 20 * CurrentLSB
-     PowerLSB = 0.0002 (200uW per bit)
-     */
-
-    /* Set calibration register accordingly */
-    U16 register_u16 = 40960U;
+    /* Calculating calibration register
+     * See datasheet pg. 12 for details */
+    dd_ina_219_data_s.current_lsb_A_f32        = ( F32 )( ( dd_ina_219_max_current_mA_f32 / 1000.0F ) / 32768U );
+    dd_ina_219_data_s.power_lsb_W_f32          = 20.0F * dd_ina_219_data_s.current_lsb_A_f32;
+    dd_ina_219_data_s.calibration_register_u16 = ( U16 )( 0.04096F / ( dd_ina_219_data_s.current_lsb_A_f32 * DD_INA_219_SHUNT_RESISTOR_VALUE_OHM ) );
 
     /* Update Calibration Registers */
-    if ( FALSE == dd_i2c_write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CALIB_DATA, ( (U8*) &register_u16 ), sizeof( register_u16 ) ) )
+    if ( FALSE == dd_i2c_write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CALIB_DATA, ( (U8*) &dd_ina_219_data_s.calibration_register_u16 ), sizeof( dd_ina_219_data_s.calibration_register_u16 ) ) )
     {
         ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Couldn't update calibration registers" );
         return FALSE;
@@ -214,12 +184,10 @@ PRIVATE BOOLEAN dd_ina_219_calibrate( void )
 
 PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 )
 {
-    U16 register_u16;
     U8 register_vu8[2U];
 
     if ( NULL != p_value_s16 )
     {
-        // if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_SHUNT_VOLTAGE_DATA, (U8*) &register_u16, sizeof( register_u16 ) ) )
         if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_SHUNT_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
         {
             return FALSE;
@@ -228,8 +196,6 @@ PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 )
         /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
          * of 16-bit variable register_u16 need to be swapped. */
         *p_value_s16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
-
-        // *p_value_u16 = SWAP_BYTES_IN_WORD( register_u16 );
     }
     else
     {
@@ -243,7 +209,6 @@ PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 )
 
 PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s )
 {
-    U16 register_u16 = 0U;
     U8  register_vu8[2U];
 
     if ( NULL != p_bus_data_s )
@@ -253,7 +218,8 @@ PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* co
             return FALSE;
         }
 
-        /* Sort MSB and LSB */
+        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+         * of 16-bit variable register_u16 need to be swapped. */
         p_bus_data_s->voltage_raw_u16 = ( ( register_vu8[0U] << 8U ) | register_vu8[1U] );
 
         /* Extract status information (datasheet pg. 23) */
@@ -285,7 +251,8 @@ PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 )
             return FALSE;
         }
 
-        /* Sort MSB and LSB */
+        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+         * of 16-bit variable register_u16 need to be swapped. */
         *p_value_u16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
     }
     else
@@ -309,7 +276,8 @@ PRIVATE BOOLEAN dd_ina_219_get_current_raw( S16* const p_value_s16 )
             return FALSE;
         }
 
-        /* Sort MSB and LSB */
+        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+         * of 16-bit variable register_u16 need to be swapped. */
         *p_value_s16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
     }
     else

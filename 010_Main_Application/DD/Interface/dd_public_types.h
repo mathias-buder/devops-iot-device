@@ -520,21 +520,23 @@ typedef struct DD_INA_219_BUS_VOL_DATA_TYPE_TAG
  */
 typedef struct DD_INA_219_DATA_TYPE_TAG
 {
-    DD_INA_219_SHUNT_VOL_RANGE   shunt_voltage_range_e; /**< @details Current full-scale current sense (input) voltage range */
-    DD_INA_219_BUS_VOL_RANGE     bus_voltage_range_e;   /**< @details Current bus voltage (input voltage) range */
-    DD_INA_219_BUS_VOL_DATA_TYPE bus_voltage_data_s;    /**< @details Raw most recent bus voltage ADC reading and status information */
-    S16                          shunt_voltage_raw_s16; /**< @details Raw ADC reading representing the voltage across the shunt resistor */
-    U16                          power_raw_u16;         /**< @details Records power in watts by multiplying the value of the current with the
+    DD_INA_219_SHUNT_VOL_RANGE   shunt_voltage_range_e;    /**< @details Current full-scale current sense (input) voltage range */
+    DD_INA_219_BUS_VOL_RANGE     bus_voltage_range_e;      /**< @details Current bus voltage (input voltage) range */
+    DD_INA_219_BUS_VOL_DATA_TYPE bus_voltage_data_s;       /**< @details Raw most recent bus voltage ADC reading and status information */
+    S16                          shunt_voltage_raw_s16;    /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    U16                          power_raw_u16;            /**< @details Records power in watts by multiplying the value of the current with the
                                                                       value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
-    S16                          current_raw_s16;       /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
+    S16                          current_raw_s16;          /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
                                                                       with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
-    F32                          shunt_voltage_mV_f32;  /**< @details Voltage across the shunt resistor @unit mV */
-    F32                          bus_voltage_V_f32;     /**< @details Bus voltage @unit V */
-    F32                          bus_voltage_mV_f32;    /**< @details Bus voltage @unit mV */
-    F32                          power_mW_f32;          /**< @details Power @unit mW */
-    F32                          current_mA_f32;        /**< @details Current @unit mA */
+    F32                          shunt_voltage_mV_f32;     /**< @details Voltage across the shunt resistor @unit mV */
+    F32                          bus_voltage_V_f32;        /**< @details Bus voltage @unit V */
+    F32                          bus_voltage_mV_f32;       /**< @details Bus voltage @unit mV */
+    F32                          power_mW_f32;             /**< @details Power @unit mW */
+    F32                          current_mA_f32;           /**< @details Current @unit mA */
+    F32                          current_lsb_A_f32;        /**< @details Current LSB after calibration @unit Amp/LSB */
+    F32                          power_lsb_W_f32;          /**< @details Power LSB after calibration @unit Watt/LSB */
+    U16                          calibration_register_u16; /**< @details Contains the calibration register value @unit 1/V */
 } DD_INA_219_DATA_TYPE;
-
 
 /*************************************************************/
 /*                        DD_TMP_102                         */

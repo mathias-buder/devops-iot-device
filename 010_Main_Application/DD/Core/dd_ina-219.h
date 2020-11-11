@@ -125,14 +125,8 @@
  * The Shunt Voltage register stores the current shunt voltage reading, VSHUNT.
  * At PGA = /1, full-scale range = ±40 mV (decimal = 4000). For VSHUNT = +40 mV,
  * Value = 0FA0h; For VSHUNT = –40 mV, Value = F060h; and LSB = 10uV. */
-#define DD_INA_219_V_SHUNT_LSB_MILLI_VOLT       ( 0.01F )
-
-/* Calibration Register */
-#define DD_INA_219_CALIB_R_SHUNT_OHM            ( 0.1F     )
-#define DD_INA_219_CALIB_CURRENT_LSB_AMP        ( 0.00001F )
-#define DD_INA_219_CALIB_CURRENT_LSB_MILLI_AMP  ( 0.01F    )
-#define DD_INA_219_CALIB_POWER_LSB_WATT         ( 0.0002F  )
-#define DD_INA_219_CALIB_POWER_LSB_MILLI_WATT   ( 0.2F     )
+#define DD_INA_219_V_SHUNT_LSB_VOLT            ( 0.00001F ) /**< Shunt voltage LSB @unit Volt/LSB */
+#define DD_INA_219_V_SHUNT_LSB_MILLI_VOLT      ( 0.01F )    /**< Shunt voltage LSB @unit mVolt/LSB */
 
 /*************************************************************/
 /*      PROTOTYPES                                           */
