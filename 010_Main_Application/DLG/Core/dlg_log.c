@@ -62,6 +62,8 @@ PRIVATE BOOLEAN dlg_log_handle_file( U32 id_u32 );
 
 void dlg_log_init( void )
 {
+    U32 size_per_min_in_byte_u32;
+
     ESP_LOGI( DLG_LOG_LOG_MSG_TAG, "Initializing..." );
 
     /* Get reference to all log data structures */
@@ -72,18 +74,36 @@ void dlg_log_init( void )
 
     /* Calculate number of cycles to be logged to each individual  file.
      * The maximum log file size shall be a multiple of sizeof( dlg_log_database_s ) and
-     * within the interval of [ 1 >= data_chunk_per_file >= DLG_LOG_FILE_SIZE_IN_KBYTE ] */
-    dlg_database_s.num_data_chunk_per_file_u32 = ( U32 )( ( DLG_LOG_FILE_SIZE_IN_KBYTE * 1000U ) / sizeof( dlg_log_database_s ) );
+     * within the interval of [ 1 (byte) >= data_chunk_per_file <= sizeof( dlg_log_database_s ) (byte) ] */
+    if ( FALSE == dlg_log_use_files_per_minute_b )
+    {
+        dlg_database_s.num_data_chunk_per_file_u32 = ( U32 )( ( DLG_LOG_FILE_SIZE_IN_KBYTE * 1000U ) / sizeof( dlg_log_database_s ) );
+    }
+    else
+    {
+        size_per_min_in_byte_u32                   = ( U32 )( ( 1000.0F / DLG_LOG_MAIN_CYCLE_TIME_MS ) * 60.0F ) * sizeof( dlg_log_database_s );
+        dlg_database_s.num_data_chunk_per_file_u32 = ( U32 )( ( size_per_min_in_byte_u32 / DLG_LOG_NUM_FILES_PER_MINUTE ) / sizeof( dlg_log_database_s ) );
+    }
 
     if(    ( NULL != dlg_database_s.p_file_handle )
         && ( 0U   < dlg_database_s.num_data_chunk_per_file_u32 ) )
     {
         dlg_database_s.logging_enabled_b = TRUE;
-    }
 
-    ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Logging %s", ( dlg_database_s.logging_enabled_b == TRUE ) ? "enabled" : "disabled" );
-    ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Byte", sizeof( dlg_log_database_s ) );
-    ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Data chunks per file: %i", dlg_database_s.num_data_chunk_per_file_u32 );
+        /* Print logging properties */
+        ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Logging enabled" );
+        ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Byte", sizeof( dlg_log_database_s ) );
+        ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Data chunks per file: %i", dlg_database_s.num_data_chunk_per_file_u32 );
+    }
+    else
+    {
+        if( 0U >= dlg_database_s.num_data_chunk_per_file_u32 )
+        {
+            ESP_LOGE( DLG_LOG_LOG_MSG_TAG, "Invalid value for num_data_chunk_per_file_u32: %i", dlg_database_s.num_data_chunk_per_file_u32 );
+        }
+
+        ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Logging disabled");
+    }
 }
 
 
