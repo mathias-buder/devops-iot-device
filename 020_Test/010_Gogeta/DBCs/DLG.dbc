@@ -79,9 +79,9 @@ BO_ 31 DD_INA_219_Data_B: 7 DLG
  SG_ DD_INA_219_bus_voltage : 48|8@1+ (0.1,0) [0|25.5] "V" Vector__XXX
 
 BO_ 30 DD_INA_219_Data_A: 8 DLG
- SG_ DD_INA_219_shunt_voltage_raw : 16|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
+ SG_ DD_INA_219_shunt_voltage_raw : 16|16@1+ (1,-32768) [-32768|32767] "LSB" Vector__XXX
  SG_ DD_INA_219_power_raw : 48|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
- SG_ DD_INA_219_current_raw : 32|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
+ SG_ DD_INA_219_current_raw : 32|16@1+ (1,-32768) [-32768|32767] "LSB" Vector__XXX
  SG_ DD_INA_219_bus_voltage_raw : 0|16@1+ (1,0) [0|65535] "LSB" Vector__XXX
 
 BO_ 80 SENSE_TS_Data: 8 DLG

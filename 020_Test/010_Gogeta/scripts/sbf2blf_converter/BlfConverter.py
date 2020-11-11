@@ -119,10 +119,10 @@ DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV.AddSignal('DD_ICM_20600_factory_trim_dev_zg'
 
 DLG_INA_219_DATA_A = CanMessage('DLG_INA_219_DATA_A', 30)
 # DLG_INA_219_DATA_A signals
-DLG_INA_219_DATA_A.AddSignal('DD_INA_219_bus_voltage_raw',      1, 0.0, 16, 0)
-DLG_INA_219_DATA_A.AddSignal('DD_INA_219_shunt_voltage_raw',    1, 0.0, 16, 16)
-DLG_INA_219_DATA_A.AddSignal('DD_INA_219_current_raw',          1, 0.0, 16, 32)
-DLG_INA_219_DATA_A.AddSignal('DD_INA_219_power_raw',            1, 0.0, 16, 48)
+DLG_INA_219_DATA_A.AddSignal('DD_INA_219_bus_voltage_raw',      1,    0.0, 16, 0)
+DLG_INA_219_DATA_A.AddSignal('DD_INA_219_shunt_voltage_raw',    1, -32768, 16, 16)
+DLG_INA_219_DATA_A.AddSignal('DD_INA_219_current_raw',          1, -32768, 16, 32)
+DLG_INA_219_DATA_A.AddSignal('DD_INA_219_power_raw',            1,    0.0, 16, 48)
 
 
 DLG_INA_219_DATA_B = CanMessage('DLG_INA_219_DATA_B', 31)
@@ -225,7 +225,7 @@ DLG_DD_TMP_102_DATA.AddSignal('DD_TMP_102_temperature_deg',  0.01, -81.92,  14, 
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 38f 2I 8H 8h 37B 3x'
+dlg_log_data_fmt = '< 38f 2I 6H 10h 37B 3x'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from
@@ -286,9 +286,7 @@ for sfb_file in files:
             adc_raw_data_u16,
             adc_previous_raw_data_u16,
             adc_voltage_u16,
-            dd_ina_219_shunt_voltage_raw_u16,
             dd_ina_219_power_raw_u16,
-            dd_ina_219_current_raw_u16,
             dd_ina_219_bus_voltage_raw_u16,
 
             icm_20600_accel_raw_data_x_s16,
@@ -298,6 +296,8 @@ for sfb_file in files:
             icm_20600_gyro_raw_data_y_s16,
             icm_20600_gyro_raw_data_z_s16,
             i2c_error_code_s16,
+            dd_ina_219_shunt_voltage_raw_s16,
+            dd_ina_219_current_raw_s16,
             dd_tmp_102_temperature_raw_s16,
 
             icm_20600_chip_id_u8,
@@ -426,8 +426,8 @@ for sfb_file in files:
             DLG_SENSE_TS_DATA.SetTimeStamp( dlg_time_stamp_f32 )
 
             DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_bus_voltage_raw',   dd_ina_219_bus_voltage_raw_u16 )
-            DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_shunt_voltage_raw', dd_ina_219_shunt_voltage_raw_u16 )
-            DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_current_raw',       dd_ina_219_current_raw_u16 )
+            DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_shunt_voltage_raw', dd_ina_219_shunt_voltage_raw_s16 )
+            DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_current_raw',       dd_ina_219_current_raw_s16 )
             DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_power_raw',         dd_ina_219_power_raw_u16 )
             DLG_INA_219_DATA_A.SetTimeStamp( dlg_time_stamp_f32 )
 
