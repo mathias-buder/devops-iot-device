@@ -24,5 +24,5 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-BOOLEAN dlg_log_use_files_per_minute_b = TRUE;
+BOOLEAN dlg_log_use_files_per_minute_cfg_b = TRUE;
 

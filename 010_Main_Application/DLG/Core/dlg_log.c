@@ -75,7 +75,7 @@ void dlg_log_init( void )
     /* Calculate number of cycles to be logged to each individual  file.
      * The maximum log file size shall be a multiple of sizeof( dlg_log_database_s ) and
      * within the interval of [ 1 (byte) >= data_chunk_per_file <= sizeof( dlg_log_database_s ) (byte) ] */
-    if ( FALSE == dlg_log_use_files_per_minute_b )
+    if ( FALSE == dlg_log_use_files_per_minute_cfg_b )
     {
         dlg_database_s.num_data_chunk_per_file_u32 = ( U32 )( ( DLG_LOG_FILE_SIZE_IN_KBYTE * 1000U ) / sizeof( dlg_log_database_s ) );
     }

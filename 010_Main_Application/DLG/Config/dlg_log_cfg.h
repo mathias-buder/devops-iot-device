@@ -38,9 +38,6 @@
 #define DLG_LOG_FILE_SIZE_IN_KBYTE               20U           /**< File size in kByte */
 #define DLG_LOG_MAIN_CYCLE_TIME_MS               100U          /* Main loop cycle time -> will be replaced with value provided by os_time module in the future */
 
-#define DLG_LOG_USE_NUM_FILES_PER_MINUTE         TRUE
-
-
 /* Flag to enable logging test mode.
  * If defined every signal will be overwritten by
  * log_test_mode_cnt_u8 with an value of 0 <= n <= 255*/
@@ -49,6 +46,6 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern BOOLEAN dlg_log_use_files_per_minute_b;
+extern BOOLEAN dlg_log_use_files_per_minute_cfg_b;
 
 #endif /* DLG_CONFIG_LOG_CFG_H_ */
