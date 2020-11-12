@@ -10,39 +10,21 @@
 
         (c) SEWELA 2020
 
-        @file OS.h
+        @file os_ota.h
 
 *********************************************************************/
-
-#ifndef OS_H_
-#define OS_H_
+#ifndef OS_OTA_H_
+#define OS_OTA_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../../types.h"
-
-#include "freertos/FreeRTOS.h"
-
-#include "Core/os_ota.h"
-#include "Core/os_tm.h"
-#include "Core/os_wifi.h"
-#include "Core/os_ws.h"
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-/* Log message TAG string */
-#define OS_LOG_MSG_TAG                 "OS"
-
-#define OS_MAIN_CYCLE_TIME_MS          100U   /* 100 ms cycle time ( minimum cycle time = portTICK_PERIOD_MS ) */
-
-#define OS_MAIN_CYCLE_TIME_SEC         ( OS_MAIN_CYCLE_TIME_MS / 1000.0F )
-
-#define OS_MAIN_CYCLE_TIME_INCREMENT   ( OS_MAIN_CYCLE_TIME_MS / portTICK_PERIOD_MS )
+#include "../types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+extern void os_ota_init( void );
+extern void os_ota_main( void );
 
-#endif /* OS_H_ */
+#endif /* OS_OTA_H_ */

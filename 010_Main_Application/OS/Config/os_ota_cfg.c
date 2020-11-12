@@ -8,26 +8,19 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
-        @file os_time.h
+        @file os_ota_cfg.c
         @details Some detailed description
 
+        (c) SEWELA 2020
+
 *********************************************************************/
-#ifndef OS_TIME_H_
-#define OS_TIME_H_
 
-/*************************************************************/
-/*      INCLUDES                                             */
-/*************************************************************/
-#include "../types.h"
+/*********************************************************************/
+/*      INCLUDES                                                     */
+/*********************************************************************/
+#include "os_ota_cfg.h"
 
-/*************************************************************/
-/*      GLOBAL VARIABLES                                     */
-/*************************************************************/
-extern F32 os_time_stamp_ms_f32;
+/*********************************************************************/
+/*      GLOBAL PARAMETERS                                            */
+/*********************************************************************/
 
-void os_time_init( void );
-void os_time_update( void );
-
-#endif /* OS_TIME_H_ */

@@ -10,39 +10,24 @@
 
         (c) SEWELA 2020
 
-        @file OS.h
+        @file os_time.h
+        @details Some detailed description
 
 *********************************************************************/
-
-#ifndef OS_H_
-#define OS_H_
+#ifndef OS_TIME_H_
+#define OS_TIME_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../../types.h"
-
-#include "freertos/FreeRTOS.h"
-
-#include "Core/os_ota.h"
-#include "Core/os_tm.h"
-#include "Core/os_wifi.h"
-#include "Core/os_ws.h"
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-/* Log message TAG string */
-#define OS_LOG_MSG_TAG                 "OS"
-
-#define OS_MAIN_CYCLE_TIME_MS          100U   /* 100 ms cycle time ( minimum cycle time = portTICK_PERIOD_MS ) */
-
-#define OS_MAIN_CYCLE_TIME_SEC         ( OS_MAIN_CYCLE_TIME_MS / 1000.0F )
-
-#define OS_MAIN_CYCLE_TIME_INCREMENT   ( OS_MAIN_CYCLE_TIME_MS / portTICK_PERIOD_MS )
+#include "../types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
+extern F32 os_time_stamp_ms_f32;
 
-#endif /* OS_H_ */
+void os_tm_init( void );
+void os_tm_update( void );
+
+#endif /* OS_TIME_H_ */
