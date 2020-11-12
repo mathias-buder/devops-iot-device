@@ -118,7 +118,6 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
         break;
 
     default:
-        shunt_voltage_range_u16 = DD_INA_219_PG_GAIN_1_40MV;
         assert( DD_INA_219_SHUNT_VOL_RANGE_40MV  == shunt_voltage_range_e );
         assert( DD_INA_219_SHUNT_VOL_RANGE_80MV  == shunt_voltage_range_e );
         assert( DD_INA_219_SHUNT_VOL_RANGE_160MV == shunt_voltage_range_e );
