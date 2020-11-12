@@ -50,7 +50,7 @@ typedef struct DLG_DATA_TAG
  */
 typedef struct DLG_LOG_DATA_TAG
 {
-    F32 dlg_time_stamp_f32;                         /**< @details Global time stamp in ms */
+    F32 dlg_time_stamp_in_sec_f32;                  /**< @details Global time stamp in seconds */
     F32 dd_icm_20600_temperature_deg_f32;           /**< @details ICM-20600 Internal core (die) temperature @unit °C */
     F32 dd_icm_20600_factory_trim_xa_f32;           /**< @details ICM-20600 XA factory trim value */
     F32 dd_icm_20600_factory_trim_ya_f32;           /**< @details ICM-20600 YA factory trim value */

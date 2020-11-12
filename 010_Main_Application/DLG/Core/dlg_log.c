@@ -139,7 +139,7 @@ void dlg_log_main( void )
         dlg_log_create_sense_ts_data_frame();
 
         /* Acquire current time stamp */
-        dlg_log_database_s.dlg_time_stamp_f32 = os_time_stamp_ms_f32;
+        dlg_log_database_s.dlg_time_stamp_in_sec_f32 = os_time_stamp_in_sec_f32;
 
         /* Increment global message counter */
         ++dlg_log_database_s.dlg_global_msg_cnt_u8;

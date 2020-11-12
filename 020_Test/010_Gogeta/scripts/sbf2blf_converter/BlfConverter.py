@@ -240,7 +240,7 @@ for sfb_file in files:
             data = file.read( struct_len )
             if not data: break
             [
-            dlg_time_stamp_f32,
+            dlg_time_stamp_in_sec_f32,
             icm_20600_temperature_deg_f32,
             icm_20600_factory_trim_xa_f32,
             icm_20600_factory_trim_ya_f32,
@@ -345,22 +345,22 @@ for sfb_file in files:
             DLG_ICM_20600_ACCEL_RAW.SetSignal( 'DD_ICM_20600_raw_accel_x', icm_20600_accel_raw_data_x_s16 )
             DLG_ICM_20600_ACCEL_RAW.SetSignal( 'DD_ICM_20600_raw_accel_y', icm_20600_accel_raw_data_y_s16 )
             DLG_ICM_20600_ACCEL_RAW.SetSignal( 'DD_ICM_20600_raw_accel_z', icm_20600_accel_raw_data_z_s16 )
-            DLG_ICM_20600_ACCEL_RAW.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_ACCEL_RAW.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_GYRO_RAW.SetSignal( 'DD_ICM_20600_raw_gyro_x', icm_20600_gyro_raw_data_x_s16 )
             DLG_ICM_20600_GYRO_RAW.SetSignal( 'DD_ICM_20600_raw_gyro_y', icm_20600_gyro_raw_data_y_s16 )
             DLG_ICM_20600_GYRO_RAW.SetSignal( 'DD_ICM_20600_raw_gyro_z', icm_20600_gyro_raw_data_z_s16 )
-            DLG_ICM_20600_GYRO_RAW.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_GYRO_RAW.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
        
             DLG_ICM_20600_GENERAL.SetSignal( 'DD_ICM_20600_chip_id',          icm_20600_chip_id_u8 )
             DLG_ICM_20600_GENERAL.SetSignal( 'DD_ICM_20600_device_state',     icm_20600_dev_state_u8 )
             DLG_ICM_20600_GENERAL.SetSignal( 'DD_ICM_20600_is_calibrated',    icm_20600_is_calibrated_u8 )
             DLG_ICM_20600_GENERAL.SetSignal( 'DD_ICM_20600_self_test_passed', icm_20600_self_test_passed_u8 )
-            DLG_ICM_20600_GENERAL.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_GENERAL.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_TEMPERATURE.SetSignal( 'DD_ICM_20600_temperature_raw', icm_20600_temperature_raw_u16 )
             DLG_ICM_20600_TEMPERATURE.SetSignal( 'DD_ICM_20600_temperature_deg', icm_20600_temperature_deg_f32 )
-            DLG_ICM_20600_TEMPERATURE.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_TEMPERATURE.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_SELF_TEST.SetSignal( 'DD_ICM_20600_self_test_xa', icm_20600_self_test_xa_u8 )
             DLG_ICM_20600_SELF_TEST.SetSignal( 'DD_ICM_20600_self_test_xg', icm_20600_self_test_ya_u8 )
@@ -368,27 +368,27 @@ for sfb_file in files:
             DLG_ICM_20600_SELF_TEST.SetSignal( 'DD_ICM_20600_self_test_yg', icm_20600_self_test_xg_u8 )
             DLG_ICM_20600_SELF_TEST.SetSignal( 'DD_ICM_20600_self_test_za', icm_20600_self_test_yg_u8 )
             DLG_ICM_20600_SELF_TEST.SetSignal( 'DD_ICM_20600_self_test_zg', icm_20600_self_test_zg_u8 )
-            DLG_ICM_20600_SELF_TEST.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_SELF_TEST.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_FACTORY_ACCEL_TRIM.SetSignal( 'DD_ICM_20600_factory_trim_xa', icm_20600_factory_trim_xa_f32 )
             DLG_ICM_20600_FACTORY_ACCEL_TRIM.SetSignal( 'DD_ICM_20600_factory_trim_ya', icm_20600_factory_trim_ya_f32 )
             DLG_ICM_20600_FACTORY_ACCEL_TRIM.SetSignal( 'DD_ICM_20600_factory_trim_za', icm_20600_factory_trim_za_f32 )
-            DLG_ICM_20600_FACTORY_ACCEL_TRIM.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_FACTORY_ACCEL_TRIM.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_FACTORY_GYRO_TRIM.SetSignal( 'DD_ICM_20600_factory_trim_xg', icm_20600_factory_trim_xg_f32 )
             DLG_ICM_20600_FACTORY_GYRO_TRIM.SetSignal( 'DD_ICM_20600_factory_trim_yg', icm_20600_factory_trim_yg_f32 )
             DLG_ICM_20600_FACTORY_GYRO_TRIM.SetSignal( 'DD_ICM_20600_factory_trim_zg', icm_20600_factory_trim_zg_f32 )
-            DLG_ICM_20600_FACTORY_GYRO_TRIM.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_FACTORY_GYRO_TRIM.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_FACTORY_ACCEL_TRIM_DEV.SetSignal( 'DD_ICM_20600_factory_trim_dev_xa', icm_20600_factory_trim_dev_xa_f32 )
             DLG_ICM_20600_FACTORY_ACCEL_TRIM_DEV.SetSignal( 'DD_ICM_20600_factory_trim_dev_ya', icm_20600_factory_trim_dev_ya_f32 )
             DLG_ICM_20600_FACTORY_ACCEL_TRIM_DEV.SetSignal( 'DD_ICM_20600_factory_trim_dev_za', icm_20600_factory_trim_dev_za_f32 )
-            DLG_ICM_20600_FACTORY_ACCEL_TRIM_DEV.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_FACTORY_ACCEL_TRIM_DEV.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV.SetSignal( 'DD_ICM_20600_factory_trim_dev_xg', icm_20600_factory_trim_dev_xg_f32 )
             DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV.SetSignal( 'DD_ICM_20600_factory_trim_dev_yg', icm_20600_factory_trim_dev_yg_f32 )
             DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV.SetSignal( 'DD_ICM_20600_factory_trim_dev_zg', icm_20600_factory_trim_dev_zg_f32 )
-            DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ICM_20600_FACTORY_GYRO_TRIM_DEV.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_MAX_30102_GENERAL.SetSignal( 'DD_MAX_30102_int_status',    max_30102_int_status_u8 )
             DLG_MAX_30102_GENERAL.SetSignal( 'DD_MAX_30102_part_id',       max_30102_part_id_u8 )
@@ -398,38 +398,38 @@ for sfb_file in files:
             DLG_MAX_30102_GENERAL.SetSignal( 'DD_MAX_30102_mode',          max_30102_mode_u8 )
             DLG_MAX_30102_GENERAL.SetSignal( 'DD_MAX_30102_temp_raw_int',  max_30102_temperature_raw_int_u8 )
             DLG_MAX_30102_GENERAL.SetSignal( 'DD_MAX_30102_temp_raw_frac', max_30102_temperature_raw_frac_u8 )
-            DLG_MAX_30102_GENERAL.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_MAX_30102_GENERAL.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_MAX_30102_DATA.SetSignal( 'DD_MAX_30102_temperature',  max_30102_temperature_f32 )
             DLG_MAX_30102_DATA.SetSignal( 'DD_MAX_30102_red_data_raw', max_30102_red_data_raw_u32 )
             DLG_MAX_30102_DATA.SetSignal( 'DD_MAX_30102_ir_data_raw',  max_30102_ir_data_raw_u32 )
-            DLG_MAX_30102_DATA.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_MAX_30102_DATA.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_I2C_ERROR.SetSignal( 'DD_I2C_error_state',         i2c_is_error_present_b )
             DLG_I2C_ERROR.SetSignal( 'DD_I2C_error_access_type',   i2c_access_type_u8 )
             DLG_I2C_ERROR.SetSignal( 'DD_I2C_error_device_addr',   i2c_device_addr_u8 )
             DLG_I2C_ERROR.SetSignal( 'DD_I2C_error_register_addr', i2c_register_addr_u8 )
             DLG_I2C_ERROR.SetSignal( 'DD_I2C_error_code',          i2c_error_code_s16 )
-            DLG_I2C_ERROR.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_I2C_ERROR.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_ADC_DATA.SetSignal( 'DD_ADC_previous_raw_data', adc_previous_raw_data_u16 )
             DLG_ADC_DATA.SetSignal( 'DD_ADC_raw_data',          adc_raw_data_u16 )
             DLG_ADC_DATA.SetSignal( 'DD_ADC_voltage',           adc_voltage_u16 )
             DLG_ADC_DATA.SetSignal( 'DD_ADC_raw_level',         adc_raw_level_f32 )
             DLG_ADC_DATA.SetSignal( 'DD_ADC_filtered_level',    adc_filtered_level_f32 )
-            DLG_ADC_DATA.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_ADC_DATA.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_SENSE_TS_DATA.SetSignal( 'SENSE_TS_alpha_adc_level',      sense_ts_alpha_filtered_adc_level_f32 )
             DLG_SENSE_TS_DATA.SetSignal( 'SENSE_TS_alpha_beta_adc_level', sense_ts_alpha_beta_filtered_adc_level_f32 )
             DLG_SENSE_TS_DATA.SetSignal( 'SENSE_TS_touch_confidence',     sense_ts_touch_confidence_f32 )
             DLG_SENSE_TS_DATA.SetSignal( 'SENSE_TS_touch_confidence_max', sense_ts_touch_confidence_max_f32 )
-            DLG_SENSE_TS_DATA.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_SENSE_TS_DATA.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_bus_voltage_raw',   dd_ina_219_bus_voltage_raw_u16 )
             DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_shunt_voltage_raw', dd_ina_219_shunt_voltage_raw_s16 )
             DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_current_raw',       dd_ina_219_current_raw_s16 )
             DLG_INA_219_DATA_A.SetSignal( 'DD_INA_219_power_raw',         dd_ina_219_power_raw_u16 )
-            DLG_INA_219_DATA_A.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_INA_219_DATA_A.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_current',             dd_ina_219_current_mA_f32 )
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_shunt_voltage_range', dd_ina_219_shunt_voltage_range_u8 )
@@ -437,12 +437,12 @@ for sfb_file in files:
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_bus_voltage_range',   dd_ina_219_bus_voltage_range_u8 )
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_shunt_voltage',       dd_ina_219_shunt_voltage_mV_f32 )
             DLG_INA_219_DATA_B.SetSignal( 'DD_INA_219_bus_voltage',         dd_ina_219_bus_voltage_V_f32 )
-            DLG_INA_219_DATA_B.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_INA_219_DATA_B.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
             
 
             DLG_DD_TMP_102_DATA.SetSignal( 'DD_TMP_102_temperature_raw',    dd_tmp_102_temperature_raw_s16 )
             DLG_DD_TMP_102_DATA.SetSignal( 'DD_TMP_102_temperature_deg',    dd_tmp_102_temperature_deg_f32 )
-            DLG_DD_TMP_102_DATA.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_DD_TMP_102_DATA.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
 
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_1_Duty_Cycle', dd_mcpwm_ch_1_duty_cycle_f32 )
@@ -451,7 +451,7 @@ for sfb_file in files:
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_4_Duty_Cycle', dd_mcpwm_ch_4_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_5_Duty_Cycle', dd_mcpwm_ch_5_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_A.SetSignal( 'DD_MCPWM_Ch_6_Duty_Cycle', dd_mcpwm_ch_6_duty_cycle_f32 )
-            DLG_DD_MCPWM_DATA_A.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_DD_MCPWM_DATA_A.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_7_Duty_Cycle',  dd_mcpwm_ch_7_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_8_Duty_Cycle',  dd_mcpwm_ch_8_duty_cycle_f32 )
@@ -459,7 +459,7 @@ for sfb_file in files:
             DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_10_Duty_Cycle', dd_mcpwm_ch_10_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_11_Duty_Cycle', dd_mcpwm_ch_11_duty_cycle_f32 )
             DLG_DD_MCPWM_DATA_B.SetSignal( 'DD_MCPWM_Ch_12_Duty_Cycle', dd_mcpwm_ch_12_duty_cycle_f32 )
-            DLG_DD_MCPWM_DATA_B.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_DD_MCPWM_DATA_B.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_1_mode',  dd_mcpwm_ch_1_mode_u8 )
             DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_2_mode',  dd_mcpwm_ch_2_mode_u8 )
@@ -473,10 +473,10 @@ for sfb_file in files:
             DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_10_mode', dd_mcpwm_ch_10_mode_u8 )
             DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_11_mode', dd_mcpwm_ch_11_mode_u8 )
             DLG_DD_MCPWM_DATA_C.SetSignal( 'DD_MCPWM_Ch_12_mode', dd_mcpwm_ch_12_mode_u8 )
-            DLG_DD_MCPWM_DATA_C.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_DD_MCPWM_DATA_C.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             DLG_LOG_GENERAL.SetSignal('DLG_LOG_global_msg_counter', dlg_global_msg_cnt_u8)
-            DLG_LOG_GENERAL.SetTimeStamp( dlg_time_stamp_f32 )
+            DLG_LOG_GENERAL.SetTimeStamp( dlg_time_stamp_in_sec_f32 )
 
             # %%  Write all CAN messages to .blf file
             writer.on_message_received( DLG_ICM_20600_ACCEL_RAW.GetMessage()              )
