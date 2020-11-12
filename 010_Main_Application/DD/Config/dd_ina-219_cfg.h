@@ -37,7 +37,9 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 extern DD_INA_219_SHUNT_VOL_RANGE dd_ina_219_shunt_voltage_range_cfg_e;
+extern DD_INA_219_SADC_RES_AVE    dd_ina_219_shunt_voltage_adc_res_ave_cfg_e;
 extern DD_INA_219_BUS_VOL_RANGE   dd_ina_219_bus_voltage_range_cfg_e;
-extern F32                        dd_ina_219_max_current_mA_f32;
+extern DD_INA_219_BADC_RES_AVE    dd_ina_219_bus_voltage_adc_res_ave_cfg_e;
+extern F32                        dd_ina_219_max_current_mA_cfg_f32;
 
 #endif /* DD_INA_219_CFG_H */

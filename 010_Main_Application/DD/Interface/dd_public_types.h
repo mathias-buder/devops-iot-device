@@ -499,6 +499,38 @@ typedef enum DD_INA_219_BUS_VOL_RANGE_TAG
 } DD_INA_219_BUS_VOL_RANGE;
 
 /**
+ * @details  BADC Bus ADC Resolution/Averaging
+ */
+typedef enum DD_INA_219_BADC_RES_AVE_TAG
+{
+    DD_INA_219_BADC_RES_AVE_12BIT_1S_532US = 0U, /**< 12-bit shunt res = 0..4097, default */
+    DD_INA_219_BADC_RES_AVE_12BIT_2S_1060US,     /**< 2 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_4S_2130US,     /**< 4 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_8S_4260US,     /**< 8 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_16S_8512US,    /**< 16 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_32S_17MS,      /**< 32 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_64S_34MS,      /**< 64 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_128S_69MS,     /**< 128 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_SIZE
+} DD_INA_219_BADC_RES_AVE;
+
+/**
+ * @details  SADC Shunt ADC Resolution/Averaging
+ */
+typedef enum DD_INA_219_SADC_RES_AVE_TAG
+{
+    DD_INA_219_SADC_RES_AVE_12BIT_1S_532US = 0U, /**< 12-bit shunt res = 0..4097, default */
+    DD_INA_219_SADC_RES_AVE_12BIT_2S_1060US,     /**< 2 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_4S_2130US,     /**< 4 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_8S_4260US,     /**< 8 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_16S_8512US,    /**< 16 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_32S_17MS,      /**< 32 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_64S_34MS,      /**< 64 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_128S_69MS,     /**< 128 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_SIZE
+} DD_INA_219_SADC_RES_AVE;
+
+/**
  * @brief   INA-219 Bus Voltage data and status information
  * @ingroup DriverStructures
  */
@@ -520,22 +552,24 @@ typedef struct DD_INA_219_BUS_VOL_DATA_TYPE_TAG
  */
 typedef struct DD_INA_219_DATA_TYPE_TAG
 {
-    DD_INA_219_SHUNT_VOL_RANGE   shunt_voltage_range_e;    /**< @details Current full-scale current sense (input) voltage range */
-    DD_INA_219_BUS_VOL_RANGE     bus_voltage_range_e;      /**< @details Current bus voltage (input voltage) range */
-    DD_INA_219_BUS_VOL_DATA_TYPE bus_voltage_data_s;       /**< @details Raw most recent bus voltage ADC reading and status information */
-    S16                          shunt_voltage_raw_s16;    /**< @details Raw ADC reading representing the voltage across the shunt resistor */
-    U16                          power_raw_u16;            /**< @details Records power in watts by multiplying the value of the current with the
+    DD_INA_219_SHUNT_VOL_RANGE   shunt_voltage_range_e;            /**< @details Current full-scale current sense (input) voltage range */
+    DD_INA_219_SADC_RES_AVE      shunt_adc_resolution_averaging_e; /**< @details Shunt voltage ADC resolution/averaging setting */
+    DD_INA_219_BUS_VOL_RANGE     bus_voltage_range_e;              /**< @details Current bus voltage (input voltage) range */
+    DD_INA_219_BADC_RES_AVE      bus_adc_resolution_averaging_e;   /**< @details Bus voltage ADC resolution/averaging setting */
+    DD_INA_219_BUS_VOL_DATA_TYPE bus_voltage_data_s;               /**< @details Raw most recent bus voltage ADC reading and status information */
+    S16                          shunt_voltage_raw_s16;            /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    U16                          power_raw_u16;                    /**< @details Records power in watts by multiplying the value of the current with the
                                                                       value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
-    S16                          current_raw_s16;          /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
+    S16                          current_raw_s16;                  /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
                                                                       with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
-    F32                          shunt_voltage_mV_f32;     /**< @details Voltage across the shunt resistor @unit mV */
-    F32                          bus_voltage_V_f32;        /**< @details Bus voltage @unit V */
-    F32                          bus_voltage_mV_f32;       /**< @details Bus voltage @unit mV */
-    F32                          power_mW_f32;             /**< @details Power @unit mW */
-    F32                          current_mA_f32;           /**< @details Current @unit mA */
-    F32                          current_lsb_A_f32;        /**< @details Current LSB after calibration @unit Amp/LSB */
-    F32                          power_lsb_W_f32;          /**< @details Power LSB after calibration @unit Watt/LSB */
-    U16                          calibration_register_u16; /**< @details Contains the calibration register value @unit 1/V */
+    F32                          shunt_voltage_mV_f32;             /**< @details Voltage across the shunt resistor @unit mV */
+    F32                          bus_voltage_V_f32;                /**< @details Bus voltage @unit V */
+    F32                          bus_voltage_mV_f32;               /**< @details Bus voltage @unit mV */
+    F32                          power_mW_f32;                     /**< @details Power @unit mW */
+    F32                          current_mA_f32;                   /**< @details Current @unit mA */
+    F32                          current_lsb_A_f32;                /**< @details Current LSB after calibration @unit Amp/LSB */
+    F32                          power_lsb_W_f32;                  /**< @details Power LSB after calibration @unit Watt/LSB */
+    U16                          calibration_register_u16;         /**< @details Contains the calibration register value @unit 1/V */
 } DD_INA_219_DATA_TYPE;
 
 /*************************************************************/

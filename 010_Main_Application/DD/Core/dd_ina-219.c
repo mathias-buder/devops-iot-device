@@ -34,7 +34,10 @@
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e, DD_INA_219_BUS_VOL_RANGE bus_voltage_range_e );
+PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e,
+                                      DD_INA_219_SADC_RES_AVE    shunt_voltage_res_ave_e,
+                                      DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e,
+                                      DD_INA_219_BADC_RES_AVE    bus_voltage_res_ave_e );
 PRIVATE BOOLEAN dd_ina_219_calibrate( void );
 PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 );
 PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s );
@@ -49,12 +52,17 @@ BOOLEAN dd_ina_219_init( void )
     ESP_LOGI( DD_INA_219_LOG_MSG_TAG, "Initializing ..." );
 
     /* Initialize global voltage ranges with invalid range */
-    dd_ina_219_data_s.shunt_voltage_range_e = DD_INA_219_SHUNT_VOL_RANGE_SIZE;
-    dd_ina_219_data_s.bus_voltage_range_e   = DD_INA_219_BUS_VOL_RANGE_SIZE;
+    dd_ina_219_data_s.shunt_voltage_range_e            = DD_INA_219_SHUNT_VOL_RANGE_SIZE;
+    dd_ina_219_data_s.shunt_adc_resolution_averaging_e = DD_INA_219_SADC_RES_AVE_SIZE;
+    dd_ina_219_data_s.bus_voltage_range_e              = DD_INA_219_BUS_VOL_RANGE_SIZE;
+    dd_ina_219_data_s.bus_adc_resolution_averaging_e   = DD_INA_219_BADC_RES_AVE_SIZE;
 
-           /* Set global configuration register */
-    if (   ( FALSE == dd_ina_219_configure( dd_ina_219_shunt_voltage_range_cfg_e, dd_ina_219_bus_voltage_range_cfg_e ) )
-
+    /* Set global configuration register */
+    if (   ( FALSE == dd_ina_219_configure( dd_ina_219_shunt_voltage_range_cfg_e,
+                                            dd_ina_219_shunt_voltage_adc_res_ave_cfg_e,
+                                            dd_ina_219_bus_voltage_range_cfg_e,
+                                            dd_ina_219_bus_voltage_adc_res_ave_cfg_e )
+           )
            /* Set calibration register */
         || ( FALSE == dd_ina_219_calibrate() ) )
     {
@@ -95,11 +103,15 @@ void dd_ina_219_main( void )
 }
 
 PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e,
-                                      DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e )
+                                      DD_INA_219_SADC_RES_AVE    shunt_voltage_res_ave_e,
+                                      DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e,
+                                      DD_INA_219_BADC_RES_AVE    bus_voltage_res_ave_e )
 {
-    U16 shunt_voltage_range_u16 = 0U;
-    U16 bus_voltage_range_u16   = 0U;
-    U16 config_register_u16     = 0U;
+    U16 shunt_voltage_range_u16   = 0U;
+    U16 shunt_voltage_res_ave_u16 = 0U;
+    U16 bus_voltage_range_u16     = 0U;
+    U16 bus_voltage_res_ave_u16   = 0U;
+    U16 config_register_u16       = 0U;
 
     /* Set shunt voltage range */
     switch ( shunt_voltage_range_e )
@@ -125,6 +137,84 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
         return FALSE;
     }
 
+    /* Shunt voltage ADC resolution/Averaging setting */
+    switch ( shunt_voltage_res_ave_e )
+    {
+    case DD_INA_219_SADC_RES_AVE_12BIT_1S_532US:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_1S_532US;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_2S_1060US:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_2S_1060US;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_4S_2130US:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_4S_2130US;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_8S_4260US:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_8S_4260US;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_16S_8512US:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_16S_8512US;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_32S_17MS:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_32S_17MS;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_64S_34MS:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_64S_34MS;
+        break;
+    case DD_INA_219_SADC_RES_AVE_12BIT_128S_69MS:
+        shunt_voltage_res_ave_u16 = DD_INA_219_SADC_12BIT_128S_69MS;
+        break;
+
+    default:
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_1S_532US   == shunt_voltage_res_ave_e );
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_2S_1060US  == shunt_voltage_res_ave_e );
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_4S_2130US  == shunt_voltage_res_ave_e );
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_8S_4260US  == shunt_voltage_res_ave_e );
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_16S_8512US == shunt_voltage_res_ave_e );
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_64S_34MS   == shunt_voltage_res_ave_e );
+        assert( DD_INA_219_SADC_RES_AVE_12BIT_128S_69MS  == shunt_voltage_res_ave_e );
+        return FALSE;
+    }
+
+    /* Bus voltage ADC resolution/Averaging setting */
+    switch ( bus_voltage_res_ave_e )
+    {
+    case DD_INA_219_BADC_RES_AVE_12BIT_1S_532US:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_1S_532US;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_2S_1060US:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_2S_1060US;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_4S_2130US:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_4S_2130US;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_8S_4260US:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_8S_4260US;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_16S_8512US:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_16S_8512US;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_32S_17MS:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_32S_17MS;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_64S_34MS:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_64S_34MS;
+        break;
+    case DD_INA_219_BADC_RES_AVE_12BIT_128S_69MS:
+        bus_voltage_res_ave_u16 = DD_INA_219_BADC_12BIT_128S_69MS;
+        break;
+
+    default:
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_1S_532US   == bus_voltage_res_ave_e );
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_2S_1060US  == bus_voltage_res_ave_e );
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_4S_2130US  == bus_voltage_res_ave_e );
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_8S_4260US  == bus_voltage_res_ave_e );
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_16S_8512US == bus_voltage_res_ave_e );
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_64S_34MS   == bus_voltage_res_ave_e );
+        assert( DD_INA_219_BADC_RES_AVE_12BIT_128S_69MS  == bus_voltage_res_ave_e );
+        return FALSE;
+    }
+
     /* Set bus voltage range */
     switch ( bus_voltage_range_e )
     {
@@ -144,8 +234,8 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
 
     /* Construct 16-bit configuration register content (datasheet pg. 19) */
     config_register_u16 =   DD_INA_219_MODE_SHUNT_BUS_VOLT_CONT /* Operating Mode */
-                          | DD_INA_219_SADC_12BIT_1S_532US      /* SADC Shunt ADC Resolution/Averaging */
-                          | DD_INA_219_BADC_12BIT_1S_532US      /* BADC Bus ADC Resolution/Averaging */
+                          | shunt_voltage_res_ave_u16           /* SADC Shunt ADC Resolution/Averaging */
+                          | bus_voltage_res_ave_u16             /* BADC Bus ADC Resolution/Averaging */
                           | shunt_voltage_range_u16             /* PGA (Shunt Voltage Only) */
                           | bus_voltage_range_u16;              /* Bus Voltage Range */
 
@@ -156,9 +246,11 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
         return FALSE;
     }
 
-    /* Update current voltage ranges into global device data structure */
-    dd_ina_219_data_s.shunt_voltage_range_e = shunt_voltage_range_e;
-    dd_ina_219_data_s.bus_voltage_range_e   = bus_voltage_range_e;
+    /* Update current voltage ranges and ADC settings into global device data structure */
+    dd_ina_219_data_s.shunt_voltage_range_e            = shunt_voltage_range_e;
+    dd_ina_219_data_s.shunt_adc_resolution_averaging_e = shunt_voltage_res_ave_e;
+    dd_ina_219_data_s.bus_voltage_range_e              = bus_voltage_range_e;
+    dd_ina_219_data_s.bus_adc_resolution_averaging_e   = bus_voltage_res_ave_e;
 
     return TRUE;
 }
@@ -167,7 +259,7 @@ PRIVATE BOOLEAN dd_ina_219_calibrate( void )
 {
     /* Calculating calibration register
      * See datasheet pg. 12 for details */
-    dd_ina_219_data_s.current_lsb_A_f32        = ( F32 )( ( dd_ina_219_max_current_mA_f32 / 1000.0F ) / 32768U );
+    dd_ina_219_data_s.current_lsb_A_f32        = ( F32 )( ( dd_ina_219_max_current_mA_cfg_f32 / 1000.0F ) / 32768U );
     dd_ina_219_data_s.power_lsb_W_f32          = 20.0F * dd_ina_219_data_s.current_lsb_A_f32;
     dd_ina_219_data_s.calibration_register_u16 = ( U16 )( 0.04096F / ( dd_ina_219_data_s.current_lsb_A_f32 * DD_INA_219_SHUNT_RESISTOR_VALUE_OHM ) );
 
