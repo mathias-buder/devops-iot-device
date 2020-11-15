@@ -1,10 +1,4 @@
 /*********************************************************************
-    MODULE SPECIFICATION:
-
-        $URL$
-        $Revision$
-        $Author$
-        $Date$
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -14,17 +8,46 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        @file VE.c
+        @details Some detailed description
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
+/*********************************************************************/
+/*      INCLUDES                                                     */
+/*********************************************************************/
+#include "VE.h"
+
+#include "Core/ve_database.h"
+#include "Core/ve_grid.h"
+
+#include "esp_log.h"
+
+#include <stdio.h>
+#include <string.h>
+
+
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+#define VE_LOG_MSG_TAG      "VE"
+
+/*********************************************************************/
+/*      GLOBAL VARIABLES                                             */
+/*********************************************************************/
+
+/*********************************************************************/
+/*   FUNCTION DEFINITIONS                                            */
+/*********************************************************************/
 
 void ve_init(void)
 {
-
+    ve_grid_init();
 }
 
 void ve_main(void)
 {
-
+    ve_grid_main();
 }

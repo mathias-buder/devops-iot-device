@@ -27,6 +27,7 @@
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
 extern SENSE_MTN_DATA sense_mtn_data_s;
+extern SENSE_TS_DATA_TYPE  sense_ts_data_s;
 
 
 #endif /* SENSE_CORE_DATABASE_H_ */

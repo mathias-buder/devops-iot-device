@@ -25,6 +25,9 @@
 
 #include <esp_err.h>
 
+/* To get all MCPWM dependent defines/enums */
+#include "driver/mcpwm.h"
+
 #include "../../types.h"
 
 /* TODO: DD-Types include concept needs to be reworked */
@@ -171,13 +174,13 @@ typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
 /**
  * @details enumerator of ...
  */
-typedef struct DD_I2C_ERROR_TYPE_TAG
+typedef struct DD_I2C_ERROR_DATA_TYPE_TAG
 {
     DD_I2C_ERROR_INFO_TYPE error_info_vs[DD_I2C_ERROR_BUFFER_LENGTH]; /**< @details ... */
     U8                     current_error_idx_u8;                      /**< @details ... */
     U8                     last_error_idx_u8;                         /**< @details ... */
     BOOLEAN                is_error_present_b;                        /**< @details ... */
-} DD_I2C_ERROR_TYPE;
+} DD_I2C_ERROR_DATA_TYPE;
 
 /**
  * @brief   ICM-20600 Output Interface Data Structure
@@ -185,7 +188,7 @@ typedef struct DD_I2C_ERROR_TYPE_TAG
             motion information such as pitch, roll, yaw, ...
  * @ingroup DriverStructures
  */
-typedef struct DD_ICM_20600_DATA_TAG
+typedef struct DD_ICM_20600_DATA_TYPE_TAG
 {
     U8               chip_id_u8;                                           /**< @details Unique chip id */
     F32              temperature_deg_f32;                                  /**< @details Internal core (die) temperature @unit °C */
@@ -202,7 +205,7 @@ typedef struct DD_ICM_20600_DATA_TAG
     F32              factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /**< @details main icm-20600 device state */
     F32              fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /**< @details main icm-20600 device state */
     DD_DEV_STATE     dev_state_s;                                          /**< @details main icm-20600 device state */
-} DD_ICM_20600_DATA;
+} DD_ICM_20600_DATA_TYPE;
 
 /*************************************************************/
 /*                        DD_MAX_30102                       */
@@ -313,12 +316,16 @@ typedef enum DD_MAX_30102_INT_TYPE_TAG
     DD_MAX_30102_INT_TYPE_SIZE
 } DD_MAX_30102_INT_TYPE;
 
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
 /**
  * @brief   MAX-30102 Output Interface Data Structure
  * @details MAX-30102 Output Interface Data Structure ...
  * @ingroup DriverStructures
  */
-typedef struct DD_MAX_30102_DATA_TAG
+typedef struct DD_MAX_30102_DATA_TYPE_TAG
 {
     BOOLEAN           int_status_vb[DD_MAX_30102_INT_TYPE_SIZE];
     U8                part_id_u8;
@@ -331,8 +338,7 @@ typedef struct DD_MAX_30102_DATA_TAG
     U8                temperature_raw_vu8[DD_MAX_30102_TEMP_COMP_SIZE];
     F32               temperature_f32;
     DD_MAX_30102_MODE mode_e;
-
-} DD_MAX_30102_DATA;
+} DD_MAX_30102_DATA_TYPE;
 
 /*************************************************************/
 /*                           DD_SD                           */
@@ -356,23 +362,228 @@ typedef enum DD_SD_FILE_MODE_TAG
  * @details
  * @ingroup DriverStructures
  */
-typedef struct DD_SD_FILE_TAG
+typedef struct DD_SD_FILE_TYPE_TAG
 {
     FILE*       p_handle;                                 /**< @details FILE pointer */
     struct stat attrib_s;                                 /**< @details POSIX structure containing file attributes */
     char        full_path_vc[DD_SD_MAX_FILE_PATH_LENGTH]; /**< @details Complete file path (incl. mount point) */
     BOOLEAN     is_open_b;                                /**< @details Flag indicating that file is currently open */
-} DD_SD_FILE;
+} DD_SD_FILE_TYPE;
 
 /**
  * @brief  SD-Card Output Interface Data Structure
  * @details
  * @ingroup DriverStructures
  */
-typedef struct DD_SD_DATA_TAG
+typedef struct DD_SD_DATA_TYPE_TAG
 {
-    DD_SD_FILE file_s;
-    BOOLEAN    is_fs_mounted_b; /**< @details Flag indicating that file system is mounted on SD card */
-} DD_SD_DATA;
+    DD_SD_FILE_TYPE file_s;
+    BOOLEAN         is_fs_mounted_b; /**< @details Flag indicating that file system is mounted on SD card */
+} DD_SD_DATA_TYPE;
+
+/*************************************************************/
+/*                        DD_ADC                         */
+/*************************************************************/
+
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+/**
+ * @brief   ADC Output Interface Data Structure
+ * @details ADC Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_ADC_DATA_TYPE_TAG
+{
+    U16 raw_sample_u16;          /**< @details Current raw 12-bit ADC sample @unit [LSB] */
+    U16 previous_raw_sample_u16; /**< @details Previous raw 12-bit ADC sample @unit [LSB] */
+    U16 voltage_u16;             /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
+    F32 raw_level_f32;           /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+    F32 filtered_level_f32;      /**< @details Filtered ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
+} DD_ADC_DATA_TYPE;
+
+
+/*************************************************************/
+/*                        DD_MCPWM                           */
+/*************************************************************/
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_MCPWM_MODE_TAG
+{
+    DD_MCPWM_MODE_OFF,  /**< @details Default mode: Output is constant low/GND (0.0V) */
+    DD_MCPWM_MODE_ON, /**< @details Output is constant high (3.3V) */
+    DD_MCPWM_MODE_PWM,  /**< @details Output is running an PWM signal with an duty cycle of duty_cycle_f32 */
+    DD_MCPWM_MODE_SIZE
+} DD_MCPWM_MODE;
+
+/**
+ * @details enumerator of ...
+ */
+typedef enum DD_MCPWM_CHANNEL_TAG
+{
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
+    DD_MCPWM_CHANNEL_1,     /*!< Shared with JTAG pin: TMS (14) */
+#endif
+    DD_MCPWM_CHANNEL_2,
+    DD_MCPWM_CHANNEL_3,
+    DD_MCPWM_CHANNEL_4,
+    DD_MCPWM_CHANNEL_5,
+    DD_MCPWM_CHANNEL_6,
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
+    DD_MCPWM_CHANNEL_7,     /*!< Shared with JTAG pin: TCK (13) */
+    DD_MCPWM_CHANNEL_8,     /*!< Shared with JTAG pin: TDI (12) */
+    DD_MCPWM_CHANNEL_9,     /*!< Shared with JTAG pin: TDO (15) */
+#endif
+    DD_MCPWM_CHANNEL_10,
+    DD_MCPWM_CHANNEL_11,
+    DD_MCPWM_CHANNEL_12,
+    DD_MCPWM_CHANNEL_SIZE
+} DD_MCPWM_CHANNEL;
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
+
+typedef struct DD_MCPWM_CHANNEL_TYPE_TAG
+{
+    /* Hardware dependent (ESP32) configuration */
+    const mcpwm_unit_t       unit_e;         /**< @details MCPWM unit(0-1) */
+    const mcpwm_io_signals_t io_signal_e;    /**< @details MCPWM signals, each MCPWM unit has 6 output(MCPWMXA, MCPWMXB) and 9 input(SYNC_X, FAULT_X, CAP_X) 'X' is timer_num(0-2) */
+    const gpio_num_t         io_pin_e;       /**< @details Corresponding I/O pin to be multiplexed to output the PWM signal */
+    const mcpwm_timer_t      timer_e;        /**< @details Timer number(0-2) of MCPWM, each MCPWM unit has 3 timers */
+    const mcpwm_operator_t   operator_e;     /**< @details The operator(MCPWMXA/MCPWMXB), 'X' is timer number selected */
+
+    DD_MCPWM_MODE            mode_e;         /**< @details Channel mode */
+    F32                      duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
+} DD_MCPWM_CHANNEL_TYPE;
+
+/**
+ * @brief   MCPWM Output Interface Data Structure
+ * @details MCPWM Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_MCPWM_DATA_TYPE_TAG
+{
+    DD_MCPWM_CHANNEL_TYPE* p_channel_s; /**< @details Pointer to array containing all PWM channels */
+} DD_MCPWM_DATA_TYPE;
+
+
+/*************************************************************/
+/*                        DD_INA_219                         */
+/*************************************************************/
+
+/**
+ * @details Full-scale current sense (input) voltage range
+ */
+typedef enum DD_INA_219_SHUNT_VOL_RANGE_TAG
+{
+    DD_INA_219_SHUNT_VOL_RANGE_40MV = 0U, /**< @details FS range: +/- 40 mV  @ PGA = / 1 */
+    DD_INA_219_SHUNT_VOL_RANGE_80MV,      /**< @details FS range: +/- 80 mV  @ PGA = / 2 */
+    DD_INA_219_SHUNT_VOL_RANGE_160MV,     /**< @details FS range: +/- 160 mV @ PGA = / 4 */
+    DD_INA_219_SHUNT_VOL_RANGE_320MV,     /**< @details FS range: +/- 320 mV @ PGA = / 8 */
+    DD_INA_219_SHUNT_VOL_RANGE_SIZE
+} DD_INA_219_SHUNT_VOL_RANGE;
+
+/**
+ * @details Bus voltage (input voltage) range
+ */
+typedef enum DD_INA_219_BUS_VOL_RANGE_TAG
+{
+    DD_INA_219_BUS_VOL_RANGE_16V = 0U, /**< @details 16V Bus voltage range */
+    DD_INA_219_BUS_VOL_RANGE_32V,      /**< @details 32V Bus voltage range */
+    DD_INA_219_BUS_VOL_RANGE_SIZE
+} DD_INA_219_BUS_VOL_RANGE;
+
+/**
+ * @details  BADC Bus ADC Resolution/Averaging
+ */
+typedef enum DD_INA_219_BADC_RES_AVE_TAG
+{
+    DD_INA_219_BADC_RES_AVE_12BIT_1S_532US = 0U, /**< 12-bit shunt res = 0..4097, default */
+    DD_INA_219_BADC_RES_AVE_12BIT_2S_1060US,     /**< 2 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_4S_2130US,     /**< 4 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_8S_4260US,     /**< 8 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_16S_8512US,    /**< 16 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_32S_17MS,      /**< 32 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_64S_34MS,      /**< 64 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_12BIT_128S_69MS,     /**< 128 x 12-bit shunt samples averaged together */
+    DD_INA_219_BADC_RES_AVE_SIZE
+} DD_INA_219_BADC_RES_AVE;
+
+/**
+ * @details  SADC Shunt ADC Resolution/Averaging
+ */
+typedef enum DD_INA_219_SADC_RES_AVE_TAG
+{
+    DD_INA_219_SADC_RES_AVE_12BIT_1S_532US = 0U, /**< 12-bit shunt res = 0..4097, default */
+    DD_INA_219_SADC_RES_AVE_12BIT_2S_1060US,     /**< 2 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_4S_2130US,     /**< 4 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_8S_4260US,     /**< 8 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_16S_8512US,    /**< 16 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_32S_17MS,      /**< 32 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_64S_34MS,      /**< 64 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_12BIT_128S_69MS,     /**< 128 x 12-bit shunt samples averaged together */
+    DD_INA_219_SADC_RES_AVE_SIZE
+} DD_INA_219_SADC_RES_AVE;
+
+/**
+ * @brief   INA-219 Bus Voltage data and status information
+ * @ingroup DriverStructures
+ */
+typedef struct DD_INA_219_BUS_VOL_DATA_TYPE_TAG
+{
+    BOOLEAN math_overflow_b;     /**< @details The Math Overflow Flag (OVF) is set when the Power or Current calculations
+                                          are out of range. It indicates that current and power data may be meaningless. */
+    BOOLEAN conv_ready_b;        /**< @details Although the data from the last conversion can be read at any time, the INA219
+                                               Conversion Ready bit (CNVR) indicates when data from a conversion is available
+                                               in the data output registers. The CNVR bit is set after all conversions, averaging,
+                                               and multiplications are complete. */
+    U16     voltage_raw_u16;    /**< @details Raw most recent bus voltage ADC reading */
+} DD_INA_219_BUS_VOL_DATA_TYPE;
+
+/**
+ * @brief   INA-219 Output Interface Data Structure
+ * @details INA-219 Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_INA_219_DATA_TYPE_TAG
+{
+    DD_INA_219_SHUNT_VOL_RANGE   shunt_voltage_range_e;            /**< @details Current full-scale current sense (input) voltage range */
+    DD_INA_219_SADC_RES_AVE      shunt_adc_resolution_averaging_e; /**< @details Shunt voltage ADC resolution/averaging setting */
+    DD_INA_219_BUS_VOL_RANGE     bus_voltage_range_e;              /**< @details Current bus voltage (input voltage) range */
+    DD_INA_219_BADC_RES_AVE      bus_adc_resolution_averaging_e;   /**< @details Bus voltage ADC resolution/averaging setting */
+    DD_INA_219_BUS_VOL_DATA_TYPE bus_voltage_data_s;               /**< @details Raw most recent bus voltage ADC reading and status information */
+    S16                          shunt_voltage_raw_s16;            /**< @details Raw ADC reading representing the voltage across the shunt resistor */
+    U16                          power_raw_u16;                    /**< @details Records power in watts by multiplying the value of the current with the
+                                                                      value of the bus voltage according to the Equation 5 (datasheet pg. 13) */
+    S16                          current_raw_s16;                  /**< @details Value is calculated by multiplying the value in the Shunt Voltage register
+                                                                      with the value in the Calibration register according to the Equation 4 (datasheet pg. 12) */
+    F32                          shunt_voltage_mV_f32;             /**< @details Voltage across the shunt resistor @unit mV */
+    F32                          bus_voltage_V_f32;                /**< @details Bus voltage @unit V */
+    F32                          bus_voltage_mV_f32;               /**< @details Bus voltage @unit mV */
+    F32                          power_mW_f32;                     /**< @details Power @unit mW */
+    F32                          current_mA_f32;                   /**< @details Current @unit mA */
+    F32                          current_lsb_A_f32;                /**< @details Current LSB after calibration @unit Amp/LSB */
+    F32                          power_lsb_W_f32;                  /**< @details Power LSB after calibration @unit Watt/LSB */
+    U16                          calibration_register_u16;         /**< @details Contains the calibration register value @unit 1/V */
+} DD_INA_219_DATA_TYPE;
+
+/*************************************************************/
+/*                        DD_TMP_102                         */
+/*************************************************************/
+/**
+ * @brief   TMP-102 Output Interface Data Structure
+ * @details TMP-102 Output Interface Data Structure ...
+ * @ingroup DriverStructures
+ */
+typedef struct DD_TMP_102_DATA_TYPE_TAG
+{
+    S16 temperature_raw_s16; /**< @details Raw ADC temperature reading @unit LSB */
+    F32 temperature_deg_f32; /**< @details Current temperature reading @unit °C */
+} DD_TMP_102_DATA_TYPE;
 
 #endif /* DD_PUBLIC_TYPES_H */

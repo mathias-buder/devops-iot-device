@@ -8,24 +8,70 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_public_types.h
+        @details ...
+
         (c) SEWELA 2020
 
 *********************************************************************/
 
+#ifndef VE_PUBLIC_TYPES_H_
+#define VE_PUBLIC_TYPES_H_
+
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "../../DD/DD.h"
+
+/*************************************************************/
+/*                        VE_GRID                            */
+/*************************************************************/
+
+/*************************************************************/
+/*                      ENUMERATORS                          */
+/*************************************************************/
 /**
- * @file dd_public_types.h
- * @details
+ * @details enumerator of ...
  */
+typedef enum VE_GRID_VIBRATOR_TAG
+{
+    VE_GRID_VIBRATOR_1,
+    VE_GRID_VIBRATOR_2,
+    VE_GRID_VIBRATOR_3,
+    VE_GRID_VIBRATOR_4,
+    VE_GRID_VIBRATOR_5,
+    VE_GRID_VIBRATOR_6,
+    VE_GRID_VIBRATOR_7,
+    VE_GRID_VIBRATOR_8,
+    VE_GRID_VIBRATOR_9,
+    VE_GRID_VIBRATOR_10,
+    VE_GRID_VIBRATOR_SIZE
+} VE_GRID_VIBRATOR;
 
-#ifndef VE_PUBLIC_TYPES_H
-#define VE_PUBLIC_TYPES_H
+/*************************************************************/
+/*                      STRUCTURES                           */
+/*************************************************************/
+typedef struct VE_GRID_VIRBATOR_TYPE_TAG
+{
+    const DD_MCPWM_CHANNEL assignment_e;   /**< @details Channel assignment */
+    const F32              x_f32;          /**< @details Vibrator x-distance to reference
+                                                                  point within grid @unit [mm] */
+    const F32              y_f32;          /**< @details Vibrator y-distance to reference
+                                                                  point within grid @unit [mm] */
+    F32                    duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
+} VE_GRID_VIRBATOR_TYPE;
 
-/* INCLUDES */
+/**
+ * @brief   Vibration Engine Grid Output Interface Data Structure
+ * @details Data structure that holds all data provided by the Vibration
+ *          Engine Grid module.
+ * @ingroup VibrationEngineStructures
+ */
+typedef struct VE_GRID_DATA_TYPE_TAG
+{
+    VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
 
-/* TYPES */
+} VE_GRID_DATA_TYPE;
 
-
-
-
-#endif /* DD_PUBLIC_TYPES_H */
+#endif /* VE_PUBLIC_TYPES_H_ */
 

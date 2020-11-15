@@ -16,10 +16,35 @@
 
 *********************************************************************/
 
-void sense_main(void);
+/*********************************************************************/
+/*      INCLUDES                                                     */
+/*********************************************************************/
+
+/* Standard libraries */
+#include <stdio.h>
+#include <string.h>
+
+/* ESP32 specific */
+#include "esp_log.h"
+
+/* Internal */
+#include "SENSE.h"
+#include "Core/sense_database.h"
+#include "Core/sense_hr.h"
+#include "Core/sense_mtn.h"
+#include "Core/sense_spo2.h"
+#include "Core/sense_ts.h"
+#include "Interface/sense_ts_if.h"
+
+
+void sense_init(void)
+{
+    sense_ts_init();
+}
+
 
 
 void sense_main(void)
 {
-
+    sense_ts_main();
 }

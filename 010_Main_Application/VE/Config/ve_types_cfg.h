@@ -8,18 +8,15 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file dd_types_Cfg.h
+        @details ...
+
         (c) SEWELA 2020
 
 *********************************************************************/
 
-/**
- * @file dd_types_Cfg.h
- * @details This files lists type specific defines and array sizes
- * for types used in the Touch Sensor domain.
- */
-
-#ifndef VE_TYPES_CFG_H
-#define VE_TYPES_CFG_H
+#ifndef VE_TYPES_CFG_H_
+#define VE_TYPES_CFG_H_
 
 /*************************************************************/
 /*      ENUMS                                                */
@@ -30,11 +27,5 @@
 /*      STRUCTURES                                              */
 /*************************************************************/
 
-/**
- * @details Constant parameter to define the max no. of objects that can
- * be acquired in Object Selection input interface.
- */
-// #define OSL_AEB_MAX_NUMBER_OBJECTS              FU_MAX_NUMBER_OBJECTS
 
-
-#endif /* VE_TYPES_CFG_H */
+#endif /* VE_TYPES_CFG_H_ */

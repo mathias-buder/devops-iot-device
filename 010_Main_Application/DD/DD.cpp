@@ -18,18 +18,22 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include <stdio.h>
-#include <string.h>
-
-#include "esp_log.h"
-
 #include "DD.h"
+
 #include "Core/dd_database.h"
-#include "Core/dd_sd.h"
 #include "Core/dd_i2c.h"
+#include "Core/dd_adc.h"
+#include "Core/dd_mcpwm.h"
+#include "Interface/dd_mcpwm_if.h"
 #include "Core/dd_icm-20600.h"
 #include "Core/dd_max-30102.h"
-#include "Core/dd_pga-302.h"
+#include "Core/dd_ina-219.h"
+#include "Core/dd_tmp-102.h"
+#include "Core/dd_sd.h"
+#include "esp_log.h"
+
+#include <stdio.h>
+#include <string.h>
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
@@ -37,50 +41,32 @@
 #define DD_LOG_MSG_TAG "DD"
 
 /*********************************************************************/
-/*      GLOBAL OBJECTS                                               */
-/*********************************************************************/
-// DD_I2C_C dd_i2c_c;
-
-/*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
-/*********************************************************************/
-BOOLEAN file_written_b = FALSE;
-U32     idx_u32        = 100U;
-U32     time_in_ms_u32;
-FILE*   p_file;
-
-/*********************************************************************/
-/*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void dd_init(void)
+void dd_init( void )
 {
-    /* Initialize SD card driver */
-    DD_SD_C::init();
-
-    /* Initialize I2C basic device driver */
-    DD_I2C_C::init();
-
-    /* Initialize ICM-2600 motion subsystem */
-    if( FALSE == DD_ICM_20600_C::init() )
-    {
-        ESP_LOGE( DD_LOG_MSG_TAG, "dd_icm_20600_init() failed with error: 0x%x\n",  DD_I2C_C::get_last_error()->error_e );
-    }
-
-    /* Initialize MAX-30102 HR+SpO2 sensor */
-    //dd_max_30102_init();
-
-    /* Initialize PGA-302 analog front-end */
-    //dd_pga_302_init();
-
+    dd_sd_init();        /* Initialize SD card driver */
+    dd_i2c_init();       /* Initialize I2C basic device driver */
+    dd_adc_init();       /* Initialize ADC basic device driver */
+    dd_mcpwm_init();     /* Initialize MCPWM basic device driver */
+    dd_mcpwm_if_init();  /* Initialize MCPWM input interface module */
+    dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
+    dd_max_30102_init(); /* Initialize MAX-30102 HR+SpO2 subsystem */
+    dd_ina_219_init();   /* Initialize INA-219 Current/Voltage/Power measuring subsystem */
+    dd_tmp_102_init();   /* Initialize TMP-102 temperature sensor */
 }
 
-void dd_main(void)
+void dd_main( void )
 {
-    DD_ICM_20600_C::run();
-    //dd_max_30102_main();
-    //dd_pga_302_main();
+    dd_adc_main();       /* Schedule ADC basic device driver */
+    dd_mcpwm_if_main();  /* Schedule MCPWM input interface module ( must be called before dd_mcpwm_main() ) */
+    dd_mcpwm_main();     /* Schedule MCPWM basic device driver */
+    dd_icm_20600_main(); /* Schedule ICM-2600 motion subsystem */
+    dd_max_30102_main(); /* Schedule MAX-30102 HR+SpO2 subsystem */
+    dd_ina_219_main();   /* Schedule INA-219 Current/Voltage/Power measuring subsystem */
+    dd_tmp_102_main();   /* Schedule TMP-102 temperature sensor */
 }

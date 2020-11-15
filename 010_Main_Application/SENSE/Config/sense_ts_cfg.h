@@ -21,11 +21,22 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include "../../types.h"
 
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+
+/* Log message TAG string */
+#define SENSE_TS_LOG_MSG_TAG              "SENSE_TS"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-
+extern F32 sense_ts_adc_alpha_filter_coeff_a_f32;
+extern F32 sense_ts_adc_alpha_beta_filter_coeff_a_f32;
+extern F32 sense_ts_adc_alpha_beta_filter_coeff_b_f32;
+extern F32 sense_ts_min_touch_conf_level_f32;
+extern F32 sense_ts_min_touch_hyst_conf_level_f32;
 
 #endif /* SENSE_CONFIG_TS_CFG_H_ */

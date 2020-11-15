@@ -12,9 +12,9 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS "Config/ve_cfg.c"
+idf_component_register(SRCS "Config/ve_grid_cfg.c"
                             "Core/ve_database.c"
-                            "Interface/ve_input_interface.c"
-                            "Interface/ve_output_interface.c"
+                            "Core/ve_grid.c"
+                            "Interface/ve_grid_if.c"
                             "VE.c"
                        INCLUDE_DIRS ".")

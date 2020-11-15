@@ -8,6 +8,9 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file ve_database.c
+        @details ...
+
         (c) SEWELA 2020
 
 *********************************************************************/
@@ -20,7 +23,7 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-
+VE_GRID_DATA_TYPE ve_grid_data_s;
 
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */

@@ -19,23 +19,102 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include "../Config/sense_ts_cfg.h"
+#include "sense_database.h"
 #include "sense_ts.h"
 
+#include "../../DD/DD.h"
+#include "../../UTIL/UTIL.h"
+
+#include "esp_log.h"
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-
-/*********************************************************************/
-/*      LOCAL VARIABLES                                              */
-/*********************************************************************/
-
+F32 xk_f32, vk_f32, rk_f32, xk_1, vk_1; /* Used for Alpha-Beta filter */
+F32 dt_f32 = 0.1F;                      /* TODO: Use global cycle time define here ( currently 100 ms ) */
 /*********************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                                */
 /*********************************************************************/
-
-
+PRIVATE void sense_ts_filter_pressure( void );
+PRIVATE void sense_ts_compute_sensor_confidence( void );
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
+BOOLEAN sense_ts_init( void )
+{
+    /* Initialize database to 0 */
+    memset( &sense_ts_data_s, 0U, sizeof( sense_ts_data_s ) );
+
+    /* Get pointer to ADC database structure */
+    sense_ts_data_s.p_adc_input_s = dd_adc_get_database();
+
+    return TRUE;
+}
+
+
+void sense_ts_main( void )
+{
+
+    sense_ts_filter_pressure();
+    sense_ts_compute_sensor_confidence();
+
+    ESP_LOGD( SENSE_TS_LOG_MSG_TAG, "ALvl: %0.3f, ABLvl: %0.3f, TConf: %0.3f", sense_ts_data_s.alpha_filtered_adc_level_f32,
+                                                                               sense_ts_data_s.alpha_beta_filtered_adc_level_f32,
+                                                                               sense_ts_data_s.touch_conf_s.confidence_f32 );
+}
+
+PRIVATE void sense_ts_filter_pressure( void )
+{
+    /* Alpha filter signal */
+    sense_ts_data_s.alpha_filtered_adc_level_f32 =   ( sense_ts_data_s.alpha_filtered_adc_level_f32 * sense_ts_adc_alpha_filter_coeff_a_f32            )
+                                                   + ( ( 1.0F - sense_ts_adc_alpha_filter_coeff_a_f32 ) * sense_ts_data_s.p_adc_input_s->raw_level_f32 );
+
+    /* Alpha-Beta filter signal */
+    xk_f32 = xk_1 + ( vk_1 * dt_f32 );
+    vk_f32 = vk_1;
+
+    rk_f32 = sense_ts_data_s.p_adc_input_s->raw_level_f32 - xk_f32;
+
+    xk_f32 += sense_ts_adc_alpha_beta_filter_coeff_a_f32 * rk_f32;
+    vk_f32 += ( sense_ts_adc_alpha_beta_filter_coeff_b_f32 * rk_f32 ) / dt_f32;
+
+    xk_1 = xk_f32;
+    vk_1 = vk_f32;
+
+    /* Store filtered output ( clamped to a range of 0.0 to 1.0 ) */
+    sense_ts_data_s.alpha_beta_filtered_adc_level_f32 = CLAMP( xk_1, 0.0F, 1.0F );
+}
+
+PRIVATE void sense_ts_compute_sensor_confidence( void )
+{
+    UTIL_CONF_DETECTION_STATE detection_status_e;
+
+    if( sense_ts_data_s.p_adc_input_s->raw_level_f32 > sense_ts_min_touch_conf_level_f32 )
+    {
+        if( sense_ts_data_s.p_adc_input_s->raw_level_f32 > ( sense_ts_min_touch_conf_level_f32 + sense_ts_min_touch_hyst_conf_level_f32 ) )
+        {
+            detection_status_e = IS_DETECTION;
+        }
+        else
+        {
+            detection_status_e = NO_UPDATE;
+        }
+    }
+    else
+    {
+        detection_status_e = NO_DETECTION;
+    }
+
+    util_update_fir_confidence( &sense_ts_data_s.touch_conf_s.confidence_f32,
+                                &sense_ts_data_s.touch_conf_s.confidence_max_f32,
+                                &sense_ts_data_s.touch_conf_s.asso_history_u64,
+                                UTIL_CONF_MAX_FIR_CONFIDENCE_BUFFER_LENGTH,
+                                detection_status_e );
+}
+
+

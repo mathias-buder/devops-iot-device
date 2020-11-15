@@ -26,6 +26,6 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-DD_MAX_30102_DATA* dd_max_30102_get_database( void );
+extern DD_MAX_30102_DATA_TYPE* dd_max_30102_get_database( void );
 
 #endif /* DD_MAX_30102_OIF_H */

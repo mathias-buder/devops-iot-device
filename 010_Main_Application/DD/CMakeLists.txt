@@ -12,21 +12,23 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS 
-                            "Config/dd_icm-20600_cfg.cpp"
-                            #"Config/dd_max-30102_cfg.c"
-                            #"Config/dd_pga-302_cfg.c"
+idf_component_register(SRCS "Config/dd_adc_cfg.cpp"
                             "Config/dd_i2c_cfg.cpp"
+                            "Config/dd_icm-20600_cfg.cpp"
+                            "Config/dd_ina-219_cfg.cpp"
+                            "Config/dd_max-30102_cfg.cpp"
+                            "Config/dd_mcpwm_cfg.cpp"
                             "Config/dd_sd_cfg.cpp"
+                            "Config/dd_tmp-102_cfg.cpp"
+                            "Core/dd_adc.cpp"
                             "Core/dd_database.cpp"
-                            "Core/dd_icm-20600.cpp"
-                            #"Core/dd_max-30102.c"
-                            #"Core/dd_pga-302.c"
                             "Core/dd_i2c.cpp"
+                            "Core/dd_icm-20600.cpp"
+                            "Core/dd_ina-219.cpp"
+                            "Core/dd_max-30102.cpp"
+                            "Core/dd_mcpwm.cpp"
                             "Core/dd_sd.cpp"
-                            #"Interface/dd_icm-20600_if.cpp"
-                            #"Interface/dd_max-30102_if.c"
-                            #"Interface/dd_pga-302_if.c"
+                            "Core/dd_tmp-102.cpp"
                             "DD.cpp"
                        INCLUDE_DIRS "."
                        REQUIRES fatfs)

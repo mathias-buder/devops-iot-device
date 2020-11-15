@@ -1,10 +1,4 @@
 /*********************************************************************
-    MODULE SPECIFICATION:
-
-        $URL$
-        $Revision$
-        $Author$
-        $Date$
 
         SEWELA owns the copyright in this document and associated
         documents and all rights are reserved. These documents must
@@ -14,17 +8,46 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2019
+        @file VE.h
+        @details Some detailed description
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
 #ifndef TS_TS_H_
 #define TS_TS_H_
 
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "Interface/ve_public_types.h"
+#include "Interface/ve_grid_if.h"
 
-void ve_init(void);
 
-void ve_main(void);
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
 
+/*************************************************************/
+/*      GLOBAL VARIABLES                                     */
+/*************************************************************/
+
+
+/*********************************************************************/
+/*   FUNCTION PROTOTYPES                                             */
+/*********************************************************************/
+
+/**
+ * @details This function initializes the entire Vibration Engine (VE) domain
+ * and shall by only called once.
+ */
+extern void ve_init( void );
+
+/**
+ * @details This function executes all Vibration Engine (VE) domain related
+ * functions and shall be called in a cyclic fashion.
+ */
+extern void ve_main( void );
 
 #endif /* TS_TS_H_ */

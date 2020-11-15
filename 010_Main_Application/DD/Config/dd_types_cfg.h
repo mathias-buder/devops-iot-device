@@ -24,13 +24,13 @@
 /*************************************************************/
 /*      DEFINES                                              */
 /*************************************************************/
-#define DD_I2C_ERROR_BUFFER_LENGTH      10U
 
-#define DD_SD_MAX_FILE_PATH_LENGTH      128U
+#define DD_I2C_ERROR_BUFFER_LENGTH      10U    /*!< Maximum number of I2C errors in corresponding buffer */
+
+#define DD_SD_MAX_FILE_PATH_LENGTH      128U   /*!< Maximum number of file name characters */
 
 /*************************************************************/
 /*      ENUMS                                                */
 /*************************************************************/
-
 
 #endif /* DD_TYPES_CFG_H */

@@ -14,59 +14,45 @@
         @details Some detailed description
 
 *********************************************************************/
+#include "OS.h"
+
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+
 #include "esp_system.h"
 #include "esp_spi_flash.h"
+#include "freertos/task.h"
 
-#include "os_time.h"
+#include "Core/os_tm.h"
 
 #include "../DD/DD.h"
 #include "../SENSE/SENSE.h"
+#include "../VE/VE.h"
 #include "../DLG/DLG.h"
 
-extern "C" void app_main()
+void app_main()
 {
-    /* Print chip information */
-    esp_chip_info_t  chip_info;
-    TickType_t       xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xFrequency    = 10U;
+    /* Get current OS tick count */
+    TickType_t initial_tick_cnt_u32 = xTaskGetTickCount();
 
-    OS_TIME_C os_time_c;
+    os_tm_init();   /* Initialize Global Time Module */
+    os_wifi_init(); /* Initialize and connect to wifi network */
+    dd_init();      /* Initialize Device Driver Domain ( DD ) */
+    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
+    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
+    dlg_init();     /* Initialize Data Logging Domain( DLG ) */
 
-    esp_chip_info( &chip_info );
-    printf( "This is ESP32 chip with %d CPU cores, WiFi%s%s, ",
-            chip_info.cores,
-            ( chip_info.features & CHIP_FEATURE_BT ) ? "/BT" : "",
-            ( chip_info.features & CHIP_FEATURE_BLE ) ? "/BLE" : "" );
-
-    printf( "silicon revision %d, ", chip_info.revision );
-
-    printf( "%dMB %s flash\n\n", spi_flash_get_chip_size() / ( 1024 * 1024 ),
-            ( chip_info.features & CHIP_FEATURE_EMB_FLASH ) ? "embedded" : "external" );
-
-    // os_time_init();
-
-    /* Initialize Device Drivers */
-    dd_init();
-
-    /* Initialize Data Logging*/
-    // dlg_init();
-
-
+    /***********************************************
+     ********** Enter Infinite Main Loop ***********
+     ***********************************************/
     while ( TRUE )
     {
-        /* Schedule every 100 ms */
-        vTaskDelayUntil( &xLastWakeTime, xFrequency );
+        /* Schedule every OS_MAIN_CYCLE_TIME_INCREMENT ms */
+        vTaskDelayUntil( &initial_tick_cnt_u32, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
-        /* Schedule Device Driver (DD) */
-        dd_main();
-
-       // dlg_main();
-
-        //os_time_update();
-
-        os_time_c.update();
+        dd_main();      /* Schedule Device Driver Domain ( DD ) */
+        sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */
+        ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
+        dlg_main();     /* Schedule Data Logging Domain( DLG ) */
+        os_tm_update(); /* Update Global Time Module */
     }
 }

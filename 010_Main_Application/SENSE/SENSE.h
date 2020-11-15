@@ -15,10 +15,22 @@
         @details Some detailed description
 
 *********************************************************************/
-
 #ifndef SENSE_SENSE_H_
 #define SENSE_SENSE_H_
 
-extern void sense_main(void);
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "Interface/sense_hr_if.h"
+#include "Interface/sense_mtn_if.h"
+#include "Interface/sense_spo2_if.h"
+#include "Interface/sense_ts_if.h"
+#include "Interface/sense_public_types.h"
+
+/*********************************************************************/
+/*   FUNCTION PROTOTYPES                                             */
+/*********************************************************************/
+extern void sense_init( void );
+extern void sense_main( void );
 
 #endif /* SENSE_SENSE_H_ */

@@ -40,7 +40,7 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-DD_MAX_30102_DATA* dd_max_30102_get_database( void )
+DD_MAX_30102_DATA_TYPE* dd_max_30102_get_database( void )
 {
     return &dd_max_30102_data_s;
 }
