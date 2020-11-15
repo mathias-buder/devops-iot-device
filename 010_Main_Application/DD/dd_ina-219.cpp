@@ -22,90 +22,86 @@
 
 #include "dd_ina-219.h"
 #include "dd_i2c.h"
-#include "dd_database.h"
 
 #include "../../UTIL/UTIL.h"
 
 
 /*********************************************************************/
-/*      GLOBAL VARIABLES                                             */
-/*********************************************************************/
-
-/*********************************************************************/
-/*      PRIVATE FUNCTION DECLARATIONS                                */
-/*********************************************************************/
-PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e,
-                                      DD_INA_219_SADC_RES_AVE    shunt_voltage_res_ave_e,
-                                      DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e,
-                                      DD_INA_219_BADC_RES_AVE    bus_voltage_res_ave_e );
-PRIVATE BOOLEAN dd_ina_219_calibrate( void );
-PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 );
-PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s );
-PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 );
-PRIVATE BOOLEAN dd_ina_219_get_current_raw( S16* const p_value_s16 );
-
-/*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-BOOLEAN dd_ina_219_init( void )
+
+DD_INA_219_C::DD_INA_219_C( U8 i2c_addr_u8 )
+{
+    this->i2c_addr_u8 = i2c_addr_u8;
+}
+
+
+DD_INA_219_C::~DD_INA_219_C()
+{
+}
+
+
+DD_INA_219_DATA_OUT_TYPE* DD_INA_219_C::init( DD_INA_219_DATA_IN_TYPE* p_data_in_s )
 {
     ESP_LOGI( DD_INA_219_LOG_MSG_TAG, "Initializing ..." );
 
-    /* Initialize global voltage ranges with invalid range */
-    dd_ina_219_data_s.shunt_voltage_range_e            = DD_INA_219_SHUNT_VOL_RANGE_SIZE;
-    dd_ina_219_data_s.shunt_adc_resolution_averaging_e = DD_INA_219_SADC_RES_AVE_SIZE;
-    dd_ina_219_data_s.bus_voltage_range_e              = DD_INA_219_BUS_VOL_RANGE_SIZE;
-    dd_ina_219_data_s.bus_adc_resolution_averaging_e   = DD_INA_219_BADC_RES_AVE_SIZE;
-
-    /* Set global configuration register */
-    if (   ( FALSE == dd_ina_219_configure( dd_ina_219_shunt_voltage_range_cfg_e,
-                                            dd_ina_219_shunt_voltage_adc_res_ave_cfg_e,
-                                            dd_ina_219_bus_voltage_range_cfg_e,
-                                            dd_ina_219_bus_voltage_adc_res_ave_cfg_e )
-           )
-           /* Set calibration register */
-        || ( FALSE == dd_ina_219_calibrate() ) )
+    if( NULL != p_data_in_s )
     {
-        ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Initializing failed" );
-        return FALSE;
+               /* Set global configuration register */
+        if (   ( FALSE == configure( p_data_in_s->shunt_voltage_range_e,
+                                     p_data_in_s->shunt_adc_resolution_averaging_e,
+                                     p_data_in_s->bus_voltage_range_e,
+                                     p_data_in_s->bus_adc_resolution_averaging_e ) )
+
+               /* Set calibration register */
+            || ( FALSE == calibrate( p_data_in_s->max_current_mA_f32 ) ) )
+        {
+           ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Initializing failed" );
+           return NULL;
+        }
+    }
+    else
+    {
+        assert( NULL != p_data_in_s );
+        return NULL;
     }
 
     ESP_LOGI( DD_INA_219_LOG_MSG_TAG, "Done" );
-    return TRUE;
+    return &this->data_out_s;
 }
 
-void dd_ina_219_main( void )
+void DD_INA_219_C::main( void )
 {
     /* Read raw ADC measurements */
-    dd_ina_219_get_shunt_voltage_raw( &dd_ina_219_data_s.shunt_voltage_raw_s16 );
-    dd_ina_219_get_bus_voltage_raw( &dd_ina_219_data_s.bus_voltage_data_s );
-    dd_ina_219_get_power_raw( &dd_ina_219_data_s.power_raw_u16 );
-    dd_ina_219_get_current_raw( &dd_ina_219_data_s.current_raw_s16 );
+    read_shunt_voltage_raw( &this->data_out_s.shunt_voltage_raw_s16 );
+    read_bus_voltage_raw( &this->data_out_s.bus_voltage_data_s );
+    read_power_raw( &this->data_out_s.power_raw_u16 );
+    read_current_raw( &this->data_out_s.current_raw_s16 );
 
     /* Convert Bus Voltage into mV / V */
-    dd_ina_219_data_s.bus_voltage_mV_f32 = dd_ina_219_data_s.bus_voltage_data_s.voltage_raw_u16 * DD_INA_219_V_BUS_LSB_MILLI_VOLT;
-    dd_ina_219_data_s.bus_voltage_V_f32  = dd_ina_219_data_s.bus_voltage_data_s.voltage_raw_u16 * DD_INA_219_V_BUS_LSB_VOLT;
+    this->data_out_s.bus_voltage_mV_f32 = this->data_out_s.bus_voltage_data_s.voltage_raw_u16 * DD_INA_219_V_BUS_LSB_MILLI_VOLT;
+    this->data_out_s.bus_voltage_V_f32  = this->data_out_s.bus_voltage_data_s.voltage_raw_u16 * DD_INA_219_V_BUS_LSB_VOLT;
 
     /* Convert Shunt Voltage into mV */
-    dd_ina_219_data_s.shunt_voltage_mV_f32  = dd_ina_219_data_s.shunt_voltage_raw_s16 * DD_INA_219_V_SHUNT_LSB_MILLI_VOLT;
+    this->data_out_s.shunt_voltage_mV_f32  = this->data_out_s.shunt_voltage_raw_s16 * DD_INA_219_V_SHUNT_LSB_MILLI_VOLT;
 
     /* Convert Current into mA */
-    dd_ina_219_data_s.current_mA_f32 = dd_ina_219_data_s.current_raw_s16 * dd_ina_219_data_s.current_lsb_A_f32 * 1000.0F;
+    this->data_out_s.current_mA_f32 = this->data_out_s.current_raw_s16 * this->data_out_s.current_lsb_A_f32 * 1000.0F;
 
     /* Convert Power into mW */
-    dd_ina_219_data_s.power_mW_f32 = dd_ina_219_data_s.power_raw_u16 * dd_ina_219_data_s.power_lsb_W_f32 * 1000.0F;
+    this->data_out_s.power_mW_f32 = this->data_out_s.power_raw_u16 * this->data_out_s.power_lsb_W_f32 * 1000.0F;
 
 
-    ESP_LOGD( DD_INA_219_LOG_MSG_TAG, "ShuntV %0.2f mV, BusV %0.2f V, Current %0.2f mA, Power %0.3f mW", dd_ina_219_data_s.shunt_voltage_mV_f32,
-                                                                                                         dd_ina_219_data_s.bus_voltage_V_f32,
-                                                                                                         dd_ina_219_data_s.current_mA_f32,
-                                                                                                         dd_ina_219_data_s.power_mW_f32 );
+    ESP_LOGD( DD_INA_219_LOG_MSG_TAG, "ShuntV %0.2f mV, BusV %0.2f V, Current %0.2f mA, Power %0.3f mW", this->data_out_s.shunt_voltage_mV_f32,
+                                                                                                         this->data_out_s.bus_voltage_V_f32,
+                                                                                                         this->data_out_s.current_mA_f32,
+                                                                                                         this->data_out_s.power_mW_f32 );
 }
 
-PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e,
-                                      DD_INA_219_SADC_RES_AVE    shunt_voltage_res_ave_e,
-                                      DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e,
-                                      DD_INA_219_BADC_RES_AVE    bus_voltage_res_ave_e )
+BOOLEAN DD_INA_219_C::configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e,
+                                 DD_INA_219_SADC_RES_AVE    shunt_voltage_res_ave_e,
+                                 DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e,
+                                 DD_INA_219_BADC_RES_AVE    bus_voltage_res_ave_e )
 {
     U16 shunt_voltage_range_u16   = 0U;
     U16 shunt_voltage_res_ave_u16 = 0U;
@@ -240,31 +236,25 @@ PRIVATE BOOLEAN dd_ina_219_configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_r
                           | bus_voltage_range_u16;              /* Bus Voltage Range */
 
     /* Update configuration Registers */
-    if ( FALSE == dd_i2c_write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CONFIG, ( (U8*) &config_register_u16 ), sizeof( config_register_u16 ) ) )
+    if ( FALSE == DD_I2C_C::write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CONFIG, ( (U8*) &config_register_u16 ), sizeof( config_register_u16 ) ) )
     {
         ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Couldn't update configuration registers" );
         return FALSE;
     }
 
-    /* Update current voltage ranges and ADC settings into global device data structure */
-    dd_ina_219_data_s.shunt_voltage_range_e            = shunt_voltage_range_e;
-    dd_ina_219_data_s.shunt_adc_resolution_averaging_e = shunt_voltage_res_ave_e;
-    dd_ina_219_data_s.bus_voltage_range_e              = bus_voltage_range_e;
-    dd_ina_219_data_s.bus_adc_resolution_averaging_e   = bus_voltage_res_ave_e;
-
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_ina_219_calibrate( void )
+BOOLEAN DD_INA_219_C::calibrate( F32 max_current_mA_f32 )
 {
     /* Calculating calibration register
      * See datasheet pg. 12 for details */
-    dd_ina_219_data_s.current_lsb_A_f32        = ( F32 )( ( dd_ina_219_max_current_mA_cfg_f32 / 1000.0F ) / 32768U );
-    dd_ina_219_data_s.power_lsb_W_f32          = 20.0F * dd_ina_219_data_s.current_lsb_A_f32;
-    dd_ina_219_data_s.calibration_register_u16 = ( U16 )( 0.04096F / ( dd_ina_219_data_s.current_lsb_A_f32 * DD_INA_219_SHUNT_RESISTOR_VALUE_OHM ) );
+    this->data_out_s.current_lsb_A_f32        = ( F32 )( ( max_current_mA_f32 / 1000.0F ) / 32768U );
+    this->data_out_s.power_lsb_W_f32          = 20.0F * this->data_out_s.current_lsb_A_f32;
+    this->data_out_s.calibration_register_u16 = ( U16 )( 0.04096F / ( this->data_out_s.current_lsb_A_f32 * DD_INA_219_SHUNT_RESISTOR_VALUE_OHM ) );
 
     /* Update Calibration Registers */
-    if ( FALSE == dd_i2c_write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CALIB_DATA, ( (U8*) &dd_ina_219_data_s.calibration_register_u16 ), sizeof( dd_ina_219_data_s.calibration_register_u16 ) ) )
+    if ( FALSE == DD_I2C_C::write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CALIB_DATA, ( (U8*) &this->data_out_s.calibration_register_u16 ), sizeof( this->data_out_s.calibration_register_u16 ) ) )
     {
         ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Couldn't update calibration registers" );
         return FALSE;
@@ -273,109 +263,74 @@ PRIVATE BOOLEAN dd_ina_219_calibrate( void )
     return TRUE;
 }
 
-PRIVATE BOOLEAN dd_ina_219_get_shunt_voltage_raw( S16* const p_value_s16 )
+BOOLEAN DD_INA_219_C::read_shunt_voltage_raw( S16* const p_value_s16 )
 {
     U8 register_vu8[2U];
 
-    if ( NULL != p_value_s16 )
+    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_SHUNT_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_SHUNT_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
-        {
-            return FALSE;
-        }
-
-        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
-         * of 16-bit variable register_u16 need to be swapped. */
-        *p_value_s16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
-    }
-    else
-    {
-        assert( NULL != p_value_s16 );
         return FALSE;
     }
+
+    /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+         * of 16-bit variable register_u16 need to be swapped. */
+    *p_value_s16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
 
     return TRUE;
 }
 
-
-PRIVATE BOOLEAN dd_ina_219_get_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s )
+BOOLEAN DD_INA_219_C::read_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s )
 {
-    U8  register_vu8[2U];
+    U8 register_vu8[2U];
 
-    if ( NULL != p_bus_data_s )
+    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_BUS_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_BUS_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
-        {
-            return FALSE;
-        }
+        return FALSE;
+    }
 
-        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+    /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
          * of 16-bit variable register_u16 need to be swapped. */
-        p_bus_data_s->voltage_raw_u16 = ( ( register_vu8[0U] << 8U ) | register_vu8[1U] );
+    p_bus_data_s->voltage_raw_u16 = ( ( register_vu8[0U] << 8U ) | register_vu8[1U] );
 
-        /* Extract status information (datasheet pg. 23) */
-        p_bus_data_s->math_overflow_b = TEST_BIT( p_bus_data_s->voltage_raw_u16, DD_INA_219_V_BUS_STAT_OVF );
-        p_bus_data_s->conv_ready_b    = TEST_BIT( p_bus_data_s->voltage_raw_u16, DD_INA_219_V_BUS_STAT_CNVR );
+    /* Extract status information (datasheet pg. 23) */
+    p_bus_data_s->math_overflow_b = TEST_BIT( p_bus_data_s->voltage_raw_u16, DD_INA_219_V_BUS_STAT_OVF );
+    p_bus_data_s->conv_ready_b    = TEST_BIT( p_bus_data_s->voltage_raw_u16, DD_INA_219_V_BUS_STAT_CNVR );
 
-        /* Extract raw ADC reading (datasheet pg. 23) In order to compute the value of the
+    /* Extract raw ADC reading (datasheet pg. 23) In order to compute the value of the
          * Bus Voltage, Bus Voltage Register contents must be shifted right by three bits. */
-        p_bus_data_s->voltage_raw_u16 >>= 3U;
-    }
-    else
-    {
-        assert( NULL != p_bus_data_s );
-        return FALSE;
-    }
+    p_bus_data_s->voltage_raw_u16 >>= 3U;
 
     return TRUE;
 }
 
-
-PRIVATE BOOLEAN dd_ina_219_get_power_raw( U16* const p_value_u16 )
+BOOLEAN DD_INA_219_C::read_power_raw( U16* const p_value_u16 )
 {
     U8 register_vu8[2U];
 
-    if ( NULL != p_value_u16 )
+    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_POWER_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_POWER_DATA, register_vu8, sizeof( register_vu8 ) ) )
-        {
-            return FALSE;
-        }
-
-        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
-         * of 16-bit variable register_u16 need to be swapped. */
-        *p_value_u16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
-    }
-    else
-    {
-        assert( NULL != p_value_u16 );
         return FALSE;
     }
+
+    /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+         * of 16-bit variable register_u16 need to be swapped. */
+    *p_value_u16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
 
     return TRUE;
 }
 
-
-PRIVATE BOOLEAN dd_ina_219_get_current_raw( S16* const p_value_s16 )
+BOOLEAN DD_INA_219_C::read_current_raw( S16* const p_value_s16 )
 {
     U8 register_vu8[2U];
 
-    if ( NULL != p_value_s16 )
+    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CURRENT_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
-        if ( FALSE == dd_i2c_read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CURRENT_DATA, register_vu8, sizeof( register_vu8 ) ) )
-        {
-            return FALSE;
-        }
-
-        /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
-         * of 16-bit variable register_u16 need to be swapped. */
-        *p_value_s16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
-    }
-    else
-    {
-        assert( NULL != p_value_s16 );
         return FALSE;
     }
+
+    /* INA-219 is returning the 16-bit register content in MSByte first. Therefore, the byte order
+         * of 16-bit variable register_u16 need to be swapped. */
+    *p_value_s16 = ( register_vu8[0U] << 8U ) | register_vu8[1U];
 
     return TRUE;
 }

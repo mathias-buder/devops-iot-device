@@ -12,7 +12,7 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS "util_conf.c"
-							"util_gen.c"
+idf_component_register(SRCS "util_conf.cpp"
+							"util_gen.cpp"
                        INCLUDE_DIRS ".")
 

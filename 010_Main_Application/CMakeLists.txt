@@ -17,12 +17,13 @@ cmake_minimum_required(VERSION 3.5)
 
 
 # Set custom component directories
-set(EXTRA_COMPONENT_DIRS "OS" 
-                         "DLG"
-                         "TS"
+set(EXTRA_COMPONENT_DIRS 
+                         "OS" 
+                       #  "DLG"
+                      #   "TS"
                          "DD"
-                         "SENSE"
-                         "VE"
+                      #   "SENSE"
+                     #    "VE"
                          "UTIL"
                          )
 

@@ -21,13 +21,13 @@
 #include "esp_log.h"
 
 #include "dd_i2c.h"
-#include "dd_database.h"
 
-#include "../../types.h"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
+DD_I2C_ERROR_DATA_TYPE DD_I2C_C::error_s;
+
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -450,32 +450,32 @@ BOOLEAN DD_I2C_C::handle_error( DD_I2C_ERROR       error_e,
 {
     if ( DD_I2C_ERROR_OK != error_e )
     {
-        ESP_LOGD( DD_I2C_LOG_MSG_TAG, "current_error_idx_u8 %i, last_error_idx_u8: %i", dd_i2c_error_s.current_error_idx_u8,
-                                                                                        dd_i2c_error_s.last_error_idx_u8 );
+        ESP_LOGD( DD_I2C_LOG_MSG_TAG, "current_error_idx_u8 %i, last_error_idx_u8: %i", error_s.current_idx_u8,
+                                                                                        error_s.last_idx_u8 );
 
-        dd_i2c_error_s.is_error_present_b                                                  = TRUE;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].error_e          = error_e;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].access_type_e    = access_type_e;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].device_addr_u8   = device_addr_u8;
-        dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].register_addr_u8 = register_addr_u8;
-        /* TODO: dd_i2c_error_s.error_info_vs[dd_i2c_error_s.current_error_idx_u8].time_stamp_f32 = current_time_stamp */
+        error_s.is_present_b                                           = TRUE;
+        error_s.error_info_vs[error_s.current_idx_u8].error_e          = error_e;
+        error_s.error_info_vs[error_s.current_idx_u8].access_type_e    = access_type_e;
+        error_s.error_info_vs[error_s.current_idx_u8].device_addr_u8   = device_addr_u8;
+        error_s.error_info_vs[error_s.current_idx_u8].register_addr_u8 = register_addr_u8;
+        /* TODO: error_s.error_info_vs[error_s.current_idx_u8].time_stamp_f32 = current_time_stamp */
 
-        ESP_LOGE( DD_I2C_LOG_MSG_TAG, "[%i]: %s, AccType: %i, DevAddr: 0x%x @ RegAddr: 0x%x", dd_i2c_error_s.current_error_idx_u8,
+        ESP_LOGE( DD_I2C_LOG_MSG_TAG, "[%i]: %s, AccType: %i, DevAddr: 0x%x @ RegAddr: 0x%x", error_s.current_idx_u8,
                                                                                               esp_err_to_name( error_e ),
                                                                                               access_type_e,
                                                                                               device_addr_u8,
                                                                                               register_addr_u8 );
 
         /* Get next index of ring buffer */
-        dd_i2c_error_s.last_error_idx_u8 = dd_i2c_error_s.current_error_idx_u8++;
-        dd_i2c_error_s.current_error_idx_u8 %= DD_I2C_ERROR_BUFFER_LENGTH;
+        error_s.last_idx_u8     = error_s.current_idx_u8++;
+        error_s.current_idx_u8 %= DD_I2C_ERROR_BUFFER_LENGTH;
     }
     else
     {
-        dd_i2c_error_s.is_error_present_b = FALSE;
+        error_s.is_present_b = FALSE;
     }
 
-    return ( !dd_i2c_error_s.is_error_present_b );
+    return ( !error_s.is_present_b );
 }
 
 
@@ -483,22 +483,22 @@ DD_I2C_ERROR_INFO_TYPE* DD_I2C_C::get_last_error( void )
 {
     DD_I2C_ERROR_INFO_TYPE* p_error_info_s = NULL;
 
-    if ( DD_I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 )
+    if ( DD_I2C_ERROR_BUFFER_LENGTH > error_s.last_idx_u8 )
     {
-        p_error_info_s = &dd_i2c_error_s.error_info_vs[dd_i2c_error_s.last_error_idx_u8];
+        p_error_info_s = &error_s.error_info_vs[error_s.last_idx_u8];
     }
     else
     {
-        assert ( DD_I2C_ERROR_BUFFER_LENGTH > dd_i2c_error_s.last_error_idx_u8 );
+        assert ( DD_I2C_ERROR_BUFFER_LENGTH > error_s.last_idx_u8 );
     }
 
     return p_error_info_s;
 }
 
 
-DD_I2C_ERROR_TYPE* DD_I2C_C::get_error_database( void )
+DD_I2C_ERROR_DATA_TYPE* DD_I2C_C::get_error_database( void )
 {
-    return &dd_i2c_error_s;
+    return &error_s;
 }
 
 

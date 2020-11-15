@@ -14,36 +14,27 @@
         @details Some detailed description
 
 *********************************************************************/
-#ifndef DD_H
-#define DD_H
+#ifndef DD_H_
+#define DD_H_
 
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/dd_i2c_if.h"
-#include "Interface/dd_adc_if.h"
-#include "Interface/dd_mcpwm_if.h"
-#include "Interface/dd_icm-20600_if.h"
-#include "Interface/dd_max-30102_if.h"
-#include "Interface/dd_ina-219_if.h"
-#include "Interface/dd_tmp-102_if.h"
-#include "Interface/dd_public_types.h"
-#include "Interface/dd_sd_if.h"
 
 
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
+/************************************************************
+*      GLOBAL DEFINES                                       *
+*************************************************************/
 
-/*************************************************************/
-/*      GLOBAL VARIABLES                                     */
-/*************************************************************/
+/************************************************************
+*      GLOBAL VARIABLES                                     *
+*************************************************************/
 
 
-/*********************************************************************/
-/*   FUNCTION PROTOTYPES                                             */
-/*********************************************************************/
+/************************************************************
+*   FUNCTION PROTOTYPES                                     *
+*************************************************************/
 
 /**
  * @details This function initializes the entire Device Driver (DD) domain
@@ -58,4 +49,4 @@ extern void dd_init(void);
  */
 extern void dd_main(void);
 
-#endif /* DD_H */
+#endif /* DD_H_ */

@@ -8,37 +8,106 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file dd_i2c.h
+        @details I2C device driver implementation
+
         (c) SEWELA 2020
 
 *********************************************************************/
-
-/**
- * @file dd_i2c.h
- * @details Some detailed description
- */
-
 #ifndef DD_I2C_H_
 #define DD_I2C_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include <driver/i2c.h>
-#include <driver/gpio.h>
-#include <esp_log.h>
-#include <esp_err.h>
-#include "../Config/dd_i2c_cfg.h"
-#include "../Config/dd_types_cfg.h"
+#include "driver/i2c.h"
+#include "driver/gpio.h"
+#include "esp_log.h"
+#include "esp_err.h"
 
-#include "dd_types.h"
+#include "../../types.h"
+
 
 /*************************************************************/
-/*      GLOBAL VARIABLES                                     */
+/*      COMPILE TIME CONFIGURATION                           */
 /*************************************************************/
+#define DD_I2C_LOG_MSG_TAG            "DD_I2C"                      /**< @details Domain log message tag string */
+#define DD_I2C_OPERATION_MODE         I2C_MODE_MASTER               /**< @details I2C transmission mode */
+#define DD_I2C_PORT_NUM               I2C_NUM_0                     /**< @details I2C module number */
+#define DD_I2C_SDA_IO_NUM             GPIO_NUM_21                   /**< @details SDA GPIO pin number */
+#define DD_I2C_SCL_IO_NUM             GPIO_NUM_22                   /**< @details SCL GPIO pin number */
+#define DD_I2C_SDA_PULLUP_CFG         GPIO_PULLUP_ENABLE            /**< @details SDA GPIO pin pullup resistor configuration */
+#define DD_I2C_SCL_PULLUP_CFG         GPIO_PULLUP_ENABLE            /**< @details SCL GPIO pin pullup resistor configuration */
+#define DD_I2C_SCL_FREQ               ( 400000 )                    /**< @details Transmission clock frequency @unit Hz */
+#define DD_I2C_BUS_BUSY_TIME_OUT      ( 1000 / portTICK_PERIOD_MS ) /**< @details Time out in case I2C bus is busy @unit sec */
+#define DD_I2C_ERROR_BUFFER_LENGTH    ( 10U )                       /**< @details Number of I2C errors that are stored inside DD_I2C_ERROR_INFO_TYPE */
 
-class DD_I2C_C
+
+/*************************************************************
+*                      ENUMERATORS                           *
+*************************************************************/
+
+/**
+ * @details I2C error types
+ */
+typedef enum DD_I2C_ERROR_TAG
 {
+    DD_I2C_ERROR_FAIL         = ESP_FAIL,             /*!< Generic esp_err_t code indicating failure */
+    DD_I2C_ERROR_OK           = ESP_OK,               /*!< esp_err_t value indicating success (no error) */
+    DD_I2C_ERROR_INVALID_SIZE = ESP_ERR_INVALID_SIZE, /** @details Acceleration raw data */
+    DD_I2C_ERROR_INVALID_ARG  = ESP_ERR_INVALID_ARG,  /** @details Acceleration raw data */
+    DD_I2C_ERROR_TIMEOUT      = ESP_ERR_TIMEOUT,      /*!< Operation timed out */
+    DD_I2C_ERROR_SIZE
+} DD_I2C_ERROR;
+
+/**
+ * @details I2C access types
+ */
+typedef enum DD_I2C_ACCESS_TYPE_TAG
+{
+    DD_I2C_ACCESS_TYPE_RD_SINGLE = 0U, /**< @details Read single byte */
+    DD_I2C_ACCESS_TYPE_RD_BURST,       /**< @details Read multiple bytes */
+    DD_I2C_ACCESS_TYPE_WD_SINGLE,      /**< @details Write single byte */
+    DD_I2C_ACCESS_TYPE_WD_BURST        /**< @details Write multiple bytes */
+} DD_I2C_ACCESS_TYPE;
+
+
+
+/*************************************************************
+*      STRUCTURES                                            *
+*************************************************************/
+/**
+ * @details I2C driver error information structure (for each error)
+ */
+typedef struct DD_I2C_ERROR_INFO_TYPE_TAG
+{
+    DD_I2C_ERROR       error_e;          /**< @details Current I2C error type */
+    DD_I2C_ACCESS_TYPE access_type_e;    /**< @details Current I2C access type */
+    U8                 device_addr_u8;   /**< @details I2C address of device that is currently accessed */
+    U8                 register_addr_u8; /**< @details Register address of device that is currently accessed */
+    F32                time_stamp_f32;   /**< @details Time stamp when error occurred */
+} DD_I2C_ERROR_INFO_TYPE;
+
+/**
+ * @details I2C driver error data structure
+ */
+typedef struct DD_I2C_ERROR_DATA_TYPE_TAG
+{
+    DD_I2C_ERROR_INFO_TYPE error_info_vs[DD_I2C_ERROR_BUFFER_LENGTH]; /**< @details List of all I2C errors */
+    U8                     current_idx_u8;                            /**< @details Index of current I2C error */
+    U8                     last_idx_u8;                               /**< @details Index of last/previous I2C error */
+    BOOLEAN                is_present_b;                              /**< @details Flag to indicate whether I2C error is currently present or not */
+} DD_I2C_ERROR_DATA_TYPE;
+
+/*************************************************************/
+/*      CLASS DEFINITION                                     */
+/*************************************************************/
+class DD_I2C_C {
+
   private:
+
+    static DD_I2C_ERROR_DATA_TYPE error_s;    /**< @details Structure to store I2C errors */
+
     /**
      * @details This function performs a read/write test on the specified I2C device to make sure the
      * low-level interface is working correctly.
@@ -189,15 +258,13 @@ class DD_I2C_C
      * @details This function returns a pointer to the current I2C error
      * @return pointer to the I2C error of type DD_I2C_ERROR_INFO_TYPE
      */
-   static DD_I2C_ERROR_INFO_TYPE* get_last_error( void );
+    static DD_I2C_ERROR_INFO_TYPE* get_last_error( void );
 
     /**
      * @details This function returns a pointer to the I2C error database
      * @return pointer to the current I2C error database of type DD_I2C_ERROR_TYPE
      */
-   static DD_I2C_ERROR_TYPE*      get_error_database( void );
-
+    static DD_I2C_ERROR_DATA_TYPE* get_error_database( void );
 };
-
 
 #endif /* DD_I2C_H_ */
