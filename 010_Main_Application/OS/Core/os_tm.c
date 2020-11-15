@@ -30,7 +30,7 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-F32       os_time_stamp_ms_f32;
+F32       os_time_stamp_in_sec_f32;
 
 struct tm os_time_info_s;
 time_t    os_time_t;
@@ -70,7 +70,7 @@ void os_tm_init( void )
 void os_tm_update( void )
 {
 
-    os_time_stamp_ms_f32 += OS_MAIN_CYCLE_TIME_SEC;
+    os_time_stamp_in_sec_f32 += OS_MAIN_CYCLE_TIME_SEC;
 
 
     time( &os_time_t );

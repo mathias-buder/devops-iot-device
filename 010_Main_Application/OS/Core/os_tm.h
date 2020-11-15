@@ -25,7 +25,7 @@
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern F32 os_time_stamp_ms_f32;
+extern F32 os_time_stamp_in_sec_f32;
 
 void os_tm_init( void );
 void os_tm_update( void );
