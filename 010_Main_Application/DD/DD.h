@@ -21,16 +21,24 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include "dd_ina-219.h"
 
-
-/************************************************************
-*      GLOBAL DEFINES                                       *
+/*************************************************************
+*      STRUCTURES                                            *
 *************************************************************/
+/**
+ * @brief   Device Driver Output Data Structure
+ * @details Contains all data provided by the Device Driver (DD) domain
+ * @ingroup DriverStructures
+ */
+typedef struct DD_DATA_TYPE_TAG
+{
+    DD_INA_219_DATA_OUT_TYPE* p_ina_219_data_out_s; /**< @details INA-219 output data structure */
 
-/************************************************************
-*      GLOBAL VARIABLES                                     *
-*************************************************************/
+} DD_DATA_TYPE;
 
+
+extern DD_DATA_TYPE dd_data_s;
 
 /************************************************************
 *   FUNCTION PROTOTYPES                                     *
@@ -40,13 +48,12 @@
  * @details This function initializes the entire Device Driver (DD) domain
  * and shall by only called once.
  */
-extern void dd_init(void);
-
+extern void dd_init( void );
 
 /**
  * @details This function executes all Device Driver (DD) domain related
  * functions and shall be called in a cyclic fashion.
  */
-extern void dd_main(void);
+extern DD_DATA_TYPE dd_main( void );
 
 #endif /* DD_H_ */

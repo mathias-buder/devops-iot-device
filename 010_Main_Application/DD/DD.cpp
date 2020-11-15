@@ -33,6 +33,8 @@
 /*************************************************************/
 #define DD_LOG_MSG_TAG "DD"
 
+DD_DATA_TYPE dd_data_s;
+
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
@@ -58,11 +60,11 @@ void dd_init( void )
    // dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
    // dd_max_30102_init(); /* Initialize MAX-30102 HR+SpO2 subsystem */
    // dd_ina_219_init();   /* Initialize INA-219 Current/Voltage/Power measuring subsystem */
-   dd_ina_219_A.init( &dd_ina_219_cfg_s );
+    dd_data_s.p_ina_219_data_out_s = dd_ina_219_A.init( &dd_ina_219_cfg_s );
     // dd_tmp_102_init();   /* Initialize TMP-102 temperature sensor */
 }
 
-void dd_main( void )
+DD_DATA_TYPE dd_main( void )
 {
   //  dd_adc_main();       /* Schedule ADC basic device driver */
   //  dd_mcpwm_if_main();  /* Schedule MCPWM input interface module ( must be called before dd_mcpwm_main() ) */
@@ -71,4 +73,6 @@ void dd_main( void )
   //  dd_max_30102_main(); /* Schedule MAX-30102 HR+SpO2 subsystem */
     dd_ina_219_A.main();   /* Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
   //  dd_tmp_102_main();   /* Schedule TMP-102 temperature sensor */
+
+    return dd_data_s;
 }
