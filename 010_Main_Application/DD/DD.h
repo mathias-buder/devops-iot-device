@@ -23,6 +23,7 @@
 /*************************************************************/
 #include "dd_ina-219.h"
 
+
 /*************************************************************
 *      STRUCTURES                                            *
 *************************************************************/
@@ -33,12 +34,16 @@
  */
 typedef struct DD_DATA_TYPE_TAG
 {
-    DD_INA_219_DATA_OUT_TYPE* p_ina_219_data_out_s; /**< @details INA-219 output data structure */
+    const DD_INA_219_DATA_OUT_TYPE* p_ina_219_data_out_s; /**< @details INA-219 output data structure */
 
-} DD_DATA_TYPE;
+} DD_DATA_OUT_TYPE;
 
 
-extern DD_DATA_TYPE dd_data_s;
+/*********************************************************************/
+/*      EXTERNAL GLOBAL VARIABLES                                    */
+/*********************************************************************/
+extern DD_DATA_OUT_TYPE dd_data_s;
+
 
 /************************************************************
 *   FUNCTION PROTOTYPES                                     *
@@ -54,6 +59,6 @@ extern void dd_init( void );
  * @details This function executes all Device Driver (DD) domain related
  * functions and shall be called in a cyclic fashion.
  */
-extern DD_DATA_TYPE dd_main( void );
+extern DD_DATA_OUT_TYPE dd_main( void );
 
 #endif /* DD_H_ */

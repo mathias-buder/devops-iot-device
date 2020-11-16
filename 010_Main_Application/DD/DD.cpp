@@ -20,6 +20,7 @@
 /*********************************************************************/
 #include "DD.h"
 
+#include "dd_sd.h"
 #include "dd_i2c.h"
 #include "dd_ina-219.h"
 
@@ -33,11 +34,12 @@
 /*************************************************************/
 #define DD_LOG_MSG_TAG "DD"
 
-DD_DATA_TYPE dd_data_s;
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
+DD_DATA_OUT_TYPE dd_data_s;
+
 DD_INA_219_C dd_ina_219_A( 0x40 );
 DD_INA_219_DATA_IN_TYPE dd_ina_219_cfg_s = {
     .shunt_voltage_range_e            = DD_INA_219_SHUNT_VOL_RANGE_40MV,
@@ -52,8 +54,8 @@ DD_INA_219_DATA_IN_TYPE dd_ina_219_cfg_s = {
 /*********************************************************************/
 void dd_init( void )
 {
-  //  dd_sd_init();        /* Initialize SD card driver */
-    DD_I2C_C::init();       /* Initialize I2C basic device driver */
+    DD_SD_C::init();       /* Initialize SD card driver */
+    DD_I2C_C::init();      /* Initialize I2C basic device driver */
    // dd_adc_init();       /* Initialize ADC basic device driver */
    // dd_mcpwm_init();     /* Initialize MCPWM basic device driver */
    // dd_mcpwm_if_init();  /* Initialize MCPWM input interface module */
@@ -64,7 +66,7 @@ void dd_init( void )
     // dd_tmp_102_init();   /* Initialize TMP-102 temperature sensor */
 }
 
-DD_DATA_TYPE dd_main( void )
+DD_DATA_OUT_TYPE dd_main( void )
 {
   //  dd_adc_main();       /* Schedule ADC basic device driver */
   //  dd_mcpwm_if_main();  /* Schedule MCPWM input interface module ( must be called before dd_mcpwm_main() ) */
@@ -74,5 +76,6 @@ DD_DATA_TYPE dd_main( void )
     dd_ina_219_A.main();   /* Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
   //  dd_tmp_102_main();   /* Schedule TMP-102 temperature sensor */
 
+    /* Return pointer to global domain data stracture */
     return dd_data_s;
 }
