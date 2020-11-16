@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "esp_err.h"
 #include "esp_log.h"
 
 #include "dd_i2c.h"

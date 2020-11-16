@@ -21,9 +21,9 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "dd_ina-219.h"
 #include "dd_adc.h"
-
+#include "dd_ina-219.h"
+#include "dd_icm-20600.h"
 
 /*************************************************************
 *      STRUCTURES                                            *
@@ -35,9 +35,9 @@
  */
 typedef struct DD_DATA_TYPE_TAG
 {
-    const DD_ADC_DATA_OUT_TYPE*     p_adc_data_out_s;     /**< @details ADC output data structure */
-    const DD_INA_219_DATA_OUT_TYPE* p_ina_219_data_out_s; /**< @details INA-219 output data structure */
-
+    const DD_ADC_DATA_OUT_TYPE*       p_adc_data_out_s;       /**< @details ADC output data structure */
+    const DD_INA_219_DATA_OUT_TYPE*   p_ina_219_data_out_s;   /**< @details INA-219 output data structure */
+    const DD_ICM_20600_DATA_OUT_TYPE* p_icm_20600_data_out_s; /**< @details ICN-20600 output data structure */
 } DD_DATA_OUT_TYPE;
 
 /*********************************************************************/

@@ -61,7 +61,7 @@ void dd_init( void )
     dd_data_s.p_adc_data_out_s = DD_ADC_C::init();      /* Initialize ADC basic device driver */
    // dd_mcpwm_init();     /* Initialize MCPWM basic device driver */
    // dd_mcpwm_if_init();  /* Initialize MCPWM input interface module */
-   // dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
+    dd_data_s.p_icm_20600_data_out_s = DD_ICM_20600_C::init(); /* Initialize ICM-2600 motion subsystem */
    // dd_max_30102_init(); /* Initialize MAX-30102 HR+SpO2 subsystem */
    // dd_ina_219_init();   /* Initialize INA-219 Current/Voltage/Power measuring subsystem */
     dd_data_s.p_ina_219_data_out_s = dd_ina_219_A.init( &dd_ina_219_cfg_s );
@@ -73,7 +73,7 @@ DD_DATA_OUT_TYPE dd_main( void )
     DD_ADC_C::main();       /* Schedule ADC basic device driver */
   //  dd_mcpwm_if_main();  /* Schedule MCPWM input interface module ( must be called before dd_mcpwm_main() ) */
   //  dd_mcpwm_main();     /* Schedule MCPWM basic device driver */
-  //  dd_icm_20600_main(); /* Schedule ICM-2600 motion subsystem */
+    DD_ICM_20600_C::main(); /* Schedule ICM-2600 motion subsystem */
   //  dd_max_30102_main(); /* Schedule MAX-30102 HR+SpO2 subsystem */
     dd_ina_219_A.main();   /* Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
   //  dd_tmp_102_main();   /* Schedule TMP-102 temperature sensor */

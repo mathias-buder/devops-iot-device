@@ -14,7 +14,7 @@
 
 idf_component_register(SRCS "dd_adc.cpp"
                             "dd_i2c.cpp"
-                            #"dd_icm-20600.cpp"
+                            "dd_icm-20600.cpp"
                             "dd_ina-219.cpp"
                             #"dd_max-30102.cpp"
                             #"dd_mcpwm.cpp"
