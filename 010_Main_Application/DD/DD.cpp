@@ -22,7 +22,9 @@
 
 #include "dd_sd.h"
 #include "dd_i2c.h"
-#include "dd_ina-219.h"
+
+//#include "dd_adc.h"
+//#include "dd_ina-219.h"
 
 #include "esp_log.h"
 
@@ -56,7 +58,7 @@ void dd_init( void )
 {
     DD_SD_C::init();       /* Initialize SD card driver */
     DD_I2C_C::init();      /* Initialize I2C basic device driver */
-   // dd_adc_init();       /* Initialize ADC basic device driver */
+    dd_data_s.p_adc_data_out_s = DD_ADC_C::init();      /* Initialize ADC basic device driver */
    // dd_mcpwm_init();     /* Initialize MCPWM basic device driver */
    // dd_mcpwm_if_init();  /* Initialize MCPWM input interface module */
    // dd_icm_20600_init(); /* Initialize ICM-2600 motion subsystem */
@@ -68,7 +70,7 @@ void dd_init( void )
 
 DD_DATA_OUT_TYPE dd_main( void )
 {
-  //  dd_adc_main();       /* Schedule ADC basic device driver */
+    DD_ADC_C::main();       /* Schedule ADC basic device driver */
   //  dd_mcpwm_if_main();  /* Schedule MCPWM input interface module ( must be called before dd_mcpwm_main() ) */
   //  dd_mcpwm_main();     /* Schedule MCPWM basic device driver */
   //  dd_icm_20600_main(); /* Schedule ICM-2600 motion subsystem */
@@ -76,6 +78,6 @@ DD_DATA_OUT_TYPE dd_main( void )
     dd_ina_219_A.main();   /* Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
   //  dd_tmp_102_main();   /* Schedule TMP-102 temperature sensor */
 
-    /* Return pointer to global domain data stracture */
+    /* Return copy of global domain data structure */
     return dd_data_s;
 }

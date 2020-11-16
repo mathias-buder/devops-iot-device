@@ -22,6 +22,7 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 #include "dd_ina-219.h"
+#include "dd_adc.h"
 
 
 /*************************************************************
@@ -34,10 +35,10 @@
  */
 typedef struct DD_DATA_TYPE_TAG
 {
+    const DD_ADC_DATA_OUT_TYPE*     p_adc_data_out_s;     /**< @details ADC output data structure */
     const DD_INA_219_DATA_OUT_TYPE* p_ina_219_data_out_s; /**< @details INA-219 output data structure */
 
 } DD_DATA_OUT_TYPE;
-
 
 /*********************************************************************/
 /*      EXTERNAL GLOBAL VARIABLES                                    */

@@ -20,6 +20,7 @@
 /*********************************************************************/
 #include <stdio.h>
 #include <string.h>
+#include <sys/unistd.h>
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_vfs_fat.h"
@@ -28,6 +29,7 @@
 #include "sdmmc_cmd.h"
 
 #include "dd_sd.h"
+
 
 
 /*********************************************************************/
@@ -124,9 +126,9 @@ BOOLEAN DD_SD_C::deinit( void )
 }
 
 
-BOOLEAN DD_SD_C::open_file( char*           p_file_name_c,
-                         const DD_SD_FILE_MODE file_mode_e,
-                         BOOLEAN               overwrite_b )
+BOOLEAN DD_SD_C::open_file( char*                 p_file_name_c,
+                            const DD_SD_FILE_MODE file_mode_e,
+                            BOOLEAN               overwrite_b )
 {
     U8 file_path_length_u8 =  strlen( DD_SD_MOUNT_POINT )
                             + strlen( p_file_name_c )

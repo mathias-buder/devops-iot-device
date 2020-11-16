@@ -21,4 +21,4 @@ idf_component_register(SRCS #"Config/os_ota_cfg.cpp"
 							#"Core/os_ws.cpp"
                             "OS.cpp"
                        INCLUDE_DIRS "."
-                       REQUIRES spi_flash nvs_flash)
+                       REQUIRES spi_flash nvs_flash esp_adc_cal )

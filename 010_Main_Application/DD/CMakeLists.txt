@@ -12,7 +12,7 @@
 #
 # *********************************************************************/
 
-idf_component_register(SRCS #"dd_adc.cpp"
+idf_component_register(SRCS "dd_adc.cpp"
                             "dd_i2c.cpp"
                             #"dd_icm-20600.cpp"
                             "dd_ina-219.cpp"
@@ -22,4 +22,4 @@ idf_component_register(SRCS #"dd_adc.cpp"
                             #"dd_tmp-102.cpp"
                             "DD.cpp"
                        INCLUDE_DIRS "."
-                       REQUIRES fatfs)
+                       REQUIRES fatfs esp_adc_cal )
