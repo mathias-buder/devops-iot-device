@@ -28,8 +28,6 @@
 /*************************************************************/
 /* Log message TAG string */
 #define DD_INA_219_LOG_MSG_TAG                  "DD_INA_219"  /**< @details Domain log message tag string */
-#define DD_INA_219_SHUNT_RESISTOR_VALUE_OHM     ( 0.1F )      /**< Shunt resistor value @unit Ohm */
-
 
 
 /*************************************************************/
