@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
 /*************************************************************/
@@ -39,6 +40,11 @@
 /*********************************************************************/
 DD_DATA_OUT_TYPE dd_data_s;
 
+
+/*********************************************************************/
+/*      TMP-102                                                      */
+/*********************************************************************/
+DD_TMP_102_C dd_tmp_102_A( 0x49 );
 
 
 /*********************************************************************/
@@ -53,6 +59,7 @@ DD_INA_219_DATA_IN_TYPE dd_ina_219_cfg_s = {
     .bus_adc_resolution_averaging_e   = DD_INA_219_BADC_RES_AVE_12BIT_1S_532US,
     .max_current_mA_f32               = 500.0F
 };
+
 
 
 /*********************************************************************/
@@ -89,20 +96,20 @@ void dd_init( void )
                                                                                  // dd_mcpwm_if_init();  /* Initialize MCPWM input interface module */
     dd_data_s.p_icm_20600_data_out_s = DD_ICM_20600_C::init();                   /* Initialize ICM-2600 motion subsystem */
     dd_data_s.p_max_30102_data_out_s = dd_max_30102.init( &dd_max_30102_cfg_s ); /* Initialize MAX-30102 HR+SpO2 subsystem */
-                                                                                 // dd_ina_219_init();   /* Initialize INA-219 Current/Voltage/Power measuring subsystem */
-    dd_data_s.p_ina_219_data_out_s = dd_ina_219_A.init( &dd_ina_219_cfg_s );
-    // dd_tmp_102_init();   /* Initialize TMP-102 temperature sensor */
+    dd_data_s.p_ina_219_data_out_s   = dd_ina_219_A.init( &dd_ina_219_cfg_s );   /* Initialize INA-219 Current/Voltage/Power measuring subsystem */
+    dd_data_s.p_tmp_102_data_out_s   = dd_tmp_102_A.init();                      /* Initialize TMP-102 temperature sensor */
 }
+
 
 DD_DATA_OUT_TYPE dd_main( void )
 {
     DD_ADC_C::main();       /* Schedule ADC basic device driver */
 //  dd_mcpwm_if_main();     /* Schedule MCPWM input interface module ( must be called before dd_mcpwm_main() ) */
-                            //  dd_mcpwm_main();     /* Schedule MCPWM basic device driver */
+//  dd_mcpwm_main();        /* Schedule MCPWM basic device driver */
     DD_ICM_20600_C::main(); /* Schedule ICM-2600 motion subsystem */
     dd_max_30102.main();    /* Schedule MAX-30102 HR+SpO2 subsystem */
     dd_ina_219_A.main();    /* Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
-//  dd_tmp_102_main();     /* Schedule TMP-102 temperature sensor */
+    dd_tmp_102_A.main();    /* Schedule TMP-102 temperature sensor */
 
     /* Return copy of global domain data structure */
     return dd_data_s;

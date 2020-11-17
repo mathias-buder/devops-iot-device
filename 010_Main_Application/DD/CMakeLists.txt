@@ -19,7 +19,7 @@ idf_component_register(SRCS "dd_adc.cpp"
                             "dd_max-30102.cpp"
                             #"dd_mcpwm.cpp"
                             "dd_sd.cpp"
-                            #"dd_tmp-102.cpp"
+                            "dd_tmp-102.cpp"
                             "DD.cpp"
                        INCLUDE_DIRS "."
                        REQUIRES fatfs esp_adc_cal )
