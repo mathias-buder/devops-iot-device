@@ -18,6 +18,7 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include <assert.h>
 #include "esp_log.h"
 
 #include "dd_ina-219.h"
@@ -30,9 +31,10 @@
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 
-DD_INA_219_C::DD_INA_219_C( U8 i2c_addr_u8 )
+DD_INA_219_C::DD_INA_219_C( U8 i2c_addr_u8, F32 shut_resistor_value_ohm_f32 )
 {
-    this->i2c_addr_u8 = i2c_addr_u8;
+    this->i2c_addr_u8                 = i2c_addr_u8;
+    this->shut_resistor_value_ohm_f32 = shut_resistor_value_ohm_f32;
 }
 
 
@@ -236,7 +238,7 @@ BOOLEAN DD_INA_219_C::configure( DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_
                           | bus_voltage_range_u16;              /* Bus Voltage Range */
 
     /* Update configuration Registers */
-    if ( FALSE == DD_I2C_C::write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CONFIG, ( (U8*) &config_register_u16 ), sizeof( config_register_u16 ) ) )
+    if ( FALSE == DD_I2C_C::write_burst( this->i2c_addr_u8, DD_INA_219_CONFIG, ( (U8*) &config_register_u16 ), sizeof( config_register_u16 ) ) )
     {
         ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Couldn't update configuration registers" );
         return FALSE;
@@ -251,10 +253,10 @@ BOOLEAN DD_INA_219_C::calibrate( F32 max_current_mA_f32 )
      * See datasheet pg. 12 for details */
     this->data_out_s.current_lsb_A_f32        = ( F32 )( ( max_current_mA_f32 / 1000.0F ) / 32768U );
     this->data_out_s.power_lsb_W_f32          = 20.0F * this->data_out_s.current_lsb_A_f32;
-    this->data_out_s.calibration_register_u16 = ( U16 )( 0.04096F / ( this->data_out_s.current_lsb_A_f32 * DD_INA_219_SHUNT_RESISTOR_VALUE_OHM ) );
+    this->data_out_s.calibration_register_u16 = ( U16 )( 0.04096F / ( this->data_out_s.current_lsb_A_f32 * this->shut_resistor_value_ohm_f32 ) );
 
     /* Update Calibration Registers */
-    if ( FALSE == DD_I2C_C::write_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CALIB_DATA, ( (U8*) &this->data_out_s.calibration_register_u16 ), sizeof( this->data_out_s.calibration_register_u16 ) ) )
+    if ( FALSE == DD_I2C_C::write_burst( this->i2c_addr_u8, DD_INA_219_CALIB_DATA, ( (U8*) &this->data_out_s.calibration_register_u16 ), sizeof( this->data_out_s.calibration_register_u16 ) ) )
     {
         ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Couldn't update calibration registers" );
         return FALSE;
@@ -267,7 +269,7 @@ BOOLEAN DD_INA_219_C::read_shunt_voltage_raw( S16* const p_value_s16 )
 {
     U8 register_vu8[2U];
 
-    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_SHUNT_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
+    if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_INA_219_SHUNT_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
         return FALSE;
     }
@@ -283,7 +285,7 @@ BOOLEAN DD_INA_219_C::read_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const 
 {
     U8 register_vu8[2U];
 
-    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_BUS_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
+    if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_INA_219_BUS_VOLTAGE_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
         return FALSE;
     }
@@ -307,7 +309,7 @@ BOOLEAN DD_INA_219_C::read_power_raw( U16* const p_value_u16 )
 {
     U8 register_vu8[2U];
 
-    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_POWER_DATA, register_vu8, sizeof( register_vu8 ) ) )
+    if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_INA_219_POWER_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
         return FALSE;
     }
@@ -323,7 +325,7 @@ BOOLEAN DD_INA_219_C::read_current_raw( S16* const p_value_s16 )
 {
     U8 register_vu8[2U];
 
-    if ( FALSE == DD_I2C_C::read_burst( DD_INA_219_I2C_ADDR, DD_INA_219_CURRENT_DATA, register_vu8, sizeof( register_vu8 ) ) )
+    if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_INA_219_CURRENT_DATA, register_vu8, sizeof( register_vu8 ) ) )
     {
         return FALSE;
     }

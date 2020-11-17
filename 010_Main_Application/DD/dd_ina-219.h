@@ -28,9 +28,7 @@
 /*************************************************************/
 /* Log message TAG string */
 #define DD_INA_219_LOG_MSG_TAG                  "DD_INA_219"  /**< @details Domain log message tag string */
-#define DD_INA_219_I2C_ADDR                     0x40          /**< I2C write address, A0 = A1 = VDD */
 #define DD_INA_219_SHUNT_RESISTOR_VALUE_OHM     ( 0.1F )      /**< Shunt resistor value @unit Ohm */
-
 
 
 
@@ -266,8 +264,9 @@ typedef struct DD_INA_219_DATA_OUT_TYPE_TAG
 class DD_INA_219_C {
 
   private:
-    U8                       i2c_addr_u8; /**< @details I2C device address */
-    DD_INA_219_DATA_OUT_TYPE data_out_s;  /**< @details Global device output data structure */
+    DD_INA_219_DATA_OUT_TYPE data_out_s;                  /**< @details Global device output data structure */
+    U8                       i2c_addr_u8;                 /**< @details I2C device address */
+    F32                      shut_resistor_value_ohm_f32; /**< @details Shunt resistor value @unit ohm */
 
     /**
      * @details This configures the INA-219 device
@@ -323,7 +322,7 @@ class DD_INA_219_C {
      * @details Default constructor
      * @param[in] i2c_addr_u8 I2C device address
      */
-    DD_INA_219_C( U8 i2c_addr_u8 );
+    DD_INA_219_C( U8 i2c_addr_u8, F32 shut_resistor_value_ohm_f32 );
 
     /**
      * @details Default destructor

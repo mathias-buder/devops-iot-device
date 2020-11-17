@@ -43,6 +43,13 @@
 DD_DATA_OUT_TYPE dd_data_s;
 
 DD_INA_219_C dd_ina_219_A( 0x40 );
+
+
+/*********************************************************************/
+/*      INA-219                                                      */
+/*********************************************************************/
+DD_INA_219_C dd_ina_219_A( 0x40, 0.1F );
+
 DD_INA_219_DATA_IN_TYPE dd_ina_219_cfg_s = {
     .shunt_voltage_range_e            = DD_INA_219_SHUNT_VOL_RANGE_40MV,
     .shunt_adc_resolution_averaging_e = DD_INA_219_SADC_RES_AVE_12BIT_128S_69MS,
