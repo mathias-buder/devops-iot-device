@@ -45,12 +45,12 @@ DD_MAX_30102_C::~DD_MAX_30102_C()
 }
 
 
-DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( DD_MAX_30102_DATA_IN_TYPE* p_data_in_s )
+DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( DD_MAX_30102_CONFIG_TYPE* p_config_s )
 {
 
     ESP_LOGI( DD_MAX_30105_LOG_MSG_TAG, "Initializing ..." );
 
-    if ( NULL != p_data_in_s )
+    if ( NULL != p_config_s )
     {
                 /* Reset device */
         if (    ( FALSE == soft_reset() )
@@ -61,36 +61,36 @@ DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( DD_MAX_30102_DATA_IN_TYPE* p_d
 
              /********* FIFO Configuration *********/
              /* The chip will average multiple samples of same type together */
-             || ( FALSE == set_sample_average( p_data_in_s->sample_avg_cfg_e ) )
+             || ( FALSE == set_sample_average( p_config_s->sample_avg_cfg_e ) )
 
              /* Set to 30 samples to trigger an 'Almost Full' interrupt */
-             || ( FALSE == set_fifo_a_full_value( p_data_in_s-> fifo_a_full_value_cfg_u8 ) )
-             || ( FALSE == set_fifo_int_a_full( p_data_in_s->fifo_a_full_int_enable_cfg_b ) )
-             || ( FALSE == set_fifo_roll_over( p_data_in_s->fifo_roll_over_cfg_b ) )
+             || ( FALSE == set_fifo_a_full_value( p_config_s-> fifo_a_full_value_cfg_u8 ) )
+             || ( FALSE == set_fifo_int_a_full( p_config_s->fifo_a_full_int_enable_cfg_b ) )
+             || ( FALSE == set_fifo_roll_over( p_config_s->fifo_roll_over_cfg_b ) )
 
              /* Reset the FIFO before checking the sensor */
              || ( FALSE == set_fifo_clear() )
 
              /********* SAMPLE Configuration *********/
-             || ( FALSE == set_adc_range( p_data_in_s->adc_range_cfg_e ) )
-             || ( FALSE == set_sample_rate( p_data_in_s->sample_rate_cfg_e ) )
+             || ( FALSE == set_adc_range( p_config_s->adc_range_cfg_e ) )
+             || ( FALSE == set_sample_rate( p_config_s->sample_rate_cfg_e ) )
 
              /****** LED Pulse Amplitude Configuration ******/
-             || ( FALSE == set_pulse_amp( DD_MAX_30102_LED_TYPE_RED,  p_data_in_s->led_amplitude_cfg_u8  ) )
-             || ( FALSE == set_pulse_amp( DD_MAX_30102_LED_TYPE_IR,   p_data_in_s->led_amplitude_cfg_u8  ) )
-             || ( FALSE == set_pulse_amp( DD_MAX_30102_LED_TYPE_PROX, p_data_in_s->led_amplitude_cfg_u8  ) )
+             || ( FALSE == set_pulse_amp( DD_MAX_30102_LED_TYPE_RED,  p_config_s->led_amplitude_cfg_u8  ) )
+             || ( FALSE == set_pulse_amp( DD_MAX_30102_LED_TYPE_IR,   p_config_s->led_amplitude_cfg_u8  ) )
+             || ( FALSE == set_pulse_amp( DD_MAX_30102_LED_TYPE_PROX, p_config_s->led_amplitude_cfg_u8  ) )
 
              /****** LED Pulse Width Configuration ******/
-             || ( FALSE == set_pulse_width( p_data_in_s->pulse_width_cfg_e ) )
+             || ( FALSE == set_pulse_width( p_config_s->pulse_width_cfg_e ) )
 
              /****** Interrupt Configuration ******/
-             || ( FALSE == set_die_temp_rdy_int( p_data_in_s->die_temp_rdy_int_enable_cfg_b ) )
-             || ( FALSE == set_prox_int( p_data_in_s->prox_int_enable_cfg_b ) )
+             || ( FALSE == set_die_temp_rdy_int( p_config_s->die_temp_rdy_int_enable_cfg_b ) )
+             || ( FALSE == set_prox_int( p_config_s->prox_int_enable_cfg_b ) )
 
-             || ( FALSE == set_proximity_threshold( p_data_in_s->prox_threshold_cfg_u8 ) )
+             || ( FALSE == set_proximity_threshold( p_config_s->prox_threshold_cfg_u8 ) )
 
              /********* MODE Configuration *********/
-             || ( FALSE == set_mode( &this->data_out_s, p_data_in_s->mode_cfg_e ) )
+             || ( FALSE == set_mode( &this->data_out_s, p_config_s->mode_cfg_e ) )
 
              // || ( FALSE == dd_max_30102_setup_slot( DD_MAX_30102_SLOT_1, DD_MAX_30102_SLOT_MODE_LED_RED ) )
 
@@ -102,7 +102,7 @@ DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( DD_MAX_30102_DATA_IN_TYPE* p_d
     }
     else
     {
-        assert( NULL != p_data_in_s );
+        assert( NULL != p_config_s );
         return NULL;
     }
 

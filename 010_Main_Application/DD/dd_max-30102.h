@@ -303,7 +303,7 @@ typedef enum DD_MAX_30102_INT_TYPE_TAG
  * @details MAX-30102 Output Interface Data Structure ...
  * @ingroup DriverStructures
  */
-typedef struct DD_MAX_30102_DATA_IN_TYPE_TAG
+typedef struct DD_MAX_30102_CONFIG_TYPE_TAG
 {
     DD_MAX_30102_MODE        mode_cfg_e;
     DD_MAX_30102_ADC_RANGE   adc_range_cfg_e;
@@ -318,7 +318,7 @@ typedef struct DD_MAX_30102_DATA_IN_TYPE_TAG
     U8                       fifo_a_full_value_cfg_u8;
     BOOLEAN                  die_temp_rdy_int_enable_cfg_b;
     BOOLEAN                  prox_int_enable_cfg_b;
-} DD_MAX_30102_DATA_IN_TYPE;
+} DD_MAX_30102_CONFIG_TYPE;
 
 /**
  * @brief   MAX-30102 Output Interface Data Structure
@@ -398,7 +398,7 @@ class DD_MAX_30102_C {
      * @param[in] Pointer device input structure
      * @return Pointer to global device data structure
      */
-    DD_MAX_30102_DATA_OUT_TYPE* init( DD_MAX_30102_DATA_IN_TYPE* p_data_in_s );
+    DD_MAX_30102_DATA_OUT_TYPE* init( DD_MAX_30102_CONFIG_TYPE* p_data_in_s );
 
     /**
      * @details This is the drivers main function that shall be called

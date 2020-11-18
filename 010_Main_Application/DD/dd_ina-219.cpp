@@ -43,20 +43,20 @@ DD_INA_219_C::~DD_INA_219_C()
 }
 
 
-DD_INA_219_DATA_OUT_TYPE* DD_INA_219_C::init( DD_INA_219_DATA_IN_TYPE* p_data_in_s )
+DD_INA_219_DATA_OUT_TYPE* DD_INA_219_C::init( DD_INA_219_CONFIG_TYPE* p_config_s )
 {
     ESP_LOGI( DD_INA_219_LOG_MSG_TAG, "Initializing ..." );
 
-    if( NULL != p_data_in_s )
+    if( NULL != p_config_s )
     {
                /* Set global configuration register */
-        if (   ( FALSE == configure( p_data_in_s->shunt_voltage_range_e,
-                                     p_data_in_s->shunt_adc_resolution_averaging_e,
-                                     p_data_in_s->bus_voltage_range_e,
-                                     p_data_in_s->bus_adc_resolution_averaging_e ) )
+        if (   ( FALSE == configure( p_config_s->shunt_voltage_range_e,
+                                     p_config_s->shunt_adc_resolution_averaging_e,
+                                     p_config_s->bus_voltage_range_e,
+                                     p_config_s->bus_adc_resolution_averaging_e ) )
 
                /* Set calibration register */
-            || ( FALSE == calibrate( p_data_in_s->max_current_mA_f32 ) ) )
+            || ( FALSE == calibrate( p_config_s->max_current_mA_f32 ) ) )
         {
            ESP_LOGE( DD_INA_219_LOG_MSG_TAG, "Initializing failed" );
            return NULL;
@@ -64,7 +64,7 @@ DD_INA_219_DATA_OUT_TYPE* DD_INA_219_C::init( DD_INA_219_DATA_IN_TYPE* p_data_in
     }
     else
     {
-        assert( NULL != p_data_in_s );
+        assert( NULL != p_config_s );
         return NULL;
     }
 

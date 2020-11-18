@@ -22,6 +22,7 @@
 /*      INCLUDES                                             */
 /*************************************************************/
 #include "dd_adc.h"
+#include "dd_mcpwm.h"
 #include "dd_ina-219.h"
 #include "dd_tmp-102.h"
 #include "dd_icm-20600.h"
@@ -31,11 +32,25 @@
 *      STRUCTURES                                            *
 *************************************************************/
 /**
+ * @brief   Device Driver Output Input Structure
+ * @details Contains all data that is required by the Device Driver (DD) domain
+ * @ingroup DriverStructures
+ */
+typedef struct DD_DATA_IN_TYPE_TAG
+{
+    DD_MCPWM_DATA_IN_TYPE mcpwm_data_in_s;
+
+} DD_DATA_IN_TYPE;
+
+
+
+
+/**
  * @brief   Device Driver Output Data Structure
  * @details Contains all data provided by the Device Driver (DD) domain
  * @ingroup DriverStructures
  */
-typedef struct DD_DATA_TYPE_TAG
+typedef struct DD_DATA_OUT_TYPE_TAG
 {
     const DD_ADC_DATA_OUT_TYPE*       p_adc_data_out_s;       /**< @details ADC output data structure */
     const DD_INA_219_DATA_OUT_TYPE*   p_ina_219_data_out_s;   /**< @details INA-219 output data structure */
@@ -44,26 +59,37 @@ typedef struct DD_DATA_TYPE_TAG
     const DD_MAX_30102_DATA_OUT_TYPE* p_max_30102_data_out_s; /**< @details MAX-30102 output data structure */
 } DD_DATA_OUT_TYPE;
 
-/*********************************************************************/
-/*      EXTERNAL GLOBAL VARIABLES                                    */
-/*********************************************************************/
-extern DD_DATA_OUT_TYPE dd_data_s;
 
+/*************************************************************/
+/*      CLASS DEFINITION                                     */
+/*************************************************************/
+class DD_C {
 
-/************************************************************
-*   FUNCTION PROTOTYPES                                     *
-*************************************************************/
+  private:
+    static DD_DATA_OUT_TYPE dd_data_out_s; /**< @details Contains all data provided by the Device Driver (DD) domain */
 
-/**
- * @details This function initializes the entire Device Driver (DD) domain
- * and shall by only called once.
- */
-extern void dd_init( void );
+  public:
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    static void init( void );
 
-/**
- * @details This function executes all Device Driver (DD) domain related
- * functions and shall be called in a cyclic fashion.
- */
-extern DD_DATA_OUT_TYPE dd_main( void );
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    static DD_DATA_OUT_TYPE process_inputs( void );
+
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    static void process_outputs( DD_DATA_IN_TYPE dd_data_in_s );
+
+};
 
 #endif /* DD_H_ */

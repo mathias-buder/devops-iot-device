@@ -221,14 +221,14 @@ typedef struct DD_INA_219_BUS_VOL_DATA_TYPE_TAG
  * @details Contains all data to configure the device
  * @ingroup DriverStructures
  */
-typedef struct DD_INA_219_DATA_IN_TYPE_TAG
+typedef struct DD_INA_219_CONFIG_TYPE_TAG
 {
     DD_INA_219_SHUNT_VOL_RANGE shunt_voltage_range_e;            /**< @details Current full-scale current sense (input) voltage range */
     DD_INA_219_SADC_RES_AVE    shunt_adc_resolution_averaging_e; /**< @details Shunt voltage ADC resolution/averaging setting */
     DD_INA_219_BUS_VOL_RANGE   bus_voltage_range_e;              /**< @details Current bus voltage (input voltage) range */
     DD_INA_219_BADC_RES_AVE    bus_adc_resolution_averaging_e;   /**< @details Bus voltage ADC resolution/averaging setting */
     F32                        max_current_mA_f32;               /**< @details Maximum expected current (used for calibration) @unit mA */
-} DD_INA_219_DATA_IN_TYPE;
+} DD_INA_219_CONFIG_TYPE;
 
 /**
  * @brief   INA-219 Output Interface Data Structure
@@ -332,7 +332,7 @@ class DD_INA_219_C {
      * @param[in] Pointer device input structure
      * @return Pointer to global device data structure
      */
-    DD_INA_219_DATA_OUT_TYPE* init( DD_INA_219_DATA_IN_TYPE* p_data_in_s );
+    DD_INA_219_DATA_OUT_TYPE* init( DD_INA_219_CONFIG_TYPE* p_data_in_s );
 
     /**
      * @details This is the drivers main function that shall be called

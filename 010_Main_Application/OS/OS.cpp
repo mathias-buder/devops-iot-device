@@ -29,6 +29,9 @@
 //#include "../VE/VE.h"
 //#include "../DLG/DLG.h"
 
+DD_DATA_OUT_TYPE dd_data_out;
+
+
 extern "C" void app_main()
 {
     /* Get current OS tick count */
@@ -36,7 +39,7 @@ extern "C" void app_main()
 
 //    os_tm_init();   /* Initialize Global Time Module */
 //    os_wifi_init(); /* Initialize and connect to wifi network */
-    dd_init();      /* Initialize Device Driver Domain ( DD ) */
+    DD_C::init();      /* Initialize Device Driver Domain ( DD ) */
 //    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
 //    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
 //    dlg_init();     /* Initialize Data Logging Domain( DLG ) */
@@ -49,9 +52,13 @@ extern "C" void app_main()
         /* Schedule every OS_MAIN_CYCLE_TIME_INCREMENT ms */
         vTaskDelayUntil( &initial_tick_cnt_u32, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
-        dd_main();      /* Schedule Device Driver Domain ( DD ) */
+        dd_data_out = DD_C::process_inputs();      /* Schedule Device Driver Domain ( DD ) */
 //        sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */
 //        ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
+
+
+   //     DD_C::process_outputs(data_in_s);
+
 //        dlg_main();     /* Schedule Data Logging Domain( DLG ) */
 //        os_tm_update(); /* Update Global Time Module */
     }
