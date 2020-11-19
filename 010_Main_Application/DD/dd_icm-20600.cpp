@@ -8,6 +8,9 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file dd_icm-20600.c
+        @details ICM-20600 device driver implementation
+
         (c) SEWELA 2020
 
 *********************************************************************/
@@ -45,8 +48,8 @@ DD_ICM_20600_DATA_OUT_TYPE* DD_ICM_20600_C::init( void )
     DD_ICM_20600_C::data_out_s.state_s = DD_ICM_20600_STATE_TEST;
 
     /* Check for matching device id */
-    if (    ( TRUE                   != DD_ICM_20600_C::who_am_i_read( &DD_ICM_20600_C::data_out_s.chip_id_u8 ) )
-         || ( DD_ICM_20600_DEVICE_ID != DD_ICM_20600_C::data_out_s.chip_id_u8                                   )
+    if (    ( FALSE                  == DD_ICM_20600_C::get_device_id( &DD_ICM_20600_C::data_out_s.device_id_u8 ) )
+         || ( DD_ICM_20600_DEVICE_ID != DD_ICM_20600_C::data_out_s.device_id_u8                                   )
 
          /* Clear sleep mode bit (6), enable all sensors */
          || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) ) )
@@ -117,9 +120,9 @@ void DD_ICM_20600_C::main( void )
     case DD_ICM_20600_STATE_RUN:
 
         /* Read all raw sensor data form ICM-20600 */
-        temperature_read( &DD_ICM_20600_C::data_out_s );
-        accel_data_read_raw( &DD_ICM_20600_C::data_out_s );
-        gyro_data_read_raw( &DD_ICM_20600_C::data_out_s);
+        get_temperature( &DD_ICM_20600_C::data_out_s );
+        get_accel_data_raw( &DD_ICM_20600_C::data_out_s );
+        get_gyro_data_raw( &DD_ICM_20600_C::data_out_s);
 
         break;
 
@@ -134,7 +137,7 @@ void DD_ICM_20600_C::main( void )
     }
 }
 
-BOOLEAN DD_ICM_20600_C::reset_soft( void )
+BOOLEAN DD_ICM_20600_C::soft_reset( void )
 {
     return DD_I2C_C::read_modify_write_bit( DD_ICM_20600_I2C_ADDR,
                                             DD_ICM_20600_PWR_MGMT_1,
@@ -142,7 +145,7 @@ BOOLEAN DD_ICM_20600_C::reset_soft( void )
                                             TRUE );
 }
 
-BOOLEAN DD_ICM_20600_C::who_am_i_read( U8* p_data_u8 )
+BOOLEAN DD_ICM_20600_C::get_device_id( U8* p_data_u8 )
 {
     if ( NULL != p_data_u8 )
     {
@@ -266,27 +269,27 @@ BOOLEAN DD_ICM_20600_C::set_gyro_full_scale( const DD_ICM_20600_GFS scale_e )
     return TRUE;
 }
 
-BOOLEAN DD_ICM_20600_C::temperature_read( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::get_temperature( DD_ICM_20600_DATA_OUT_TYPE* p_data_s )
 {
-    U8 register_data_vu8[2];
+    U8 register_data_vu8[2U];
 
-    if ( NULL != p_input_data_s )
+    if ( NULL != p_data_s )
     {
         if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_TEMP_OUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
-            p_input_data_s->temperature_raw_u16 =  0xFFFF;
-            p_input_data_s->temperature_deg_f32 = -1000.0F;
+            p_data_s->temperature_raw_u16 =  0xFFFF;
+            p_data_s->temperature_deg_f32 = -BIG_NUMBER;
 
             return FALSE;
         }
 
-        p_input_data_s->temperature_raw_u16 = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
-        p_input_data_s->temperature_deg_f32 = ( p_input_data_s->temperature_raw_u16 * DD_ICM_20600_TEMP_SENSITIVITY_INV ) + DD_ICM_20600_TEMP_ROOM_OFFSET;
+        p_data_s->temperature_raw_u16 = ( register_data_vu8[0U] << 8U ) | register_data_vu8[1U];
+        p_data_s->temperature_deg_f32 = ( p_data_s->temperature_raw_u16 * DD_ICM_20600_TEMP_SENSITIVITY_INV ) + DD_ICM_20600_TEMP_ROOM_OFFSET;
 
     }
     else
     {
-        assert( NULL != p_input_data_s );
+        assert( NULL != p_data_s );
         return FALSE;
     }
 
@@ -295,7 +298,7 @@ BOOLEAN DD_ICM_20600_C::temperature_read( DD_ICM_20600_DATA_OUT_TYPE* p_input_da
     return TRUE;
 }
 
-BOOLEAN DD_ICM_20600_C::accel_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::get_accel_data_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s )
 {
     U8 register_data_vu8[2U * DD_ICM_20600_ACCEL_SIZE];
 
@@ -310,9 +313,9 @@ BOOLEAN DD_ICM_20600_C::accel_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input
             return FALSE;
         }
 
-        p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
-        p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = ( register_data_vu8[2] << 8U ) | register_data_vu8[3];
-        p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z] = ( register_data_vu8[4] << 8U ) | register_data_vu8[5];
+        p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X] = ( register_data_vu8[0U] << 8U ) | register_data_vu8[1U];
+        p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y] = ( register_data_vu8[2U] << 8U ) | register_data_vu8[3U];
+        p_input_data_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z] = ( register_data_vu8[4U] << 8U ) | register_data_vu8[5U];
     }
     else
     {
@@ -327,36 +330,36 @@ BOOLEAN DD_ICM_20600_C::accel_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input
     return TRUE;
 }
 
-BOOLEAN DD_ICM_20600_C::gyro_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s )
+BOOLEAN DD_ICM_20600_C::get_gyro_data_raw( DD_ICM_20600_DATA_OUT_TYPE* p_data_s )
 {
     U8 register_data_vu8[2U * DD_ICM_20600_ACCEL_SIZE];
 
-    if ( NULL != p_input_data_s )
+    if ( NULL != p_data_s )
     {
         if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_XOUT_H, register_data_vu8, sizeof( register_data_vu8 ) ) )
         {
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = 0U;
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = 0U;
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = 0U;
+            p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = 0U;
+            p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = 0U;
+            p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = 0U;
 
             return FALSE;
         }
         else
         {
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = ( register_data_vu8[0] << 8U ) | register_data_vu8[1];
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = ( register_data_vu8[2] << 8U ) | register_data_vu8[3];
-            p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = ( register_data_vu8[4] << 8U ) | register_data_vu8[5];
+            p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X] = ( register_data_vu8[0U] << 8U ) | register_data_vu8[1U];
+            p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y] = ( register_data_vu8[2U] << 8U ) | register_data_vu8[3U];
+            p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] = ( register_data_vu8[4U] << 8U ) | register_data_vu8[5U];
         }
     }
     else
     {
-        assert( NULL != p_input_data_s );
+        assert( NULL != p_data_s );
         return FALSE;
     }
 
-    ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "XG: %i, YG: %i, ZG: %i", p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X],
-                                                                  p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y],
-                                                                  p_input_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] );
+    ESP_LOGD( DD_ICM_20600_LOG_MSG_TAG, "XG: %i, YG: %i, ZG: %i", p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X],
+                                                                  p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y],
+                                                                  p_data_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z] );
 
     return TRUE;
 }
@@ -366,7 +369,7 @@ BOOLEAN DD_ICM_20600_C::gyro_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input_
 BOOLEAN DD_ICM_20600_C::self_test( DD_ICM_20600_DATA_OUT_TYPE* p_data_s )
 {
     U8  idx_u8;
-    U8  register_data_vu8[4];
+    U8  register_data_vu8[4U];
     U8  self_test_vu8[DD_ICM_20600_SELF_TEST_SIZE];
     F32 factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];
 
@@ -397,14 +400,14 @@ BOOLEAN DD_ICM_20600_C::self_test( DD_ICM_20600_DATA_OUT_TYPE* p_data_s )
         }
 
         /* Extract the acceleration test results first */
-        self_test_vu8[DD_ICM_20600_SELF_TEST_XA] = ( register_data_vu8[0] >> 3 ) | ( register_data_vu8[3] & 0x30 ) >> 4;   /* XA_TEST result is a five-bit unsigned integer */
-        self_test_vu8[DD_ICM_20600_SELF_TEST_YA] = ( register_data_vu8[1] >> 3 ) | ( register_data_vu8[3] & 0x0C ) >> 2;   /* YA_TEST result is a five-bit unsigned integer */
-        self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] = ( register_data_vu8[2] >> 3 ) | ( register_data_vu8[3] & 0x03 ) >> 0;   /* ZA_TEST result is a five-bit unsigned integer */
+        self_test_vu8[DD_ICM_20600_SELF_TEST_XA] = ( register_data_vu8[0U] >> 3U ) | ( register_data_vu8[3U] & 0x30 ) >> 4U;   /* XA_TEST result is a five-bit unsigned integer */
+        self_test_vu8[DD_ICM_20600_SELF_TEST_YA] = ( register_data_vu8[1U] >> 3U ) | ( register_data_vu8[3U] & 0x0C ) >> 2U;   /* YA_TEST result is a five-bit unsigned integer */
+        self_test_vu8[DD_ICM_20600_SELF_TEST_ZA] = ( register_data_vu8[2U] >> 3U ) | ( register_data_vu8[3U] & 0x03 ) >> 0U;   /* ZA_TEST result is a five-bit unsigned integer */
 
         /* Extract the gyration test results */
-        self_test_vu8[DD_ICM_20600_SELF_TEST_XG] = register_data_vu8[0] & 0x1F;   // XG_TEST result is a five-bit unsigned integer
-        self_test_vu8[DD_ICM_20600_SELF_TEST_YG] = register_data_vu8[1] & 0x1F;   // YG_TEST result is a five-bit unsigned integer
-        self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] = register_data_vu8[2] & 0x1F;   // ZG_TEST result is a five-bit unsigned integer
+        self_test_vu8[DD_ICM_20600_SELF_TEST_XG] = register_data_vu8[0U] & 0x1F;   // XG_TEST result is a five-bit unsigned integer
+        self_test_vu8[DD_ICM_20600_SELF_TEST_YG] = register_data_vu8[1U] & 0x1F;   // YG_TEST result is a five-bit unsigned integer
+        self_test_vu8[DD_ICM_20600_SELF_TEST_ZG] = register_data_vu8[2U] & 0x1F;   // ZG_TEST result is a five-bit unsigned integer
 
         /* Process results to allow final comparison with factory set values */
         factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA] = ( 4096.0F * 0.34F  ) * ( pow( ( 0.92F / 0.34F ), ( ( self_test_vu8[DD_ICM_20600_SELF_TEST_XA] - 1.0F ) / 30.0F ) ) );  /* FT[Xa] factory trim calculation */
@@ -434,7 +437,7 @@ BOOLEAN DD_ICM_20600_C::self_test( DD_ICM_20600_DATA_OUT_TYPE* p_data_s )
 
         /* Report results as a ratio of (STR - FT)/FT; the change from Factory Trim of the Self-Test Response
            To get to percent, must multiply by 100 and subtract result from 100 */
-        for ( idx_u8 = 0; idx_u8 < DD_ICM_20600_SELF_TEST_SIZE; ++idx_u8 )
+        for ( idx_u8 = 0U; idx_u8 < DD_ICM_20600_SELF_TEST_SIZE; ++idx_u8 )
         {
             /* Store self test data */
             p_data_s->self_test_vu8[idx_u8] = self_test_vu8[idx_u8];
@@ -471,24 +474,23 @@ BOOLEAN DD_ICM_20600_C::self_test( DD_ICM_20600_DATA_OUT_TYPE* p_data_s )
     return TRUE;
 }
 
-// Function which accumulates gyro and accelerometer data after device initialization. It calculates the average
-// of the at-rest readings and then loads the resulting offsets into accelerometer and gyro bias registers.
+
 BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
                                    F32* p_accel_bias_f32 )
 {
-    U8  register_data_vu8[12]; /* data array to hold accelerometer and gyro x, y, z, data */
+    U8  register_data_vu8[12U]; /* data array to hold accelerometer and gyro x, y, z, data */
     U16 idx_u16;
     U16 packet_cnt_u16;
     U16 fifo_cnt_u16;
-    S32 gyro_bias_vs32[3]      = {0U, 0U, 0U};
-    S32 accel_bias_vs32[3]     = {0U, 0U, 0U};
-    S16 accel_temp_vs32[3]     = {0U, 0U, 0U};
-    S32 accel_bias_reg_vs32[3] = {0U, 0U, 0U}; /* A place to hold the factory accelerometer trim biases */
-    U8  mask_bit_vu8[3]        = {0U, 0U, 0U}; /* Define array to hold mask bit for each accelerometer bias axis */
-    U32 mask_u32               = 1UL;          /* Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers */
-    S16 gyro_temp_vs32[3]      = {0U, 0U, 0U};
-    U16 gyro_sensitivity_u16   = 131U;         /* = 131 LSB/degrees/sec */
-    U16 accel_sensitivity_u16  = 16384U;       /* = 16384 LSB/g */
+    S32 gyro_bias_vs32[3U]      = {0U, 0U, 0U};
+    S32 accel_bias_vs32[3U]     = {0U, 0U, 0U};
+    S16 accel_temp_vs32[3U]     = {0U, 0U, 0U};
+    S32 accel_bias_reg_vs32[3U] = {0U, 0U, 0U}; /* A place to hold the factory accelerometer trim biases */
+    U8  mask_bit_vu8[3U]        = {0U, 0U, 0U}; /* Define array to hold mask bit for each accelerometer bias axis */
+    U32 mask_u32                = 1UL;          /* Define mask for temperature compensation bit 0 of lower byte of accelerometer bias registers */
+    S16 gyro_temp_vs32[3U]      = {0U, 0U, 0U};
+    U16 gyro_sensitivity_u16    = 131U;   /* = 131 LSB/degrees/sec */
+    U16 accel_sensitivity_u16   = 16384U; /* = 16384 LSB/g */
 
     /* Reset device, reset all registers, clear gyro and accelerometer bias registers.
      * Write a one to bit 7 reset bit; toggle reset device */
@@ -502,12 +504,10 @@ BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
 
     /* Get stable time source. Set clock source to be PLL with x-axis
      * gyroscope reference, bits 2:0 = 001 */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
-    {
-        return FALSE;
-    }
+    if(    ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x01 ) )
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) ) )
 
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+
     {
         return FALSE;
     }
@@ -516,80 +516,40 @@ BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
 
     /* Configure device for bias calculation */
 
-    /* Disable all interrupts */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR,  DD_ICM_20600_INT_ENABLE, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Disable FIFO */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Turn on internal clock source */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Disable I2C master */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_I2C_MST_CTRL, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Disable FIFO and I2C master modes */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Reset FIFO and DMP */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x0C ) )
+            /* Disable all interrupts */
+    if(    ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR,  DD_ICM_20600_INT_ENABLE, 0x00 ) )
+            /* Disable FIFO */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+            /* Turn on internal clock source */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_PWR_MGMT_1, 0x00 ) )
+            /* Disable I2C master */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_I2C_MST_CTRL, 0x00 ) )
+            /* Disable FIFO and I2C master modes */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x00 ) )
+            /* Reset FIFO and DMP */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x0C ) )
+      )
     {
         return FALSE;
     }
 
     vTaskDelay( portTICK_PERIOD_MS );
 
-    /* Configure gyro and accelerometer for bias calculation
-     * Set low-pass filter to 188 Hz */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x01 ) )
-    {
-        return FALSE;
-    }
+    /* Configure gyro and accelerometer for bias calculation */
 
-
-    /* Set sample rate to 1 kHz */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Set gyro full-scale to 250 degrees per second, maximum sensitivity */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Set accelerometer full-scale to 2 g, maximum sensitivity */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0x00 ) )
-    {
-        return FALSE;
-    }
-
-    /* Configure FIFO to capture accelerometer and gyro data for bias calculation
-     * Enable FIFO */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x40 ) )
-    {
-        return FALSE;
-    }
-
-
-    /* Enable gyro and accelerometer sensors for FIFO  (max size 1024 bytes in MPU-6050) */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x78 ) )
+            /* Set low-pass filter to 188 Hz */
+    if(    ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_CONFIG, 0x01 ) )
+            /* Set sample rate to 1 kHz */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_SMPLRT_DIV, 0x00 ) )
+            /* Set gyro full-scale to 250 degrees per second, maximum sensitivity */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_GYRO_CONFIG, 0x00 ) )
+            /* Set accelerometer full-scale to 2 g, maximum sensitivity */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_ACCEL_CONFIG, 0x00 ) )
+            /* Configure FIFO to capture accelerometer and gyro data for bias calculation Enable FIFO */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_USER_CTRL, 0x40 ) )
+            /* Enable gyro and accelerometer sensors for FIFO  (max size 1024 bytes in MPU-6050) */
+        || ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x78 ) )
+      )
     {
         return FALSE;
     }
@@ -597,89 +557,86 @@ BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
     /* accumulate 80 samples in 80 milliseconds = 960 bytes */
     vTaskDelay( 2U * portTICK_PERIOD_MS );
 
-    /* At end of sample accumulation, turn off FIFO sensor read
-    * Disable gyro and accelerometer sensors for FIFO */
-    if ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+    /* At end of sample accumulation, turn off FIFO sensor read */
+            /* Disable gyro and accelerometer sensors for FIFO */
+    if(    ( FALSE == DD_I2C_C::write_single( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_EN, 0x00 ) )
+            /* read FIFO sample count */
+        || ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_COUNTH, &register_data_vu8[0U], 2U ) )
+      )
     {
         return FALSE;
     }
 
-    /* read FIFO sample count */
-    if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_COUNTH, &register_data_vu8[0], 2U ) )
-    {
-        return FALSE;
-    }
-
-    fifo_cnt_u16 = ( ( (U16) register_data_vu8[0] << 8U ) | register_data_vu8[1] );
+    fifo_cnt_u16 = ( ( (U16) register_data_vu8[0U] << 8U ) | register_data_vu8[1U] );
 
     /* How many sets of full gyro and accelerometer data for averaging */
     packet_cnt_u16 = fifo_cnt_u16 / 12U;
 
-    for ( idx_u16 = 0; idx_u16 < packet_cnt_u16; idx_u16++ )
+    for ( idx_u16 = 0U; idx_u16 < packet_cnt_u16; idx_u16++ )
     {
         /* Read data for averaging */
-        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_R_W, &register_data_vu8[0], sizeof( register_data_vu8 ) ) )
+        if ( FALSE == DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_FIFO_R_W, &register_data_vu8[0U], sizeof( register_data_vu8 ) ) )
         {
             return FALSE;
         }
 
         /* Form signed 16-bit integer for each sample in FIFO */
-        accel_temp_vs32[0] = ( U16 )( ( (U16) register_data_vu8[0] <<  8U ) | register_data_vu8[1] );
-        accel_temp_vs32[1] = ( U16 )( ( (U16) register_data_vu8[2] <<  8U ) | register_data_vu8[3] );
-        accel_temp_vs32[2] = ( U16 )( ( (U16) register_data_vu8[4] <<  8U ) | register_data_vu8[5] );
-        gyro_temp_vs32[0]  = ( U16 )( ( (U16) register_data_vu8[6] <<  8U ) | register_data_vu8[7] );
-        gyro_temp_vs32[1]  = ( U16 )( ( (U16) register_data_vu8[8] <<  8U ) | register_data_vu8[9] );
-        gyro_temp_vs32[2]  = ( U16 )( ( (U16) register_data_vu8[10] << 8U ) | register_data_vu8[11] );
+        accel_temp_vs32[0U] = ( U16 )( ( (U16) register_data_vu8[0U] <<  8U ) | register_data_vu8[1U] );
+        accel_temp_vs32[1U] = ( U16 )( ( (U16) register_data_vu8[2U] <<  8U ) | register_data_vu8[3U] );
+        accel_temp_vs32[2U] = ( U16 )( ( (U16) register_data_vu8[4U] <<  8U ) | register_data_vu8[5U] );
+        gyro_temp_vs32[0U]  = ( U16 )( ( (U16) register_data_vu8[6U] <<  8U ) | register_data_vu8[7U] );
+        gyro_temp_vs32[1U]  = ( U16 )( ( (U16) register_data_vu8[8U] <<  8U ) | register_data_vu8[9U] );
+        gyro_temp_vs32[2U]  = ( U16 )( ( (U16) register_data_vu8[10U] << 8U ) | register_data_vu8[11U] );
 
         /* Sum individual signed 16-bit biases to get accumulated signed 32-bit biases */
-        accel_bias_vs32[0] += (S32) accel_temp_vs32[0];
-        accel_bias_vs32[1] += (S32) accel_temp_vs32[1];
-        accel_bias_vs32[2] += (S32) accel_temp_vs32[2];
-        gyro_bias_vs32[0]  += (S32) gyro_temp_vs32[0];
-        gyro_bias_vs32[1]  += (S32) gyro_temp_vs32[1];
-        gyro_bias_vs32[2]  += (S32) gyro_temp_vs32[2];
+        accel_bias_vs32[0U] += (S32) accel_temp_vs32[0U];
+        accel_bias_vs32[1U] += (S32) accel_temp_vs32[1U];
+        accel_bias_vs32[2U] += (S32) accel_temp_vs32[2U];
+        gyro_bias_vs32[0U]  += (S32) gyro_temp_vs32[0U];
+        gyro_bias_vs32[1U]  += (S32) gyro_temp_vs32[1U];
+        gyro_bias_vs32[2U]  += (S32) gyro_temp_vs32[2U];
     }
 
     /* Normalize sums to get average count biases */
-    accel_bias_vs32[0] /= (S32) packet_cnt_u16;
-    accel_bias_vs32[1] /= (S32) packet_cnt_u16;
-    accel_bias_vs32[2] /= (S32) packet_cnt_u16;
-    gyro_bias_vs32[0]  /= (S32) packet_cnt_u16;
-    gyro_bias_vs32[1]  /= (S32) packet_cnt_u16;
-    gyro_bias_vs32[2]  /= (S32) packet_cnt_u16;
+    accel_bias_vs32[0U] /= (S32) packet_cnt_u16;
+    accel_bias_vs32[1U] /= (S32) packet_cnt_u16;
+    accel_bias_vs32[2U] /= (S32) packet_cnt_u16;
+    gyro_bias_vs32[0U]  /= (S32) packet_cnt_u16;
+    gyro_bias_vs32[1U]  /= (S32) packet_cnt_u16;
+    gyro_bias_vs32[2U]  /= (S32) packet_cnt_u16;
 
     /* Remove gravity from the z-axis accelerometer bias calculation */
-    if ( accel_bias_vs32[2] > 0L )
+    if ( accel_bias_vs32[2U] > 0L )
     {
-        accel_bias_vs32[2] -= (S32) accel_sensitivity_u16;
+        accel_bias_vs32[2U] -= (S32) accel_sensitivity_u16;
     }
     else
     {
-        accel_bias_vs32[2] += (S32) accel_sensitivity_u16;
+        accel_bias_vs32[2U] += (S32) accel_sensitivity_u16;
     }
 
     /* Construct the gyro biases for push to the hardware gyro bias registers, which are reset to zero upon device startup */
 
     /* Divide by 4 to get 32.9 LSB per deg/s to conform to expected bias input format */
-    register_data_vu8[0] = ( ( -gyro_bias_vs32[0] / 4 ) >> 8 ) & 0xFF;
+    register_data_vu8[0U] = ( ( -gyro_bias_vs32[0U] / 4U ) >> 8U ) & 0xFF;
 
     /* Biases are additive, so change sign on calculated average gyro biases */
-    register_data_vu8[1] = ( -gyro_bias_vs32[0] / 4 ) & 0xFF;
-    register_data_vu8[2] = ( ( -gyro_bias_vs32[1] / 4 ) >> 8U ) & 0xFF;
-    register_data_vu8[3] = ( -gyro_bias_vs32[1] / 4 ) & 0xFF;
-    register_data_vu8[4] = ( ( -gyro_bias_vs32[2] / 4 ) >> 8U ) & 0xFF;
-    register_data_vu8[5] = ( -gyro_bias_vs32[2] / 4 ) & 0xFF;
+    register_data_vu8[1U] = ( -gyro_bias_vs32[0U] / 4U ) & 0xFF;
+    register_data_vu8[2U] = ( ( -gyro_bias_vs32[1U] / 4U ) >> 8U ) & 0xFF;
+    register_data_vu8[3U] = ( -gyro_bias_vs32[1U] / 4U ) & 0xFF;
+    register_data_vu8[4U] = ( ( -gyro_bias_vs32[2U] / 4U ) >> 8U ) & 0xFF;
+    register_data_vu8[5U] = ( -gyro_bias_vs32[2U] / 4U ) & 0xFF;
 
     /* Push gyro biases to hardware registers */
-    if ( DD_I2C_C::write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XG_OFFS_USRH, &register_data_vu8[0], 6U ) )
+    if ( DD_I2C_C::write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XG_OFFS_USRH, &register_data_vu8[0U], 6U ) )
     {
         return FALSE;
     }
 
     /* Construct gyro bias in deg/s for later manual subtraction */
-    p_gyro_bias_f32[0] = (F32) gyro_bias_vs32[0] / (F32) gyro_sensitivity_u16;
-    p_gyro_bias_f32[1] = (F32) gyro_bias_vs32[1] / (F32) gyro_sensitivity_u16;
-    p_gyro_bias_f32[2] = (F32) gyro_bias_vs32[2] / (F32) gyro_sensitivity_u16;
+    p_gyro_bias_f32[0U] = (F32) gyro_bias_vs32[0U] / (F32) gyro_sensitivity_u16;
+    p_gyro_bias_f32[1U] = (F32) gyro_bias_vs32[1U] / (F32) gyro_sensitivity_u16;
+    p_gyro_bias_f32[2U] = (F32) gyro_bias_vs32[2U] / (F32) gyro_sensitivity_u16;
 
     /* Construct the accelerometer biases for push to the hardware accelerometer bias registers. These registers contain
      * factory trim values which must be added to the calculated accelerometer biases; on boot up these registers will
@@ -688,14 +645,14 @@ BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
      * biases calculated above must be divided by 8. */
 
     /* Read factory accelerometer trim values */
-    if ( DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
+    if ( DD_I2C_C::read_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0U], 6U ) )
     {
         return FALSE;
     }
 
-    accel_bias_reg_vs32[0] = ( U16 )( (U16) register_data_vu8[0] << 8 ) | register_data_vu8[1];
-    accel_bias_reg_vs32[1] = ( U16 )( (U16) register_data_vu8[2] << 8 ) | register_data_vu8[3];
-    accel_bias_reg_vs32[2] = ( U16 )( (U16) register_data_vu8[4] << 8 ) | register_data_vu8[5];
+    accel_bias_reg_vs32[0U] = ( U16 )( (U16) register_data_vu8[0U] << 8U ) | register_data_vu8[1U];
+    accel_bias_reg_vs32[1U] = ( U16 )( (U16) register_data_vu8[2U] << 8U ) | register_data_vu8[3U];
+    accel_bias_reg_vs32[2U] = ( U16 )( (U16) register_data_vu8[4U] << 8U ) | register_data_vu8[5U];
 
     for ( idx_u16 = 0; idx_u16 < 3U; idx_u16++ )
     {
@@ -708,36 +665,36 @@ BOOLEAN DD_ICM_20600_C::calibrate( F32* p_gyro_bias_f32,
 
     /* Construct total accelerometer bias, including calculated average accelerometer bias from above
      * Subtract calculated averaged accelerometer bias scaled to 2048 LSB/g (16 g full scale) */
-    accel_bias_reg_vs32[0] -= ( accel_bias_vs32[0] / 8U );
-    accel_bias_reg_vs32[1] -= ( accel_bias_vs32[1] / 8U );
-    accel_bias_reg_vs32[2] -= ( accel_bias_vs32[2] / 8U );
+    accel_bias_reg_vs32[0U] -= ( accel_bias_vs32[0U] / 8U );
+    accel_bias_reg_vs32[1U] -= ( accel_bias_vs32[1U] / 8U );
+    accel_bias_reg_vs32[2U] -= ( accel_bias_vs32[2U] / 8U );
 
-    register_data_vu8[0] = ( accel_bias_reg_vs32[0] >> 8U ) & 0xFF;
-    register_data_vu8[1] = ( accel_bias_reg_vs32[0] ) & 0xFF;
-
-    /* preserve temperature compensation bit when writing back to accelerometer bias registers */
-    register_data_vu8[1] = register_data_vu8[1] | mask_bit_vu8[0];
-    register_data_vu8[2] = ( accel_bias_reg_vs32[1] >> 8U ) & 0xFF;
-    register_data_vu8[3] = ( accel_bias_reg_vs32[1] ) & 0xFF;
+    register_data_vu8[0U] = ( accel_bias_reg_vs32[0U] >> 8U ) & 0xFF;
+    register_data_vu8[1U] = ( accel_bias_reg_vs32[0U] ) & 0xFF;
 
     /* preserve temperature compensation bit when writing back to accelerometer bias registers */
-    register_data_vu8[3] = register_data_vu8[3] | mask_bit_vu8[1];
-    register_data_vu8[4] = ( accel_bias_reg_vs32[2] >> 8U ) & 0xFF;
-    register_data_vu8[5] = ( accel_bias_reg_vs32[2] ) & 0xFF;
+    register_data_vu8[1U] = register_data_vu8[1U] | mask_bit_vu8[0U];
+    register_data_vu8[2U] = ( accel_bias_reg_vs32[1U] >> 8U ) & 0xFF;
+    register_data_vu8[3U] = ( accel_bias_reg_vs32[1U] ) & 0xFF;
 
     /* preserve temperature compensation bit when writing back to accelerometer bias registers */
-    register_data_vu8[5] = register_data_vu8[5] | mask_bit_vu8[2];
+    register_data_vu8[3U] = register_data_vu8[3U] | mask_bit_vu8[1U];
+    register_data_vu8[4U] = ( accel_bias_reg_vs32[2U] >> 8U ) & 0xFF;
+    register_data_vu8[5U] = ( accel_bias_reg_vs32[2U] ) & 0xFF;
+
+    /* preserve temperature compensation bit when writing back to accelerometer bias registers */
+    register_data_vu8[5U] = register_data_vu8[5U] | mask_bit_vu8[2U];
 
     /* Push accelerometer biases to hardware registers */
-    if ( DD_I2C_C::write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0], 6U ) )
+    if ( FALSE == DD_I2C_C::write_burst( DD_ICM_20600_I2C_ADDR, DD_ICM_20600_XA_OFFSET_H, &register_data_vu8[0U], 6U ) )
     {
         return FALSE;
     }
 
     /*  Output scaled accelerometer biases for manual subtraction in the main program */
-    p_accel_bias_f32[0] = (F32) accel_bias_vs32[0] / (F32) accel_sensitivity_u16;
-    p_accel_bias_f32[1] = (F32) accel_bias_vs32[1] / (F32) accel_sensitivity_u16;
-    p_accel_bias_f32[2] = (F32) accel_bias_vs32[2] / (F32) accel_sensitivity_u16;
+    p_accel_bias_f32[0U] = (F32) accel_bias_vs32[0U] / (F32) accel_sensitivity_u16;
+    p_accel_bias_f32[1U] = (F32) accel_bias_vs32[1U] / (F32) accel_sensitivity_u16;
+    p_accel_bias_f32[2U] = (F32) accel_bias_vs32[2U] / (F32) accel_sensitivity_u16;
 
     return TRUE;
 }

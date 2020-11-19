@@ -288,7 +288,7 @@ typedef enum DD_ICM_20600_STATE_TAG
  */
 typedef struct DD_ICM_20600_DATA_OUT_TYPE_TAG
 {
-    U8                 chip_id_u8;                                           /**< @details Unique chip id */
+    U8                 device_id_u8;                                         /**< @details Unique device id */
     F32                temperature_deg_f32;                                  /**< @details Internal core (die) temperature @unit °C */
     U16                temperature_raw_u16;                                  /**< @details Internal core (die) temperature raw @unit LSB */
     DD_ICM_20600_AFS   accel_full_scale_sel_e;                               /**< @details Acceleration scale @unit G */
