@@ -36,17 +36,6 @@ DD_I2C_ERROR_DATA_TYPE DD_I2C_C::error_s;
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-DD_I2C_C::DD_I2C_C()
-{
-}
-
-
-DD_I2C_C::~DD_I2C_C()
-{
-}
-
-
 void DD_I2C_C::init( void )
 {
     i2c_config_t dd_i2c_if_config_s;

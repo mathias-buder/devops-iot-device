@@ -121,16 +121,6 @@ class DD_I2C_C {
 
   public:
     /**
-     * @details Default constructor
-     */
-    DD_I2C_C();
-
-    /**
-     * @details Default destructor
-     */
-    ~DD_I2C_C();
-
-    /**
      * @details This function initialized the I2C interface
      */
     static void init( void );
