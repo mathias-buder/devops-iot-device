@@ -52,7 +52,7 @@ extern "C" void app_main()
         /* Schedule every OS_MAIN_CYCLE_TIME_INCREMENT ms */
         vTaskDelayUntil( &initial_tick_cnt_u32, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
-        dd_data_out = DD_C::process_inputs();      /* Schedule Device Driver Domain ( DD ) */
+        dd_data_out = DD_C::process_inputs();      /* Get-and-Process all inputs ( DD ) */
 //        sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */
 //        ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
 

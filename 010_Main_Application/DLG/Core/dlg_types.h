@@ -9,10 +9,10 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
         @file dlg_types.h
         @details Some detailed description
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
