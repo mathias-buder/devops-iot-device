@@ -9,7 +9,7 @@
         must also include a copy of this legend.
 
         @file dd_sd.c
-        @details Some detailed description
+        @details SD-Card device driver implementation
 
         (c) SEWELA 2020
 

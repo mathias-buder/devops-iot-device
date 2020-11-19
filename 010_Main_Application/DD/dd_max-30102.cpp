@@ -8,6 +8,9 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
+        @file dd_max-30102.c
+        @details MAX-30102 device driver implementation
+
         (c) SEWELA 2020
 
 *********************************************************************/

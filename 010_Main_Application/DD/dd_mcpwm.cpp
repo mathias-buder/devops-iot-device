@@ -9,7 +9,7 @@
         must also include a copy of this legend.
 
         @file dd_mcpwm.c
-        @details Some detailed description
+        @details IMCPW device driver implementation
 
         (c) SEWELA 2020
 

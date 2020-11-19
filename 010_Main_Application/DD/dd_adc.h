@@ -55,7 +55,7 @@
 *************************************************************/
 /**
  * @brief   ADC Output Interface Data Structure
- * @details
+ * @details Contains all data provided by the ADC module
  * @ingroup DriverStructures
  */
 typedef struct DD_ADC_DATA_OUT_TYPE_TAG

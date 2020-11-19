@@ -301,7 +301,7 @@ typedef struct DD_ICM_20600_DATA_OUT_TYPE_TAG
     BOOLEAN            self_test_passed_b;                                   /**< @details Flag to indicate whether the self-test has passed or not */
     BOOLEAN            is_calibrated_b;                                      /**< @details Flag to indicate whether the device is calibrated or not */
     F32                factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /**< @details Factory trim values */
-    F32                fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /**< @details Devison from factory trim values */
+    F32                fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /**< @details Deviation from factory trim values */
     DD_ICM_20600_STATE state_s;                                              /**< @details Main device state */
 } DD_ICM_20600_DATA_OUT_TYPE;
 
@@ -316,19 +316,68 @@ class DD_ICM_20600_C {
     static DD_ICM_20600_DATA_OUT_TYPE data_out_s; /**< @details Global device output data structure */
 
     /**
-     * @details This function performs a read/write test on the specified I2C device to make sure the
-     * low-level interface is working correctly.
-     * @param[in] error_t I2C error code
-     * @return TRUE if NO error is present
+     * @details This function performs a device soft reset
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN reset_soft( void );
-    static BOOLEAN who_am_i_read( U8* p_data_u8 );
+    static BOOLEAN soft_reset( void );
+
+    /**
+     * @details This function reads the device id
+     * @param[in] p_data_u8 Pointer of variable to store the id
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
+    static BOOLEAN get_device_id( U8* p_data_u8 );
+
+    /**
+     * @details This function configures the full-scale range of the accelerometer
+     * @param[in] scale_e Accelerometer full-scale range
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
     static BOOLEAN set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
+
+    /**
+     * @details This function configures the full-scale range of the gyroscope
+     * @param[in] scale_e gyroscope full-scale range
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
     static BOOLEAN set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
-    static BOOLEAN temperature_read( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s );
-    static BOOLEAN accel_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s );
-    static BOOLEAN gyro_data_read_raw( DD_ICM_20600_DATA_OUT_TYPE* p_input_data_s );
+
+    /**
+     * @details This function reads the device die-temperature
+     * @param[in] p_data_u8 Pointer of variable to store die-temperature
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
+    static BOOLEAN get_temperature( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+
+    /**
+     * @details This function reads the raw accelerometer data of all three axis
+     * @param[in] p_data_u8 Pointer of variable to store the raw accelerometer data
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
+    static BOOLEAN get_accel_data_raw( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+
+    /**
+     * @details This function reads the raw gyroscope data of all three axis
+     * @param[in] p_data_u8 Pointer of variable to store the raw gyroscope data
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
+    static BOOLEAN get_gyro_data_raw( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+
+    /**
+     * @details This function runs a self-test algorithm that will test the accelerometer
+     *          and gyroscope functionality.
+     * @param[in] p_data_u8 Pointer of variable to store detailed self-test results
+     * @return TRUE if self-test has passed, FALSE otherwise
+     */
     static BOOLEAN self_test( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+
+    /**
+     * @details This function runs a calibration algorithm that will gather
+     *          at-rest compensation values from accelerometer gyroscope.
+     * @param[in] p_gyro_bias_f32 Pointer of variable to store gyroscope compensation values
+     * @param[in] p_accel_bias_f32 Pointer of variable to store accelerometer compensation values
+     * @return TRUE if no I2C transmission error occurred, FALSE otherwise
+     */
     static BOOLEAN calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_f32 );
 
   public:

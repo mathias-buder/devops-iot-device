@@ -9,7 +9,7 @@
         must also include a copy of this legend.
 
         @file dd_adc.c
-        @details Some detailed description
+        @details ADC device driver implementation
 
         (c) SEWELA 2020
 

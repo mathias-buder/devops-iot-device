@@ -8,10 +8,10 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
         @file dd_ina_219.c
-        @details Some detailed description
+        @details INA-219 device driver implementation
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 

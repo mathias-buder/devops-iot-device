@@ -8,26 +8,24 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        (c) SEWELA 2020
-
         @file DD.c
-        @details Some detailed description
+        @details Global device driver implementation
+
+        (c) SEWELA 2020
 
 *********************************************************************/
 
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-#include "DD.h"
-
-#include "dd_sd.h"
-#include "dd_i2c.h"
-
-#include "esp_log.h"
-
 #include <stdio.h>
 #include <string.h>
 
+#include "esp_log.h"
+
+#include "DD.h"
+#include "dd_sd.h"
+#include "dd_i2c.h"
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
@@ -87,7 +85,6 @@ DD_INA_219_CONFIG_TYPE dd_ina_219_cfg_s = {
     .bus_adc_resolution_averaging_e   = DD_INA_219_BADC_RES_AVE_12BIT_1S_532US,
     .max_current_mA_f32               = 500.0F
 };
-
 
 
 /*********************************************************************/
