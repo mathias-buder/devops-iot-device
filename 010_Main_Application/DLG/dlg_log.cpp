@@ -31,8 +31,11 @@
 DLG_LOG_DATA DLG_LOG_C::data_s;
 U32          DLG_LOG_C::file_count_u32 = 1U;
 U32          DLG_LOG_C::data_chunk_cnt_u32;
+U8           DLG_LOG_C::global_msg_cnt_u8;
+F32          DLG_LOG_C::time_stamp_in_sec_f32;
+U16          DLG_LOG_C::total_data_size_in_byte_u16;
 #ifdef DLG_LOG_TEST_ENABLE
-U32          DLG_LOG_C::test_mode_cnt_u32;
+U32 DLG_LOG_C::test_mode_cnt_u32;
 #endif
 
 /*********************************************************************/
@@ -44,6 +47,8 @@ void DLG_LOG_C::init( void )
 
     ESP_LOGI( DLG_LOG_LOG_MSG_TAG, "Initializing..." );
 
+    total_data_size_in_byte_u16 =  sizeof( time_stamp_in_sec_f32 ) + sizeof( DLG_LOG_DATA_IN_TYPE ) + sizeof( global_msg_cnt_u8 );
+
     /* Create initial log file */
     DLG_LOG_C::handle_file( file_count_u32 );
 
@@ -52,12 +57,12 @@ void DLG_LOG_C::init( void )
      * within the interval of [ 1 (byte) >= data_chunk_per_file <= sizeof( dlg_log_database_s ) (byte) ] */
     if ( FALSE == DLG_LOG_USE_FILES_PER_MINUTE )
     {
-        DLG_LOG_C::data_s.num_data_chunk_per_file_u32 = ( U32 )( ( DLG_LOG_FILE_SIZE_IN_KBYTE * 1000U ) / sizeof( DLG_LOG_DATA_IN_TYPE ) );
+        DLG_LOG_C::data_s.num_data_chunk_per_file_u32 = ( U32 )( ( DLG_LOG_FILE_SIZE_IN_KBYTE * 1000U ) / total_data_size_in_byte_u16 );
     }
     else
     {
-        size_per_min_in_byte_u32                    = ( U32 )( ( 1000.0F / DLG_LOG_MAIN_CYCLE_TIME_MS ) * 60.0F ) * sizeof( DLG_LOG_DATA_IN_TYPE );
-        DLG_LOG_C::data_s.num_data_chunk_per_file_u32 = ( U32 )( ( size_per_min_in_byte_u32 / DLG_LOG_NUM_FILES_PER_MINUTE ) / sizeof( DLG_LOG_DATA_IN_TYPE ) );
+        size_per_min_in_byte_u32                    = ( U32 )( ( 1000.0F / DLG_LOG_MAIN_CYCLE_TIME_MS ) * 60.0F ) * total_data_size_in_byte_u16;
+        DLG_LOG_C::data_s.num_data_chunk_per_file_u32 = ( U32 )( ( size_per_min_in_byte_u32 / DLG_LOG_NUM_FILES_PER_MINUTE ) / total_data_size_in_byte_u16 );
     }
 
     if (    ( NULL != DLG_LOG_C::data_s.p_file_handle )
@@ -67,7 +72,7 @@ void DLG_LOG_C::init( void )
 
         /* Print logging properties */
         ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Logging enabled" );
-        ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Byte", sizeof( DLG_LOG_DATA_IN_TYPE ) );
+        ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Database size %i Byte", total_data_size_in_byte_u16 );
         ESP_LOGD( DLG_LOG_LOG_MSG_TAG, "Data chunks per file: %i", DLG_LOG_C::data_s.num_data_chunk_per_file_u32 );
     }
     else
@@ -81,7 +86,7 @@ void DLG_LOG_C::init( void )
     }
 }
 
-void DLG_LOG_C::main( DLG_LOG_DATA_IN_TYPE* p_data_in_s )
+void DLG_LOG_C::main( DLG_LOG_DATA_IN_TYPE data_in_s )
 {
     if ( TRUE == DLG_LOG_C::data_s.logging_enabled_b )
     {
@@ -102,31 +107,28 @@ void DLG_LOG_C::main( DLG_LOG_DATA_IN_TYPE* p_data_in_s )
             data_chunk_cnt_u32 = 0U;
         }
 
-        /* Acquire current values for all logging structure */
-//        dlg_log_create_dd_i2c_data_frame();
-//        dlg_log_create_dd_adc_data_frame();
-//        dlg_log_create_dd_mcpwm_data_frame();
-//        dlg_log_create_dd_icm_20600_data_frame();
-//        dlg_log_create_dd_max_30102_data_frame();
-//        dlg_log_create_dd_ina_219_data_frame();
-//        dlg_log_create_dd_tmp_102_data_frame();
-//        dlg_log_create_sense_ts_data_frame();
-
-        /* Acquire current time stamp */
-        //dlg_log_database_s.dlg_time_stamp_in_sec_f32 = os_time_stamp_in_sec_f32;
-
         /* Increment global message counter */
-        //++dlg_log_database_s.dlg_global_msg_cnt_u8;
+        ++global_msg_cnt_u8;
 
-        /* Write entire logging structure into .sbf file */
-        fwrite( p_data_in_s, sizeof( DLG_LOG_DATA_IN_TYPE ), 1U, DLG_LOG_C::data_s.p_file_handle );
+        /*  Write current value of time_stamp_in_sec_f32 into .sbf file */
+        fwrite( &time_stamp_in_sec_f32, sizeof( time_stamp_in_sec_f32 ), 1U, DLG_LOG_C::data_s.p_file_handle );
+
+        /* Write entire DLG_LOG_DATA_IN_TYPE structure into .sbf file */
+        fwrite( &data_in_s, sizeof( DLG_LOG_DATA_IN_TYPE ), 1U, DLG_LOG_C::data_s.p_file_handle );
+
+        /* Write current value of global_msg_cnt_u8 into .sbf file */
+        fwrite( &global_msg_cnt_u8, sizeof( global_msg_cnt_u8 ), 1U, DLG_LOG_C::data_s.p_file_handle );
 
         ESP_LOGI( DLG_LOG_LOG_MSG_TAG, "Logging to file %s [%i Byte / %i Byte ] [%i / %i]",
                                        DLG_LOG_C::data_s.file_name_vc,
-                                       sizeof( DLG_LOG_DATA_IN_TYPE ) * ( data_chunk_cnt_u32 + 1U ),
-                                       sizeof( DLG_LOG_DATA_IN_TYPE ) * DLG_LOG_C::data_s.num_data_chunk_per_file_u32,
+                                       total_data_size_in_byte_u16 * ( data_chunk_cnt_u32 + 1U ),
+                                       total_data_size_in_byte_u16 * DLG_LOG_C::data_s.num_data_chunk_per_file_u32,
                                        data_chunk_cnt_u32 + 1U,
                                        DLG_LOG_C::data_s.num_data_chunk_per_file_u32 );
+
+        /* Acquire current time stamp */
+        //dlg_log_database_s.dlg_time_stamp_in_sec_f32 = os_time_stamp_in_sec_f32;
+        time_stamp_in_sec_f32 += 0.1F;
 
         /* Advance counter to write next chunk of data */
         ++data_chunk_cnt_u32;

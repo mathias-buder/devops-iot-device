@@ -77,7 +77,6 @@ typedef struct DLG_LOG_DATA_TAG
  */
 typedef struct DLG_LOG_DATA_IN_TYPE_TAG
 {
-    F32 dlg_time_stamp_in_sec_f32;                  /**< @details Global time stamp in seconds */
     F32 dd_icm_20600_temperature_deg_f32;           /**< @details ICM-20600 Internal core (die) temperature @unit °C */
     F32 dd_icm_20600_factory_trim_xa_f32;           /**< @details ICM-20600 XA factory trim value */
     F32 dd_icm_20600_factory_trim_ya_f32;           /**< @details ICM-20600 YA factory trim value */
@@ -174,8 +173,6 @@ typedef struct DLG_LOG_DATA_IN_TYPE_TAG
     U8  dd_mcpwm_ch_11_mode_u8;                     /**< @details MCPWM mode for channels 11 */
     U8  dd_mcpwm_ch_12_mode_u8;                     /**< @details MCPWM mode for channels 12 */
 
-    U8 dlg_global_msg_cnt_u8;                       /**< @details Global message counter, shall always be the last entry */
-
 } DLG_LOG_DATA_IN_TYPE;
 
 /*************************************************************/
@@ -184,28 +181,35 @@ typedef struct DLG_LOG_DATA_IN_TYPE_TAG
 class DLG_LOG_C {
 
   private:
-    static DLG_LOG_DATA data_s;
-    static U32          file_count_u32;
-    static U32          data_chunk_cnt_u32;
-    static U32          test_mode_cnt_u32;
+    static DLG_LOG_DATA data_s;                /**< @details Global message counter, shall always be the last entry */
+    static U32          file_count_u32;        /**< @details Global message counter, shall always be the last entry */
+    static U32          data_chunk_cnt_u32;    /**< @details Global message counter, shall always be the last entry */
+    static U8           global_msg_cnt_u8;     /**< @details Global message counter, shall always be the last entry */
+    static U32          test_mode_cnt_u32;     /**< @details Global message counter, shall always be the last entry */
+    static F32          time_stamp_in_sec_f32; /**< @details Global time stamp in seconds */
+    static U16          total_data_size_in_byte_u16;
 
-    static BOOLEAN      handle_file( U32 id_u32 );
-    static void         create_dd_i2c_data_frame( void );
-    static void         create_dd_adc_data_frame( void );
-    static void         create_dd_mcpwm_data_frame( void );
-    static void         create_dd_icm_20600_data_frame( void );
-    static void         create_dd_max_30102_data_frame( void );
-    static void         create_dd_ina_219_data_frame( void );
-    static void         create_dd_tmp_102_data_frame( void );
-    static void         create_sense_ts_data_frame( void );
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    static BOOLEAN handle_file( U32 id_u32 );
 
   public:
+
     /**
-     * @details This function initialized the I2C interface
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
      */
     static void init( void );
 
-    static void main( DLG_LOG_DATA_IN_TYPE* p_data_in_s );
+    /**
+     * @details This is the drivers main function that shall be called
+     * cyclicly and will provide all data through DD_INA_219_DATA_OUT_TYPE
+     */
+    static void main( DLG_LOG_DATA_IN_TYPE data_in_s );
 };
 
 #endif /* DLG_LOG_H_ */

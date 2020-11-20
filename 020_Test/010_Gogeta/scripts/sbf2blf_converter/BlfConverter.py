@@ -225,7 +225,7 @@ DLG_DD_TMP_102_DATA.AddSignal('DD_TMP_102_temperature_deg',  0.01, -81.92,  14, 
 # %% Define .sbf file layout
 
 # Check https://docs.python.org/3/library/struct.html for format characters
-dlg_log_data_fmt = '< 38f 2I 6H 10h 37B 3x'
+dlg_log_data_fmt = '< 38f 2I 6H 10h 37B'
 
 struct_len = st.calcsize( dlg_log_data_fmt )
 struct_unpack = st.Struct( dlg_log_data_fmt ).unpack_from

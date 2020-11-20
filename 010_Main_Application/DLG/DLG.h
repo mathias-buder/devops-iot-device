@@ -34,8 +34,7 @@
  */
 typedef struct LOG_DATA_IN_TYPE_TAG
 {
-    DLG_LOG_DATA_IN_TYPE* p_log_data_in_s;
-
+    DLG_LOG_DATA_IN_TYPE log_data_in_s;
 } LOG_DATA_IN_TYPE;
 
 
@@ -43,7 +42,7 @@ class DLG_C {
   private:
   public:
     static void init( void );
-    static void main( LOG_DATA_IN_TYPE dlg_data_in_s );
+    static void main( LOG_DATA_IN_TYPE &dlg_data_in_s );
 };
 
 #endif /* DLG_H_ */
