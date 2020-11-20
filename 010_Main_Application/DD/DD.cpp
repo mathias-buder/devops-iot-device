@@ -136,7 +136,7 @@ DD_DATA_OUT_TYPE DD_C::process_inputs( void )
     return DD_C::dd_data_out_s;
 }
 
-void DD_C::process_outputs( DD_DATA_IN_TYPE data_in_s )
+void DD_C::process_outputs( const DD_DATA_IN_TYPE* const p_data_in_s )
 {
-    DD_MCPWM_C::update_channels( &data_in_s.mcpwm_data_in_s ); /*!< Update MCPWM module */
+    DD_MCPWM_C::update_channels( &p_data_in_s->mcpwm_data_in_s ); /*!< Update MCPWM module */
 }

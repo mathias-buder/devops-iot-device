@@ -20,17 +20,12 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
-/* Standard libraries */
-#include <Interface/dlg_log_if.h>
 #include <stdio.h>
 #include <string.h>
 
-/* ESP32 specific */
 #include "esp_log.h"
 
-/* Internal */
 #include "DLG.h"
-#include "Core/dlg_log.h"
 
 
 /*********************************************************************/
@@ -43,12 +38,12 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void dlg_init( void )
+void DLG_C::init( void )
 {
-    dlg_log_init();
+    DLG_LOG_C::init();
 }
 
-void dlg_main( void )
+void DLG_C::main( LOG_DATA_IN_TYPE data_in_s )
 {
-     dlg_log_main();
+    DLG_LOG_C::main( &data_in_s.log_data_in_s );
 }

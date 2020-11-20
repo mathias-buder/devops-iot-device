@@ -48,6 +48,11 @@ DD_MAX_30102_C::~DD_MAX_30102_C()
 }
 
 
+//DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( void )
+//{
+//    init( with default config)
+//}
+
 DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( DD_MAX_30102_CONFIG_TYPE* p_config_s )
 {
 

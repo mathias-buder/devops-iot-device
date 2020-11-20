@@ -25,12 +25,16 @@
 #include "Core/os_tm.h"
 
 #include "../DD/DD.h"
+#include "../DLG/DLG.h"
 //#include "../SENSE/SENSE.h"
 //#include "../VE/VE.h"
-//#include "../DLG/DLG.h"
 
-DD_DATA_OUT_TYPE dd_data_out;
 
+DD_DATA_OUT_TYPE dd_data_out_s;
+DD_DATA_IN_TYPE  dd_data_in_s;
+// DLG_LOG_DATA_IN_TYPE
+
+// SENSE_DATA_IN_TYPE
 
 extern "C" void app_main()
 {
@@ -42,24 +46,37 @@ extern "C" void app_main()
     DD_C::init();      /* Initialize Device Driver Domain ( DD ) */
 //    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
 //    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
-//    dlg_init();     /* Initialize Data Logging Domain( DLG ) */
+    DLG_C::init();     /* Initialize Data Logging Domain( DLG ) */
 
     /***********************************************
-     ********** Enter Infinite Main Loop ***********
+     *          Enter Infinite Main Loop           *
      ***********************************************/
     while ( TRUE )
     {
         /* Schedule every OS_MAIN_CYCLE_TIME_INCREMENT ms */
         vTaskDelayUntil( &initial_tick_cnt_u32, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
-        dd_data_out = DD_C::process_inputs();      /* Get-and-Process all inputs ( DD ) */
-//        sense_main();   /* Schedule Sensor Processing Domain ( SENSE ) */
+        dd_data_out_s = DD_C::process_inputs();      /* Get-and-Process all inputs ( DD ) */
+        // SENSE_DATA_IN_TYPE = map_dd_to_sense(DD_DATA_OUT_TYPE )
+
+
+//        sense_main(SENSE_DATA_IN_TYPE);   /* Schedule Sensor Processing Domain ( SENSE ) */
+
+
+//        VE_DATA_IN_TYPE = map_dd_to_sense_ve(DD_DATA_OUT_TYPE, SENSE_DATA_OUT_TYPE)
+
 //        ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
 
 
-   //     DD_C::process_outputs(data_in_s);
+        // DD_DATA_IN_TYPE = collect_dd_data_in(SENSE_DATA_OUT_TYPE)
 
-//        dlg_main();     /* Schedule Data Logging Domain( DLG ) */
+
+//       DD_C::process_outputs(DD_DATA_IN_TYPE);
+
+
+       // DLG_LOG_DATA_IN_TYPE = collect_dlg_data_in(DD_DATA_OUT_TYPE)
+
+//        DLG_C::main(data_in_s)   /* Schedule Data Logging Domain( DLG ) */
 //        os_tm_update(); /* Update Global Time Module */
     }
 }

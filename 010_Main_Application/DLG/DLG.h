@@ -15,11 +15,35 @@
         @details Some detailed description
 
 *********************************************************************/
+#ifndef DLG_H_
+#define DLG_H_
 
-#ifndef DLG_DLG_H_
-#define DLG_DLG_H_
 
-void dlg_init( void );
-void dlg_main( void );
+/*************************************************************/
+/*      INCLUDES                                             */
+/*************************************************************/
+#include "dlg_log.h"
 
-#endif /* DLG_DLG_H_ */
+/*************************************************************
+*      STRUCTURES                                            *
+*************************************************************/
+/**
+ * @brief   Data Logging Input Structure
+ * @details Contains all data that is required by the Device Driver (DD) domain
+ * @ingroup LoggingStructures
+ */
+typedef struct LOG_DATA_IN_TYPE_TAG
+{
+    DLG_LOG_DATA_IN_TYPE* p_log_data_in_s;
+
+} LOG_DATA_IN_TYPE;
+
+
+class DLG_C {
+  private:
+  public:
+    static void init( void );
+    static void main( LOG_DATA_IN_TYPE dlg_data_in_s );
+};
+
+#endif /* DLG_H_ */

@@ -11,9 +11,6 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-idf_component_register(SRCS "Config/dlg_log_cfg.c"
-                            "Core/dlg_database.c"
-                            "Core/dlg_log.c"
-                            "Interface/dlg_log_if.c"
-                            "DLG.c"
+idf_component_register(SRCS "dlg_log.cpp"
+                            "DLG.cpp"
                        INCLUDE_DIRS ".")

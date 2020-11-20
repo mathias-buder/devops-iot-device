@@ -32,7 +32,7 @@
 *      STRUCTURES                                            *
 *************************************************************/
 /**
- * @brief   Device Driver Output Input Structure
+ * @brief   Device Driver Input Structure
  * @details Contains all data that is required by the Device Driver (DD) domain
  * @ingroup DriverStructures
  */
@@ -52,11 +52,11 @@ typedef struct DD_DATA_IN_TYPE_TAG
  */
 typedef struct DD_DATA_OUT_TYPE_TAG
 {
-    const DD_ADC_DATA_OUT_TYPE*       p_adc_data_out_s;       /**< @details ADC output data structure */
-    const DD_INA_219_DATA_OUT_TYPE*   p_ina_219_data_out_s;   /**< @details INA-219 output data structure */
-    const DD_TMP_102_DATA_OUT_TYPE*   p_tmp_102_data_out_s;   /**< @details TMP-102 output data structure */
-    const DD_ICM_20600_DATA_OUT_TYPE* p_icm_20600_data_out_s; /**< @details ICN-20600 output data structure */
-    const DD_MAX_30102_DATA_OUT_TYPE* p_max_30102_data_out_s; /**< @details MAX-30102 output data structure */
+    const DD_ADC_DATA_OUT_TYPE*       p_adc_data_out_s;       /**< @details Pointer to ADC output data structure */
+    const DD_INA_219_DATA_OUT_TYPE*   p_ina_219_data_out_s;   /**< @details Pointer to INA-219 output data structure */
+    const DD_TMP_102_DATA_OUT_TYPE*   p_tmp_102_data_out_s;   /**< @details Pointer to TMP-102 output data structure */
+    const DD_ICM_20600_DATA_OUT_TYPE* p_icm_20600_data_out_s; /**< @details Pointer to ICN-20600 output data structure */
+    const DD_MAX_30102_DATA_OUT_TYPE* p_max_30102_data_out_s; /**< @details Pointer to MAX-30102 output data structure */
 } DD_DATA_OUT_TYPE;
 
 
@@ -88,7 +88,7 @@ class DD_C {
      * @param[in] Pointer device input structure
      * @return Pointer to global device data structure
      */
-    static void process_outputs( DD_DATA_IN_TYPE dd_data_in_s );
+    static void process_outputs( const DD_DATA_IN_TYPE* const p_data_in_s );
 
 };
 

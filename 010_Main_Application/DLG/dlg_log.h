@@ -15,13 +15,16 @@
         @details Some detailed description
 
 *********************************************************************/
-#ifndef DLG_CORE_LOG_H_
-#define DLG_CORE_LOG_H_
+#ifndef DLG_LOG_H_
+#define DLG_LOG_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include <stdio.h>
+#include <string.h>
 
+#include "../../types.h"
 
 
 /*************************************************************/
@@ -30,6 +33,7 @@
 /* Log message tag string */
 #define DLG_LOG_LOG_MSG_TAG                      "DLG_LOG"     /**< @details Domain log message tag string */
 #define DLG_LOG_DEV_SERIAL_NO                    "XC12C45D"    /**< Device specific serial number string (will be provided by Non-volatile storage library in the future) */
+#define DLG_LOG_FILE_DOT_EXTENSION               ".sbf"        /**< Format: .sbf: (s)ewela-(b)inary-(f)ile */
 #define DLG_LOG_MAX_FILE_NAME_LENGTH             30U           /**< Maximum number of characters allowed to be used for a file name */
 #define DLG_LOG_NUM_FILES_PER_MINUTE             6U            /**< Number of .sbf files per minute */
 #define DLG_LOG_FILE_SIZE_IN_KBYTE               20U           /**< File size in kByte */
@@ -59,13 +63,13 @@
 /**
  * @details enumerator of ...
  */
-typedef struct DLG_DATA_TAG
+typedef struct DLG_LOG_DATA_TAG
 {
     char    file_name_vc[DLG_LOG_MAX_FILE_NAME_LENGTH];
     FILE*   p_file_handle;
     U32     num_data_chunk_per_file_u32;
     BOOLEAN logging_enabled_b;
-} DLG_DATA;
+} DLG_LOG_DATA;
 
 
 /**
@@ -174,34 +178,34 @@ typedef struct DLG_LOG_DATA_IN_TYPE_TAG
 
 } DLG_LOG_DATA_IN_TYPE;
 
-
-
-
-
-
 /*************************************************************/
 /*      CLASS DEFINITION                                     */
 /*************************************************************/
-class DLG_LOG {
+class DLG_LOG_C {
 
   private:
-    static void    create_dd_i2c_data_frame( void );
-    static void    create_dd_adc_data_frame( void );
-    static void    create_dd_mcpwm_data_frame( void );
-    static void    create_dd_icm_20600_data_frame( void );
-    static void    create_dd_max_30102_data_frame( void );
-    static void    create_dd_ina_219_data_frame( void );
-    static void    create_dd_tmp_102_data_frame( void );
-    static void    create_sense_ts_data_frame( void );
-    static BOOLEAN handle_file( U32 id_u32 );
+    static DLG_LOG_DATA data_s;
+    static U32          file_count_u32;
+    static U32          data_chunk_cnt_u32;
+    static U32          test_mode_cnt_u32;
+
+    static BOOLEAN      handle_file( U32 id_u32 );
+    static void         create_dd_i2c_data_frame( void );
+    static void         create_dd_adc_data_frame( void );
+    static void         create_dd_mcpwm_data_frame( void );
+    static void         create_dd_icm_20600_data_frame( void );
+    static void         create_dd_max_30102_data_frame( void );
+    static void         create_dd_ina_219_data_frame( void );
+    static void         create_dd_tmp_102_data_frame( void );
+    static void         create_sense_ts_data_frame( void );
 
   public:
     /**
      * @details This function initialized the I2C interface
      */
-    static void init( DLG_LOG_DATA_IN_TYPE* p_data_in_s );
+    static void init( void );
 
-    static void main( void );
+    static void main( DLG_LOG_DATA_IN_TYPE* p_data_in_s );
 };
 
-#endif /* DLG_CORE_LOG_H_ */
+#endif /* DLG_LOG_H_ */

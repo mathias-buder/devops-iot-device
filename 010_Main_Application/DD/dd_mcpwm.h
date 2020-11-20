@@ -160,7 +160,7 @@ class DD_MCPWM_C {
    * @return[in] TRUE in case no error was reported during
    *             MCPWM module update
    */
-    static BOOLEAN update_channels( DD_MCPWM_DATA_IN_TYPE* p_data_in_s );
+    static BOOLEAN update_channels( const DD_MCPWM_DATA_IN_TYPE* const p_data_in_s );
 };
 
 #endif /* DD_MCPWM_H_ */
