@@ -39,11 +39,7 @@
 typedef struct DD_DATA_IN_TYPE_TAG
 {
     DD_MCPWM_DATA_IN_TYPE mcpwm_data_in_s;
-
 } DD_DATA_IN_TYPE;
-
-
-
 
 /**
  * @brief   Device Driver Output Data Structure
@@ -58,7 +54,6 @@ typedef struct DD_DATA_OUT_TYPE_TAG
     const DD_ICM_20600_DATA_OUT_TYPE* p_icm_20600_data_out_s; /**< @details Pointer to ICN-20600 output data structure */
     const DD_MAX_30102_DATA_OUT_TYPE* p_max_30102_data_out_s; /**< @details Pointer to MAX-30102 output data structure */
 } DD_DATA_OUT_TYPE;
-
 
 /*************************************************************/
 /*      CLASS DEFINITION                                     */
@@ -88,7 +83,7 @@ class DD_C {
      * @param[in] Pointer device input structure
      * @return Pointer to global device data structure
      */
-    static void process_outputs( const DD_DATA_IN_TYPE* const p_data_in_s );
+    static void process_outputs( DD_DATA_IN_TYPE &data_in_s );
 
 };
 

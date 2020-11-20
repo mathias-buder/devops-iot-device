@@ -130,13 +130,17 @@ DD_DATA_OUT_TYPE DD_C::process_inputs( void )
     DD_ICM_20600_C::main(); /*!< Schedule ICM-2600 motion subsystem */
     dd_max_30102.main();    /*!< Schedule MAX-30102 HR+SpO2 subsystem */
     dd_ina_219_A.main();    /*!< Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
-    dd_tmp_102_A.main();    /*!< Schedule TMP-102 temperature sensor */
+    dd_tmp_102_A.main();    /*!< Schedule TMP-102 (A) temperature sensor */
 
     /* Return copy of global domain data structure */
     return DD_C::dd_data_out_s;
 }
 
-void DD_C::process_outputs( const DD_DATA_IN_TYPE* const p_data_in_s )
+
+void DD_C::process_outputs( DD_DATA_IN_TYPE &data_in_s )
 {
-    DD_MCPWM_C::update_channels( &p_data_in_s->mcpwm_data_in_s ); /*!< Update MCPWM module */
+    DD_MCPWM_C::update_channels( data_in_s.mcpwm_data_in_s ); /*!< Update MCPWM module */
 }
+
+
+

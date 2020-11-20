@@ -167,17 +167,15 @@ BOOLEAN DD_MCPWM_C::init( const DD_MCPWM_CONFIG_TYPE* const p_config_s )
     return TRUE;
 }
 
-BOOLEAN DD_MCPWM_C::update_channels( DD_MCPWM_DATA_IN_TYPE* p_data_in_s )
+BOOLEAN DD_MCPWM_C::update_channels( DD_MCPWM_DATA_IN_TYPE data_in_s )
 {
 
     U8        channel_idx_u8;
     esp_err_t error_t = ESP_OK;
 
-    if ( NULL != p_data_in_s )
-    {
         for ( channel_idx_u8 = 0U; channel_idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++channel_idx_u8 )
         {
-            switch ( p_data_in_s->pwm_cfg_s[channel_idx_u8].mode_e )
+            switch ( data_in_s.pwm_cfg_s[channel_idx_u8].mode_e )
             {
 
             case DD_MCPWM_MODE_OFF:
@@ -213,7 +211,7 @@ BOOLEAN DD_MCPWM_C::update_channels( DD_MCPWM_DATA_IN_TYPE* p_data_in_s )
                 error_t = mcpwm_set_duty( DD_MCPWM_C::p_channel_cfg_s[channel_idx_u8].unit_e,
                                           DD_MCPWM_C::p_channel_cfg_s[channel_idx_u8].timer_e,
                                           DD_MCPWM_C::p_channel_cfg_s[channel_idx_u8].operator_e,
-                                          p_data_in_s->pwm_cfg_s[channel_idx_u8].duty_cycle_f32 );
+                                          data_in_s.pwm_cfg_s[channel_idx_u8].duty_cycle_f32 );
 
                 if ( ESP_OK != error_t )
                 {
@@ -236,19 +234,13 @@ BOOLEAN DD_MCPWM_C::update_channels( DD_MCPWM_DATA_IN_TYPE* p_data_in_s )
 
             default:
                 /* Should never happen */
-                assert( p_data_in_s->pwm_cfg_s[channel_idx_u8].mode_e == DD_MCPWM_MODE_OFF );
-                assert( p_data_in_s->pwm_cfg_s[channel_idx_u8].mode_e == DD_MCPWM_MODE_ON );
-                assert( p_data_in_s->pwm_cfg_s[channel_idx_u8].mode_e == DD_MCPWM_MODE_PWM );
+                assert( data_in_s.pwm_cfg_s[channel_idx_u8].mode_e == DD_MCPWM_MODE_OFF );
+                assert( data_in_s.pwm_cfg_s[channel_idx_u8].mode_e == DD_MCPWM_MODE_ON );
+                assert( data_in_s.pwm_cfg_s[channel_idx_u8].mode_e == DD_MCPWM_MODE_PWM );
 
                 return FALSE;
             }
         }
-    }
-    else
-    {
-        assert( NULL != p_data_in_s );
-        return FALSE;
-    }
 
     return TRUE;
 }

@@ -131,7 +131,7 @@ typedef struct DD_MCPWM_DATA_IN_TYPE_TAG
 class DD_MCPWM_C {
 
   private:
-    static const mcpwm_config_t   timer_cfg_s;
+    static const mcpwm_config_t         timer_cfg_s;
     static const DD_MCPWM_CHANNEL_TYPE* p_channel_cfg_s;
 
   public:
@@ -160,7 +160,7 @@ class DD_MCPWM_C {
    * @return[in] TRUE in case no error was reported during
    *             MCPWM module update
    */
-    static BOOLEAN update_channels( const DD_MCPWM_DATA_IN_TYPE* const p_data_in_s );
+    static BOOLEAN update_channels( DD_MCPWM_DATA_IN_TYPE data_in_s );
 };
 
 #endif /* DD_MCPWM_H_ */
