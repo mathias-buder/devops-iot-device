@@ -25,7 +25,6 @@
 
 #include "DD.h"
 #include "dd_sd.h"
-#include "dd_i2c.h"
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
@@ -115,7 +114,7 @@ DD_MAX_30102_CONFIG_TYPE dd_max_30102_cfg_s = {
 void DD_C::init( void )
 {
     DD_SD_C::init();                                                                       /*!< Initialize SD card driver */
-    DD_I2C_C::init();                                                                      /*!< Initialize I2C device driver */
+    DD_C::dd_data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                         /*!< Initialize I2C device driver */
     DD_MCPWM_C::init( &dd_mcpwm_cfg_s );                                                   /*!< Initialize MCPWM device driver */
     DD_C::dd_data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                         /*!< Initialize ADC device driver */
     DD_C::dd_data_out_s.p_icm_20600_data_out_s = DD_ICM_20600_C::init();                   /*!< Initialize ICM-2600 motion subsystem */

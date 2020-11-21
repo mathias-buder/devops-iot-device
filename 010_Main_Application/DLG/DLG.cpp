@@ -43,7 +43,7 @@ void DLG_C::init( void )
     DLG_LOG_C::init();
 }
 
-void DLG_C::main( LOG_DATA_IN_TYPE &dlg_data_in_s )
+void DLG_C::main( const LOG_DATA_IN_TYPE &dlg_data_in_s )
 {
     DLG_LOG_C::main( dlg_data_in_s.log_data_in_s );
 }

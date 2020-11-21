@@ -21,6 +21,7 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
+#include "dd_i2c.h"
 #include "dd_adc.h"
 #include "dd_mcpwm.h"
 #include "dd_ina-219.h"
@@ -48,6 +49,7 @@ typedef struct DD_DATA_IN_TYPE_TAG
  */
 typedef struct DD_DATA_OUT_TYPE_TAG
 {
+    const DD_I2C_ERROR_DATA_TYPE*     p_i2c_error_out_s;      /**< @details Pointer to I2C error data structure */
     const DD_ADC_DATA_OUT_TYPE*       p_adc_data_out_s;       /**< @details Pointer to ADC output data structure */
     const DD_INA_219_DATA_OUT_TYPE*   p_ina_219_data_out_s;   /**< @details Pointer to INA-219 output data structure */
     const DD_TMP_102_DATA_OUT_TYPE*   p_tmp_102_data_out_s;   /**< @details Pointer to TMP-102 output data structure */

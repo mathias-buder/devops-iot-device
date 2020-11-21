@@ -123,7 +123,7 @@ class DD_I2C_C {
     /**
      * @details This function initialized the I2C interface
      */
-    static void init( void );
+    static DD_I2C_ERROR_DATA_TYPE* init( void );
 
     /**
      * @details This function reads the content of an 8-bit register.
@@ -249,12 +249,6 @@ class DD_I2C_C {
      * @return pointer to the I2C error of type DD_I2C_ERROR_INFO_TYPE
      */
     static DD_I2C_ERROR_INFO_TYPE* get_last_error( void );
-
-    /**
-     * @details This function returns a pointer to the I2C error database
-     * @return pointer to the current I2C error database of type DD_I2C_ERROR_TYPE
-     */
-    static DD_I2C_ERROR_DATA_TYPE* get_error_database( void );
 };
 
 #endif /* DD_I2C_H_ */

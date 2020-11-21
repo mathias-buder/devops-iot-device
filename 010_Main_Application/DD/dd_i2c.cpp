@@ -36,7 +36,7 @@ DD_I2C_ERROR_DATA_TYPE DD_I2C_C::error_s;
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-void DD_I2C_C::init( void )
+DD_I2C_ERROR_DATA_TYPE* DD_I2C_C::init( void )
 {
     i2c_config_t dd_i2c_if_config_s;
 
@@ -56,6 +56,8 @@ void DD_I2C_C::init( void )
                                          0U,
                                          0U,
                                          0U ) );
+
+    return &DD_I2C_C::error_s;
 }
 
 BOOLEAN DD_I2C_C::read_single( U8  device_addr_u8,
@@ -487,11 +489,3 @@ DD_I2C_ERROR_INFO_TYPE* DD_I2C_C::get_last_error( void )
 
     return p_error_info_s;
 }
-
-
-DD_I2C_ERROR_DATA_TYPE* DD_I2C_C::get_error_database( void )
-{
-    return &error_s;
-}
-
-

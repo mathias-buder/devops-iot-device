@@ -42,7 +42,7 @@ class DLG_C {
   private:
   public:
     static void init( void );
-    static void main( LOG_DATA_IN_TYPE &dlg_data_in_s );
+    static void main( const LOG_DATA_IN_TYPE &dlg_data_in_s );
 };
 
 #endif /* DLG_H_ */
