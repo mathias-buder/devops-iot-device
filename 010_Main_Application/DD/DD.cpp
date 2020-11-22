@@ -38,35 +38,6 @@
 DD_DATA_OUT_TYPE DD_C::dd_data_out_s;
 
 /*********************************************************************/
-/*      MCPWM                                                        */
-/*********************************************************************/
-
-const DD_MCPWM_CONFIG_TYPE dd_mcpwm_cfg_s = {
-
-        /* DD_MCPWM_CHANNEL_TYPE */
-        {
-                               /* PWM Unit          UNIT I/O Signal    I/O Pin          Timer             PWM Operator      Operation Mode        Duty Cycle */
-    #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-            /* CHANNEL_1 */  {    MCPWM_UNIT_0,     MCPWM0A,           GPIO_NUM_14,     MCPWM_TIMER_0,    MCPWM_OPR_A,    { DD_MCPWM_MODE_OFF,    0.0F }   },  /*!< Shared with JTAG pin: TMS (14) */
-    #endif
-            /* CHANNEL_2 */  {    MCPWM_UNIT_0,     MCPWM0B,           GPIO_NUM_27,     MCPWM_TIMER_0,    MCPWM_OPR_B,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-            /* CHANNEL_3 */  {    MCPWM_UNIT_0,     MCPWM1A,           GPIO_NUM_32,     MCPWM_TIMER_1,    MCPWM_OPR_A,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-            /* CHANNEL_4 */  {    MCPWM_UNIT_0,     MCPWM1B,           GPIO_NUM_33,     MCPWM_TIMER_1,    MCPWM_OPR_B,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-            /* CHANNEL_5 */  {    MCPWM_UNIT_0,     MCPWM2A,           GPIO_NUM_26,     MCPWM_TIMER_2,    MCPWM_OPR_A,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-            /* CHANNEL_6 */  {    MCPWM_UNIT_0,     MCPWM2B,           GPIO_NUM_25,     MCPWM_TIMER_2,    MCPWM_OPR_B,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-    #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-            /* CHANNEL_7 */  {    MCPWM_UNIT_1,     MCPWM0A,           GPIO_NUM_13,     MCPWM_TIMER_0,    MCPWM_OPR_A,    { DD_MCPWM_MODE_OFF,    0.0F }   },  /*!< Shared with JTAG pin: TCK (13) */
-            /* CHANNEL_8 */  {    MCPWM_UNIT_1,     MCPWM0B,           GPIO_NUM_12,     MCPWM_TIMER_0,    MCPWM_OPR_B,    { DD_MCPWM_MODE_OFF,    0.0F }   },  /*!< Shared with JTAG pin: TDI (12) */
-            /* CHANNEL_9 */  {    MCPWM_UNIT_1,     MCPWM1A,           GPIO_NUM_15,     MCPWM_TIMER_1,    MCPWM_OPR_A,    { DD_MCPWM_MODE_OFF,    0.0F }   },  /*!< Shared with JTAG pin: TDO (15) */
-    #endif
-            /* CHANNEL_10 */ {    MCPWM_UNIT_1,     MCPWM1B,           GPIO_NUM_2,      MCPWM_TIMER_1,    MCPWM_OPR_B,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-            /* CHANNEL_11 */ {    MCPWM_UNIT_1,     MCPWM2A,           GPIO_NUM_0,      MCPWM_TIMER_2,    MCPWM_OPR_A,    { DD_MCPWM_MODE_OFF,    0.0F }   },
-            /* CHANNEL_12 */ {    MCPWM_UNIT_1,     MCPWM2B,           GPIO_NUM_4,      MCPWM_TIMER_2,    MCPWM_OPR_B,    { DD_MCPWM_MODE_OFF,    0.0F }   }
-        }
-};
-
-
-/*********************************************************************/
 /*      TMP-102                                                      */
 /*********************************************************************/
 DD_TMP_102_C dd_tmp_102_A( 0x49 );
@@ -114,8 +85,8 @@ DD_MAX_30102_CONFIG_TYPE dd_max_30102_cfg_s = {
 void DD_C::init( void )
 {
     DD_SD_C::init();                                                                       /*!< Initialize SD card driver */
+    DD_MCPWM_C::init();                                                                    /*!< Initialize MCPWM device driver with default configuration */
     DD_C::dd_data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                         /*!< Initialize I2C device driver */
-    DD_MCPWM_C::init( &dd_mcpwm_cfg_s );                                                   /*!< Initialize MCPWM device driver */
     DD_C::dd_data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                         /*!< Initialize ADC device driver */
     DD_C::dd_data_out_s.p_icm_20600_data_out_s = DD_ICM_20600_C::init();                   /*!< Initialize ICM-2600 motion subsystem */
     DD_C::dd_data_out_s.p_max_30102_data_out_s = dd_max_30102.init( &dd_max_30102_cfg_s ); /*!< Initialize MAX-30102 HR+SpO2 subsystem */

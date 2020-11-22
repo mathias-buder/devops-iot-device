@@ -131,8 +131,8 @@ typedef struct DD_MCPWM_DATA_IN_TYPE_TAG
 class DD_MCPWM_C {
 
   private:
-    static const mcpwm_config_t         timer_cfg_s;
-    static const DD_MCPWM_CHANNEL_TYPE* p_channel_cfg_s;
+    static const mcpwm_config_t timer_cfg_s;
+    static DD_MCPWM_CONFIG_TYPE unit_cfg_s;
 
   public:
     /**
@@ -148,11 +148,19 @@ class DD_MCPWM_C {
 
     /**
    * @details This function initialized the MCPWM device
+   *          with its default configuration.
+   * @return TRUE in case no error was reported during
+   *              MCPWM module configuration
+   */
+    static BOOLEAN init( void );
+
+    /**
+   * @details This function initialized the MCPWM device
    * @param[in] Pointer to global configuration structure
    * @return TRUE in case no error was reported during
    *              MCPWM module configuration
    */
-    static BOOLEAN init( const DD_MCPWM_CONFIG_TYPE* const p_config_s );
+    static BOOLEAN init( DD_MCPWM_CONFIG_TYPE &config_s );
 
     /**
    * @details This function initialized the MCPWM device
