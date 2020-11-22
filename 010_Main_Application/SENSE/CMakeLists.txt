@@ -11,17 +11,9 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-idf_component_register(SRCS "Config/sense_hr_cfg.c"
-                            "Config/sense_mtn_cfg.c"
-                            "Config/sense_spo2_cfg.c"
-                            "Config/sense_ts_cfg.c"
-                            "Core/sense_database.c"
-                            "Core/sense_ts.c"
-                            "Core/sense_hr.c"
-                            "Core/sense_spo2.c"
-                            "Interface/sense_hr_if.c"
-                            "Interface/sense_mtn_if.c"
-                            "Interface/sense_spo2_if.c"
-                            "Interface/sense_ts_if.c"
-                            "SENSE.c"
+idf_component_register(SRCS #"sense_hr.cpp"
+                            #"sense_mtn.cpp"
+                           # "sense_spo2.cpp"
+                            "sense_ts.cpp"
+                            "SENSE.cpp"
                        INCLUDE_DIRS ".")

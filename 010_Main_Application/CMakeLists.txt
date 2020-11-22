@@ -20,9 +20,8 @@ cmake_minimum_required(VERSION 3.5)
 set(EXTRA_COMPONENT_DIRS 
                          "OS" 
                          "DLG"
-                      #   "TS"
                          "DD"
-                      #   "SENSE"
+                         "SENSE"
                      #    "VE"
                          "UTIL"
                          )

@@ -11,21 +11,33 @@
 
         (c) SEWELA 2020
 
-        @file sense_mtn_cfg.h
+        @file SENSE.c
         @details Some detailed description
 
 *********************************************************************/
-#ifndef SENSE_CONFIG_MTN_CFG_H_
-#define SENSE_CONFIG_MTN_CFG_H_
 
-/*************************************************************/
-/*      INCLUDES                                             */
-/*************************************************************/
+/*********************************************************************/
+/*      INCLUDES                                                     */
+/*********************************************************************/
+#include <stdio.h>
+#include <string.h>
+
+#include "esp_log.h"
+
+#include "SENSE.h"
 
 
-/*************************************************************/
-/*      GLOBAL VARIABLES                                     */
-/*************************************************************/
+SENSE_TS_C sense_ts_A;
 
 
-#endif /* SENSE_CONFIG_MTN_CFG_H_ */
+void sense_init(void)
+{
+    sense_ts_A.init();
+}
+
+
+
+void sense_main(void)
+{
+    //sense_ts_A.main()
+}

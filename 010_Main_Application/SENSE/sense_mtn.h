@@ -11,32 +11,53 @@
 
         (c) SEWELA 2020
 
-        @file sense_ts_cfg.h
+        @file sense_mtn.h
         @details Some detailed description
 
 *********************************************************************/
-#ifndef SENSE_CONFIG_TS_CFG_H_
-#define SENSE_CONFIG_TS_CFG_H_
+#ifndef SENSE_CORE_MTN_H_
+#define SENSE_CORE_MTN_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../../types.h"
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-
-/* Log message TAG string */
-#define SENSE_TS_LOG_MSG_TAG              "SENSE_TS"
+#include "sense_types.h"
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
 /*************************************************************/
-extern F32 sense_ts_adc_alpha_filter_coeff_a_f32;
-extern F32 sense_ts_adc_alpha_beta_filter_coeff_a_f32;
-extern F32 sense_ts_adc_alpha_beta_filter_coeff_b_f32;
-extern F32 sense_ts_min_touch_conf_level_f32;
-extern F32 sense_ts_min_touch_hyst_conf_level_f32;
 
-#endif /* SENSE_CONFIG_TS_CFG_H_ */
+/**
+ * @brief   ICM-20600 Output Interface Data Structure
+ * @details ICM-20600 Output Interface Data Structure gathers all required
+            motion information such as pitch, roll, yaw, ...
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_MTN_QUATERNION_TAG
+{
+    F32 Q1_f32;
+    F32 Q2_f32;
+    F32 Q3_f32;
+    F32 Q4_f32;
+} SENSE_MTN_QUATERNION;
+
+
+/**
+ * @brief   ICM-20600 Output Interface Data Structure
+ * @details ICM-20600 Output Interface Data Structure gathers all required
+            motion information such as pitch, roll, yaw, ...
+ * @ingroup SenseStructures
+ */
+typedef struct SENSE_MTN_DATA_TAG
+{
+    SENSE_MTN_QUATERNION Quaternion_s;  /**< @details Acceleration raw data */
+} SENSE_MTN_DATA;
+
+/*************************************************************/
+/*      PROTOTYPES                                           */
+/*************************************************************/
+void sense_mtn_init( void );
+void sense_mtn_main( void );
+
+
+#endif /* SENSE_CORE_MTN_H_ */

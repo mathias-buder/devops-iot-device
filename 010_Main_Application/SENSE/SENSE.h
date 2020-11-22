@@ -21,11 +21,8 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/sense_hr_if.h"
-#include "Interface/sense_mtn_if.h"
-#include "Interface/sense_spo2_if.h"
-#include "Interface/sense_ts_if.h"
-#include "Interface/sense_public_types.h"
+#include "sense_ts.h"
+
 
 /*********************************************************************/
 /*   FUNCTION PROTOTYPES                                             */
