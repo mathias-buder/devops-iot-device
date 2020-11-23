@@ -8,28 +8,38 @@
         Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-        @file ve_public_types.h
-        @details ...
+        @file ve_grid.h
+        @details Some detailed description
 
         (c) SEWELA 2020
 
 *********************************************************************/
 
-#ifndef VE_PUBLIC_TYPES_H_
-#define VE_PUBLIC_TYPES_H_
+#ifndef VE_GRID_H_
+#define VE_GRID_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../../DD/DD.h"
+#include "../types.h"
+
 
 /*************************************************************/
-/*                        VE_GRID                            */
+/*      COMPILE TIME CONFIGURATION                           */
 /*************************************************************/
+#define VE_GRID_LOG_MSG_TAG              "VE_GRID"
+
+
 
 /*************************************************************/
-/*                      ENUMERATORS                          */
+/*      GLOBAL DEFINES                                       */
 /*************************************************************/
+
+
+
+/*************************************************************
+*       ENUMERATORS                                          *
+*************************************************************/
 /**
  * @details enumerator of ...
  */
@@ -48,8 +58,9 @@ typedef enum VE_GRID_VIBRATOR_TAG
     VE_GRID_VIBRATOR_SIZE
 } VE_GRID_VIBRATOR;
 
+
 /*************************************************************/
-/*                      STRUCTURES                           */
+/*      STRUCTURES                                           */
 /*************************************************************/
 typedef struct VE_GRID_VIRBATOR_TYPE_TAG
 {
@@ -61,17 +72,51 @@ typedef struct VE_GRID_VIRBATOR_TYPE_TAG
     F32                    duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
 } VE_GRID_VIRBATOR_TYPE;
 
+
+typedef struct VE_GRID_CONFIG_TYPE_TAG
+{
+    VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
+
+} VE_GRID_CONFIG_TYPE;
+
+
 /**
  * @brief   Vibration Engine Grid Output Interface Data Structure
  * @details Data structure that holds all data provided by the Vibration
  *          Engine Grid module.
  * @ingroup VibrationEngineStructures
  */
-typedef struct VE_GRID_DATA_TYPE_TAG
+typedef struct VE_GRID_DATA_IN_TYPE_TAG
 {
     VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
 
-} VE_GRID_DATA_TYPE;
+} VE_GRID_DATA_IN_TYPE;
 
-#endif /* VE_PUBLIC_TYPES_H_ */
+/*************************************************************/
+/*      CLASS DEFINITION                                     */
+/*************************************************************/
 
+class VE_GRID_C {
+  private:
+  public:
+    /**
+         * @details Default constructor
+         */
+    VE_GRID_C( void );
+
+    /**
+         * @details Default destructor
+         */
+    ~VE_GRID_C();
+
+    void init( void );
+    void main( void );
+};
+
+/*************************************************************/
+/*      PROTOTYPES                                           */
+/*************************************************************/
+extern BOOLEAN ve_grid_init( void );
+extern void    ve_grid_main( void );
+
+#endif /* VE_GRID_H_ */
