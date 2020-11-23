@@ -15,18 +15,35 @@
         @details Some detailed description
 
 *********************************************************************/
-#ifndef SENSE_CORE_MTN_H_
-#define SENSE_CORE_MTN_H_
+#ifndef SENSE_MTN_H_
+#define SENSE_MTN_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "sense_types.h"
+#include "../types.h"
 
 /*************************************************************/
-/*      GLOBAL VARIABLES                                     */
+/*      COMPILE TIME CONFIGURATION                           */
+/*************************************************************/
+#define SENSE_MTN_LOG_MSG_TAG              "SENSE_MTN"
+
+
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
 /*************************************************************/
 
+
+
+/*************************************************************
+*       ENUMERATORS                                          *
+*************************************************************/
+
+
+
+/*************************************************************/
+/*      STRUCTURES                                           */
+/*************************************************************/
 /**
  * @brief   ICM-20600 Output Interface Data Structure
  * @details ICM-20600 Output Interface Data Structure gathers all required
@@ -48,16 +65,42 @@ typedef struct SENSE_MTN_QUATERNION_TAG
             motion information such as pitch, roll, yaw, ...
  * @ingroup SenseStructures
  */
-typedef struct SENSE_MTN_DATA_TAG
+typedef struct SENSE_MTN_DATA_OUT_TAG
 {
     SENSE_MTN_QUATERNION Quaternion_s;  /**< @details Acceleration raw data */
-} SENSE_MTN_DATA;
+} SENSE_MTN_OUT_DATA;
+
 
 /*************************************************************/
-/*      PROTOTYPES                                           */
+/*      CLASS DEFINITION                                     */
 /*************************************************************/
-void sense_mtn_init( void );
-void sense_mtn_main( void );
+class SENSE_MTN_C {
+  private:
 
+    BOOLEAN quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
+                               F32                   accel_x_f32,
+                               F32                   accel_y_f32,
+                               F32                   accel_z_f32,
+                               F32                   gyro_x_f32,
+                               F32                   gyro_y_f32,
+                               F32                   gyro_z_f32,
+                               F32                   dt_f32,
+                               F32                   zeta_f32,
+                               F32                   beta_f32 );
+
+  public:
+    /**
+       * @details Default constructor
+       */
+    SENSE_MTN_C( void );
+
+    /**
+       * @details Default destructor
+       */
+    ~SENSE_MTN_C();
+
+    void init( void );
+    void main( void );
+};
 
 #endif /* SENSE_CORE_MTN_H_ */

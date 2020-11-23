@@ -11,8 +11,8 @@
 
         (c) SEWELA 2020
 
-        @file sense_ts.h
-        @details Some detailed description
+        @file sense_ts.cpp
+        @details Contains all touch sensor functions
 
 *********************************************************************/
 

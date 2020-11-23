@@ -11,9 +11,9 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-idf_component_register(SRCS #"sense_hr.cpp"
-                            #"sense_mtn.cpp"
-                           # "sense_spo2.cpp"
+idf_component_register(SRCS "sense_hr.cpp"
+                            "sense_mtn.cpp"
+                            "sense_spo2.cpp"
                             "sense_ts.cpp"
                             "SENSE.cpp"
                        INCLUDE_DIRS ".")
