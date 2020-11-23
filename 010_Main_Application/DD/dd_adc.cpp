@@ -71,14 +71,14 @@ void DD_ADC_C::main( void )
     DD_ADC_C::data_out_s.raw_sample_u16 = ( U16 )( accumulated_raw_value_u32 / DD_ADC_NUM_SAMPLES_AVG );
 
     /* Calculate corresponding voltage level */
-    DD_ADC_C::data_out_s.voltage_u16 = esp_adc_cal_raw_to_voltage( DD_ADC_C::data_out_s.raw_sample_u16, &DD_ADC_C::adc_characteristics_s );
+    DD_ADC_C::data_out_s.voltage_mV_u16 = esp_adc_cal_raw_to_voltage( DD_ADC_C::data_out_s.raw_sample_u16, &DD_ADC_C::adc_characteristics_s );
 
     /* Calculate ADC level */
     DD_ADC_C::data_out_s.raw_level_f32 = (F32) ( (F32) DD_ADC_C::data_out_s.raw_sample_u16 / (F32) DD_ADC_FULL_SCALE_VALUE_12BIT );
 
 
     ESP_LOGD( DD_ADC_LOG_MSG_TAG, "CVal: %i, CVol: %i mV, CLvl: %0.3f", DD_ADC_C::data_out_s.raw_sample_u16,
-                                                                        DD_ADC_C::data_out_s.voltage_u16,
+                                                                        DD_ADC_C::data_out_s.voltage_mV_u16,
                                                                         DD_ADC_C::data_out_s.raw_level_f32 );
 }
 

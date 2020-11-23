@@ -35,7 +35,6 @@ LOG_DATA_IN_TYPE    log_data_in_s;
 SENSE_DATA_IN_TYPE  sense_data_in_s;
 SENSE_DATA_OUT_TYPE sense_data_out_s;
 
-
 void os_collect_sense_data_in( const DD_DATA_OUT_TYPE& dd_data_out_s,
                                SENSE_DATA_IN_TYPE&     sense_data_in_s );
 
@@ -43,7 +42,6 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
                              const DD_DATA_IN_TYPE&     dd_data_in_s,
                              const DD_DATA_OUT_TYPE&    dd_data_out_s,
                              const SENSE_DATA_OUT_TYPE& sense_data_out_s );
-
 
 extern "C" void app_main()
 {
@@ -100,8 +98,8 @@ extern "C" void app_main()
 void os_collect_sense_data_in( const DD_DATA_OUT_TYPE& dd_data_out_s,
                                SENSE_DATA_IN_TYPE&     sense_data_in_s )
 {
-    sense_data_in_s.ts_data_in_s.adc_raw_level_f32 = dd_data_out_s.p_adc_data_out_s->raw_level_f32;
-    sense_data_in_s.ts_data_in_s.adc_voltage_mV_u16 = dd_data_out_s.p_adc_data_out_s->voltage_u16;
+    sense_data_in_s.ts_data_in_s.adc_raw_level_f32  = dd_data_out_s.p_adc_data_out_s->raw_level_f32;
+    sense_data_in_s.ts_data_in_s.adc_voltage_mV_u16 = dd_data_out_s.p_adc_data_out_s->voltage_mV_u16;
 }
 
 
@@ -156,7 +154,7 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
     {
         log_data_in_s.log_data_in_s.dd_adc_raw_data_u16          = dd_data_out_s.p_adc_data_out_s->raw_sample_u16;
         log_data_in_s.log_data_in_s.dd_adc_previous_raw_data_u16 = dd_data_out_s.p_adc_data_out_s->previous_raw_sample_u16;
-        log_data_in_s.log_data_in_s.dd_adc_voltage_u16           = dd_data_out_s.p_adc_data_out_s->voltage_u16;
+        log_data_in_s.log_data_in_s.dd_adc_voltage_u16           = dd_data_out_s.p_adc_data_out_s->voltage_mV_u16;
         log_data_in_s.log_data_in_s.dd_adc_raw_level_f32         = dd_data_out_s.p_adc_data_out_s->raw_level_f32;
         // log_data_in_s.log_data_in_s.dd_adc_filtered_level_f32    = dd_data_out_s.p_adc_data_out_s->filtered_level_f32; -> Removed from data structure, filtering will take place in SENSE domain
     }

@@ -62,10 +62,9 @@ typedef struct DD_ADC_DATA_OUT_TYPE_TAG
 {
     U16 raw_sample_u16;          /**< @details Current raw 12-bit ADC sample @unit [LSB] */
     U16 previous_raw_sample_u16; /**< @details Previous raw 12-bit ADC sample @unit [LSB] */
-    U16 voltage_u16;             /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
+    U16 voltage_mV_u16;          /**< @details Actual voltage measured at the ADC input pin @unit [mV] */
     F32 raw_level_f32;           /**< @details ADC level where Full-Scale (4095) is mapped to 1.0 and 0 is mapped to 0.0 */
 } DD_ADC_DATA_OUT_TYPE;
-
 
 /*************************************************************/
 /*      CLASS DEFINITION                                     */
