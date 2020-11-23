@@ -28,13 +28,10 @@
 /*************************************************************/
 /* Log message TAG string */
 #define DD_ICM_20600_LOG_MSG_TAG                    "DD_ICM_20600"           /**< @details Domain log message tag string */
-#define DD_ICM_20600_I2C_ADDR                       0x68                     /**< addr-pin low (GND): 0x68, addr-pin high (VCC): 0x69 */
 #define DD_ICM_20600_DEVICE_ID                      0x73                     /**< Unique device id */
 #define DD_ICM_20600_A_SCALSE                       DD_ICM_20600_AFS_2G      /**< Accelerometer scale @unit G*/
 #define DD_ICM_20600_G_SCALSE                       DD_ICM_20600_GFS_250DPS  /**< Gyroscope scale @unit Deg/s */
 #define DD_ICM_20600_ALLOWED_FAC_DEVIATION          ( 1.0F )                 /**< Maximum allowed factory devision from factory calibration @unit % */
-
-
 
 
 /*************************************************************/
@@ -276,14 +273,26 @@ typedef enum DD_ICM_20600_STATE_TAG
     DD_ICM_20600_STATE_SIZE       /**< @details Maximum number of states */
 } DD_ICM_20600_STATE;
 
+/**
+ * @details Error states
+ */
+typedef enum DD_ICM_20600_ERROR_TAG
+{
+    DD_ICM_20600_ERROR_NONE = 0U, /**< @details No error present */
+    DD_ICM_20600_ERROR_INIT,      /**< @details Error occurred during initialization */
+    DD_ICM_20600_ERROR_SELF_TEST, /**< @details Error occurred during self-test */
+    DD_ICM_20600_ERROR_CALIB,     /**< @details Error occurred during calibration */
+    DD_ICM_20600_ERROR_RUNTIME    /**< @details Error occurred during normal runtime */
+} DD_ICM_20600_ERROR;
+
 /*************************************************************
 *      STRUCTURES                                            *
 *************************************************************/
 
 /**
  * @brief   ICM-20600 Output Interface Data Structure
- * @details ICM-20600 Output Interface Data Structure gathers all required
-            motion information such as pitch, roll, yaw, ...
+ * @details ICM-20600 Output Interface Data Structure contains all data
+            provided by ICM-20600.
  * @ingroup DriverStructures
  */
 typedef struct DD_ICM_20600_DATA_OUT_TYPE_TAG
@@ -302,9 +311,9 @@ typedef struct DD_ICM_20600_DATA_OUT_TYPE_TAG
     BOOLEAN            is_calibrated_b;                                      /**< @details Flag to indicate whether the device is calibrated or not */
     F32                factory_trim_vf32[DD_ICM_20600_SELF_TEST_SIZE];       /**< @details Factory trim values */
     F32                fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_SIZE]; /**< @details Deviation from factory trim values */
-    DD_ICM_20600_STATE state_s;                                              /**< @details Main device state */
+    DD_ICM_20600_STATE state_e;                                              /**< @details Main device state */
+    DD_ICM_20600_ERROR error_e;                                              /**< @details Main error state */
 } DD_ICM_20600_DATA_OUT_TYPE;
-
 
 /*************************************************************/
 /*      CLASS DEFINITION                                     */
@@ -313,76 +322,98 @@ typedef struct DD_ICM_20600_DATA_OUT_TYPE_TAG
 class DD_ICM_20600_C {
 
   private:
-    static DD_ICM_20600_DATA_OUT_TYPE data_out_s; /**< @details Global device output data structure */
+    DD_ICM_20600_DATA_OUT_TYPE data_out_s;  /**< @details Global device output data structure */
+    U8                         i2c_addr_u8; /**< @details I2C device address */
 
     /**
      * @details This function performs a device soft reset
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN soft_reset( void );
+    BOOLEAN soft_reset( void );
 
     /**
      * @details This function reads the device id
-     * @param[in] p_data_u8 Pointer of variable to store the id
+     * @param[in] data_u8 Reference to variable to store the id
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN get_device_id( U8* p_data_u8 );
+    BOOLEAN get_device_id( U8& data_u8 );
 
     /**
      * @details This function configures the full-scale range of the accelerometer
      * @param[in] scale_e Accelerometer full-scale range
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
+    BOOLEAN set_accel_full_scale( const DD_ICM_20600_AFS scale_e );
 
     /**
      * @details This function configures the full-scale range of the gyroscope
      * @param[in] scale_e gyroscope full-scale range
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
+    BOOLEAN set_gyro_full_scale( const DD_ICM_20600_GFS scale_e );
 
     /**
      * @details This function reads the device die-temperature
-     * @param[in] p_data_u8 Pointer of variable to store die-temperature
+     * @param[in] p_data_u8 Reference to variable to store die-temperature
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN get_temperature( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+    BOOLEAN get_temperature( DD_ICM_20600_DATA_OUT_TYPE& data_s );
 
     /**
      * @details This function reads the raw accelerometer data of all three axis
-     * @param[in] p_data_u8 Pointer of variable to store the raw accelerometer data
+     * @param[in] data_s Reference to variable to store the raw accelerometer data
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN get_accel_data_raw( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+    BOOLEAN get_accel_data_raw( DD_ICM_20600_DATA_OUT_TYPE& data_s );
 
     /**
      * @details This function reads the raw gyroscope data of all three axis
-     * @param[in] p_data_u8 Pointer of variable to store the raw gyroscope data
+     * @param[in] data_u8 Reference to variable to store the raw gyroscope data
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN get_gyro_data_raw( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+    BOOLEAN get_gyro_data_raw( DD_ICM_20600_DATA_OUT_TYPE& data_s );
 
     /**
      * @details This function runs a self-test algorithm that will test the accelerometer
      *          and gyroscope functionality.
-     * @param[in] p_data_u8 Pointer of variable to store detailed self-test results
+     * @param[in] data_s Reference to variable to store detailed self-test results
      * @return TRUE if self-test has passed, FALSE otherwise
      */
-    static BOOLEAN self_test( DD_ICM_20600_DATA_OUT_TYPE* p_data_s );
+    BOOLEAN self_test( DD_ICM_20600_DATA_OUT_TYPE& data_s );
 
     /**
      * @details This function runs a calibration algorithm that will gather
      *          at-rest compensation values from accelerometer gyroscope.
-     * @param[in] p_gyro_bias_f32 Pointer of variable to store gyroscope compensation values
-     * @param[in] p_accel_bias_f32 Pointer of variable to store accelerometer compensation values
+     * @param[in] gyro_bias_f32 Reference to variable to store gyroscope compensation values
+     * @param[in] accel_bias_f32 Reference to variable to store accelerometer compensation values
      * @return TRUE if no I2C transmission error occurred, FALSE otherwise
      */
-    static BOOLEAN calibrate( F32* p_gyro_bias_f32, F32* p_accel_bias_f32 );
+    BOOLEAN calibrate( F32 ( &p_gyro_bias_f32 )[3U], F32 ( &p_accel_bias_f32 )[3U] );
 
   public:
-    static DD_ICM_20600_DATA_OUT_TYPE* init( void );
-    static void                        main( void );
+    /**
+     * @details Default constructor
+     * @param[in] i2c_addr_u8 I2C device address
+     */
+    DD_ICM_20600_C( U8 i2c_addr_u8 );
+
+    /**
+     * @details Default destructor
+     */
+    ~DD_ICM_20600_C();
+
+    /**
+     * @details This function initialized the ICM-20600 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    DD_ICM_20600_DATA_OUT_TYPE* init( void );
+
+    /**
+     * @details This is the drivers main function that shall be called
+     * cyclicly and will provide all data through DD_INA_219_DATA_OUT_TYPE
+     */
+    void main( void );
 };
 
 #endif /* DD_ICM_20600_H_ */

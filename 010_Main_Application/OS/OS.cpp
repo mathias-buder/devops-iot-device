@@ -118,44 +118,38 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
     log_data_in_s.log_data_in_s.dd_i2c_device_addr_u8                = dd_data_out_s.p_i2c_error_out_s->error_info_vs[0U].device_addr_u8;
     log_data_in_s.log_data_in_s.dd_i2c_register_addr_u8              = dd_data_out_s.p_i2c_error_out_s->error_info_vs[0U].register_addr_u8;
 
+    /* Collect ICM-20600 related data */
+    log_data_in_s.log_data_in_s.dd_icm_20600_accel_raw_data_x_s16    = dd_data_out_s.p_icm_20600_data_out_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X];
+    log_data_in_s.log_data_in_s.dd_icm_20600_accel_raw_data_y_s16    = dd_data_out_s.p_icm_20600_data_out_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y];
+    log_data_in_s.log_data_in_s.dd_icm_20600_accel_raw_data_z_s16    = dd_data_out_s.p_icm_20600_data_out_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z];
+    log_data_in_s.log_data_in_s.dd_icm_20600_gyro_raw_data_x_s16     = dd_data_out_s.p_icm_20600_data_out_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X];
+    log_data_in_s.log_data_in_s.dd_icm_20600_gyro_raw_data_y_s16     = dd_data_out_s.p_icm_20600_data_out_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y];
+    log_data_in_s.log_data_in_s.dd_icm_20600_gyro_raw_data_z_s16     = dd_data_out_s.p_icm_20600_data_out_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z];
+    log_data_in_s.log_data_in_s.dd_icm_20600_temperature_raw_u16     = dd_data_out_s.p_icm_20600_data_out_s->temperature_raw_u16;
+    log_data_in_s.log_data_in_s.dd_icm_20600_temperature_deg_f32     = dd_data_out_s.p_icm_20600_data_out_s->temperature_deg_f32;
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_xa_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_XA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_ya_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_YA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_za_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_ZA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_xg_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_XG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_yg_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_YG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_zg_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_ZG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_xa_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_ya_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_za_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_xg_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_yg_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_zg_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_xa_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_XA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_ya_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_YA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_za_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZA];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_xg_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_XG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_yg_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_YG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_zg_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZG];
+    log_data_in_s.log_data_in_s.dd_icm_20600_chip_id_u8              = dd_data_out_s.p_icm_20600_data_out_s->device_id_u8;
+    log_data_in_s.log_data_in_s.dd_icm_20600_dev_state_u8            = (U8) dd_data_out_s.p_icm_20600_data_out_s->state_e;
+    log_data_in_s.log_data_in_s.dd_icm_20600_is_calibrated_u8        = dd_data_out_s.p_icm_20600_data_out_s->is_calibrated_b;
+    log_data_in_s.log_data_in_s.dd_icm_20600_self_test_passed_u8     = dd_data_out_s.p_icm_20600_data_out_s->self_test_passed_b;
 
-    if ( NULL != dd_data_out_s.p_icm_20600_data_out_s )
-    {
-        log_data_in_s.log_data_in_s.dd_icm_20600_accel_raw_data_x_s16    = dd_data_out_s.p_icm_20600_data_out_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_X];
-        log_data_in_s.log_data_in_s.dd_icm_20600_accel_raw_data_y_s16    = dd_data_out_s.p_icm_20600_data_out_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Y];
-        log_data_in_s.log_data_in_s.dd_icm_20600_accel_raw_data_z_s16    = dd_data_out_s.p_icm_20600_data_out_s->accel_data_raw_s16[DD_ICM_20600_ACCEL_Z];
-        log_data_in_s.log_data_in_s.dd_icm_20600_gyro_raw_data_x_s16     = dd_data_out_s.p_icm_20600_data_out_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_X];
-        log_data_in_s.log_data_in_s.dd_icm_20600_gyro_raw_data_y_s16     = dd_data_out_s.p_icm_20600_data_out_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Y];
-        log_data_in_s.log_data_in_s.dd_icm_20600_gyro_raw_data_z_s16     = dd_data_out_s.p_icm_20600_data_out_s->gyro_data_raw_s16[DD_ICM_20600_GYRO_Z];
-        log_data_in_s.log_data_in_s.dd_icm_20600_temperature_raw_u16     = dd_data_out_s.p_icm_20600_data_out_s->temperature_raw_u16;
-        log_data_in_s.log_data_in_s.dd_icm_20600_temperature_deg_f32     = dd_data_out_s.p_icm_20600_data_out_s->temperature_deg_f32;
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_xa_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_XA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_ya_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_YA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_za_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_ZA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_xg_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_XG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_yg_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_YG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_zg_u8         = dd_data_out_s.p_icm_20600_data_out_s->self_test_vu8[DD_ICM_20600_SELF_TEST_ZG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_xa_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_XA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_ya_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_YA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_za_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_xg_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_XG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_yg_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_YG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_zg_f32     = dd_data_out_s.p_icm_20600_data_out_s->factory_trim_vf32[DD_ICM_20600_SELF_TEST_ZG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_xa_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_XA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_ya_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_YA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_za_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZA];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_xg_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_XG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_yg_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_YG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_factory_trim_dev_zg_f32 = dd_data_out_s.p_icm_20600_data_out_s->fac_trim_deviation_vf32[DD_ICM_20600_SELF_TEST_ZG];
-        log_data_in_s.log_data_in_s.dd_icm_20600_chip_id_u8              = dd_data_out_s.p_icm_20600_data_out_s->device_id_u8;
-        log_data_in_s.log_data_in_s.dd_icm_20600_dev_state_u8            = (U8) dd_data_out_s.p_icm_20600_data_out_s->state_s;
-        log_data_in_s.log_data_in_s.dd_icm_20600_is_calibrated_u8        = dd_data_out_s.p_icm_20600_data_out_s->is_calibrated_b;
-        log_data_in_s.log_data_in_s.dd_icm_20600_self_test_passed_u8     = dd_data_out_s.p_icm_20600_data_out_s->self_test_passed_b;
-    }
-    else
-    {
-        /* Set all values to 0 */
-    }
 
 
     if ( NULL != dd_data_out_s.p_adc_data_out_s )
@@ -251,13 +245,9 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
     log_data_in_s.log_data_in_s.dd_mcpwm_ch_11_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s.pwm_cfg_s[DD_MCPWM_CHANNEL_11].duty_cycle_f32;
     log_data_in_s.log_data_in_s.dd_mcpwm_ch_12_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s.pwm_cfg_s[DD_MCPWM_CHANNEL_12].duty_cycle_f32;
 
-    if ( NULL != sense_data_out_s.p_ts_data_out_s )
-    {
-        /* SENSE */
-        log_data_in_s.log_data_in_s.sense_ts_alpha_filtered_adc_level_f32      = sense_data_out_s.p_ts_data_out_s->alpha_filtered_adc_level_f32;
-        log_data_in_s.log_data_in_s.sense_ts_alpha_beta_filtered_adc_level_f32 = sense_data_out_s.p_ts_data_out_s->alpha_beta_filtered_adc_level_f32;
-        ;
-        log_data_in_s.log_data_in_s.sense_ts_touch_confidence_f32     = sense_data_out_s.p_ts_data_out_s->touch_conf_s.confidence_f32;
-        log_data_in_s.log_data_in_s.sense_ts_touch_confidence_max_f32 = sense_data_out_s.p_ts_data_out_s->touch_conf_s.confidence_max_f32;
-    }
+    /* SENSE */
+    log_data_in_s.log_data_in_s.sense_ts_alpha_filtered_adc_level_f32      = sense_data_out_s.p_ts_data_out_s->alpha_filtered_adc_level_f32;
+    log_data_in_s.log_data_in_s.sense_ts_alpha_beta_filtered_adc_level_f32 = sense_data_out_s.p_ts_data_out_s->alpha_beta_filtered_adc_level_f32;
+    log_data_in_s.log_data_in_s.sense_ts_touch_confidence_f32              = sense_data_out_s.p_ts_data_out_s->touch_conf_s.confidence_f32;
+    log_data_in_s.log_data_in_s.sense_ts_touch_confidence_max_f32          = sense_data_out_s.p_ts_data_out_s->touch_conf_s.confidence_max_f32;
 }

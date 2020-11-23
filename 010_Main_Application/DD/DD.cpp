@@ -40,13 +40,13 @@ DD_DATA_OUT_TYPE DD_C::dd_data_out_s;
 /*********************************************************************/
 /*      TMP-102                                                      */
 /*********************************************************************/
-DD_TMP_102_C dd_tmp_102_A( 0x49 );
+DD_TMP_102_C dd_tmp_102_A( 0x49U );
 
 
 /*********************************************************************/
 /*      INA-219                                                      */
 /*********************************************************************/
-DD_INA_219_C dd_ina_219_A( 0x40, 0.1F );
+DD_INA_219_C dd_ina_219_A( 0x40U, 0.1F );
 
 DD_INA_219_CONFIG_TYPE dd_ina_219_cfg_s = {
     .shunt_voltage_range_e            = DD_INA_219_SHUNT_VOL_RANGE_40MV,
@@ -58,9 +58,9 @@ DD_INA_219_CONFIG_TYPE dd_ina_219_cfg_s = {
 
 
 /*********************************************************************/
-/*      MAX-30102                                                    */
+/*      ICM_20600                                                    */
 /*********************************************************************/
-DD_MAX_30102_C dd_max_30102( 0x57 );
+DD_MAX_30102_C dd_max_30102( 0x57U );
 
 DD_MAX_30102_CONFIG_TYPE dd_max_30102_cfg_s = {
     .mode_cfg_e                    = DD_MAX_30102_MODE_HR,
@@ -80,6 +80,11 @@ DD_MAX_30102_CONFIG_TYPE dd_max_30102_cfg_s = {
 
 
 /*********************************************************************/
+/*      MAX-30102                                                    */
+/*********************************************************************/
+DD_ICM_20600_C dd_icm_20600( 0x68U );
+
+/*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
 void DD_C::init( void )
@@ -88,7 +93,7 @@ void DD_C::init( void )
     DD_MCPWM_C::init();                                                                    /*!< Initialize MCPWM device driver with default configuration */
     DD_C::dd_data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                         /*!< Initialize I2C device driver */
     DD_C::dd_data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                         /*!< Initialize ADC device driver */
-    DD_C::dd_data_out_s.p_icm_20600_data_out_s = DD_ICM_20600_C::init();                   /*!< Initialize ICM-2600 motion subsystem */
+    DD_C::dd_data_out_s.p_icm_20600_data_out_s = dd_icm_20600.init();                   /*!< Initialize ICM-2600 motion subsystem */
     DD_C::dd_data_out_s.p_max_30102_data_out_s = dd_max_30102.init( &dd_max_30102_cfg_s ); /*!< Initialize MAX-30102 HR+SpO2 subsystem */
     DD_C::dd_data_out_s.p_ina_219_data_out_s   = dd_ina_219_A.init( &dd_ina_219_cfg_s );   /*!< Initialize INA-219 Current/Voltage/Power measuring subsystem */
     DD_C::dd_data_out_s.p_tmp_102_data_out_s   = dd_tmp_102_A.init();                      /*!< Initialize TMP-102 temperature sensor */
@@ -97,7 +102,7 @@ void DD_C::init( void )
 DD_DATA_OUT_TYPE DD_C::process_inputs( void )
 {
     DD_ADC_C::main();       /*!< Schedule ADC basic device driver */
-    DD_ICM_20600_C::main(); /*!< Schedule ICM-2600 motion subsystem */
+    dd_icm_20600.main(); /*!< Schedule ICM-2600 motion subsystem */
     dd_max_30102.main();    /*!< Schedule MAX-30102 HR+SpO2 subsystem */
     dd_ina_219_A.main();    /*!< Schedule INA-219 (A) Current/Voltage/Power measuring subsystem */
     dd_tmp_102_A.main();    /*!< Schedule TMP-102 (A) temperature sensor */
