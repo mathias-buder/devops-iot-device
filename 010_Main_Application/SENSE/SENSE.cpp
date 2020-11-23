@@ -27,17 +27,26 @@
 #include "SENSE.h"
 
 
-SENSE_TS_C sense_ts_A;
+/*************************************************************/
+/*      GLOBAL DEFINES                                       */
+/*************************************************************/
+#define SENSE_LOG_MSG_TAG       "SENSE"
 
+SENSE_DATA_OUT_TYPE SENSE_C::sense_data_out_s;
+SENSE_TS_C          sense_ts_A;
 
-void sense_init(void)
+/*********************************************************************/
+/*   FUNCTION DEFINITIONS                                            */
+/*********************************************************************/
+void SENSE_C::init( void )
 {
-    sense_ts_A.init();
+    SENSE_C::sense_data_out_s.p_ts_data_out_s = sense_ts_A.init();    /*!< Initialize Touch Sensor module */
 }
 
 
-
-void sense_main(void)
+SENSE_DATA_OUT_TYPE SENSE_C::main( SENSE_DATA_IN_TYPE& data_in_s )
 {
-    //sense_ts_A.main()
+    sense_ts_A.main( data_in_s.ts_data_in_s );  /*!< Schedule Touch Sensor module */
+
+    return SENSE_C::sense_data_out_s;
 }

@@ -99,7 +99,7 @@ class SENSE_TS_C {
 
   private:
     SENSE_TS_DATA_OUT_TYPE data_out_s;
-    F32                    xk_f32, vk_f32, rk_f32, xk_1, vk_1; /* Used for Alpha-Beta filter */
+    F32                    xk_f32, vk_f32, rk_f32, xk_1_f32, vk_1_f32; /* Used for Alpha-Beta filter */
     F32                    alpha_filter_coeff_a_f32;
     F32                    alpha_beta_filter_coeff_a_f32;
     F32                    alpha_beta_filter_coeff_b_f32;

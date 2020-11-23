@@ -15,8 +15,8 @@
         @details Some detailed description
 
 *********************************************************************/
-#ifndef SENSE_SENSE_H_
-#define SENSE_SENSE_H_
+#ifndef SENSE_H_
+#define SENSE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -24,10 +24,51 @@
 #include "sense_ts.h"
 
 
-/*********************************************************************/
-/*   FUNCTION PROTOTYPES                                             */
-/*********************************************************************/
-extern void sense_init( void );
-extern void sense_main( void );
+/*************************************************************
+*      STRUCTURES                                            *
+*************************************************************/
+/**
+ * @brief   Device Driver Input Structure
+ * @details Contains all data that is required by the Device Driver (DD) domain
+ * @ingroup DriverStructures
+ */
+typedef struct SENSE_DATA_IN_TYPE_TAG
+{
+    SENSE_TS_DATA_IN_TYPE ts_data_in_s;
+} SENSE_DATA_IN_TYPE;
 
-#endif /* SENSE_SENSE_H_ */
+/**
+ * @brief   Device Driver Output Data Structure
+ * @details Contains all data provided by the Device Driver (DD) domain
+ * @ingroup DriverStructures
+ */
+typedef struct SENSE_DATA_OUT_TYPE_TAG
+{
+    const SENSE_TS_DATA_OUT_TYPE* p_ts_data_out_s;      /**< @details Pointer to Touch Sensor data structure */
+} SENSE_DATA_OUT_TYPE;
+
+
+/*************************************************************/
+/*      CLASS DEFINITION                                     */
+/*************************************************************/
+class SENSE_C {
+
+  private:
+    static SENSE_DATA_OUT_TYPE sense_data_out_s; /**< @details Contains all data provided by the Device Driver (DD) domain */
+
+  public:
+    /**
+     * @details This function initialized the SENSE domain
+     */
+    static void init( void );
+
+    /**
+     * @details This is the SENSE main function that shall be called
+     * cyclicly and will provide all data through SENSE_DATA_OUT_TYPE
+     * @param[in] data_in_s Reference to input structure
+     * @return Copy of global domain output structure
+     */
+    static SENSE_DATA_OUT_TYPE main( SENSE_DATA_IN_TYPE &data_in_s );
+};
+
+#endif /* SENSE_H_ */

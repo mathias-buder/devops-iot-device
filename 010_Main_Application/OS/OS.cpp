@@ -26,18 +26,23 @@
 
 #include "../DD/DD.h"
 #include "../DLG/DLG.h"
-//#include "../SENSE/SENSE.h"
+#include "../SENSE/SENSE.h"
 //#include "../VE/VE.h"
 
-DD_DATA_OUT_TYPE dd_data_out_s;
-DD_DATA_IN_TYPE  dd_data_in_s;
+DD_DATA_OUT_TYPE    dd_data_out_s;
+DD_DATA_IN_TYPE     dd_data_in_s;
+LOG_DATA_IN_TYPE    log_data_in_s;
+SENSE_DATA_IN_TYPE  sense_data_in_s;
+SENSE_DATA_OUT_TYPE sense_data_out_s;
 
-LOG_DATA_IN_TYPE log_data_in_s;
 
-// SENSE_DATA_IN_TYPE
+void os_collect_sense_data_in( const DD_DATA_OUT_TYPE& dd_data_out_s,
+                               SENSE_DATA_IN_TYPE&     sense_data_in_s );
 
-
-void os_collect_dlg_data_in( LOG_DATA_IN_TYPE& log_data_in_s, const DD_DATA_IN_TYPE  &dd_data_in_s, const DD_DATA_OUT_TYPE& dd_data_out_s );
+void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
+                             const DD_DATA_IN_TYPE&     dd_data_in_s,
+                             const DD_DATA_OUT_TYPE&    dd_data_out_s,
+                             const SENSE_DATA_OUT_TYPE& sense_data_out_s );
 
 
 extern "C" void app_main()
@@ -45,11 +50,11 @@ extern "C" void app_main()
     /* Get current OS tick count */
     TickType_t initial_tick_cnt_u32 = xTaskGetTickCount();
 
-//    os_tm_init();   /* Initialize Global Time Module */
-//    os_wifi_init(); /* Initialize and connect to wifi network */
+//    os_tm_init();    /* Initialize Global Time Module */
+//    os_wifi_init();  /* Initialize and connect to wifi network */
     DD_C::init();      /* Initialize Device Driver Domain ( DD ) */
-//    sense_init();   /* Initialize Sensor Processing Domain ( SENSE ) */
-//    ve_init();      /* Initialize Vibration Engine Domain ( VE ) */
+    SENSE_C::init();   /* Initialize Sensor Processing Domain ( SENSE ) */
+//    ve_init();       /* Initialize Vibration Engine Domain ( VE ) */
     DLG_C::init();     /* Initialize Data Logging Domain( DLG ) */
 
     /***********************************************
@@ -60,32 +65,51 @@ extern "C" void app_main()
         /* Schedule every OS_MAIN_CYCLE_TIME_INCREMENT ms */
         vTaskDelayUntil( &initial_tick_cnt_u32, (TickType_t) OS_MAIN_CYCLE_TIME_INCREMENT );
 
-        dd_data_out_s = DD_C::process_inputs();      /* Get-and-Process all inputs ( DD ) */
+        //      os_tm_update(); /* Update Global Time Module */
 
-//       SENSE_DATA_IN_TYPE = map_dd_to_sense(DD_DATA_OUT_TYPE )
-//       sense_main(SENSE_DATA_IN_TYPE);   /* Schedule Sensor Processing Domain ( SENSE ) */
+        dd_data_out_s    = DD_C::process_inputs(); /* Get-and-Process all inputs ( DD ) */
 
-//       VE_DATA_IN_TYPE = map_dd_to_sense_ve(DD_DATA_OUT_TYPE, SENSE_DATA_OUT_TYPE)
-//       ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
+        /* Collected all data to be transfered into SENSE domain */
+        os_collect_sense_data_in( dd_data_out_s,
+                                  sense_data_in_s );
 
+        /* Schedule Sensor Processing Domain ( SENSE ) */
+        sense_data_out_s = SENSE_C::main( sense_data_in_s );
 
-//      DD_DATA_IN_TYPE = collect_dd_data_in(SENSE_DATA_OUT_TYPE)
+        //       VE_DATA_IN_TYPE = map_dd_to_sense_ve(DD_DATA_OUT_TYPE, SENSE_DATA_OUT_TYPE)
+        //       ve_main();      /* Schedule Vibration Engine Domain ( VE ) */
+
+        //      DD_DATA_IN_TYPE = collect_dd_data_in(SENSE_DATA_OUT_TYPE)
         DD_C::process_outputs( dd_data_in_s );
+
+
 
         /* Collected all data to be logged */
         os_collect_dlg_data_in( log_data_in_s,
                                 dd_data_in_s,
-                                dd_data_out_s);
+                                dd_data_out_s,
+                                sense_data_out_s );
 
-        DLG_C::main( log_data_in_s ); /* Schedule Data Logging Domain( DLG ) */
-
-//      os_tm_update(); /* Update Global Time Module */
+        /* Schedule Data Logging Domain( DLG ) */
+        DLG_C::main( log_data_in_s );
     }
 }
 
-void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&       log_data_in_s,
-                             const DD_DATA_IN_TYPE&  dd_data_in_s,
-                             const DD_DATA_OUT_TYPE& dd_data_out_s )
+
+
+void os_collect_sense_data_in( const DD_DATA_OUT_TYPE& dd_data_out_s,
+                               SENSE_DATA_IN_TYPE&     sense_data_in_s )
+{
+    sense_data_in_s.ts_data_in_s.adc_raw_level_f32 = dd_data_out_s.p_adc_data_out_s->raw_level_f32;
+    sense_data_in_s.ts_data_in_s.adc_voltage_mV_u16 = dd_data_out_s.p_adc_data_out_s->voltage_u16;
+}
+
+
+
+void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
+                             const DD_DATA_IN_TYPE&     dd_data_in_s,
+                             const DD_DATA_OUT_TYPE&    dd_data_out_s,
+                             const SENSE_DATA_OUT_TYPE& sense_data_out_s )
 {
     /* Collect I2C related data */
     log_data_in_s.log_data_in_s.dd_i2c_is_error_present_u8           = dd_data_out_s.p_i2c_error_out_s->is_present_b;
@@ -227,10 +251,13 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&       log_data_in_s,
     log_data_in_s.log_data_in_s.dd_mcpwm_ch_11_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s.pwm_cfg_s[DD_MCPWM_CHANNEL_11].duty_cycle_f32;
     log_data_in_s.log_data_in_s.dd_mcpwm_ch_12_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s.pwm_cfg_s[DD_MCPWM_CHANNEL_12].duty_cycle_f32;
 
-
-    /* SENSE */
-//    log_data_in_s.log_data_in_s.sense_ts_alpha_filtered_adc_level_f32      = log_test_mode_cnt_u32;
-//    log_data_in_s.log_data_in_s.sense_ts_alpha_beta_filtered_adc_level_f32 = log_test_mode_cnt_u32;
-//    log_data_in_s.log_data_in_s.sense_ts_touch_confidence_f32              = log_test_mode_cnt_u32;
-//    log_data_in_s.log_data_in_s.sense_ts_touch_confidence_max_f32          = log_test_mode_cnt_u32;
+    if ( NULL != sense_data_out_s.p_ts_data_out_s )
+    {
+        /* SENSE */
+        log_data_in_s.log_data_in_s.sense_ts_alpha_filtered_adc_level_f32      = sense_data_out_s.p_ts_data_out_s->alpha_filtered_adc_level_f32;
+        log_data_in_s.log_data_in_s.sense_ts_alpha_beta_filtered_adc_level_f32 = sense_data_out_s.p_ts_data_out_s->alpha_beta_filtered_adc_level_f32;
+        ;
+        log_data_in_s.log_data_in_s.sense_ts_touch_confidence_f32     = sense_data_out_s.p_ts_data_out_s->touch_conf_s.confidence_f32;
+        log_data_in_s.log_data_in_s.sense_ts_touch_confidence_max_f32 = sense_data_out_s.p_ts_data_out_s->touch_conf_s.confidence_max_f32;
+    }
 }
