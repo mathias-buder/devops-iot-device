@@ -215,8 +215,8 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
 
 
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s.pwm_cfg_s[DD_MCPWM_CHANNEL_1].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s.pwm_cfg_s[DD_MCPWM_CHANNEL_1].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_1].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_1].duty_cycle_f32;
 #endif
     log_data_in_s.log_data_in_s.dd_mcpwm_ch_2_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_2].mode_e;
     log_data_in_s.log_data_in_s.dd_mcpwm_ch_3_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_3].mode_e;

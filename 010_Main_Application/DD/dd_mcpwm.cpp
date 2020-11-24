@@ -48,7 +48,7 @@ BOOLEAN DD_MCPWM_C::init( const DD_MCPWM_CONFIG_TYPE &r_config_s )
 {
     esp_err_t error_t = ESP_OK;
 
-    ESP_LOGI( DD_MCPWM_LOG_MSG_TAG, "Initializing channel %i / %i", r_config_s.name_e, DD_MCPWM_CHANNEL_SIZE );
+    ESP_LOGI( DD_MCPWM_LOG_MSG_TAG, "Initializing channel %i / %i", r_config_s.name_e + 1U, DD_MCPWM_CHANNEL_SIZE );
 
     /* Initialize corresponding GPIO to be multiplexed to the corresponding PWM channel */
     error_t = mcpwm_gpio_init( r_config_s.unit_e,
@@ -163,7 +163,7 @@ BOOLEAN DD_MCPWM_C::update( DD_MCPWM_DATA_IN_TYPE &r_data_in_s )
         {
             ESP_LOGE( DD_MCPWM_LOG_MSG_TAG,
                       "Can't update channel-%i-mode configuration: %s",
-                      this->m_channel_s.name_e,
+                      this->m_channel_s.name_e + 1U,
                       esp_err_to_name( error_t ) );
 
             return FALSE;
@@ -181,7 +181,7 @@ BOOLEAN DD_MCPWM_C::update( DD_MCPWM_DATA_IN_TYPE &r_data_in_s )
         {
             ESP_LOGE( DD_MCPWM_LOG_MSG_TAG,
                       "Can't update channel-%i-mode configuration: %s",
-                      this->m_channel_s.name_e,
+                      this->m_channel_s.name_e + 1U,
                       esp_err_to_name( error_t ) );
 
             return FALSE;
@@ -200,7 +200,7 @@ BOOLEAN DD_MCPWM_C::update( DD_MCPWM_DATA_IN_TYPE &r_data_in_s )
         {
             ESP_LOGE( DD_MCPWM_LOG_MSG_TAG,
                       "Can't update channel-%i-mode configuration: %s",
-                      this->m_channel_s.name_e,
+                      this->m_channel_s.name_e + 1U,
                       esp_err_to_name( error_t ) );
 
             return FALSE;
@@ -215,7 +215,7 @@ BOOLEAN DD_MCPWM_C::update( DD_MCPWM_DATA_IN_TYPE &r_data_in_s )
         {
             ESP_LOGE( DD_MCPWM_LOG_MSG_TAG,
                       "Can't update channel-%i-mode configuration: %s",
-                      this->m_channel_s.name_e,
+                      this->m_channel_s.name_e + 1U,
                       esp_err_to_name( error_t ) );
 
             return FALSE;

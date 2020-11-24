@@ -93,9 +93,9 @@ const DD_MCPWM_CONFIG_TYPE dd_mcpwm_cfg_vs[DD_MCPWM_CHANNEL_SIZE] = {
             /* CHANNEL_5 */  { DD_MCPWM_CHANNEL_5,   MCPWM_UNIT_0,     MCPWM2A,           GPIO_NUM_26,     MCPWM_TIMER_2,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F   },
             /* CHANNEL_6 */  { DD_MCPWM_CHANNEL_6,   MCPWM_UNIT_0,     MCPWM2B,           GPIO_NUM_25,     MCPWM_TIMER_2,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F   },
     #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-            /* CHANNEL_7 */  { DD_MCPWM_CHANNEL_7    MCPWM_UNIT_1,     MCPWM0A,           GPIO_NUM_13,     MCPWM_TIMER_0,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F   },  /*!< Shared with JTAG pin: TCK (13) */
-            /* CHANNEL_8 */  { DD_MCPWM_CHANNEL_8    MCPWM_UNIT_1,     MCPWM0B,           GPIO_NUM_12,     MCPWM_TIMER_0,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F   },  /*!< Shared with JTAG pin: TDI (12) */
-            /* CHANNEL_9 */  { DD_MCPWM_CHANNEL_9    MCPWM_UNIT_1,     MCPWM1A,           GPIO_NUM_15,     MCPWM_TIMER_1,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F   },  /*!< Shared with JTAG pin: TDO (15) */
+            /* CHANNEL_7 */  { DD_MCPWM_CHANNEL_7,   MCPWM_UNIT_1,     MCPWM0A,           GPIO_NUM_13,     MCPWM_TIMER_0,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F   },  /*!< Shared with JTAG pin: TCK (13) */
+            /* CHANNEL_8 */  { DD_MCPWM_CHANNEL_8,   MCPWM_UNIT_1,     MCPWM0B,           GPIO_NUM_12,     MCPWM_TIMER_0,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F   },  /*!< Shared with JTAG pin: TDI (12) */
+            /* CHANNEL_9 */  { DD_MCPWM_CHANNEL_9,   MCPWM_UNIT_1,     MCPWM1A,           GPIO_NUM_15,     MCPWM_TIMER_1,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F   },  /*!< Shared with JTAG pin: TDO (15) */
     #endif
             /* CHANNEL_10 */ { DD_MCPWM_CHANNEL_10,  MCPWM_UNIT_1,     MCPWM1B,           GPIO_NUM_2,      MCPWM_TIMER_1,    MCPWM_OPR_B,    DD_MCPWM_MODE_OFF,    0.0F   },
             /* CHANNEL_11 */ { DD_MCPWM_CHANNEL_11,  MCPWM_UNIT_1,     MCPWM2A,           GPIO_NUM_0,      MCPWM_TIMER_2,    MCPWM_OPR_A,    DD_MCPWM_MODE_OFF,    0.0F   },
