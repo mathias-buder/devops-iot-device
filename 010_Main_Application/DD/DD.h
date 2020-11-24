@@ -39,7 +39,7 @@
  */
 typedef struct DD_DATA_IN_TYPE_TAG
 {
-    DD_MCPWM_DATA_IN_TYPE mcpwm_data_in_s;
+    DD_MCPWM_DATA_IN_TYPE mcpwm_data_in_s[DD_MCPWM_CHANNEL_SIZE];
 } DD_DATA_IN_TYPE;
 
 /**

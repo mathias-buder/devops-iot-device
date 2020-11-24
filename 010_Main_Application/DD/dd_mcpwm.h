@@ -80,39 +80,20 @@ typedef enum DD_MCPWM_CHANNEL_TAG
 *************************************************************/
 
 /**
- * @brief   MCPWM channel mode definition structure
- * @details Combines the mode and duty cycle configuration for each channel
- * @ingroup DriverStructures
- */
-typedef struct DD_MCPWM_CHANNEL_MODE_TYPE_TAG
-{
-    DD_MCPWM_MODE mode_e;         /**< @details Channel mode */
-    F32           duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
-} DD_MCPWM_CHANNEL_MODE_TYPE;
-
-/**
  * @brief   MCPWM channel definition structure
  * @details Defines all hardware related settings for each channel
  * @ingroup DriverStructures
  */
-typedef struct DD_MCPWM_CHANNEL_TYPE_TAG
-{
-    const mcpwm_unit_t         unit_e;      /**< @details MCPWM unit(0-1) */
-    const mcpwm_io_signals_t   io_signal_e; /**< @details MCPWM signals, each MCPWM unit has 6 output(MCPWMXA, MCPWMXB) and 9 input(SYNC_X, FAULT_X, CAP_X) 'X' is timer_num(0-2) */
-    const gpio_num_t           io_pin_e;    /**< @details Corresponding I/O pin to be multiplexed to output the PWM signal */
-    const mcpwm_timer_t        timer_e;     /**< @details Timer number(0-2) of MCPWM, each MCPWM unit has 3 timers */
-    const mcpwm_operator_t     operator_e;  /**< @details The operator(MCPWMXA/MCPWMXB), 'X' is timer number selected */
-    DD_MCPWM_CHANNEL_MODE_TYPE pwm_cfg_s;   /**< @details PWM channel config*/
-} DD_MCPWM_CHANNEL_TYPE;
-
-/**
- * @brief   MCPWM configuration structure
- * @details Contains all parameters required for complete unit cinfiguration
- * @ingroup DriverStructures
- */
 typedef struct DD_MCPWM_CONFIG_TYPE_TAG
 {
-    DD_MCPWM_CHANNEL_TYPE p_channel_cfg_vs[DD_MCPWM_CHANNEL_SIZE]; /**< @details Configuration for all DD_MCPWM_CHANNEL_SIZE PWM channels */
+    DD_MCPWM_CHANNEL   name_e;         /**< @details Channel name */
+    mcpwm_unit_t       unit_e;         /**< @details MCPWM unit(0-1) */
+    mcpwm_io_signals_t io_signal_e;    /**< @details MCPWM signals, each MCPWM unit has 6 output(MCPWMXA, MCPWMXB) and 9 input(SYNC_X, FAULT_X, CAP_X) 'X' is timer_num(0-2) */
+    gpio_num_t         io_pin_e;       /**< @details Corresponding I/O pin to be multiplexed to output the PWM signal */
+    mcpwm_timer_t      timer_e;        /**< @details Timer number(0-2) of MCPWM, each MCPWM unit has 3 timers */
+    mcpwm_operator_t   operator_e;     /**< @details The operator(MCPWMXA/MCPWMXB), 'X' is timer number selected */
+    DD_MCPWM_MODE      mode_e;         /**< @details Initial channel mode */
+    F32                duty_cycle_f32; /**< @details Initial channel duty cycle @unit [%] */
 } DD_MCPWM_CONFIG_TYPE;
 
 /**
@@ -122,7 +103,8 @@ typedef struct DD_MCPWM_CONFIG_TYPE_TAG
  */
 typedef struct DD_MCPWM_DATA_IN_TYPE_TAG
 {
-    DD_MCPWM_CHANNEL_MODE_TYPE pwm_cfg_s[DD_MCPWM_CHANNEL_SIZE]; /**< @details PWM mode/duty cycle settings for all DD_MCPWM_CHANNEL_SIZE PWM channels */
+    DD_MCPWM_MODE mode_e;         /**< @details Channel mode */
+    F32           duty_cycle_f32; /**< @details Channel duty cycle @unit [%] */
 } DD_MCPWM_DATA_IN_TYPE;
 
 /*************************************************************/
@@ -131,15 +113,22 @@ typedef struct DD_MCPWM_DATA_IN_TYPE_TAG
 class DD_MCPWM_C {
 
   private:
-    static const mcpwm_config_t timer_cfg_s;
-    static DD_MCPWM_CONFIG_TYPE unit_cfg_s;
+    const mcpwm_config_t m_timer_cfg_s = {
+            .frequency    = DD_MCPWM_FREQUANCY,   /*!< Default PWM frequency for all channels */
+            .cmpr_a       = 0.0F,                 /*!< Default duty cycle for operator a(MCPWMXA) set to 0.0 */
+            .cmpr_b       = 0.0F,                 /*!< Default duty cycle for operator b(MCPWMXB) set to 0.0 */
+            .duty_mode    = DD_MCPWM_DUTY_MODE,   /*!< Default duty mode for all channels */
+            .counter_mode = DD_MCPWM_COUNTER_MODE /*!< Default counter mode for all channels */
+        };
+
+    DD_MCPWM_CONFIG_TYPE m_channel_s;
 
   public:
     /**
    * @details Default constructor
    * @param[in] i2c_addr_u8 I2C device address
    */
-    DD_MCPWM_C();
+    DD_MCPWM_C( void );
 
     /**
    * @details Default destructor
@@ -152,15 +141,8 @@ class DD_MCPWM_C {
    * @return TRUE in case no error was reported during
    *              MCPWM module configuration
    */
-    static BOOLEAN init( void );
+    BOOLEAN init( const DD_MCPWM_CONFIG_TYPE &r_config_s );
 
-    /**
-   * @details This function initialized the MCPWM device
-   * @param[in] Pointer to global configuration structure
-   * @return TRUE in case no error was reported during
-   *              MCPWM module configuration
-   */
-    static BOOLEAN init( DD_MCPWM_CONFIG_TYPE &config_s );
 
     /**
    * @details This function initialized the MCPWM device
@@ -168,7 +150,7 @@ class DD_MCPWM_C {
    * @return[in] TRUE in case no error was reported during
    *             MCPWM module update
    */
-    static BOOLEAN update_channels( DD_MCPWM_DATA_IN_TYPE data_in_s );
+    BOOLEAN update( DD_MCPWM_DATA_IN_TYPE &r_data_in_s );
 };
 
 #endif /* DD_MCPWM_H_ */
