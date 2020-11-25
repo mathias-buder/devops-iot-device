@@ -62,22 +62,6 @@ DD_INA_219_CONFIG_TYPE dd_ina_219_cfg_s = {
 /*********************************************************************/
 DD_MAX_30102_C dd_max_30102( 0x57U );
 
-DD_MAX_30102_CONFIG_TYPE dd_max_30102_cfg_s = {
-    .mode_cfg_e                    = DD_MAX_30102_MODE_HR,
-    .adc_range_cfg_e               = DD_MAX_30102_ADC_RANGE_2048,
-    .sample_rate_cfg_e             = DD_MAX_30102_SAMPLE_RATE_100,
-    .sample_avg_cfg_e              = DD_MAX_30102_SAMPLE_AVG_4,
-    .pulse_width_cfg_e             = DD_MAX_30102_PULSE_WIDTH_411,
-    .led_amplitude_cfg_u8          = 0x1F,
-    .temp_delay_ticks_cfg_u8       = 10U,
-    .prox_threshold_cfg_u8         = 0x01,
-    .fifo_roll_over_cfg_b          = TRUE,
-    .fifo_a_full_int_enable_cfg_b  = TRUE,
-    .fifo_a_full_value_cfg_u8      = 2U,
-    .die_temp_rdy_int_enable_cfg_b = TRUE,
-    .prox_int_enable_cfg_b         = TRUE
-};
-
 /*********************************************************************/
 /*      MCPW                                                         */
 /*********************************************************************/
@@ -116,19 +100,19 @@ void DD_C::init( void )
 {
     U8 idx_u8;
 
-    /* Initialize MCPWM device driver with default channel configuration */
+    /*!< Initialize MCPWM device driver with default channel configuration */
     for ( idx_u8 = 0U; idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++idx_u8 )
     {
         dd_mcpwm_channel_vo[idx_u8].init( dd_mcpwm_cfg_vs[idx_u8] );
     }
 
-    DD_SD_C::init();                                                                       /*!< Initialize SD card driver */
-    DD_C::dd_data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                         /*!< Initialize I2C device driver */
-    DD_C::dd_data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                         /*!< Initialize ADC device driver */
-    DD_C::dd_data_out_s.p_icm_20600_data_out_s = dd_icm_20600.init();                      /*!< Initialize ICM-2600 motion subsystem */
-    DD_C::dd_data_out_s.p_max_30102_data_out_s = dd_max_30102.init( &dd_max_30102_cfg_s ); /*!< Initialize MAX-30102 HR+SpO2 subsystem */
-    DD_C::dd_data_out_s.p_ina_219_data_out_s   = dd_ina_219_A.init( &dd_ina_219_cfg_s );   /*!< Initialize INA-219 Current/Voltage/Power measuring subsystem */
-    DD_C::dd_data_out_s.p_tmp_102_data_out_s   = dd_tmp_102_A.init();                      /*!< Initialize TMP-102 temperature sensor */
+    DD_SD_C::init();                                                                     /*!< Initialize SD card driver */
+    DD_C::dd_data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                       /*!< Initialize I2C device driver */
+    DD_C::dd_data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                       /*!< Initialize ADC device driver */
+    DD_C::dd_data_out_s.p_icm_20600_data_out_s = dd_icm_20600.init();                    /*!< Initialize ICM-2600 motion subsystem */
+    DD_C::dd_data_out_s.p_max_30102_data_out_s = dd_max_30102.init();                    /*!< Initialize MAX-30102 HR+SpO2 subsystem with default configuration */
+    DD_C::dd_data_out_s.p_ina_219_data_out_s   = dd_ina_219_A.init( &dd_ina_219_cfg_s ); /*!< Initialize INA-219 Current/Voltage/Power measuring subsystem */
+    DD_C::dd_data_out_s.p_tmp_102_data_out_s   = dd_tmp_102_A.init();                    /*!< Initialize TMP-102 temperature sensor */
 }
 
 

@@ -29,6 +29,7 @@
 #define DD_MAX_30105_LOG_MSG_TAG           "DD_MAX_30102"
 #define DD_MAX_30105_DEVICE_ID              0x15 /* Unique device id */
 #define DD_MAX_30105_TEMP_TIME_OUT_CNT      3U
+#define DD_MAX_30105_TEMP_DELAY_TICKS       10U
 
 
 
@@ -353,10 +354,10 @@ class DD_MAX_30102_C {
     DD_MAX_30102_DATA_OUT_TYPE data_out_s;
     U8                         i2c_addr_u8;
 
-    BOOLEAN get_int1( U8* const p_register_u8 );
-    BOOLEAN get_int2( U8* const p_register_u8 );
-    BOOLEAN get_int_status( BOOLEAN* p_int_status_vb );
-    BOOLEAN get_temperature( DD_MAX_30102_DATA_OUT_TYPE* p_data_s );
+    BOOLEAN get_int1( U8& r_register_u8 );
+    BOOLEAN get_int2( U8& r_register_u8 );
+    BOOLEAN get_int_status( BOOLEAN (&r_int_status_vb)[DD_MAX_30102_INT_TYPE_SIZE] );
+    BOOLEAN get_temperature( DD_MAX_30102_DATA_OUT_TYPE& r_data_s );
     BOOLEAN set_fifo_int_a_full( const BOOLEAN enable_b );
     BOOLEAN set_data_ready( const BOOLEAN enable_b );
     BOOLEAN set_alc_ovf( const BOOLEAN enable_b );
@@ -364,7 +365,7 @@ class DD_MAX_30102_C {
     BOOLEAN set_die_temp_rdy_int( const BOOLEAN enable_b );
     BOOLEAN soft_reset( void );
     BOOLEAN set_wake_up( const BOOLEAN enable_b );
-    BOOLEAN set_mode( DD_MAX_30102_DATA_OUT_TYPE* const p_data_s, const DD_MAX_30102_MODE mode_e );
+    BOOLEAN set_mode( DD_MAX_30102_DATA_OUT_TYPE& r_data_s, const DD_MAX_30102_MODE mode_e );
     BOOLEAN set_adc_range( const DD_MAX_30102_ADC_RANGE range_e );
     BOOLEAN set_sample_rate( const DD_MAX_30102_SAMPLE_RATE rate_e );
     BOOLEAN set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e );
@@ -375,11 +376,11 @@ class DD_MAX_30102_C {
     BOOLEAN set_fifo_roll_over( BOOLEAN enable_b );
     BOOLEAN set_fifo_a_full_value( U8 value_u8 );
     BOOLEAN set_fifo_clear( void );
-    BOOLEAN get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8* const p_value_u8 );
-    BOOLEAN get_fifo_ovf_cnt( U8* const p_ovf_cnt_u8 );
-    BOOLEAN get_part_id( U8* const p_register_u8 );
-    BOOLEAN get_rev_id( U8* const p_register_u8 );
-    BOOLEAN get_fifo_data( DD_MAX_30102_DATA_OUT_TYPE* p_data_s );
+    BOOLEAN get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e, U8& r_value_u8 );
+    BOOLEAN get_fifo_ovf_cnt( U8& r_ovf_cnt_u8 );
+    BOOLEAN get_part_id( U8& r_register_u8 );
+    BOOLEAN get_rev_id( U8& r_register_u8 );
+    BOOLEAN get_fifo_data( DD_MAX_30102_DATA_OUT_TYPE& r_data_s );
 
   public:
     /**
@@ -394,15 +395,22 @@ class DD_MAX_30102_C {
     ~DD_MAX_30102_C();
 
     /**
-     * @details This function initialized the INA-219 device
-     * @param[in] Pointer device input structure
-     * @return Pointer to global device data structure
+     * @details This function initializes the MAX-30102 device
+     *          with default configuration
+     * @return Pointer to global device data out structure
      */
-    DD_MAX_30102_DATA_OUT_TYPE* init( DD_MAX_30102_CONFIG_TYPE* p_data_in_s );
+    DD_MAX_30102_DATA_OUT_TYPE* init( void );
+
+    /**
+     * @details This function initializes the MAX-30102 device
+     * @param[in] Pointer device configuration structure
+     * @return Pointer to global device data out structure
+     */
+    DD_MAX_30102_DATA_OUT_TYPE* init( DD_MAX_30102_CONFIG_TYPE &r_data_in_s );
 
     /**
      * @details This is the drivers main function that shall be called
-     * cyclicly and will provide all data through DD_INA_219_DATA_OUT_TYPE
+     * cyclicly and will provide all data through DD_MAX_30102_DATA_OUT_TYPE
      */
     void main( void );
 };
