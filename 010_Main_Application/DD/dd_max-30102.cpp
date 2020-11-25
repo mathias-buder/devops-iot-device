@@ -61,8 +61,6 @@ DD_MAX_30102_DATA_OUT_TYPE* DD_MAX_30102_C::init( void )
          * amplitude = 0xFF, 50.0mA - Presence detection of ~12 inch */
         .led_amplitude_cfg_u8          = 0x1F,
 
-        .temp_delay_ticks_cfg_u8       = 10U,
-
         /** @details This register sets the IR ADC count that will trigger the beginning of HR or SpO2 mode. The threshold
          * is defined as the 8 MSBs bits of the ADC count. For example, if PROX_INT_THRESH[7:0] = 0x01, then a 17-bit ADC
          * value of 1023 (decimal) or higher triggers the PROX_INT interrupt. If PROX_INT_THRESH[7:0] = 0xFF, then only a
@@ -454,7 +452,7 @@ BOOLEAN DD_MAX_30102_C::set_pulse_width( const DD_MAX_30102_PULSE_WIDTH width_e 
     return TRUE;
 }
 
-BOOLEAN DD_MAX_30102_C::set_pulse_amp( const DD_MAX_30102_LED_TYPE type_e,
+BOOLEAN DD_MAX_30102_C::set_pulse_amp( const DD_MAX_30102_LED type_e,
                                        const U8                    amplitude_u8 )
 {
     U8 type_reg_addr_u8;
@@ -668,7 +666,7 @@ BOOLEAN DD_MAX_30102_C::set_fifo_clear( void )
     return TRUE;
 }
 
-BOOLEAN DD_MAX_30102_C::get_fifo_ptr_by_type( const DD_MAX_30102_PTR_TYPE ptr_type_e,
+BOOLEAN DD_MAX_30102_C::get_fifo_ptr_by_type( const DD_MAX_30102_PTR ptr_type_e,
                                               U8&                         r_value_u8 )
 {
     U8 ptr_reg_addr_u8 = 0xFF;
@@ -816,58 +814,58 @@ BOOLEAN DD_MAX_30102_C::get_fifo_data( DD_MAX_30102_DATA_OUT_TYPE& r_data_s )
         {
             case DD_MAX_30102_MODE_HR:
             {
-            for ( idx_u8 = 0U; idx_u8 < num_samples_s8; ++idx_u8 )
-            {
-                /* Read one complete data block (2 x 3 byte) off the FIFO */
-                if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_MAX_30102_FIFO_DATA, register_vu8, 1U * DD_MAX_30102_FIFO_CHANNEL_SIZE ) )
+                for ( idx_u8 = 0U; idx_u8 < num_samples_s8; ++idx_u8 )
                 {
-                    /* Invalidate raw values */
-                    r_data_s.ir_data_raw_u32 = MAX_U32;
+                    /* Read one complete data block (2 x 3 byte) off the FIFO */
+                    if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_MAX_30102_FIFO_DATA, register_vu8, 1U * DD_MAX_30102_FIFO_CHANNEL_SIZE ) )
+                    {
+                        /* Invalidate raw values */
+                        r_data_s.ir_data_raw_u32 = MAX_U32;
 
-                    ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "Error while reading FIFO data" );
-                    return FALSE;
+                        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "Error while reading FIFO data" );
+                        return FALSE;
+                    }
+
+                    /* Extract 18-bit sample for each channel */
+                    red_fifo_data_u32 = ( register_vu8[0U] << 16U ) | ( register_vu8[1U] << 8U ) | ( register_vu8[2U] );
+
+                    r_data_s.ir_data_raw_u32 += red_fifo_data_u32;
                 }
 
-                /* Extract 18-bit sample for each channel */
-                red_fifo_data_u32 = ( register_vu8[0U] << 16U ) | ( register_vu8[1U] << 8U ) | ( register_vu8[2U] );
+                r_data_s.ir_data_raw_u32 /= num_samples_s8;
 
-                r_data_s.ir_data_raw_u32 += red_fifo_data_u32;
-            }
-
-            r_data_s.ir_data_raw_u32 /= num_samples_s8;
-
-            ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "IR: %i", r_data_s.ir_data_raw_u32 );
+                ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "IR: %i", r_data_s.ir_data_raw_u32 );
 
             break;
         }
             case DD_MAX_30102_MODE_SPO2:
             {
-            for ( idx_u8 = 0U; idx_u8 < num_samples_s8; ++idx_u8 )
-            {
-                /* Read one complete data block (2 x 3 byte) off the FIFO */
-                if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_MAX_30102_FIFO_DATA, register_vu8, 2U * DD_MAX_30102_FIFO_CHANNEL_SIZE ) )
+                for ( idx_u8 = 0U; idx_u8 < num_samples_s8; ++idx_u8 )
                 {
-                    /* Invalidate raw values */
-                    r_data_s.red_data_raw_u32 = MAX_U32;
-                    r_data_s.ir_data_raw_u32  = MAX_U32;
+                    /* Read one complete data block (2 x 3 byte) off the FIFO */
+                    if ( FALSE == DD_I2C_C::read_burst( this->i2c_addr_u8, DD_MAX_30102_FIFO_DATA, register_vu8, 2U * DD_MAX_30102_FIFO_CHANNEL_SIZE ) )
+                    {
+                        /* Invalidate raw values */
+                        r_data_s.red_data_raw_u32 = MAX_U32;
+                        r_data_s.ir_data_raw_u32  = MAX_U32;
 
-                    ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "Error while reading FIFO data" );
-                    return FALSE;
+                        ESP_LOGE( DD_MAX_30105_LOG_MSG_TAG, "Error while reading FIFO data" );
+                        return FALSE;
+                    }
+
+                    /* Extract 18-bit sample for each channel */
+                    red_fifo_data_u32 = ( register_vu8[0U] << 16U ) | ( register_vu8[1U] << 8U ) | ( register_vu8[2U] );
+                    ir_fifo_data_u32  = ( register_vu8[3U] << 16U ) | ( register_vu8[4U] << 8U ) | ( register_vu8[5U] );
+
+                    r_data_s.red_data_raw_u32 += red_fifo_data_u32;
+                    r_data_s.ir_data_raw_u32  += ir_fifo_data_u32;
                 }
 
-                /* Extract 18-bit sample for each channel */
-                red_fifo_data_u32 = ( register_vu8[0U] << 16U ) | ( register_vu8[1U] << 8U ) | ( register_vu8[2U] );
-                ir_fifo_data_u32  = ( register_vu8[3U] << 16U ) | ( register_vu8[4U] << 8U ) | ( register_vu8[5U] );
+                r_data_s.red_data_raw_u32 /= num_samples_s8;
+                r_data_s.ir_data_raw_u32  /= num_samples_s8;
 
-                r_data_s.red_data_raw_u32 += red_fifo_data_u32;
-                r_data_s.ir_data_raw_u32  += ir_fifo_data_u32;
-            }
-
-            r_data_s.red_data_raw_u32 /= num_samples_s8;
-            r_data_s.ir_data_raw_u32  /= num_samples_s8;
-
-            ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "RED: %i, IR: %i", r_data_s.red_data_raw_u32,
-                                                                   r_data_s.ir_data_raw_u32 );
+                ESP_LOGD( DD_MAX_30105_LOG_MSG_TAG, "RED: %i, IR: %i", r_data_s.red_data_raw_u32,
+                                                                       r_data_s.ir_data_raw_u32 );
 
             break;
         }
