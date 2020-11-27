@@ -136,7 +136,7 @@ void DD_C::process_outputs( DD_DATA_IN_TYPE &r_data_in_s )
     /* Update all DD_MCPWM_CHANNEL_SIZE PWM channels */
     for ( idx_u8 = 0U; idx_u8 < DD_MCPWM_CHANNEL_SIZE; ++idx_u8 )
     {
-        dd_mcpwm_channel_vo[idx_u8].update( r_data_in_s.mcpwm_data_in_s[idx_u8] );
+        dd_mcpwm_channel_vo[idx_u8].update( r_data_in_s.mcpwm_data_in_vs[idx_u8] );
     }
 }
 

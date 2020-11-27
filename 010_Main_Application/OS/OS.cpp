@@ -215,33 +215,33 @@ void os_collect_dlg_data_in( LOG_DATA_IN_TYPE&          log_data_in_s,
 
 
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_1].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_1].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_1].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_1_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_1].duty_cycle_f32;
 #endif
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_2_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_2].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_3_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_3].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_4_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_4].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_5_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_5].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_6_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_6].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_2_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_2].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_3_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_3].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_4_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_4].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_5_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_5].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_6_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_6].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_2_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_2].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_3_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_3].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_4_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_4].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_5_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_5].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_6_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_6].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_2_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_2].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_3_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_3].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_4_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_4].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_5_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_5].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_6_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_6].duty_cycle_f32;
 #ifndef JTAG_DEBUG_SUPPORT_ENABLE
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_7_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_7].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_8_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_8].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_9_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_9].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_7_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_7].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_8_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_8].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_9_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_9].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_7_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_7].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_8_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_8].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_9_mode_u8               = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_9].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_7_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_7].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_8_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_8].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_9_duty_cycle_f32        = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_9].duty_cycle_f32;
 #endif
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_10_mode_u8              = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_10].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_11_mode_u8              = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_11].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_12_mode_u8              = (U8) dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_12].mode_e;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_10_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_10].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_11_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_11].duty_cycle_f32;
-    log_data_in_s.log_data_in_s.dd_mcpwm_ch_12_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_s[DD_MCPWM_CHANNEL_12].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_10_mode_u8              = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_10].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_11_mode_u8              = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_11].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_12_mode_u8              = (U8) dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_12].mode_e;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_10_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_10].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_11_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_11].duty_cycle_f32;
+    log_data_in_s.log_data_in_s.dd_mcpwm_ch_12_duty_cycle_f32       = dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_12].duty_cycle_f32;
 
     /* SENSE */
     log_data_in_s.log_data_in_s.sense_ts_alpha_filtered_adc_level_f32      = sense_data_out_s.p_ts_data_out_s->alpha_filtered_adc_level_f32;
