@@ -121,7 +121,7 @@ class DD_MCPWM_C {
             .counter_mode = DD_MCPWM_COUNTER_MODE /*!< Default counter mode for all channels */
         };
 
-    DD_MCPWM_CONFIG_TYPE m_channel_s;
+    DD_MCPWM_CONFIG_TYPE m_channel_s;             /*!< Channel configuration structure */
 
   public:
     /**
