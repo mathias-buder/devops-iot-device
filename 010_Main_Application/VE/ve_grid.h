@@ -73,9 +73,17 @@ typedef struct VE_GRID_VIRBATOR_TYPE_TAG
 } VE_GRID_VIRBATOR_TYPE;
 
 
+typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
+{
+    F32 x_f32;
+    F32 y_f32;
+    F32 intensity_f32; /**< @details Channel duty cycle @unit [%] */
+
+} VE_GRID_VIRTUAL_POINT_TYPE;
+
+
 typedef struct VE_GRID_CONFIG_TYPE_TAG
 {
-    VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
 
 } VE_GRID_CONFIG_TYPE;
 
@@ -88,9 +96,22 @@ typedef struct VE_GRID_CONFIG_TYPE_TAG
  */
 typedef struct VE_GRID_DATA_IN_TYPE_TAG
 {
-    VE_GRID_VIRBATOR_TYPE* p_vibrator_config_s;
+    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;
 
 } VE_GRID_DATA_IN_TYPE;
+
+/**
+ * @brief   Vibration Engine Grid Output Interface Data Structure
+ * @details Data structure that holds all data provided by the Vibration
+ *          Engine Grid module.
+ * @ingroup VibrationEngineStructures
+ */
+typedef struct VE_GRID_DATA_OUT_TYPE_TAG
+{
+
+
+} VE_GRID_DATA_OUT_TYPE;
+
 
 /*************************************************************/
 /*      CLASS DEFINITION                                     */
@@ -98,6 +119,8 @@ typedef struct VE_GRID_DATA_IN_TYPE_TAG
 
 class VE_GRID_C {
   private:
+    VE_GRID_DATA_OUT_TYPE data_out_s;
+
   public:
     /**
          * @details Default constructor
@@ -109,14 +132,8 @@ class VE_GRID_C {
          */
     ~VE_GRID_C();
 
-    void init( void );
-    void main( void );
+    VE_GRID_DATA_OUT_TYPE* init( VE_GRID_CONFIG_TYPE& r_config_s );
+    void                   main( VE_GRID_DATA_IN_TYPE& r_data_in_s );
 };
-
-/*************************************************************/
-/*      PROTOTYPES                                           */
-/*************************************************************/
-extern BOOLEAN ve_grid_init( void );
-extern void    ve_grid_main( void );
 
 #endif /* VE_GRID_H_ */

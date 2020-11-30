@@ -19,9 +19,7 @@
 /*      INCLUDES                                                     */
 /*********************************************************************/
 #include "VE.h"
-
-#include "Core/ve_database.h"
-#include "Core/ve_grid.h"
+#include "ve_grid.h"
 
 #include "esp_log.h"
 
