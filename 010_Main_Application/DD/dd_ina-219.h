@@ -287,31 +287,31 @@ class DD_INA_219_C {
 
     /**
      * @details This function reads the shunt voltage register
-     * @param[in] p_value_s16 Pointer to variable that stores the register content
+     * @param[in] r_value_s16 Reference to variable that stores the register content
      * @return TRUE in case no error during I2C transmission occurs
      */
-    BOOLEAN read_shunt_voltage_raw( S16* const p_value_s16 );
+    BOOLEAN read_shunt_voltage_raw( S16& r_value_s16 );
 
     /**
      * @details This function reads the bus voltage register
-     * @param[in] p_value_s16 Pointer to variable that stores the register content
+     * @param[in] r_value_s16 Reference to variable that stores the register content
      * @return TRUE in case no error during I2C transmission occurs
      */
-    BOOLEAN read_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE* const p_bus_data_s );
+    BOOLEAN read_bus_voltage_raw( DD_INA_219_BUS_VOL_DATA_TYPE& r_bus_data_s );
 
     /**
      * @details This function reads the power register
-     * @param[in] p_value_u16 Pointer to variable that stores the register content
+     * @param[in] p_value_u16 Reference to variable that stores the register content
      * @return TRUE in case no error during I2C transmission occurs
      */
-    BOOLEAN read_power_raw( U16* const p_value_u16 );
+    BOOLEAN read_power_raw( U16& r_value_u16 );
 
     /**
      * @details This function reads the current register
-     * @param[in] p_value_s16 Pointer to variable that stores the register content
+     * @param[in] p_value_s16 Reference to variable that stores the register content
      * @return TRUE in case no error during I2C transmission occurs
      */
-    BOOLEAN read_current_raw( S16* const p_value_s16 );
+    BOOLEAN read_current_raw( S16& r_value_s16 );
 
 
   public:
@@ -329,10 +329,18 @@ class DD_INA_219_C {
 
     /**
      * @details This function initialized the INA-219 device
+     *          with its default configuration
      * @param[in] Pointer device input structure
      * @return Pointer to global device data structure
      */
-    DD_INA_219_DATA_OUT_TYPE* init( DD_INA_219_CONFIG_TYPE* p_data_in_s );
+    DD_INA_219_DATA_OUT_TYPE* init( void );
+
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    DD_INA_219_DATA_OUT_TYPE* init( const DD_INA_219_CONFIG_TYPE& r_data_in_s );
 
     /**
      * @details This is the drivers main function that shall be called
