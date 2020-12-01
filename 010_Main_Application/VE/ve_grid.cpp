@@ -48,15 +48,48 @@
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-BOOLEAN ve_grid_init( void )
+VE_GRID_C::VE_GRID_C( void )
+{
+}
+
+VE_GRID_C::~VE_GRID_C()
+{
+}
+
+BOOLEAN VE_GRID_C::init( void )
 {
 
+    VE_GRID_CONFIG_TYPE default_cfg_s = {
+            /* vibrator_vs */
+            {
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F },
+                { 0.0F, 0.0F }
+            }
+    };
+
+    return init( default_cfg_s );
+}
+
+
+
+BOOLEAN VE_GRID_C::init( VE_GRID_CONFIG_TYPE& r_config_s )
+{
     return TRUE;
 }
 
-void ve_grid_main( void )
+
+VE_GRID_DATA_OUT_TYPE* VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 {
 
+    return &this->data_out_s;
 }
 
 

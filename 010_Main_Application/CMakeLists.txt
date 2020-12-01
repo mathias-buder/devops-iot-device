@@ -22,7 +22,7 @@ set(EXTRA_COMPONENT_DIRS
                          "DLG"
                          "DD"
                          "SENSE"
-                     #    "VE"
+                         "VE"
                          "UTIL"
                          )
 

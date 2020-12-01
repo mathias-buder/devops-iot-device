@@ -19,33 +19,29 @@
 /*      INCLUDES                                                     */
 /*********************************************************************/
 #include "VE.h"
-#include "ve_grid.h"
-
-#include "esp_log.h"
-
-#include <stdio.h>
-#include <string.h>
-
-
-/*************************************************************/
-/*      GLOBAL DEFINES                                       */
-/*************************************************************/
-#define VE_LOG_MSG_TAG      "VE"
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
+VE_DATA_OUT_TYPE VE_C::data_out_s;
+
+VE_GRID_C ve_grid;
+
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
 /*********************************************************************/
-
-void ve_init(void)
+void VE_C::init( void )
 {
-    ve_grid_init();
+    ve_grid.init();
 }
 
-void ve_main(void)
+
+VE_DATA_OUT_TYPE VE_C::main( VE_DATA_IN_TYPE &r_data_in_s )
 {
-    ve_grid_main();
+    ve_grid.main( r_data_in_s.ve_grid_data_in_s );
+
+    return VE_C::data_out_s;
 }
+
+

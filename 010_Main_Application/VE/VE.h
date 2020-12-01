@@ -14,40 +14,65 @@
         (c) SEWELA 2020
 
 *********************************************************************/
-
-#ifndef TS_TS_H_
-#define TS_TS_H_
+#ifndef VE_H_
+#define VE_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "Interface/ve_public_types.h"
-#include "Interface/ve_grid_if.h"
-
+#include "ve_grid.h"
 
 /*************************************************************/
-/*      GLOBAL DEFINES                                       */
+/*      COMPILE TIME CONFIGURATION                           */
 /*************************************************************/
-
-/*************************************************************/
-/*      GLOBAL VARIABLES                                     */
-/*************************************************************/
+#define VE_LOG_MSG_TAG       "VE"        /**< @details Domain log message tag string */
 
 
-/*********************************************************************/
-/*   FUNCTION PROTOTYPES                                             */
-/*********************************************************************/
+/*************************************************************
+*      STRUCTURES                                            *
+*************************************************************/
+/**
+ * @brief   Device Driver Input Structure
+ * @details Contains all data that is required by the Device Driver (DD) domain
+ * @ingroup DriverStructures
+ */
+typedef struct VE_DATA_IN_TYPE_TAG
+{
+    VE_GRID_DATA_IN_TYPE ve_grid_data_in_s;
+} VE_DATA_IN_TYPE;
 
 /**
- * @details This function initializes the entire Vibration Engine (VE) domain
- * and shall by only called once.
+ * @brief   Device Driver Output Data Structure
+ * @details Contains all data provided by the Device Driver (DD) domain
+ * @ingroup DriverStructures
  */
-extern void ve_init( void );
+typedef struct VE_DATA_OUT_TYPE_TAG
+{
+    const VE_GRID_DATA_OUT_TYPE* p_grid_data_out_s;
+} VE_DATA_OUT_TYPE;
 
-/**
- * @details This function executes all Vibration Engine (VE) domain related
- * functions and shall be called in a cyclic fashion.
- */
-extern void ve_main( void );
+/*************************************************************/
+/*      CLASS DEFINITION                                     */
+/*************************************************************/
+class VE_C {
 
-#endif /* TS_TS_H_ */
+  private:
+    static VE_DATA_OUT_TYPE data_out_s; /**< @details Contains all data provided by the Device Driver (DD) domain */
+
+  public:
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    static void init( void );
+
+    /**
+     * @details This function initialized the INA-219 device
+     * @param[in] Pointer device input structure
+     * @return Pointer to global device data structure
+     */
+    static VE_DATA_OUT_TYPE main( VE_DATA_IN_TYPE &r_data_in_s );
+};
+
+#endif /* VE_H_ */

@@ -13,5 +13,5 @@
 # *********************************************************************/
 
 idf_component_register(SRCS "ve_grid.cpp"
-                            "VE.c"
+                            "VE.cpp"
                        INCLUDE_DIRS ".")
