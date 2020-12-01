@@ -35,7 +35,7 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-DD_DATA_OUT_TYPE DD_C::dd_data_out_s;                        /**< @details Global domain (DD) output structure */
+DD_DATA_OUT_TYPE DD_C::data_out_s;                           /**< @details Global domain (DD) output structure */
 DD_MCPWM_C       dd_mcpwm_channel_vo[DD_MCPWM_CHANNEL_SIZE]; /**< @details Array of MCPWM instances of size DD_MCPWM_CHANNEL_SIZE */
 DD_TMP_102_C     dd_tmp_102_A( 0x49U );                      /**< @details TMP-102 instance A, @param[in] I2C address*/
 DD_INA_219_C     dd_ina_219_A( 0x40U, 0.1F );                /**< @details INA-219 instance A, @param[in] I2C address, @param[in] Shunt resistor size (Ohm)*/
@@ -88,12 +88,12 @@ void DD_C::init( void )
 
 
     DD_SD_C::init();                                                                     /*!< Initialize SD card driver */
-    DD_C::dd_data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                       /*!< Initialize I2C device driver */
-    DD_C::dd_data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                       /*!< Initialize ADC device driver */
-    DD_C::dd_data_out_s.p_icm_20600_data_out_s = dd_icm_20600.init();                    /*!< Initialize ICM-2600 motion subsystem */
-    DD_C::dd_data_out_s.p_max_30102_data_out_s = dd_max_30102.init();                    /*!< Initialize MAX-30102 HR+SpO2 subsystem with default configuration */
-    DD_C::dd_data_out_s.p_ina_219_data_out_s   = dd_ina_219_A.init( &dd_ina_219_cfg_s ); /*!< Initialize INA-219 Current/Voltage/Power measuring subsystem */
-    DD_C::dd_data_out_s.p_tmp_102_data_out_s   = dd_tmp_102_A.init();                    /*!< Initialize TMP-102 temperature sensor */
+    DD_C::data_out_s.p_i2c_error_out_s      = DD_I2C_C::init();                       /*!< Initialize I2C device driver */
+    DD_C::data_out_s.p_adc_data_out_s       = DD_ADC_C::init();                       /*!< Initialize ADC device driver */
+    DD_C::data_out_s.p_icm_20600_data_out_s = dd_icm_20600.init();                    /*!< Initialize ICM-2600 motion subsystem */
+    DD_C::data_out_s.p_max_30102_data_out_s = dd_max_30102.init();                    /*!< Initialize MAX-30102 HR+SpO2 subsystem with default configuration */
+    DD_C::data_out_s.p_ina_219_data_out_s   = dd_ina_219_A.init( &dd_ina_219_cfg_s ); /*!< Initialize INA-219 Current/Voltage/Power measuring subsystem */
+    DD_C::data_out_s.p_tmp_102_data_out_s   = dd_tmp_102_A.init();                    /*!< Initialize TMP-102 temperature sensor */
 }
 
 
@@ -106,7 +106,7 @@ DD_DATA_OUT_TYPE DD_C::process_inputs( void )
     dd_tmp_102_A.main(); /*!< Schedule TMP-102 (A) temperature sensor */
 
     /* Return copy of global domain data structure */
-    return DD_C::dd_data_out_s;
+    return DD_C::data_out_s;
 }
 
 

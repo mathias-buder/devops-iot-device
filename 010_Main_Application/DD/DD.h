@@ -63,7 +63,7 @@ typedef struct DD_DATA_OUT_TYPE_TAG
 class DD_C {
 
   private:
-    static DD_DATA_OUT_TYPE dd_data_out_s; /**< @details Contains all data provided by the Device Driver (DD) domain */
+    static DD_DATA_OUT_TYPE data_out_s; /**< @details Contains all data provided by the Device Driver (DD) domain */
 
   public:
     /**
