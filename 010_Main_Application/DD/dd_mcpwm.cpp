@@ -28,6 +28,8 @@
 
 #include "dd_mcpwm.h"
 
+#include "../UTIL/UTIL.h"
+
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -107,7 +109,7 @@ BOOLEAN DD_MCPWM_C::init( const DD_MCPWM_CONFIG_TYPE &r_config_s )
         error_t = mcpwm_set_duty( r_config_s.unit_e,
                                   r_config_s.timer_e,
                                   r_config_s.operator_e,
-                                  r_config_s.duty_cycle_f32 );
+                                  CLAMP( r_config_s.duty_cycle_f32, 0.0F, DD_MCPWM_MAX_DUTY_CYCLE ) );
 
         if ( ESP_OK != error_t )
         {
@@ -194,7 +196,7 @@ BOOLEAN DD_MCPWM_C::update( DD_MCPWM_DATA_IN_TYPE &r_data_in_s )
         error_t = mcpwm_set_duty( this->m_channel_s.unit_e,
                                   this->m_channel_s.timer_e,
                                   this->m_channel_s.operator_e,
-                                  r_data_in_s.duty_cycle_f32 );
+                                  CLAMP( r_data_in_s.duty_cycle_f32, 0.0F, DD_MCPWM_MAX_DUTY_CYCLE ) );
 
         if ( ESP_OK != error_t )
         {
