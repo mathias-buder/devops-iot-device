@@ -9,7 +9,7 @@
         must also include a copy of this legend.
 
         @file VE.c
-        @details Some detailed description
+        @details Vibration grid module implementation
 
         (c) SEWELA 2020
 
@@ -33,7 +33,7 @@ VE_GRID_C ve_grid;
 /*********************************************************************/
 void VE_C::init( void )
 {
-    ve_grid.init();
+    VE_C::data_out_s.p_grid_data_out_s = ve_grid.init();
 }
 
 

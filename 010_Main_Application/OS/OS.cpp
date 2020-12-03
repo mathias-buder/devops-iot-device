@@ -119,7 +119,30 @@ void os_collect_sense_data_in( const DD_DATA_OUT_TYPE& r_dd_data_out_s,
 void os_collect_dd_data_in( DD_DATA_IN_TYPE&        r_dd_data_in_s,
                             const VE_DATA_OUT_TYPE& r_ve_data_out_s )
 {
-
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_1].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_1];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_1].mode_e         = DD_MCPWM_MODE_PWM;
+#endif
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_2].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_2];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_2].mode_e         = DD_MCPWM_MODE_PWM;
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_3].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_3];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_3].mode_e         = DD_MCPWM_MODE_PWM;
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_4].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_4];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_4].mode_e         = DD_MCPWM_MODE_PWM;
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_5].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_5];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_5].mode_e         = DD_MCPWM_MODE_PWM;
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_6].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_6];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_6].mode_e         = DD_MCPWM_MODE_PWM;
+#ifndef JTAG_DEBUG_SUPPORT_ENABLE
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_7].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_7];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_7].mode_e         = DD_MCPWM_MODE_PWM;
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_8].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_8];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_8].mode_e         = DD_MCPWM_MODE_PWM;
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_9].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_9];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_9].mode_e         = DD_MCPWM_MODE_PWM;
+#endif
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_10].duty_cycle_f32 = r_ve_data_out_s.p_grid_data_out_s->duty_cycle_vf32[VE_GRID_VIBRATOR_10];
+    r_dd_data_in_s.mcpwm_data_in_vs[DD_MCPWM_CHANNEL_10].mode_e         = DD_MCPWM_MODE_PWM;
 }
 
 
