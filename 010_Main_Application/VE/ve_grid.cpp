@@ -26,24 +26,6 @@
 /*********************************************************************/
 
 
-//VE_GRID_VIRBATOR_TYPE ve_grid_vibrator_config_vs[VE_GRID_VIBRATOR_SIZE] = {
-//                            /*  PWM channel assignment      X-Position [mm]     Y-Position [mm]     Duty Cycle [%] */
-//#ifndef JTAG_DEBUG_SUPPORT_ENABLE
-//        /* VIBRATOR 1 */    {   DD_MCPWM_CHANNEL_1,         0.0F,               0.0F,               0.0F    },
-//#endif
-//        /* VIBRATOR 2 */    {   DD_MCPWM_CHANNEL_2,         0.0F,               0.0F,               0.0F    },
-//        /* VIBRATOR 3 */    {   DD_MCPWM_CHANNEL_3,         0.0F,               0.0F,               0.0F    },
-//        /* VIBRATOR 4 */    {   DD_MCPWM_CHANNEL_4,         0.0F,               0.0F,               0.0F    },
-//        /* VIBRATOR 5 */    {   DD_MCPWM_CHANNEL_5,         0.0F,               0.0F,               0.0F    },
-//        /* VIBRATOR 6 */    {   DD_MCPWM_CHANNEL_6,         0.0F,               0.0F,               0.0F    },
-//#ifndef JTAG_DEBUG_SUPPORT_ENABLE
-//        /* VIBRATOR 7 */    {   DD_MCPWM_CHANNEL_7,         0.0F,               0.0F,               0.0F    },
-//        /* VIBRATOR 8 */    {   DD_MCPWM_CHANNEL_8,         0.0F,               0.0F,               0.0F    },
-//        /* VIBRATOR 9 */    {   DD_MCPWM_CHANNEL_9,         0.0F,               0.0F,               0.0F    },
-//#endif
-//        /* VIBRATOR 10 */   {   DD_MCPWM_CHANNEL_10,        0.0F,               0.0F,               0.0F    }
-//};
-
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
