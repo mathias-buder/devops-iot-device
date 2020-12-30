@@ -17,14 +17,12 @@ cmake_minimum_required(VERSION 3.5)
 
 
 # Set custom component directories
-set(EXTRA_COMPONENT_DIRS 
-                         "OS" 
+set(EXTRA_COMPONENT_DIRS "OS" 
                          "DLG"
                          "DD"
                          "SENSE"
                          "VE"
-                         "UTIL"
-                         )
+                         "UTIL" )
 
 # Add IDF specific environment
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)

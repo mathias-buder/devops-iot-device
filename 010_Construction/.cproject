@@ -1200,7 +1200,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" moduleId="org.eclipse.cdt.core.settings" name="libSewelaSim">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" moduleId="org.eclipse.cdt.core.settings" name="SeWelaSim">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -1212,7 +1212,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" name="libSewelaSim" optionalBuildProperties="" parent="com.espressif.esp32.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Build libSeWelaSim.dll" id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" name="SeWelaSim" optionalBuildProperties="" parent="com.espressif.esp32.managedbuild.cross.config.elf.debug">
 					<folderInfo id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110." name="/" resourcePath="">
 						<toolChain id="com.espressif.esp32.managedbuild.cross.toolchain.elf.debug.673749969" name="Xtensa ESP32 GCC" superClass="com.espressif.esp32.managedbuild.cross.toolchain.elf.debug">
 							<option id="com.espressif.esp32.managedbuild.cross.option.optimization.level.1132089736" name="Optimization Level" superClass="com.espressif.esp32.managedbuild.cross.option.optimization.level" value="com.espressif.esp32.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>

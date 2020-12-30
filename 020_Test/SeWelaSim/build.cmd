@@ -1,6 +1,8 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
 
+set LOG_MSG_TAG=SeWelaSim
+
 set ORIG_PATH=%PATH%
 
 set TOOLS_DIR=..\BuildTools
@@ -23,33 +25,41 @@ if not %PARAMS_WITHOUT_ALL% == "%PARAMS%" (
 goto default
 
 :default
-	echo Usage: build.cmd [-jN] [all^|clean]
-	set BUILD_PARAMS=%1 %2 %3
-	goto build # _rem end
+    echo Usage: build.cmd [-jN] [all^|clean]
+    set BUILD_PARAMS=%1 %2 %3
+    goto build # _rem end
 
 :build
-	rem convert COMPILER_PATH to absolute path
-	pushd %COMPILER_PATH%
-	set ABS_COMPILER_PATH=%CD%
-	popd
-	pushd %CMAKE_PATH%
-	set ABS_CMAKE_PATH=%CD%
-	popd
-	pushd %PYTHON_PATH%
-	set ABS_PYTHON_PATH=%CD%
-	popd
-	set PATH=%ABS_COMPILER_PATH%;%ABS_CMAKE_PATH%;%ABS_PYTHON_PATH%
-	echo PATH set to %PATH%
-	echo [WeGetA] Performing build command with options %BUILD_PARAMS% cmake_options: %CMAKE_PARAMS%
-	cmake -H. -Bbuild -G "MinGW Makefiles" %CMAKE_PARAMS% -DCMAKE_BUILD_TYPE=Debug
-	cmake --build build -- %BUILD_PARAMS%
-	goto end
+    rem convert COMPILER_PATH to absolute path
+    pushd %COMPILER_PATH%
+    set ABS_COMPILER_PATH=%CD%
+    popd
+    pushd %CMAKE_PATH%
+    set ABS_CMAKE_PATH=%CD%
+    popd
+    pushd %PYTHON_PATH%
+    set ABS_PYTHON_PATH=%CD%
+    popd
+    set PATH=%ABS_COMPILER_PATH%;%ABS_CMAKE_PATH%;%ABS_PYTHON_PATH%
+    echo PATH set to %PATH%
+    echo [%LOG_MSG_TAG%] Performing build command with options %BUILD_PARAMS% cmake_options: %CMAKE_PARAMS%
+    cmake -H. -Bbuild -G "MinGW Makefiles" %CMAKE_PARAMS% -DCMAKE_BUILD_TYPE=Debug
+    cmake --build build -- %BUILD_PARAMS%
+    goto end
 
 :clean
-	echo [WeGetA] Performing clean command
-	rmdir /s /q build
-	goto end
+    echo [%LOG_MSG_TAG%] Performing clean command
+    if exist build (
+        echo Removing directory build
+        rmdir /s /q build )
+
+    if exist generated_src (
+    echo Removing directory generated_src
+    rmdir /s /q generated_src )
+
+    goto end
 
 :end
-	set PATH=%ORIG_PATH%
+    echo [%LOG_MSG_TAG%] Done
+    set PATH=%ORIG_PATH%
 

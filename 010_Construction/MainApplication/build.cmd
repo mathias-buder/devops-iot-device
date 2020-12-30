@@ -20,7 +20,12 @@ C:\Users\Nano\.espressif\tools\ccache\3.7\;^
 C:\Users\Nano\.espressif\python_env\idf4.0_py3.7_env\Scripts;^
 C:\Espressif\esp-idf\tools;^
 C:\Python37;^
-C:\Python37\Scripts;
+C:\Python37\Scripts;^
+C:\Strawberry\c\bin;^
+C:\Strawberry\perl\site\bin;^
+C:\Strawberry\perl\bin;^
+C:\Program Files\Git\cmd;
+
 
 REM Set build tool
 set IDF_BUILD_TOOL=idf.py.exe

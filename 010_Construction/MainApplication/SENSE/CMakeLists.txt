@@ -11,20 +11,28 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
-# idf_component_register(SRCS "sense_hr.cpp"
-#                            "sense_mtn.cpp"
-#                            "sense_spo2.cpp"
-#                            "sense_ts.cpp"
-#                            "SENSE.cpp"
-#                       INCLUDE_DIRS ".")
+if(SEWELASIM)
 
+   # SeWelaSim specific variables
 
-SET(SENSE_SRCS_VLE ${CMAKE_CURRENT_SOURCE_DIR}/sense_hr.cpp
-                   ${CMAKE_CURRENT_SOURCE_DIR}/sense_mtn.cpp
-                   ${CMAKE_CURRENT_SOURCE_DIR}/sense_spo2.cpp
-                   ${CMAKE_CURRENT_SOURCE_DIR}/sense_ts.cpp
-                   ${CMAKE_CURRENT_SOURCE_DIR}/SENSE.cpp )
+   SET(SENSE_SRCS_VLE ${CMAKE_CURRENT_SOURCE_DIR}/sense_hr.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/sense_mtn.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/sense_spo2.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/sense_ts.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/SENSE.cpp )
 
-SET(VLE_SRCS       ${VLE_SRCS}
-                   ${SENSE_SRCS_VLE}
-                   PARENT_SCOPE )
+   SET(VLE_SRCS       ${VLE_SRCS}
+                      ${SENSE_SRCS_VLE}
+                      PARENT_SCOPE )
+
+else()
+
+   idf_component_register(SRCS "sense_hr.cpp"
+                               "sense_mtn.cpp"
+                               "sense_spo2.cpp"
+                               "sense_ts.cpp"
+                               "SENSE.cpp"
+                         INCLUDE_DIRS ".")
+
+endif()
+

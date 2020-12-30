@@ -11,6 +11,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-unknown-pragmas")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
 
+# Variable to be used inside all individual CMakeList.txt files to switch between
+# SeWelaSim and uC build settings
+SET(SEWELASIM 1)
+
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(MAINAPP_PATH ../../010_Construction/MainApplication)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -D_POSIX_C_SOURCE=200112L -Dsimulator")
@@ -22,14 +26,7 @@ SET (SUBMODULES
     #DLGPROC
 )
 
-SET (LOCAL_SIM_SRCS
-    #${ACSIM_PATH}/Config/Common/EcuControl/DomainExecutionControl/DomainExecutionClasses/All_Domains/DomainExecution_All.cpp
-    #${ACSIM_PATH}/Config/Common/EcuControl/HelpFunctions/VIDEO/video_help_functions.cpp
-    #${CANPROCESSING_PATH}/A078_Protocol/process_message_measurement_protocol.cpp
-    #${CANPROCESSING_PATH}/FUSION_Protocol/process_message_fusion_protocol.cpp
-    #${CANPROCESSING_PATH}/IVECO_Vehicle_Protocol/process_message_iveco_vehicle_protocol.cpp
-    #${CANPROCESSING_PATH}/process_message.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sewela_sim.cpp
+SET (LOCAL_SIM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/sewela_sim.cpp
 )
 
 include_directories(.)
@@ -41,7 +38,6 @@ ENDFOREACH()
 SET (INTERMEDIATE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/generated_src)
 SET (IB_SCRIPT Scripts/buffer_gen.py)
 SET (WG_SCRIPT Scripts/wrapper_gen.py)
-#SET (PYGETA_SCRIPT ${PYGETA_PATH}/dwarf_parser.py)
 
 file(MAKE_DIRECTORY ${INTERMEDIATE_DIR})
 
@@ -99,13 +95,3 @@ SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} --verbose")
 configure_file($ENV{COMPILER_PATH}libstdc++-6.dll ${CMAKE_CURRENT_BINARY_DIR}/ COPYONLY)
 configure_file($ENV{COMPILER_PATH}libgcc_s_seh-1.dll ${CMAKE_CURRENT_BINARY_DIR}/ COPYONLY)
 configure_file($ENV{COMPILER_PATH}libwinpthread-1.dll ${CMAKE_CURRENT_BINARY_DIR}/ COPYONLY)
-
-#if(NOT MSVC)
-#ADD_CUSTOM_COMMAND(
-#	TARGET ${PROJECT_NAME}
-#	POST_BUILD
-#	COMMAND ${CMAKE_COMMAND} -E copy_if_different $ENV{COMPILER_PATH}libstdc++-6.dll ${CMAKE_CURRENT_BINARY_DIR}/libstdc++-6.dll
-#	WORKING_DIRECTORY ${PYGETA_PATH}
-#	COMMENT "Copy DLL to output dir ${CMAKE_CURRENT_BINARY_DIR}"
-#)
-#endif(NOT MSVC)

@@ -24,7 +24,7 @@
 			</provider>
 		</extension>
 	</configuration>
-	<configuration id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" name="libSewelaSim">
+	<configuration id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" name="SeWelaSim">
 		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
 			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
 			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>

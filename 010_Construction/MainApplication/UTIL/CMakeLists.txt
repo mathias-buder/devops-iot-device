@@ -11,16 +11,20 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
+if(SEWELASIM)
 
-#idf_component_register(SRCS "util_conf.cpp"
-#                             "util_gen.cpp"
-#                       INCLUDE_DIRS ".")
-                       
-                       
-SET(UTIL_SRCS_VLE ${CMAKE_CURRENT_SOURCE_DIR}/util_conf.cpp
-                  ${CMAKE_CURRENT_SOURCE_DIR}/util_gen.cpp )
+   # SeWelaSim specific variables
+   SET(UTIL_SRCS_VLE ${CMAKE_CURRENT_SOURCE_DIR}/util_conf.cpp
+                     ${CMAKE_CURRENT_SOURCE_DIR}/util_gen.cpp )
                    
-SET(VLE_SRCS       ${VLE_SRCS}
-                   ${UTIL_SRCS_VLE}
-                   PARENT_SCOPE )
+   SET(VLE_SRCS       ${VLE_SRCS}
+                      ${UTIL_SRCS_VLE}
+                      PARENT_SCOPE )
 
+else()
+
+    idf_component_register(SRCS "util_conf.cpp"
+                                "util_gen.cpp"
+                           INCLUDE_DIRS ".")
+
+endif()
