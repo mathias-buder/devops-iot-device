@@ -7,6 +7,7 @@ set(MAIN_APPL_DIR ../../010_Construction/MainApplication)
 set(VLE_SRCS "")
 
 add_subdirectory(${MAIN_APPL_DIR}/SENSE SENSE)
+add_subdirectory(${MAIN_APPL_DIR}/VE VE)
 add_subdirectory(${MAIN_APPL_DIR}/UTIL UTIL)
 
 add_library(MainApplication STATIC
@@ -26,6 +27,7 @@ target_include_directories(MainApplication
 
     PUBLIC
         ${MAIN_APPL_DIR}/SENSE
+        ${MAIN_APPL_DIR}/VE
         ${MAIN_APPL_DIR}/UTIL
     )
 

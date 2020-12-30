@@ -11,7 +11,21 @@
 #       (c) SEWELA 2020
 #
 # *********************************************************************/
+if(SEWELASIM)
 
-idf_component_register(SRCS "ve_grid.cpp"
-                            "VE.cpp"
-                       INCLUDE_DIRS ".")
+   # SeWelaSim specific variables
+
+   SET(VE_SRCS_VLE ${CMAKE_CURRENT_SOURCE_DIR}/ve_grid.cpp
+                    ${CMAKE_CURRENT_SOURCE_DIR}/VE.cpp )
+
+   SET(VLE_SRCS     ${VLE_SRCS}
+                    ${VE_SRCS_VLE}
+                    PARENT_SCOPE )
+
+else()
+
+    idf_component_register(SRCS "ve_grid.cpp"
+                                "VE.cpp"
+                           INCLUDE_DIRS ".")
+
+endif()
