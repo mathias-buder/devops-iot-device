@@ -262,7 +262,7 @@ def generate_wrapper_c(out_filename, xml_data, header_filename, structname):
     externals = get_externals(xml_data,prefix='')
     copy_code = s.get_copy_to_shared()
 
-    content = """#include "{header_filename}"
+    content = """#include <string.h>\n#include"{header_filename}"
 
 /* external declarations and includes from declarations.xml */
 {externals}

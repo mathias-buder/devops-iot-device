@@ -4,39 +4,32 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1.0 FATAL_ERROR)
 
 # Project's name
 if(CMAKE_GENERATOR MATCHES ".*Visual.*")
-project(libWeGetASim)
+project(libSeWelaSim)
 else()
-project(WeGetASim)
+project(SeWelaSim)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-unknown-pragmas")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
 
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
-set(MAINAPP_PATH ../../060_Software_Construction/MainApplication)
-set(ACSIM_PATH ../ACSim)
-set(ACSIM_DECLARATION_PATH ${ACSIM_PATH}/Config/Common/declarations)
+set(MAINAPP_PATH ../../010_Construction/MainApplication)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -D_POSIX_C_SOURCE=200112L -Dsimulator")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Dsimulator")
 
 include(CMake_MainApplication.txt build/MainApplication)
 
 SET (SUBMODULES
-	CommsProcessing
-	Helpers
-	#HelpFunctions
-	#src
+    #DLGPROC
 )
 
-set(CANPROCESSING_PATH ${ACSIM_PATH}/Config/Common/CanProcessing)
-
 SET (LOCAL_SIM_SRCS
-    ${ACSIM_PATH}/Config/Common/EcuControl/DomainExecutionControl/DomainExecutionClasses/All_Domains/DomainExecution_All.cpp
-    ${ACSIM_PATH}/Config/Common/EcuControl/HelpFunctions/VIDEO/video_help_functions.cpp
-    ${CANPROCESSING_PATH}/A078_Protocol/process_message_measurement_protocol.cpp
-    ${CANPROCESSING_PATH}/FUSION_Protocol/process_message_fusion_protocol.cpp
-    ${CANPROCESSING_PATH}/IVECO_Vehicle_Protocol/process_message_iveco_vehicle_protocol.cpp
-    ${CANPROCESSING_PATH}/process_message.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ecu_control_wegeta.cpp
+    #${ACSIM_PATH}/Config/Common/EcuControl/DomainExecutionControl/DomainExecutionClasses/All_Domains/DomainExecution_All.cpp
+    #${ACSIM_PATH}/Config/Common/EcuControl/HelpFunctions/VIDEO/video_help_functions.cpp
+    #${CANPROCESSING_PATH}/A078_Protocol/process_message_measurement_protocol.cpp
+    #${CANPROCESSING_PATH}/FUSION_Protocol/process_message_fusion_protocol.cpp
+    #${CANPROCESSING_PATH}/IVECO_Vehicle_Protocol/process_message_iveco_vehicle_protocol.cpp
+    #${CANPROCESSING_PATH}/process_message.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sewela_sim.cpp
 )
 
 include_directories(.)
@@ -73,16 +66,8 @@ endfunction()
 function(gen_wrapper WRAPPERSTRUCT)
 	SET(OUT_C ${INTERMEDIATE_DIR}/wrapper.c)
 	SET(OUT_H ${INTERMEDIATE_DIR}/wrapper.h)
-	SET(DECLARATIONS   declarations/combined_header.xml
-                       #${ACSIM_DECLARATION_PATH}/ACSIM/wrapper_addons.xml
-                       ${ACSIM_DECLARATION_PATH}/OF/OF.xml
-	                   ${ACSIM_DECLARATION_PATH}/OSL_ACC/OSL_ACC.xml
-	                   ${ACSIM_DECLARATION_PATH}/OSL_AEB/OSL_AEB.xml
-	                   ${ACSIM_DECLARATION_PATH}/LA/LA.xml
-	                   ${ACSIM_DECLARATION_PATH}/TRACK/View_Properties/Vehi.xml
-	                   ${ACSIM_DECLARATION_PATH}/FD/FD.xml
-	                   ${ACSIM_DECLARATION_PATH}/VIDEO/VIDEO/video_types.xml
-	                   ${ACSIM_DECLARATION_PATH}/VIDEO/VIDEO/VIDEO.xml)
+	SET(DECLARATIONS  declarations/combined_header.xml
+	                  declarations/SENSE/SENSE.xml )
 
 	add_custom_command(
 	    DEPENDS ${WG_SCRIPT} ${DECLARATIONS}
@@ -92,28 +77,20 @@ function(gen_wrapper WRAPPERSTRUCT)
 	    COMMENT "Generating wrapper for ${WRAPPERSTRUCT}"
 	)
 
-	set_source_files_properties(${OUT_C} PROPERTIES GENERATED TRUE)
-	set_source_files_properties(${OUT_H} PROPERTIES GENERATED TRUE)
+    set_source_files_properties(${OUT_C} PROPERTIES GENERATED TRUE)
+    set_source_files_properties(${OUT_H} PROPERTIES GENERATED TRUE)
 
-	SET(BUFFER_SRCS ${BUFFER_SRCS} ${OUT_C} PARENT_SCOPE)
+    SET(BUFFER_SRCS ${BUFFER_SRCS} ${OUT_C} PARENT_SCOPE)
 endfunction()
 
 gen_wrapper(_wrapper_s)
 
 add_custom_target(
-    ecu_control_wegeta.cpp
-	DEPENDS ${BUFFER_SRCS})
+    sewela_sim.cpp
+    DEPENDS ${BUFFER_SRCS})
 
 add_library(${PROJECT_NAME} SHARED ${LOCAL_SIM_SRCS} ${SIM_SRCS} ${BUFFER_SRCS})
 target_link_libraries(${PROJECT_NAME} MainApplication)
-
-# hack because of bad include path in MainApplication
-#target_include_directories(${PROJECT_NAME}
-#    PRIVATE
-#        ${ACSIM_PATH}
-#        ${ACSIM_PATH}/Config/Common
-#        ${ACSIM_PATH}/Config/Common/CanProcessing
-#       )
 
 message(${CMAKE_C_COMPILER})
     
@@ -132,44 +109,3 @@ configure_file($ENV{COMPILER_PATH}libwinpthread-1.dll ${CMAKE_CURRENT_BINARY_DIR
 #	COMMENT "Copy DLL to output dir ${CMAKE_CURRENT_BINARY_DIR}"
 #)
 #endif(NOT MSVC)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

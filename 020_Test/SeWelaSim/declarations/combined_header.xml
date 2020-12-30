@@ -1,0 +1,7 @@
+<properties>
+  <externs>
+    <!-- <extern>#include "../ACSim/Config/Common/wrapper_addons.h"</extern> -->
+    
+    <!-- <extern>#include "FOUNDATION/sw_utils.h"</extern>  -->
+  </externs>
+</properties>

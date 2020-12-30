@@ -1,0 +1,33 @@
+cmake_minimum_required (VERSION 3.2)
+#project (MainApplication)
+
+set(MAIN_APPL_DIR ../../010_Construction/MainApplication)
+
+#clean VLE_SRCS Variable
+set(VLE_SRCS "")
+
+add_subdirectory(${MAIN_APPL_DIR}/SENSE SENSE)
+add_subdirectory(${MAIN_APPL_DIR}/UTIL UTIL)
+
+add_library(MainApplication STATIC
+    ${GOGETA_SIMULATOR_SRCS}
+    ${VLE_SRCS}
+    )
+
+target_compile_definitions(MainApplication
+    PRIVATE
+
+    PUBLIC
+        simulator
+    )
+
+target_include_directories(MainApplication
+    PRIVATE
+
+    PUBLIC
+        ${MAIN_APPL_DIR}/SENSE
+        ${MAIN_APPL_DIR}/UTIL
+    )
+
+
+

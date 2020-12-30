@@ -3,5 +3,9 @@
         "process": "BLFLoader.dll",
         "name": "BLFLoader",
         "config": "BLFLoader.config"
+    },
+    {
+        "process": "../../SeWelaSim/build/libSeWelaSim.dll",
+        "name": "libSeWelaSim"
     }
 ]

@@ -210,6 +210,7 @@
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\wpa_supplicant\port\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\esp32\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sv-software/MainApplication/build/config}&quot;"/>
 								</option>
 								<inputType id="com.espressif.esp32.managedbuild.cross.tool.assembler.input.1181083383" superClass="com.espressif.esp32.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -379,6 +380,7 @@
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\wpa_supplicant\port\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\esp32\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sv-software/MainApplication/build/config}&quot;"/>
 								</option>
 								<inputType id="com.espressif.esp32.managedbuild.cross.tool.c.compiler.input.1336366540" superClass="com.espressif.esp32.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -548,6 +550,7 @@
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\wpa_supplicant\port\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\esp32\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sv-software/MainApplication/build/config}&quot;"/>
 								</option>
 								<inputType id="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input.951244722" superClass="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>
@@ -784,6 +787,7 @@
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\wpa_supplicant\port\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\esp32\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sv-software/MainApplication/build/config}&quot;"/>
 								</option>
 								<inputType id="com.espressif.esp32.managedbuild.cross.tool.assembler.input.1268959841" superClass="com.espressif.esp32.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -953,6 +957,7 @@
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\wpa_supplicant\port\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\esp32\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sv-software/MainApplication/build/config}&quot;"/>
 								</option>
 								<inputType id="com.espressif.esp32.managedbuild.cross.tool.c.compiler.input.307839226" superClass="com.espressif.esp32.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -1122,6 +1127,7 @@
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\wpa_supplicant\port\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\esp32\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${IDF_PATH}\components\xtensa\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sv-software/MainApplication/build/config}&quot;"/>
 								</option>
 								<inputType id="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input.510549885" superClass="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>
@@ -1193,12 +1199,98 @@
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
+		<cconfiguration id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" moduleId="org.eclipse.cdt.core.settings" name="libSewelaSim">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110" name="libSewelaSim" optionalBuildProperties="" parent="com.espressif.esp32.managedbuild.cross.config.elf.debug">
+					<folderInfo id="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110." name="/" resourcePath="">
+						<toolChain id="com.espressif.esp32.managedbuild.cross.toolchain.elf.debug.673749969" name="Xtensa ESP32 GCC" superClass="com.espressif.esp32.managedbuild.cross.toolchain.elf.debug">
+							<option id="com.espressif.esp32.managedbuild.cross.option.optimization.level.1132089736" name="Optimization Level" superClass="com.espressif.esp32.managedbuild.cross.option.optimization.level" value="com.espressif.esp32.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.optimization.messagelength.1079338003" name="Message length (-fmessage-length=0)" superClass="com.espressif.esp32.managedbuild.cross.option.optimization.messagelength" value="true" valueType="boolean"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.optimization.signedchar.371101234" name="'char' is signed (-fsigned-char)" superClass="com.espressif.esp32.managedbuild.cross.option.optimization.signedchar" value="true" valueType="boolean"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.optimization.functionsections.162653716" name="Function sections (-ffunction-sections)" superClass="com.espressif.esp32.managedbuild.cross.option.optimization.functionsections" value="true" valueType="boolean"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.optimization.datasections.601829981" name="Data sections (-fdata-sections)" superClass="com.espressif.esp32.managedbuild.cross.option.optimization.datasections" value="true" valueType="boolean"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.debugging.level.1680886081" name="Debug level" superClass="com.espressif.esp32.managedbuild.cross.option.debugging.level" value="com.espressif.esp32.managedbuild.cross.option.debugging.level.max" valueType="enumerated"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.debugging.format.967714797" name="Debug format" superClass="com.espressif.esp32.managedbuild.cross.option.debugging.format"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.toolchain.name.1075436121" superClass="com.espressif.esp32.managedbuild.cross.option.toolchain.name" value="GNU Tools for ESP32 Embedded Processors" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.architecture.665250270" name="Architecture" superClass="com.espressif.esp32.managedbuild.cross.option.architecture" value="com.espressif.esp32.managedbuild.cross.option.architecture.arm" valueType="enumerated"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.prefix.219814586" name="Prefix" superClass="com.espressif.esp32.managedbuild.cross.option.command.prefix" value="xtensa-esp32-elf-" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.c.1134823156" name="C compiler" superClass="com.espressif.esp32.managedbuild.cross.option.command.c" value="gcc" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.cpp.421645996" name="C++ compiler" superClass="com.espressif.esp32.managedbuild.cross.option.command.cpp" value="g++" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.ar.151552327" name="Archiver" superClass="com.espressif.esp32.managedbuild.cross.option.command.ar" value="ar" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.objcopy.1704815425" name="Hex/Bin converter" superClass="com.espressif.esp32.managedbuild.cross.option.command.objcopy" value="objcopy" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.objdump.10687373" name="Listing generator" superClass="com.espressif.esp32.managedbuild.cross.option.command.objdump" value="objdump" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.size.861390579" name="Size command" superClass="com.espressif.esp32.managedbuild.cross.option.command.size" value="size" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.make.546655434" name="Build command" superClass="com.espressif.esp32.managedbuild.cross.option.command.make" value="make" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.command.rm.1668733570" name="Remove command" superClass="com.espressif.esp32.managedbuild.cross.option.command.rm" value="rm" valueType="string"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.addtools.createflash.448628792" name="Create flash image" superClass="com.espressif.esp32.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
+							<option id="com.espressif.esp32.managedbuild.cross.option.addtools.printsize.1771106172" name="Print size" superClass="com.espressif.esp32.managedbuild.cross.option.addtools.printsize" value="true" valueType="boolean"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.espressif.esp32.managedbuild.cross.targetPlatform.1828853662" isAbstract="false" osList="all" superClass="com.espressif.esp32.managedbuild.cross.targetPlatform"/>
+							<builder buildPath="${workspace_loc:/sv-software/SeWelaSim}" command="build.cmd" id="com.espressif.esp32.managedbuild.cross.builder.1493081483" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.espressif.esp32.managedbuild.cross.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="MainApplication"/>
+								</outputEntries>
+							</builder>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.assembler.513878300" name="Cross ESP32 GNU Assembler" superClass="com.espressif.esp32.managedbuild.cross.tool.assembler">
+								<option id="com.espressif.esp32.managedbuild.cross.option.assembler.usepreprocessor.105478898" name="Use preprocessor" superClass="com.espressif.esp32.managedbuild.cross.option.assembler.usepreprocessor" value="true" valueType="boolean"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.espressif.esp32.managedbuild.cross.option.assembler.include.paths.1560736110" name="Include paths (-I)" superClass="com.espressif.esp32.managedbuild.cross.option.assembler.include.paths" valueType="includePath"/>
+								<inputType id="com.espressif.esp32.managedbuild.cross.tool.assembler.input.399130454" superClass="com.espressif.esp32.managedbuild.cross.tool.assembler.input"/>
+							</tool>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.c.compiler.1042708341" name="Cross ESP32 GNU C Compiler" superClass="com.espressif.esp32.managedbuild.cross.tool.c.compiler">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.espressif.esp32.managedbuild.cross.option.c.compiler.include.paths.397216445" name="Include paths (-I)" superClass="com.espressif.esp32.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath"/>
+								<inputType id="com.espressif.esp32.managedbuild.cross.tool.c.compiler.input.670093036" superClass="com.espressif.esp32.managedbuild.cross.tool.c.compiler.input"/>
+							</tool>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.1390563880" name="Cross ESP32 GNU C++ Compiler" superClass="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.espressif.esp32.managedbuild.cross.option.cpp.compiler.include.paths.1748281313" name="Include paths (-I)" superClass="com.espressif.esp32.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath"/>
+								<inputType id="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input.1083794039" superClass="com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input"/>
+							</tool>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.c.linker.646698375" name="Cross ESP32 GNU C Linker" superClass="com.espressif.esp32.managedbuild.cross.tool.c.linker">
+								<option id="com.espressif.esp32.managedbuild.cross.option.c.linker.gcsections.746915301" name="Remove unused sections (-Xlinker --gc-sections)" superClass="com.espressif.esp32.managedbuild.cross.option.c.linker.gcsections" value="true" valueType="boolean"/>
+							</tool>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.cpp.linker.2073588815" name="Cross ESP32 GNU C++ Linker" superClass="com.espressif.esp32.managedbuild.cross.tool.cpp.linker">
+								<option id="com.espressif.esp32.managedbuild.cross.option.cpp.linker.gcsections.503739757" name="Remove unused sections (-Xlinker --gc-sections)" superClass="com.espressif.esp32.managedbuild.cross.option.cpp.linker.gcsections" value="true" valueType="boolean"/>
+								<inputType id="com.espressif.esp32.managedbuild.cross.tool.cpp.linker.input.1662311865" superClass="com.espressif.esp32.managedbuild.cross.tool.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.archiver.812637554" name="Cross ESP32 GNU Archiver" superClass="com.espressif.esp32.managedbuild.cross.tool.archiver"/>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.createflash.1719267863" name="Cross ESP32 GNU Create Flash Image" superClass="com.espressif.esp32.managedbuild.cross.tool.createflash"/>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.createlisting.257801296" name="Cross ESP32 GNU Create Listing" superClass="com.espressif.esp32.managedbuild.cross.tool.createlisting">
+								<option id="com.espressif.esp32.managedbuild.cross.option.createlisting.source.1983435994" name="Display source (--source|-S)" superClass="com.espressif.esp32.managedbuild.cross.option.createlisting.source" value="true" valueType="boolean"/>
+								<option id="com.espressif.esp32.managedbuild.cross.option.createlisting.allheaders.862289358" name="Display all headers (--all-headers|-x)" superClass="com.espressif.esp32.managedbuild.cross.option.createlisting.allheaders" value="true" valueType="boolean"/>
+								<option id="com.espressif.esp32.managedbuild.cross.option.createlisting.demangle.1806674360" name="Demangle names (--demangle|-C)" superClass="com.espressif.esp32.managedbuild.cross.option.createlisting.demangle" value="true" valueType="boolean"/>
+								<option id="com.espressif.esp32.managedbuild.cross.option.createlisting.linenumbers.1808108168" name="Display line numbers (--line-numbers|-l)" superClass="com.espressif.esp32.managedbuild.cross.option.createlisting.linenumbers" value="true" valueType="boolean"/>
+								<option id="com.espressif.esp32.managedbuild.cross.option.createlisting.wide.875465948" name="Wide lines (--wide|-w)" superClass="com.espressif.esp32.managedbuild.cross.option.createlisting.wide" value="true" valueType="boolean"/>
+							</tool>
+							<tool id="com.espressif.esp32.managedbuild.cross.tool.printsize.1391341741" name="Cross ESP32 GNU Print Size" superClass="com.espressif.esp32.managedbuild.cross.tool.printsize">
+								<option id="com.espressif.esp32.managedbuild.cross.option.printsize.format.1444406187" name="Size format" superClass="com.espressif.esp32.managedbuild.cross.option.printsize.format"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="sv-software.com.espressif.esp32.managedbuild.cross.target.elf.556322643" name="Executable" projectType="com.espressif.esp32.managedbuild.cross.target.elf"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="libSewelaSim">
+			<resource resourceType="PROJECT" workspacePath="/sv-software"/>
+		</configuration>
 		<configuration configurationName="ESP32 [all]">
 			<resource resourceType="PROJECT" workspacePath="/sv-software"/>
 		</configuration>
@@ -1219,10 +1311,16 @@
 		<scannerConfigBuildInfo instanceId="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833;com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833.;com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.1879678525;com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input.510549885">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110;com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110.;com.espressif.esp32.managedbuild.cross.tool.c.compiler.1042708341;com.espressif.esp32.managedbuild.cross.tool.c.compiler.input.670093036">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383;com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.;com.espressif.esp32.managedbuild.cross.tool.c.compiler.1231458284;com.espressif.esp32.managedbuild.cross.tool.c.compiler.input.1336366540">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833;com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833.;com.espressif.esp32.managedbuild.cross.tool.c.compiler.399376734;com.espressif.esp32.managedbuild.cross.tool.c.compiler.input.307839226">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110;com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.600598110.;com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.1390563880;com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input.1083794039">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383;com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.;com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.860498983;com.espressif.esp32.managedbuild.cross.tool.cpp.compiler.input.951244722">

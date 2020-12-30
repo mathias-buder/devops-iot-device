@@ -3,7 +3,7 @@ SETLOCAL EnableDelayedExpansion
 
 set ORIG_PATH=%PATH%
 
-set TOOLS_DIR=..\..\075_Build_Tools
+set TOOLS_DIR=..\BuildTools
 set COMPILER_PATH=%TOOLS_DIR%\MinGW64_73\bin\
 set CMAKE_PATH=%TOOLS_DIR%\cmake-3.5.2-win32-x86\bin
 set PYTHON_PATH=%TOOLS_DIR%\Python35

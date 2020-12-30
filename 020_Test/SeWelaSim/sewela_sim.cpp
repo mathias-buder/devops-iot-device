@@ -1,7 +1,11 @@
-#include "ecu_control_wegeta.h"
-#include "CommsProcessing/comms_processing.h"
-#include "Helpers/osl_aeb_helper.h"
-#include "DomainExecutionControl/DomainExecutionClasses/All_Domains/DomainExecution_All.h"
+#include "sewela_sim.h"
+
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+
+#include "../../010_Construction/MainApplication/SENSE/SENSE.h"
+#include "../../010_Construction/MainApplication/UTIL/UTIL.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,14 +17,10 @@ extern "C" {
 }
 #endif
 
-
 #define MAXIMUM_FILE_LENGTH         50U
 #define MAXIMUM_EXPRESSION_LENGTH   50U
 
-DomainExecution_All acsim_ecu_control;
-LogMsgPtr           gogeta_Logger = 0;
-F32                 forecast_filtered_yaw_f32;
-F32                 forecast_actual_vehicle_speed_f32;
+LogMsgPtr gogeta_Logger = 0;
 
 void registerLogMsg( LogMsgPtr logger )
 {
@@ -55,24 +55,19 @@ extern "C" void message_logger(char* expression, char* filePath, int line, int c
 
 bool init()
 {
-    InitComms();
-    
-    osl_aeb_helper_init();
-
-    acsim_ecu_control.init();
-
     init__wrapper_s();
+
+    SENSE_C::init();
+
     return true;
 }
 
 bool runCycle(void)
 {
-    ProcessComms();
-    
-    osl_aeb_helper_main();
 
-    acsim_ecu_control.execute_cycle();
+
 
     copy__wrapper_s();
+
     return true;
 }

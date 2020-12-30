@@ -20,7 +20,7 @@
 #*********************************************************************/
 
 SET (LOCAL_SIM_SRCS
-${CMAKE_CURRENT_SOURCE_DIR}/osl_aeb_helper.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/dlg_processing.cpp
 )
 
 # propergate INCLUDE_DIRS, VLE_SRCS, and SIM_SRCS up to calling Makefile
