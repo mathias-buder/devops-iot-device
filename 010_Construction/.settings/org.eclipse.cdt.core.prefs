@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/IDF_CCACHE_ENABLE/delimiter=;
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/IDF_CCACHE_ENABLE/operation=replace
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/IDF_CCACHE_ENABLE/value=1
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/IDF_PYTHON_ENV_PATH/delimiter=;
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/IDF_PYTHON_ENV_PATH/operation=replace
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/IDF_PYTHON_ENV_PATH/value=C\:\\Users\\Nano\\.espressif\\python_env\\idf4.0_py3.7_env
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/OPENOCD_SCRIPTS/delimiter=;
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/OPENOCD_SCRIPTS/operation=replace
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/OPENOCD_SCRIPTS/value=C\:\\Users\\Nano\\.espressif\\tools\\openocd-esp32\\v0.10.0-esp32-20190313\\openocd-esp32\\share\\openocd\\scripts
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/append=true
+environment/project/com.espressif.esp32.managedbuild.cross.config.elf.debug.1851229383.1530792833/appendContributed=true
