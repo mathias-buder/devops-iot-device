@@ -70,6 +70,10 @@ SENSE_TS_DATA_OUT_TYPE* SENSE_TS_C::init( void )
 
 SENSE_TS_DATA_OUT_TYPE* SENSE_TS_C::init( SENSE_TS_CONFIG_TYPE& config_s )
 {
+    /* Reset data_out_s structure*/
+    memset( &this->data_out_s, 0U, sizeof( this->data_out_s ) );
+
+    /* Setup parameter configuration */
     this->alpha_filter_coeff_a_f32      = config_s.alpha_filter_coeff_a_f32;
     this->alpha_beta_filter_coeff_a_f32 = config_s.alpha_beta_filter_coeff_a_f32;
     this->alpha_beta_filter_coeff_b_f32 = config_s.alpha_beta_filter_coeff_b_f32;
