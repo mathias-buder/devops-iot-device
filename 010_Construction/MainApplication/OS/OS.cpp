@@ -66,8 +66,8 @@ extern "C" void app_main()
 //    os_tm_init();    /* Initialize Global Time Module */
 //    os_wifi_init();  /* Initialize and connect to wifi network */
 
-    DLG_C::init();   /* Initialize Data Logging Domain( DLG ) */
     DD_C::init();    /* Initialize Device Driver Domain ( DD ) */
+    DLG_C::init();   /* Initialize Data Logging Domain( DLG ) */
     SENSE_C::init(); /* Initialize Sensor Processing Domain ( SENSE ) */
     VE_C::init();    /* Initialize Vibration Engine Domain ( VE ) */
 
