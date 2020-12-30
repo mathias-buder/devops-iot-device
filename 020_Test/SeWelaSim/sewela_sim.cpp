@@ -1,6 +1,7 @@
 #include "sewela_sim.h"
 
 #include "../../010_Construction/MainApplication/SENSE/SENSE.h"
+#include "../../010_Construction/MainApplication/VE/VE.h"
 #include "../../010_Construction/MainApplication/UTIL/UTIL.h"
 
 #include <math.h>
@@ -18,17 +19,17 @@ extern "C"
 }
 #endif
 
-SENSE_DATA_IN_TYPE_TAG _read_sense_data_in_s;
+SENSE_DATA_IN_TYPE_TAG  _read_sense_data_in_s;
+SENSE_DATA_OUT_TYPE_TAG _sense_data_out_s;
+VE_DATA_IN_TYPE_TAG     _ve_data_in_s;
+VE_DATA_OUT_TYPE_TAG    _ve_data_out_s;
 
 bool init()
 {
-    /* Reset all _read_* data structures */
-    memset(&_read_sense_data_in_s, 0U, sizeof(_read_sense_data_in_s) );
-
-
     init__wrapper_s();
 
-    SENSE_C::init();
+    SENSE_C::init(); /* Initialize Sensor Processing Domain ( SENSE ) */
+    VE_C::init();    /* Initialize Vibration Engine Domain ( VE ) */
 
     return true;
 }
@@ -37,7 +38,8 @@ bool init()
 bool runCycle( void )
 {
 
-    SENSE_C::main( _read_sense_data_in_s );
+    _sense_data_out_s = SENSE_C::main( _read_sense_data_in_s );
+    _ve_data_out_s    = VE_C::main( _ve_data_in_s );
 
     copy__wrapper_s();
 
