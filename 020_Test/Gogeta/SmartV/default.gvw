@@ -1,10 +1,154 @@
 {
     "alignment": "horizontal",
     "subWindowSizes": [
-        34,
-        66
+        26,
+        27,
+        47
     ],
     "subWindows": [
+        {
+            "firstColumnWidth": 204,
+            "items": [
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_filtered_adc_level_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_beta_filtered_adc_level_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.asso_history_u64",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.confidence_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.confidence_max_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.xk_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.vk_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.rk_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.xk_1_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.vk_1_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.alpha_filter_coeff_a_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.alpha_beta_filter_coeff_a_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.alpha_beta_filter_coeff_b_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.min_touch_conf_level_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                },
+                {
+                    "active": true,
+                    "alias": "",
+                    "expression": "libSeWelaSim.sense_ts_A.min_touch_hyst_conf_level_f32",
+                    "precision": 4,
+                    "readAsChar": false,
+                    "rules": [
+                    ]
+                }
+            ],
+            "locked": false,
+            "name": "ValueTable",
+            "type": "ValueTable"
+        },
         {
             "alignment": "vertical",
             "subWindowSizes": [
@@ -429,11 +573,10 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                16,
-                20,
-                26,
-                21,
-                17
+                19,
+                24,
+                31,
+                26
             ],
             "subWindows": [
                 {
@@ -789,6 +932,82 @@
                         "min_x": 166.399383798021,
                         "min_y": -0.8
                     }
+                }
+            ]
+        }
+    ],
+    "undocked": [
+        {
+            "alignment": "vertical",
+            "floating": "true",
+            "geometry": "-1651 94 1318 741",
+            "subWindowSizes": [
+                53,
+                47
+            ],
+            "subWindows": [
+                {
+                    "TimePlotPlugin_X_Appearance_configuration": {
+                        "Color": "#7dc8c8ff",
+                        "StepAutoCalculate": true,
+                        "StepSize": null,
+                        "Style": "SolidLine",
+                        "Thickness": 0,
+                        "Visible": true
+                    },
+                    "TimePlotPlugin_Y_Appearance_configuration": {
+                        "Color": "#7dc8c8ff",
+                        "StepAutoCalculate": true,
+                        "StepSize": null,
+                        "Style": "SolidLine",
+                        "Thickness": 0,
+                        "Visible": true
+                    },
+                    "editor": {
+                        "antialiasing": true,
+                        "legend_position": "RIGHT",
+                        "show_legend": false,
+                        "show_lines": true,
+                        "show_points": false,
+                        "timestamp_for_x_axis": true
+                    },
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "color": "#ff0075dc",
+                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_filtered_adc_level_f32",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "color": "#ff993f00",
+                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.confidence_f32",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        }
+                    ],
+                    "locked": false,
+                    "name": "TimePlot",
+                    "type": "TimePlot",
+                    "viewport": {
+                        "auto_adjust_x": true,
+                        "auto_adjust_y": true,
+                        "background_color": "#ffffffff",
+                        "cycle_width": 200,
+                        "decimals_x": 2,
+                        "decimals_y": 2,
+                        "max_x": 209.61313878432298,
+                        "max_y": 1.1,
+                        "min_x": 0.5379806555540618,
+                        "min_y": -0.1
+                    }
                 },
                 {
                     "TimePlotPlugin_X_Appearance_configuration": {
@@ -810,7 +1029,7 @@
                     "editor": {
                         "antialiasing": true,
                         "legend_position": "RIGHT",
-                        "show_legend": true,
+                        "show_legend": false,
                         "show_lines": true,
                         "show_points": false,
                         "timestamp_for_x_axis": true
@@ -837,7 +1056,7 @@
                             "width": 2
                         },
                         {
-                            "active": true,
+                            "active": false,
                             "alias": "SENSE_TS_touch_confidence_max",
                             "color": "#80008000",
                             "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_touch_confidence_max",
@@ -854,12 +1073,12 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
-                        "cycle_width": 547,
+                        "cycle_width": 200,
                         "decimals_x": 2,
                         "decimals_y": 2,
-                        "max_x": 533.0539906103287,
+                        "max_x": 533.04,
                         "max_y": 1.1,
-                        "min_x": -13.94600938967136,
+                        "min_x": -13.95,
                         "min_y": -0.1
                     }
                 }

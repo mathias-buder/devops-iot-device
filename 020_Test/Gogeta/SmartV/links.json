@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "links": [
+            "BLFLoader.DLG.DD_ADC_Data.DD_ADC_raw_level -> libSeWelaSim._read_sense_data_in_s.ts_data_in_s.adc_raw_level_f32",
+            "BLFLoader.DLG.DD_ADC_Data.DD_ADC_voltage -> libSeWelaSim._read_sense_data_in_s.ts_data_in_s.adc_voltage_mV_u16"
+        ]
+    }
+]

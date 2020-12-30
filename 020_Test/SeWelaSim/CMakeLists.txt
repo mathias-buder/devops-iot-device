@@ -22,12 +22,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Dsimulator")
 
 include(CMake_MainApplication.txt build/MainApplication)
 
-SET (SUBMODULES
-    #DLGPROC
-)
-
-SET (LOCAL_SIM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/sewela_sim.cpp
-)
+SET (LOCAL_SIM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/sewela_sim.cpp)
 
 include_directories(.)
 

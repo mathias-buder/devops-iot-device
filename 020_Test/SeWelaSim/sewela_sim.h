@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+#define MAXIMUM_FILE_LENGTH         50U
+#define MAXIMUM_EXPRESSION_LENGTH   50U
+
 typedef void(*LogMsgPtr)(const char* module, const char* message, int level);
 
 #ifdef __cplusplus
