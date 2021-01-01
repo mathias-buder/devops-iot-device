@@ -44,16 +44,17 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( void )
     VE_GRID_CONFIG_TYPE default_cfg_s = {
         /* vibrator_vs */
         {                 /*  x [mm]   y [mm]   */
-         /* VINRATOR 1  */ {  1.0F,    10.0F },
-         /* VINRATOR 2  */ {  2.0F,    9.0F  },
-         /* VINRATOR 3  */ {  3.0F,    8.0F  },
-         /* VINRATOR 4  */ {  4.0F,    7.0F  },
-         /* VINRATOR 5  */ {  5.0F,    6.0F  },
-         /* VINRATOR 6  */ {  6.0F,    5.0F  },
-         /* VINRATOR 7  */ {  7.0F,    4.0F  },
-         /* VINRATOR 8  */ {  8.0F,    3.0F  },
-         /* VINRATOR 9  */ {  9.0F,    2.0F  },
-         /* VINRATOR 10 */ {  10.0F,   1.0F  }
+         /* VINRATOR 1  */ {  0.0F,    0.0F },
+         /* VINRATOR 2  */ {  11.3F,   10.0F },
+         /* VINRATOR 3  */ { -11.3F,   10.0F },
+         /* VINRATOR 4  */ {  0.0F,    16.4F },
+         /* VINRATOR 5  */ {  5.3F,    26.0F },
+         /* VINRATOR 6  */ { -5.3F,    26.0F },
+         /* VINRATOR 7  */ {  0.0F,    40.0F },
+         /* VINRATOR 8  */ { -11.0F,  -8.0F  },
+         /* VINRATOR 9  */ {  11.0F,  -8.0F  },
+         /* VINRATOR 10 */ {  0.0F,   -16.8F },
+         /* VINRATOR 11 */ {  0.0F,   -30.0F }
         }
     };
 

@@ -49,6 +49,7 @@ typedef enum VE_GRID_VIBRATOR_TAG
     VE_GRID_VIBRATOR_8,      /**< @details Vibrator 8  */
     VE_GRID_VIBRATOR_9,      /**< @details Vibrator 9  */
     VE_GRID_VIBRATOR_10,     /**< @details Vibrator 10 */
+    VE_GRID_VIBRATOR_11,     /**< @details Vibrator 11 */
     VE_GRID_VIBRATOR_SIZE    /**< @details Maximum number of vibrators */
 } VE_GRID_VIBRATOR;
 
