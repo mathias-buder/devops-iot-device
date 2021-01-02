@@ -132,8 +132,9 @@ typedef struct VE_GRID_DATA_OUT_TYPE_TAG
 class VE_GRID_C {
 
   private:
-    VE_GRID_DATA_OUT_TYPE data_out_s;                         /**< @details Unit output data structure */
-    VE_GRID_VIBRATOR_TYPE vibrator_vs[VE_GRID_VIBRATOR_SIZE]; /**< @details Internal vibrator management structure */
+    VE_GRID_DATA_OUT_TYPE      data_out_s;                         /**< @details Unit output data structure */
+    VE_GRID_VIBRATOR_TYPE      vibrator_vs[VE_GRID_VIBRATOR_SIZE]; /**< @details Internal vibrator management structure */
+    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;                    /**< @details Virtual vibration point */
 
   public:
 

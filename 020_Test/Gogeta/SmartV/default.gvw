@@ -1,16 +1,16 @@
 {
     "alignment": "horizontal",
     "subWindowSizes": [
-        24,
-        33,
-        43
+        23,
+        30,
+        47
     ],
     "subWindows": [
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                38,
-                62
+                45,
+                55
             ],
             "subWindows": [
                 {
@@ -29,15 +29,6 @@
                             "active": true,
                             "alias": "",
                             "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_beta_filtered_adc_level_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.asso_history_u64",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -177,6 +168,24 @@
                             "readAsChar": false,
                             "rules": [
                             ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.x_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.y_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
                         }
                     ],
                     "locked": false,
@@ -191,7 +200,7 @@
                             "expression": "ve_grid_xy_arrangement",
                             "fillColor": "#ff008000",
                             "outlineColor": "#ffff0000",
-                            "penshape": "SOLID",
+                            "penshape": "DASH",
                             "rules": [
                                 {
                                     "active": true,
@@ -206,8 +215,46 @@
                                     "type": "Annotation"
                                 }
                             ],
-                            "shape": "Diamond",
+                            "shape": "Circle",
                             "size": 6,
+                            "type": "Point",
+                            "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "ve_grid_virtual_point",
+                            "fillColor": "#8000ffff",
+                            "outlineColor": "#ffff00ff",
+                            "penshape": "SOLID",
+                            "rules": [
+                                {
+                                    "active": true,
+                                    "annotationName": "Y",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_s.y_f32",
+                                    "condition": "1",
+                                    "direction": 1,
+                                    "fontSize": 6,
+                                    "name": "1_1_0",
+                                    "offset": 6,
+                                    "precision": 1,
+                                    "type": "Annotation"
+                                },
+                                {
+                                    "active": true,
+                                    "annotationName": "X",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_s.x_f32",
+                                    "condition": "1",
+                                    "direction": 1,
+                                    "fontSize": 6,
+                                    "name": "1_1_1",
+                                    "offset": 6,
+                                    "precision": 1,
+                                    "type": "Annotation"
+                                }
+                            ],
+                            "shape": "Diamond",
+                            "size": 10,
                             "type": "Point",
                             "width": 1
                         }

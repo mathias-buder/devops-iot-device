@@ -18,6 +18,8 @@
 /*********************************************************************/
 /*      INCLUDES                                                     */
 /*********************************************************************/
+#include <math.h>
+
 #include "ve_grid.h"
 
 
@@ -74,8 +76,20 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( VE_GRID_CONFIG_TYPE& r_config_s )
 }
 
 
+F32 radius_f32 = 5.0F;
+F32 angle_f32;
+F32 angle_increment_f32 = 0.0F;
+
 void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 {
+
+
+    angle_increment_f32 += 0.01;
+    angle_f32 += angle_increment_f32;
+
+    this->virtual_point_s.x_f32 = radius_f32 * sinf(angle_f32);
+    this->virtual_point_s.y_f32 = radius_f32 * cosf(angle_f32);
+
 
 }
 
