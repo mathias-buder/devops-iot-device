@@ -55,11 +55,13 @@ void registerLogMsg( LogMsgPtr logger )
     p_gogeta_logger = logger;
 }
 
-
-extern "C" void message_logger( char* p_expression_u8, char* p_file_path_u8, int line_s32, int critical_level_flag_s32 )
+extern "C" void message_logger( char*            p_expression_u8,
+                                char*            p_file_path_u8,
+                                int              line_s32,
+                                MSG_LOG_LVL_TYPE critical_level_flag_e )
 {
     /* make a buffer for combining the text including expression message, file path and code line */
-    char text[MAXIMUM_FILE_LENGTH + MAXIMUM_EXPRESSION_LENGTH + 50U];
+    char text_vc[MAXIMUM_FILE_LENGTH + MAXIMUM_EXPRESSION_LENGTH + 50U];
 
     unsigned int file_name_index = strlen( p_file_path_u8 ) - MAXIMUM_FILE_LENGTH - 1U;
 
@@ -68,17 +70,17 @@ extern "C" void message_logger( char* p_expression_u8, char* p_file_path_u8, int
     if ( MAXIMUM_FILE_LENGTH > strlen( p_file_path_u8 ) )
     {
         /* the message is smaller than the limit, so no modification is required*/
-        snprintf( text, sizeof( text ), "issue detected: %.*s in file %s, line %d.", (int) min( MAXIMUM_EXPRESSION_LENGTH, strlen( p_expression_u8 ) ), p_expression_u8, p_file_path_u8, line_s32 );
+        snprintf( text_vc, sizeof( text_vc ), "issue detected: %.*s in file %s, line %d.", (int) min( MAXIMUM_EXPRESSION_LENGTH, strlen( p_expression_u8 ) ), p_expression_u8, p_file_path_u8, line_s32 );
     }
     else
     {
-        snprintf( text, sizeof( text ), "issue detected: %.*s in file ...%s, line %d.", (int) min( MAXIMUM_EXPRESSION_LENGTH, strlen( p_expression_u8 ) ), p_expression_u8, &p_file_path_u8[file_name_index], line_s32 );
+        snprintf( text_vc, sizeof( text_vc ), "issue detected: %.*s in file ...%s, line %d.", (int) min( MAXIMUM_EXPRESSION_LENGTH, strlen( p_expression_u8 ) ), p_expression_u8, &p_file_path_u8[file_name_index], line_s32 );
     }
     /* make sure that the pointer is not empty */
     if ( NULL != p_gogeta_logger )
     {
         /* call the function pointer */
-        p_gogeta_logger( "libSeWelaSim", text, critical_level_flag_s32 );
+        p_gogeta_logger( "libSeWelaSim", text_vc, (int) critical_level_flag_e );
     }
 }
 

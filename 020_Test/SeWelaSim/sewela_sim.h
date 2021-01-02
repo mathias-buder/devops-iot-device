@@ -30,8 +30,8 @@
 /*************************************************************
 *      DEFINES                                               *
 *************************************************************/
-#define MAXIMUM_FILE_LENGTH       50U
-#define MAXIMUM_EXPRESSION_LENGTH 50U
+#define MAXIMUM_FILE_LENGTH              50U
+#define MAXIMUM_EXPRESSION_LENGTH        50U
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
@@ -41,10 +41,29 @@ extern SENSE_DATA_OUT_TYPE_TAG _sense_data_out_s;
 extern VE_DATA_IN_TYPE_TAG     _ve_data_in_s;
 extern VE_DATA_OUT_TYPE_TAG    _ve_data_out_s;
 
+
+/*************************************************************
+*                      ENUMERATORS                           *
+*************************************************************/
+
+/**
+ * @details GoGetA log level definition
+ */
+typedef enum MSG_LOG_LVL_TYPE_TAG
+{
+    MSG_LOG_LVL_CRITICAL = 1U, /**< @details LEVEL: CRITICAL */
+    MSG_LOG_LVL_WARNING,       /**< @details LEVEL: WARNING */
+    MSG_LOG_LVL_INFO,          /**< @details LEVEL: INFO */
+    MSG_LOG_LVL_DEBUG,         /**< @details LEVEL: DEBUG */
+} MSG_LOG_LVL_TYPE;
+
+
 /*************************************************************/
 /*      FUNCTION PROTOTYPED                                  */
 /*************************************************************/
-typedef void ( *LogMsgPtr )( const char* module, const char* message, int level );
+typedef void ( *LogMsgPtr )( const char* module,
+                             const char* message,
+                             int         level );
 
 #ifdef __cplusplus
 extern "C"
