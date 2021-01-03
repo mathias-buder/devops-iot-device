@@ -52,7 +52,6 @@ void SENSE_MTN_C::main( void )
 
 }
 
-
 BOOLEAN SENSE_MTN_C::quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
                                         F32                   accel_x_f32,
                                         F32                   accel_y_f32,
@@ -85,7 +84,12 @@ BOOLEAN SENSE_MTN_C::quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
     F32 hatDot1_f32, hatDot2_f32, hatDot3_f32, hatDot4_f32;
 
     /* Gyro bias error */
-    F32 gyro_error_x_f32, gyro_error_y_f32, gyro_error_z_f32, gyro_bias_x_f32, gyro_bias_y_f32, gyro_bias_z_f32;
+    F32 gyro_error_x_f32 = 0.0F;
+    F32 gyro_error_y_f32 = 0.0F;
+    F32 gyro_error_z_f32 = 0.0F;
+    F32 gyro_bias_x_f32  = 0.0F;
+    F32 gyro_bias_y_f32  = 0.0F;
+    F32 gyro_bias_z_f32  = 0.0F;
 
     /* Auxiliary variables to avoid repeated arithmetic */
     F32 half_q1_f32 = 0.5F * q1_f32;
@@ -108,7 +112,7 @@ BOOLEAN SENSE_MTN_C::quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
     }
     else
     {
-        norm_f32     = 1.0F / norm_f32;
+        norm_f32 = 1.0F / norm_f32;
         accel_x_f32 *= norm_f32;
         accel_y_f32 *= norm_f32;
         accel_z_f32 *= norm_f32;
@@ -131,7 +135,7 @@ BOOLEAN SENSE_MTN_C::quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
         hatDot4_f32 = J_14or21_f32 * f1_f32 + J_11or24_f32 * f2_f32;
 
         /* Normalize the gradient */
-        norm_f32     = sqrt( hatDot1_f32 * hatDot1_f32 + hatDot2_f32 * hatDot2_f32 + hatDot3_f32 * hatDot3_f32 + hatDot4_f32 * hatDot4_f32 );
+        norm_f32 = sqrt( hatDot1_f32 * hatDot1_f32 + hatDot2_f32 * hatDot2_f32 + hatDot3_f32 * hatDot3_f32 + hatDot4_f32 * hatDot4_f32 );
         hatDot1_f32 /= norm_f32;
         hatDot2_f32 /= norm_f32;
         hatDot3_f32 /= norm_f32;
@@ -149,9 +153,9 @@ BOOLEAN SENSE_MTN_C::quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
 
         /* Compute the quaternion derivative */
         qDot1_f32 = -half_q2_f32 * gyro_x_f32 - half_q3_f32 * gyro_y_f32 - half_q4_f32 * gyro_z_f32;
-        qDot2_f32 =  half_q1_f32 * gyro_x_f32 + half_q3_f32 * gyro_z_f32 - half_q4_f32 * gyro_y_f32;
-        qDot3_f32 =  half_q1_f32 * gyro_y_f32 - half_q2_f32 * gyro_z_f32 + half_q4_f32 * gyro_x_f32;
-        qDot4_f32 =  half_q1_f32 * gyro_z_f32 + half_q2_f32 * gyro_y_f32 - half_q3_f32 * gyro_x_f32;
+        qDot2_f32 = half_q1_f32 * gyro_x_f32 + half_q3_f32 * gyro_z_f32 - half_q4_f32 * gyro_y_f32;
+        qDot3_f32 = half_q1_f32 * gyro_y_f32 - half_q2_f32 * gyro_z_f32 + half_q4_f32 * gyro_x_f32;
+        qDot4_f32 = half_q1_f32 * gyro_z_f32 + half_q2_f32 * gyro_y_f32 - half_q3_f32 * gyro_x_f32;
 
         /* Compute then integrate estimated quaternion derivative */
         q1_f32 += ( qDot1_f32 - ( beta_f32 * hatDot1_f32 ) ) * dt_f32;
@@ -160,8 +164,8 @@ BOOLEAN SENSE_MTN_C::quaternion_update( SENSE_MTN_QUATERNION& quaternion_s,
         q4_f32 += ( qDot4_f32 - ( beta_f32 * hatDot4_f32 ) ) * dt_f32;
 
         /* Normalize the quaternion */
-        norm_f32               = sqrt( q1_f32 * q1_f32 + q2_f32 * q2_f32 + q3_f32 * q3_f32 + q4_f32 * q4_f32 );
-        norm_f32               = 1.0F / norm_f32;
+        norm_f32            = sqrt( q1_f32 * q1_f32 + q2_f32 * q2_f32 + q3_f32 * q3_f32 + q4_f32 * q4_f32 );
+        norm_f32            = 1.0F / norm_f32;
         quaternion_s.Q1_f32 = q1_f32 * norm_f32;
         quaternion_s.Q2_f32 = q2_f32 * norm_f32;
         quaternion_s.Q3_f32 = q3_f32 * norm_f32;
