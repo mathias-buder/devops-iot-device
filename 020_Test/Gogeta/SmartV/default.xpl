@@ -1,4 +1,4 @@
 
 <log-playlist>
-    <entry filename="E:/XC12C45D.blf"/>
+    <entry filename="test.blf"/>
 </log-playlist>

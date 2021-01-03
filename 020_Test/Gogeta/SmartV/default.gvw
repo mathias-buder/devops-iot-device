@@ -141,51 +141,6 @@
                             "readAsChar": false,
                             "rules": [
                             ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].position_s.x_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].position_s.y_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].pwm_duty_cycle_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.x_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.y_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
                         }
                     ],
                     "locked": false,
@@ -300,11 +255,11 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                21,
+                24,
                 23,
-                14,
                 15,
-                27
+                14,
+                24
             ],
             "subWindows": [
                 {
@@ -411,7 +366,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "DD_ICM_20600 (LOG)",
+                    "name": "DD_ICM_20600 [LOG]",
                     "type": "ValueTable"
                 },
                 {
@@ -518,7 +473,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "DD_MAX_30102 (LOG)",
+                    "name": "DD_MAX_30102 [LOG]",
                     "type": "ValueTable"
                 },
                 {
@@ -571,7 +526,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "DD_ADC",
+                    "name": "DD_ADC [LOG]",
                     "type": "ValueTable"
                 },
                 {
@@ -624,11 +579,11 @@
                         }
                     ],
                     "locked": false,
-                    "name": "SENSE_TS (LOG)",
+                    "name": "SENSE_TS [LOG]",
                     "type": "ValueTable"
                 },
                 {
-                    "firstColumnWidth": 268,
+                    "firstColumnWidth": 205,
                     "items": [
                         {
                             "active": true,
@@ -722,7 +677,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "INA_219 (LOG)",
+                    "name": "INA_219 [LOG]",
                     "type": "ValueTable"
                 }
             ]
@@ -730,8 +685,8 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                19,
-                24,
+                22,
+                21,
                 31,
                 26
             ],
@@ -764,7 +719,7 @@
                     "items": [
                         {
                             "active": true,
-                            "alias": "temperature [deg]",
+                            "alias": "DD_ICM_20600",
                             "color": "#ff0075dc",
                             "expression": "BLFLoader.DLG.DD_ICM_20600_temperature.DD_ICM_20600_temperature_deg",
                             "rules": [
@@ -773,10 +728,20 @@
                             "width": 2
                         },
                         {
-                            "active": false,
-                            "alias": "temperature [raw]",
-                            "color": "#ff993f00",
-                            "expression": "BLFLoader.DLG.DD_ICM_20600_temperature.DD_ICM_20600_temperature_raw",
+                            "active": true,
+                            "alias": "DD_TMP_102",
+                            "color": "#fff34aff",
+                            "expression": "BLFLoader.DLG.DD_TMP_102_Data.DD_TMP_102_temperature_deg",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "DD_MAX_30102",
+                            "color": "#ff4c005c",
+                            "expression": "BLFLoader.DLG.DD_MAX_30102_Data.DD_MAX_30102_temperature",
                             "rules": [
                             ],
                             "type": "SOLID",
@@ -784,7 +749,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "DD_ICM-20600 Temperature",
+                    "name": "Temperature (°C) [LOG]",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
@@ -847,7 +812,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "DD_MAX_30102 IR/RED",
+                    "name": "DD_MAX_30102 IR/RED [LOG]",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
@@ -927,7 +892,7 @@
                                 }
                             ],
                             "locked": false,
-                            "name": "DD_ICM-20600 Gyro",
+                            "name": "DD_ICM-20600 Gyro [LOG]",
                             "type": "TimePlot",
                             "viewport": {
                                 "auto_adjust_x": true,
@@ -1000,7 +965,7 @@
                                 }
                             ],
                             "locked": false,
-                            "name": "DD_ICM-20600 Accel",
+                            "name": "DD_ICM-20600 Accel [LOG]",
                             "type": "TimePlot",
                             "viewport": {
                                 "auto_adjust_x": true,
@@ -1075,7 +1040,7 @@
                         }
                     ],
                     "locked": false,
-                    "name": "DD_ADC",
+                    "name": "DD_ADC [LOG]",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,

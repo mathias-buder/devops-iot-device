@@ -26,7 +26,9 @@
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-
+F32 radius_f32 = 10.0F;
+F32 angle_f32;
+F32 angle_increment_f32 = 0.0F;
 
 
 /*********************************************************************/
@@ -67,25 +69,31 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( VE_GRID_CONFIG_TYPE& r_config_s )
 {
     U8 idx_u8;
 
+    angle_f32           = 0.0F;
+    angle_increment_f32 = 0.0F;
+
     for ( idx_u8 = 0U; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8 )
     {
-        this->vibrator_vs[idx_u8].position_s = r_config_s.vibrator_pos_vs[idx_u8];
+        this->vibrator_vs[idx_u8].position_s         = r_config_s.vibrator_pos_vs[idx_u8];
+        this->vibrator_vs[idx_u8].pwm_duty_cycle_f32 = 0.0F;
     }
 
     return &this->data_out_s;
 }
 
-
-F32 radius_f32 = 5.0F;
-F32 angle_f32;
-F32 angle_increment_f32 = 0.0F;
-
 void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 {
+
+    U8 idx_u8;
 
 
     angle_increment_f32 += 0.01;
     angle_f32 += angle_increment_f32;
+
+    for (idx_u8 = 0; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8)
+    {
+        this->vibrator_vs[idx_u8].pwm_duty_cycle_f32 = angle_increment_f32;
+    }
 
     this->virtual_point_s.x_f32 = radius_f32 * sinf(angle_f32);
     this->virtual_point_s.y_f32 = radius_f32 * cosf(angle_f32);
