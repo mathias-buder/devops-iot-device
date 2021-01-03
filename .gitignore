@@ -1,6 +1,5 @@
 *.ini
 *.stcfg
-*.blf
 *.sbf
 ~$*.*
 *.pyc
@@ -10,3 +9,4 @@
 /020_Test/BuildTools
 /020_Test/SeWelaSim/build
 /020_Test/SeWelaSim/generated_src
+/020_Test/Gogeta/scripts/sbf2blf_converter/*.blf
