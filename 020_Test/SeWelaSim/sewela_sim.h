@@ -21,9 +21,9 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../../010_Construction/MainApplication/SENSE/SENSE.h"
-#include "../../010_Construction/MainApplication/UTIL/UTIL.h"
-#include "../../010_Construction/MainApplication/VE/VE.h"
+#include "SENSE/SENSE.h"
+#include "UTIL/UTIL.h"
+#include "VE/VE.h"
 
 #include <stdbool.h>
 

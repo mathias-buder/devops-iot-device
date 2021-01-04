@@ -89,6 +89,13 @@ add_custom_target( sewela_sim.cpp
                    DEPENDS ${BUFFER_SRCS} )
 
 add_library(${PROJECT_NAME} SHARED ${LOCAL_SIM_SRCS} ${SIM_SRCS} ${BUFFER_SRCS})
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    PUBLIC
+        ${MAIN_APPL_DIR}
+    )
+
 target_link_libraries(${PROJECT_NAME} MainApplication)
 
 message(${CMAKE_C_COMPILER})
