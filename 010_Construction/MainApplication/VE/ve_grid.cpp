@@ -97,8 +97,6 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 
     this->virtual_point_s.x_f32 = radius_f32 * sinf(angle_f32);
     this->virtual_point_s.y_f32 = radius_f32 * cosf(angle_f32);
-
-
 }
 
 
