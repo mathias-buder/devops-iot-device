@@ -1,30 +1,35 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
 
-REM Set environment variables
-set TOOLCHAIN_HOME_PATH=C:\Users\Nano\.espressif\tools
-set IDF_CCACHE_ENABLE=1
+REM Set environment variables (modify if required)
+SET PYTHON_PATH=C:\Anaconda3;C:\Anaconda3\Scripts
+SET PERL_PATH=C:\Strawberry\perl
+SET GIT_PATH=C:\Program Files\Git
+set TOOLCHAIN_HOME_PATH=C:\Users\buderm\.espressif\tools
 set IDF_PATH=C:\Espressif\esp-idf
 set IDF_PYTHON_ENV_PATH=%TOOLCHAIN_HOME_PATH%\..\python_env\idf4.0_py3.7_env
 
+REM Don't modify
+set IDF_CCACHE_ENABLE=1
+
+
 set PATH=^
-C:\Users\Nano\.espressif\tools\usr\bin;^
-C:\Users\Nano\.espressif\tools\opt\xtensa-esp32-elf\bin;^
-C:\Users\Nano\.espressif\tools\xtensa-esp32-elf\esp-2019r2-8.2.0\xtensa-esp32-elf\bin;^
-C:\Users\Nano\.espressif\tools\esp32ulp-elf\2.28.51.20170517\esp32ulp-elf-binutils\bin;^
-C:\Users\Nano\.espressif\tools\cmake\3.13.4\bin;^
-C:\Users\Nano\.espressif\tools\mconf\v4.6.0.0-idf-20190628\;^
-C:\Users\Nano\.espressif\tools\ninja\1.9.0\;^
-C:\Users\Nano\.espressif\tools\idf-exe\1.0.1\;^
-C:\Users\Nano\.espressif\tools\ccache\3.7\;^
-C:\Users\Nano\.espressif\python_env\idf4.0_py3.7_env\Scripts;^
-C:\Espressif\esp-idf\tools;^
-C:\Python37;^
-C:\Python37\Scripts;^
-C:\Strawberry\c\bin;^
-C:\Strawberry\perl\site\bin;^
-C:\Strawberry\perl\bin;^
-C:\Program Files\Git\cmd;
+%PYTHON_PATH%;^
+%TOOLCHAIN_HOME_PATH%\usr\bin;^
+%TOOLCHAIN_HOME_PATH%\opt\xtensa-esp32-elf\bin;^
+%TOOLCHAIN_HOME_PATH%\xtensa-esp32-elf\esp-2019r2-8.2.0\xtensa-esp32-elf\bin;^
+%TOOLCHAIN_HOME_PATH%\esp32ulp-elf\2.28.51.20170517\esp32ulp-elf-binutils\bin;^
+%TOOLCHAIN_HOME_PATH%\cmake\3.13.4\bin;^
+%TOOLCHAIN_HOME_PATH%\mconf\v4.6.0.0-idf-20190628\;^
+%TOOLCHAIN_HOME_PATH%\ninja\1.9.0\;^
+%TOOLCHAIN_HOME_PATH%\idf-exe\1.0.1\;^
+%TOOLCHAIN_HOME_PATH%\ccache\3.7\;^
+%IDF_PYTHON_ENV_PATH%\Scripts;^
+%IDF_PATH%\tools;^
+%PERL_PATH%\..\c\bin;^
+%PERL_PATH%\site\bin;^
+%PERL_PATH%\bin;^
+%GIT_PATH%\cmd;
 
 
 REM Set build tool
