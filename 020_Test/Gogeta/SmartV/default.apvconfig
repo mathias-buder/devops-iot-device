@@ -9,7 +9,7 @@
             "path": "libSeWelaSim.sense_ts_A.alpha_beta_filter_coeff_b_f32"
         },
         {
-            "apvValue": 0.6000000238418579,
+            "apvValue": 0.4000000059604645,
             "path": "libSeWelaSim.sense_ts_A.alpha_filter_coeff_a_f32"
         }
     ],

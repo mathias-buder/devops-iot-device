@@ -55,33 +55,6 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.sense_ts_A.xk_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.sense_ts_A.vk_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.sense_ts_A.rk_f32",
-                            "precision": 4,
-                            "readAsChar": false,
-                            "rules": [
-                            ]
-                        },
-                        {
-                            "active": true,
-                            "alias": "",
                             "expression": "libSeWelaSim.sense_ts_A.xk_1_f32",
                             "precision": 4,
                             "readAsChar": false,
@@ -687,8 +660,8 @@
             "subWindowSizes": [
                 22,
                 21,
-                31,
-                26
+                30,
+                27
             ],
             "subWindows": [
                 {
@@ -1010,26 +983,16 @@
                     "items": [
                         {
                             "active": false,
-                            "alias": "SENSE_TS_alpha_beta_adc_level",
-                            "color": "#ffff00ff",
-                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_beta_adc_level",
+                            "alias": "alpha_beta_filtered_adc_level_f32",
+                            "color": "#ff005c31",
+                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_beta_filtered_adc_level_f32",
                             "rules": [
                             ],
-                            "type": "DASH DOT",
+                            "type": "SOLID",
                             "width": 2
                         },
                         {
-                            "active": false,
-                            "alias": "SENSE_TS_alpha_adc_level",
-                            "color": "#ff993f00",
-                            "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
-                            "rules": [
-                            ],
-                            "type": "DASH DOT DOT",
-                            "width": 2
-                        },
-                        {
-                            "active": false,
+                            "active": true,
                             "alias": "alpha_filtered_adc_level_f32",
                             "color": "#ff191919",
                             "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_filtered_adc_level_f32",
@@ -1040,27 +1003,27 @@
                         },
                         {
                             "active": true,
-                            "alias": "DD_ADC_raw_level",
-                            "color": "#ff0075dc",
-                            "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_raw_level",
+                            "alias": "adc_raw_level_f32",
+                            "color": "#ff008b8b",
+                            "expression": "libSeWelaSim._read_sense_data_in_s.ts_data_in_s.adc_raw_level_f32",
                             "rules": [
                             ],
-                            "type": "SOLID",
+                            "type": "DASH DOT",
                             "width": 2
                         },
                         {
                             "active": true,
-                            "alias": "alpha_beta_filtered_adc_level_f32",
-                            "color": "#ff005c31",
-                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_beta_filtered_adc_level_f32",
+                            "alias": "touch_confidence_f32",
+                            "color": "#ffed20ff",
+                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.confidence_f32",
                             "rules": [
                             ],
-                            "type": "SOLID",
+                            "type": "DOT",
                             "width": 2
                         }
                     ],
                     "locked": false,
-                    "name": "DD_ADC [LOG]",
+                    "name": "ADC Level",
                     "type": "TimePlot",
                     "viewport": {
                         "auto_adjust_x": true,
