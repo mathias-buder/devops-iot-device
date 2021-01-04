@@ -55,10 +55,10 @@ void registerLogMsg( LogMsgPtr logger )
     p_gogeta_logger = logger;
 }
 
-extern "C" void message_logger( char*            p_expression_u8,
-                                char*            p_file_path_u8,
-                                int              line_s32,
-                                MSG_LOG_LVL_TYPE critical_level_flag_e )
+extern "C" void message_logger( const char* p_expression_u8,
+                                const char* p_file_path_u8,
+                                int   line_s32,
+                                int   critical_level_flag_s32 )
 {
     /* make a buffer for combining the text including expression message, file path and code line */
     char text_vc[MAXIMUM_FILE_LENGTH + MAXIMUM_EXPRESSION_LENGTH + 50U];
@@ -80,7 +80,7 @@ extern "C" void message_logger( char*            p_expression_u8,
     if ( NULL != p_gogeta_logger )
     {
         /* call the function pointer */
-        p_gogeta_logger( "libSeWelaSim", text_vc, (int) critical_level_flag_e );
+        p_gogeta_logger( "libSeWelaSim", text_vc, critical_level_flag_s32 );
     }
 }
 
