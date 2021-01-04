@@ -1,32 +1,22 @@
-/**************************************************************************************************
+/*********************************************************************
     MODULE SPECIFICATION:
 
-        $ProjectName: /DAS/060_Projects/<WBC> Wabco/<WAB1Fus> CV MY2021i AC1000T Fusion/060_Software_Construction/MainApplication/UTIL/project.pj $
-        $RCSfile: ConfRadVid.h $
-        $Revision: 1.1 $
-        $Date: 2018/05/28 16:34:24CEST $
-
-
-
-        TRW Ltd owns the copyright in this document and associated
-        documents and all rights are reserved.  These documents must
+        SEWELA owns the copyright in this document and associated
+        documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
         are supplied and must not be copied in whole or in part or
-        disclosed to others without prior written consent of TRW
-        Ltd. Any copy of this drawing or document made by any method
+        disclosed to others without prior written consent of SEWELA.
+        Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-    $CopyrightDate: (c) ZF 2019 $
+        (c) SEWELA 2020
 
-***************************************************************************************************/
+        @file util_conf.h
+        @details Some detailed description
 
-/**
- * @file
- * @brief general details of file
- */
-
-#ifndef UTIL_CONF_H
-#define UTIL_CONF_H
+*********************************************************************/
+#ifndef UTIL_CONF_H_
+#define UTIL_CONF_H_
 
 /*************************************************************/
 /*      INCLUDES                                             */
@@ -74,4 +64,4 @@ void util_update_fir_confidence( F32* const                      p_confidence_f3
                                  const U8                        history_length_u8,
                                  const UTIL_CONF_DETECTION_STATE detection_status_e );
 
-#endif /* UTIL_CONF_H */
+#endif /* UTIL_CONF_H_ */

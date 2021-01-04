@@ -1,41 +1,29 @@
-/* PRQA S 0292 17 */
 /*********************************************************************
     MODULE SPECIFICATION:
 
-        $ProjectName: /DAS/060_Projects/<WBC> Wabco/<WAB1Fus> CV MY2021i AC1000T Fusion/060_Software_Construction/MainApplication/FOUNDATION/project.pj $
-        $RCSfile: sw_utils.h $
-        $Revision: 1.1 $
-        $Date: 2019/08/13 11:14:07CEST $
-
-        TRW Ltd owns the copyright in this document and associated
-        documents and all rights are reserved.  These documents must
+        SEWELA owns the copyright in this document and associated
+        documents and all rights are reserved. These documents must
         not be used for any purpose other than that for which they
         are supplied and must not be copied in whole or in part or
-        disclosed to others without prior written consent of TRW
-        Ltd. Any copy of this drawing or document made by any method
+        disclosed to others without prior written consent of SEWELA.
+        Any copy of this drawing or document made by any method
         must also include a copy of this legend.
 
-    $CopyrightDate: (c) ZF 2019 $
+        (c) SEWELA 2020
+
+        @file util_gen.h
+        @details Some detailed description
 
 *********************************************************************/
-
-/* Global QAC warning suppression */
-
-/*  DEVIATION:      3453
-    DESCRIPTION:    A function could probably be used instead of this function-like macro.
-    JUSTIFICATION:  This is a well established (all AC10, AC20, A100 and AC1000) approach. We believe that it
-                    provides more readable code. */
-/* PRQA S 3453 EOF */
-
-/*  DEVIATION:      4601
-    DESCRIPTION:    The macro 'fmaxf'/"fminf"/"fabs"/"fabsf" is the name of an identifier in '<math.h>'.
-    JUSTIFICATION:  This is a well established (all AC10, AC20, A100 and AC1000) approach. */
-/* PRQA S 4601 EOF */
-
-#ifndef UTIL_GENERAL_H
-#define UTIL_GENERAL_H
+#ifndef UTIL_GENERAL_H_
+#define UTIL_GENERAL_H_
 
 #include "../types.h"
+
+#ifndef simulator
+#include "esp_log.h"
+#include "assert.h"
+#endif
 
 #include <math.h>
 
@@ -125,9 +113,43 @@
 #define max( val_1, val_2 ) ( ( ( val_1 ) >= ( val_2 ) ) ? ( val_1 ) : ( val_2 ) )
 #define min( val_1, val_2 ) ( ( ( val_1 ) <= ( val_2 ) ) ? ( val_1 ) : ( val_2 ) )
 
-/************************************************************************************/
 
+/************************************************************************************/
+/* Function:    ASSERT / LOG                                                        */
+/* Description: This macro sends a debug message to the standard error device if    */
+/*              the argument 'expression' is usually false.                         */
+/************************************************************************************/
+#if ( defined( simulator ) )
+    /* ASSERT feature can be used to inform the user about critical failures */
+    #define ASSERT( expression )                                  \
+        if ( !( expression ) )                                    \
+        {                                                         \
+            message_logger( #expression, __FILE__, __LINE__, 1 ); \
+        }
+
+    #define LOG_E( tag, format, ... )
+    #define LOG_I( tag, format, ... )
+    #define LOG_D( tag, format, ... )
+    #define LOG_V( tag, format, ... )
+#else
+    #define ASSERT( expression )          assert( expression );
+    #define LOG_E( tag, format, ... )     ESP_LOGE( tag, format, ##__VA_ARGS__ );
+    #define LOG_W( tag, format, ... )     ESP_LOGW( tag, format, ##__VA_ARGS__ );
+    #define LOG_I( tag, format, ... )     ESP_LOGI( tag, format, ##__VA_ARGS__ );
+    #define LOG_D( tag, format, ... )     ESP_LOGD( tag, format, ##__VA_ARGS__ );
+    #define LOG_V( tag, format, ... )     ESP_LOGV( tag, format, ##__VA_ARGS__ );
+#endif
+
+/************************************************************************************/
 /* Global function declarations */
+
+#if ( defined( simulator ) )
+extern "C" void message_logger( const char* p_expression_c,
+                                const char* p_file_path_c,
+                                int         line_s32,
+                                int         log_level_s32 );
+#endif
+
 extern F32 squaref( const F32 x_f32 );
 /**
  * @description     Returns an interpolated floating point value from a 1D
@@ -158,4 +180,4 @@ typedef struct
     int  length;
 } delay_str_type;
 
-#endif /* UTIL_GENERAL_H */
+#endif /* UTIL_GENERAL_H_ */
