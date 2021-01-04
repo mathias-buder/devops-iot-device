@@ -38,10 +38,6 @@ SENSE_TS_C::SENSE_TS_C( void )
     this->alpha_beta_filter_coeff_b_f32 = 0.0F;
     this->min_touch_conf_level_f32      = 0.0F;
     this->min_touch_hyst_conf_level_f32 = 0.0F;
-
-    this->xk_f32                        = 0.0F;
-    this->vk_f32                        = 0.0F;
-    this->rk_f32                        = 0.0F;
     this->xk_1_f32                      = 0.0F;
     this->vk_1_f32                      = 0.0F;
 }
@@ -70,6 +66,9 @@ SENSE_TS_DATA_OUT_TYPE* SENSE_TS_C::init( SENSE_TS_CONFIG_TYPE& config_s )
 {
     /* Reset data_out_s structure*/
     memset( &this->data_out_s, 0U, sizeof( this->data_out_s ) );
+    xk_1_f32 = 0.0F;
+    vk_1_f32 = 0.0F;
+
 
     /* Setup parameter configuration */
     this->alpha_filter_coeff_a_f32      = config_s.alpha_filter_coeff_a_f32;
@@ -85,15 +84,15 @@ SENSE_TS_DATA_OUT_TYPE* SENSE_TS_C::init( SENSE_TS_CONFIG_TYPE& config_s )
 void SENSE_TS_C::main( SENSE_TS_DATA_IN_TYPE& data_in_s )
 {
 
-    data_out_s.alpha_filtered_adc_level_f32 = alpha_filter( data_in_s.adc_raw_level_f32,
-                                                            data_out_s.alpha_filtered_adc_level_f32,
-                                                            this->alpha_filter_coeff_a_f32 );
+    alpha_filter( data_in_s.adc_raw_level_f32,
+                  data_out_s.alpha_filtered_adc_level_f32,
+                  this->alpha_filter_coeff_a_f32 );
 
-    data_out_s.alpha_beta_filtered_adc_level_f32 = alpha_bate_filter( data_in_s.adc_raw_level_f32,
-                                                                      data_out_s.alpha_beta_filtered_adc_level_f32,
-                                                                      this->alpha_beta_filter_coeff_a_f32,
-                                                                      this->alpha_beta_filter_coeff_b_f32,
-                                                                      0.1F );
+    alpha_bate_filter( data_in_s.adc_raw_level_f32,
+                       data_out_s.alpha_beta_filtered_adc_level_f32,
+                       this->alpha_beta_filter_coeff_a_f32,
+                       this->alpha_beta_filter_coeff_b_f32,
+                       0.1F );
 
     compute_touch_confidence( data_in_s.adc_raw_level_f32,
                               data_out_s.touch_conf_s );
@@ -103,35 +102,36 @@ void SENSE_TS_C::main( SENSE_TS_DATA_IN_TYPE& data_in_s )
                                                                             data_out_s.touch_conf_s.confidence_f32 )
 }
 
-
-F32 SENSE_TS_C::alpha_filter( F32 &current_sample_f32,
-                              F32  filtered_sample_f32,
-                              F32  alpha_coeff_f32 )
+void SENSE_TS_C::alpha_filter( F32  current_sample_f32,
+                               F32& r_filtered_sample_f32,
+                               F32  alpha_coeff_f32 )
 {
-    return (   ( filtered_sample_f32 * alpha_coeff_f32           )
-             + ( ( 1.0F - alpha_coeff_f32 ) * current_sample_f32 ) );
+
+    r_filtered_sample_f32 =   ( r_filtered_sample_f32 * alpha_coeff_f32         )
+                            + ( ( 1.0F - alpha_coeff_f32 ) * current_sample_f32 );
 }
 
-
-F32 SENSE_TS_C::alpha_bate_filter( F32& current_sample_f32,
-                                   F32  filtered_sample_f32,
-                                   F32  coeff_a_f32,
-                                   F32  coeff_b_f32,
-                                   F32  dt_f32 )
+void SENSE_TS_C::alpha_bate_filter( F32  current_sample_f32,
+                                    F32& r_filtered_sample_f32,
+                                    F32  coeff_a_f32,
+                                    F32  coeff_b_f32,
+                                    F32  dt_f32 )
 {
-    this->xk_f32 = this->xk_1_f32 + ( this->vk_1_f32 * dt_f32 );
-    this->vk_f32 = this->vk_1_f32;
+    F32 xk_f32, vk_f32, rk_f32;
 
-    this->rk_f32 = current_sample_f32 - this->xk_f32;
+    xk_f32 = this->xk_1_f32 + ( this->vk_1_f32 * dt_f32 );
+    vk_f32 = this->vk_1_f32;
 
-    this->xk_f32 += coeff_a_f32 * this->rk_f32;
-    this->vk_f32 += ( coeff_b_f32 * this->rk_f32 ) / dt_f32;
+    rk_f32 = current_sample_f32 - xk_f32;
 
-    this->xk_1_f32 = this->xk_f32;
-    this->vk_1_f32 = this->vk_f32;
+    xk_f32 += coeff_a_f32 * rk_f32;
+    vk_f32 += ( coeff_b_f32 * rk_f32 ) / dt_f32;
 
-    /* Store filtered output ( clamped to a range of 0.0 to 1.0 ) */
-    return( CLAMP( this->xk_1_f32, 0.0F, 1.0F ) );
+    /* Store filtered output */
+    this->xk_1_f32 = xk_f32;
+    this->vk_1_f32 = vk_f32;
+
+    r_filtered_sample_f32 = this->xk_1_f32;
 }
 
 

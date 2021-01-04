@@ -6,6 +6,7 @@
     },
     {
         "process": "../../SeWelaSim/build/libSeWelaSim.dll",
-        "name": "libSeWelaSim"
+        "name": "libSeWelaSim",
+        "apvConfig": "default.apvconfig"
     }
 ]

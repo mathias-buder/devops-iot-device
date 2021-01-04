@@ -1009,7 +1009,7 @@
                     },
                     "items": [
                         {
-                            "active": true,
+                            "active": false,
                             "alias": "SENSE_TS_alpha_beta_adc_level",
                             "color": "#ffff00ff",
                             "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_beta_adc_level",
@@ -1019,7 +1019,7 @@
                             "width": 2
                         },
                         {
-                            "active": true,
+                            "active": false,
                             "alias": "SENSE_TS_alpha_adc_level",
                             "color": "#ff993f00",
                             "expression": "BLFLoader.DLG.SENSE_TS_Data.SENSE_TS_alpha_adc_level",
@@ -1029,10 +1029,30 @@
                             "width": 2
                         },
                         {
+                            "active": false,
+                            "alias": "alpha_filtered_adc_level_f32",
+                            "color": "#ff191919",
+                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_filtered_adc_level_f32",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
                             "active": true,
                             "alias": "DD_ADC_raw_level",
                             "color": "#ff0075dc",
                             "expression": "BLFLoader.DLG.DD_ADC_Data.DD_ADC_raw_level",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
+                            "alias": "alpha_beta_filtered_adc_level_f32",
+                            "color": "#ff005c31",
+                            "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_beta_filtered_adc_level_f32",
                             "rules": [
                             ],
                             "type": "SOLID",

@@ -101,22 +101,22 @@ class SENSE_TS_C {
 
   private:
     SENSE_TS_DATA_OUT_TYPE data_out_s;
-    F32                    xk_f32, vk_f32, rk_f32, xk_1_f32, vk_1_f32; /* Used for Alpha-Beta filter */
+    F32                    xk_1_f32, vk_1_f32; /* Used for Alpha-Beta filter */
     F32                    alpha_filter_coeff_a_f32;
     F32                    alpha_beta_filter_coeff_a_f32;
     F32                    alpha_beta_filter_coeff_b_f32;
     F32                    min_touch_conf_level_f32;
     F32                    min_touch_hyst_conf_level_f32;
 
-    F32 alpha_filter( F32 &current_sample_f32,
-                      F32  previous_sample_f32,
-                      F32  alpha_coeff_f32 );
+    void alpha_filter( F32  current_sample_f32,
+                       F32& r_filtered_sample_f32,
+                       F32  alpha_coeff_f32 );
 
-    F32 alpha_bate_filter( F32 &current_sample_f32,
-                           F32  previous_sample_f32,
-                           F32  alpha_coeff_f32,
-                           F32  beta_coeff_f32,
-                           F32  dt_f32 );
+    void alpha_bate_filter( F32  current_sample_f32,
+                            F32& r_previous_sample_f32,
+                            F32  alpha_coeff_f32,
+                            F32  beta_coeff_f32,
+                            F32  dt_f32 );
 
     void compute_touch_confidence( F32&                       current_sample_f32,
                                    SENSE_FIR_CONFIDENCE_TYPE& touch_conf_s );
