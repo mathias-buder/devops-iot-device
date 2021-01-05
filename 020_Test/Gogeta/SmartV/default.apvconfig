@@ -1,15 +1,15 @@
 {
     "apvs": [
         {
-            "apvValue": 1.5,
+            "apvValue": 0.6000000238418579,
             "path": "libSeWelaSim.sense_ts_A.alpha_beta_filter_coeff_a_f32"
         },
         {
-            "apvValue": 0.5,
+            "apvValue": 0.009999999776482582,
             "path": "libSeWelaSim.sense_ts_A.alpha_beta_filter_coeff_b_f32"
         },
         {
-            "apvValue": 0.4000000059604645,
+            "apvValue": 0.5,
             "path": "libSeWelaSim.sense_ts_A.alpha_filter_coeff_a_f32"
         }
     ],
