@@ -111,15 +111,8 @@ __attribute__((aligned(8))) typedef struct
     #define TRUE                1U
 #endif
 
-#define NOT_USED                0U
-
-#define ZERO                    0U
-
-#define CHANNEL_0               0U
-#define CHANNEL_1               1U
-
 /* Define a structure for the maps */
-struct MAPTYPE {
+typedef struct MAPTYPE {
     U32 num_of_x_bpoints;
     U32 num_of_y_bpoints;
     void *x_bpoints;
