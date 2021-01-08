@@ -983,6 +983,16 @@
                     "items": [
                         {
                             "active": true,
+                            "alias": "adc_raw_level_f32",
+                            "color": "#ff008b8b",
+                            "expression": "libSeWelaSim._read_sense_data_in_s.ts_data_in_s.adc_raw_level_f32",
+                            "rules": [
+                            ],
+                            "type": "SOLID",
+                            "width": 2
+                        },
+                        {
+                            "active": true,
                             "alias": "alpha_beta_filtered_adc_level_f32",
                             "color": "#ff005c31",
                             "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_beta_filtered_adc_level_f32",
@@ -992,23 +1002,13 @@
                             "width": 2
                         },
                         {
-                            "active": true,
+                            "active": false,
                             "alias": "alpha_filtered_adc_level_f32",
                             "color": "#ff191919",
                             "expression": "libSeWelaSim.sense_ts_A.data_out_s.alpha_filtered_adc_level_f32",
                             "rules": [
                             ],
-                            "type": "SOLID",
-                            "width": 2
-                        },
-                        {
-                            "active": false,
-                            "alias": "adc_raw_level_f32",
-                            "color": "#ff008b8b",
-                            "expression": "libSeWelaSim._read_sense_data_in_s.ts_data_in_s.adc_raw_level_f32",
-                            "rules": [
-                            ],
-                            "type": "DASH DOT",
+                            "type": "DOT",
                             "width": 2
                         },
                         {
@@ -1018,7 +1018,7 @@
                             "expression": "libSeWelaSim.sense_ts_A.data_out_s.touch_conf_s.confidence_f32",
                             "rules": [
                             ],
-                            "type": "DOT",
+                            "type": "DASH DOT DOT",
                             "width": 2
                         }
                     ],
@@ -1029,13 +1029,13 @@
                         "auto_adjust_x": true,
                         "auto_adjust_y": false,
                         "background_color": "#ffffffff",
-                        "cycle_width": 77,
+                        "cycle_width": 111,
                         "decimals_x": 2,
                         "decimals_y": 2,
-                        "max_x": 431.3158015172656,
-                        "max_y": 2.3402691184956477,
-                        "min_x": 334.64913485059895,
-                        "min_y": -0.5277028722968479
+                        "max_x": 215.52,
+                        "max_y": 1,
+                        "min_x": 182.59,
+                        "min_y": 0
                     }
                 }
             ]
