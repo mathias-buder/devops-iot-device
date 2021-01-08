@@ -112,13 +112,13 @@ __attribute__((aligned(8))) typedef struct
 #endif
 
 /* Define a structure for the maps */
-typedef struct MAPTYPE {
+typedef struct MAPTYPE_TAG {
     U32 num_of_x_bpoints;
     U32 num_of_y_bpoints;
     void *x_bpoints;
     void *y_bpoints;
     void *map_pts;
-};
+} MAPTYPE;
 
 #define MAX_RING_BUFFER         9
 #define MAX_BIG_RING_BUFFER     50

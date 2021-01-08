@@ -89,7 +89,7 @@ F32 squaref( const F32 x_f32 )
 /*                                                                          */
 /****************************************************************************/
 
-F32 map_1d(const struct MAPTYPE *mapin, F32 x)
+F32 map_1d(const MAPTYPE *mapin, F32 x)
 {
     F32 *data = (F32*)mapin->map_pts;
     F32 *axis = (F32*)mapin->x_bpoints;
@@ -140,7 +140,7 @@ F32 map_1d(const struct MAPTYPE *mapin, F32 x)
 /*                                                                          */
 /*                                                                          */
 /****************************************************************************/
-F32 map_2d(const struct MAPTYPE *mapin, F32 x, F32 y)
+F32 map_2d(const MAPTYPE *mapin, F32 x, F32 y)
 {
     U32 num_ptx = mapin->num_of_x_bpoints;
     U32 num_pty = mapin->num_of_y_bpoints;

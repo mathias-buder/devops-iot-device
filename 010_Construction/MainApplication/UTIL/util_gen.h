@@ -159,7 +159,7 @@ extern F32 squaref( const F32 x_f32 );
  *                  x     - input value to the map
  * @param[out]      F32  - the interpolated value o/p from the map
  */
-extern F32 map_1d( const struct MAPTYPE* mapin, F32 x );
+extern F32 map_1d( const MAPTYPE* mapin, F32 x );
 
 /**
  * @description     Returns an interpolated floating point value from a 2D
@@ -170,7 +170,7 @@ extern F32 map_1d( const struct MAPTYPE* mapin, F32 x );
  *                  y     - input value to the map
  * @param[out]      F32  - the interpolated value o/p from the map
  */
-extern F32 map_2d( const struct MAPTYPE* mapin, F32 x, F32 y );
+extern F32 map_2d( const MAPTYPE* mapin, F32 x, F32 y );
 extern S32 convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
 extern U32 convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
 
