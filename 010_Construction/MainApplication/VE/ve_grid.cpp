@@ -80,6 +80,7 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( VE_GRID_CONFIG_TYPE& r_config_s )
 void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 {
     U8  idx_u8;
+    F32 dx_f32, dy_f32;
     F32 max_distance_vp_vib_f32 = 0.0F;
 
     /* Set virtual vibration point */
@@ -87,8 +88,10 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 
     for ( idx_u8 = 0U; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8 )
     {
-        distance_vp_to_vib_vf32[idx_u8] = sqrtf(   SQUARE( this->virtual_point_s.x_f32 - this->vibrator_vs[idx_u8].position_s.x_f32 )
-                                                 + SQUARE( this->virtual_point_s.y_f32 - this->vibrator_vs[idx_u8].position_s.y_f32 ) );
+        dx_f32 = this->virtual_point_s.x_f32 - this->vibrator_vs[idx_u8].position_s.x_f32;
+        dy_f32 = this->virtual_point_s.y_f32 - this->vibrator_vs[idx_u8].position_s.y_f32;
+
+        distance_vp_to_vib_vf32[idx_u8] = sqrtf( SQUARE( dx_f32 ) + SQUARE( dy_f32 ) );
 
         /* Find maximum distance */
         if(distance_vp_to_vib_vf32[idx_u8] > max_distance_vp_vib_f32)
