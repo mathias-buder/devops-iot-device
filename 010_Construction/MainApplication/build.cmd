@@ -1,29 +1,31 @@
 @echo off
-SETLOCAL EnableDelayedExpansion
+setlocal EnableDelayedExpansion
 
-REM Set environment variables (modify if required)
-SET PYTHON_PATH=C:\Anaconda3;C:\Anaconda3\Scripts
-SET PERL_PATH=C:\Strawberry\perl
-SET GIT_PATH=C:\Program Files\Git
-set TOOLCHAIN_HOME_PATH=C:\Users\buderm\.espressif\tools
+
+:: Set environment variables (modify if required)
+
+:: Set IDF_TOOLS_PATH as global environemnt variable or use varieble %userprofile%
+set IDF_TOOLS_PATH=%userprofile%\.espressif
+
+set PYTHON_PATH=C:\Anaconda3;C:\Anaconda3\Scripts
+set PERL_PATH=C:\Strawberry\perl
+set GIT_PATH=C:\Program Files\Git
 set IDF_PATH=C:\Espressif\esp-idf
-set IDF_PYTHON_ENV_PATH=%TOOLCHAIN_HOME_PATH%\..\python_env\idf4.0_py3.7_env
+set IDF_PYTHON_ENV_PATH=%IDF_TOOLS_PATH%\python_env\idf4.0_py3.7_env
 
-REM Don't modify
+:: Don't modify
 set IDF_CCACHE_ENABLE=1
 
 
 set PATH=^
 %PYTHON_PATH%;^
-%TOOLCHAIN_HOME_PATH%\usr\bin;^
-%TOOLCHAIN_HOME_PATH%\opt\xtensa-esp32-elf\bin;^
-%TOOLCHAIN_HOME_PATH%\xtensa-esp32-elf\esp-2019r2-8.2.0\xtensa-esp32-elf\bin;^
-%TOOLCHAIN_HOME_PATH%\esp32ulp-elf\2.28.51.20170517\esp32ulp-elf-binutils\bin;^
-%TOOLCHAIN_HOME_PATH%\cmake\3.13.4\bin;^
-%TOOLCHAIN_HOME_PATH%\mconf\v4.6.0.0-idf-20190628\;^
-%TOOLCHAIN_HOME_PATH%\ninja\1.9.0\;^
-%TOOLCHAIN_HOME_PATH%\idf-exe\1.0.1\;^
-%TOOLCHAIN_HOME_PATH%\ccache\3.7\;^
+%IDF_TOOLS_PATH%\tools\xtensa-esp32-elf\esp-2019r2-8.2.0\xtensa-esp32-elf\bin;^
+%IDF_TOOLS_PATH%\tools\esp32ulp-elf\2.28.51.20170517\esp32ulp-elf-binutils\bin;^
+%IDF_TOOLS_PATH%\tools\cmake\3.13.4\bin;^
+%IDF_TOOLS_PATH%\tools\mconf\v4.6.0.0-idf-20190628\;^
+%IDF_TOOLS_PATH%\tools\ninja\1.9.0\;^
+%IDF_TOOLS_PATH%\tools\idf-exe\1.0.1\;^
+%IDF_TOOLS_PATH%\tools\ccache\3.7\;^
 %IDF_PYTHON_ENV_PATH%\Scripts;^
 %IDF_PATH%\tools;^
 %PERL_PATH%\..\c\bin;^
@@ -32,13 +34,13 @@ set PATH=^
 %GIT_PATH%\cmd;
 
 
-REM Set build tool
+:: Set build tool
 set IDF_BUILD_TOOL=idf.py.exe
 
-REM Print current PATH content
+:: Print current PATH content
 echo PATH set to %PATH%
 
-REM Extract build target
+:: Extract build target
 set PARAMS=%*
 set PARAMS_WITHOUT_ALL="%PARAMS:all=%"
 set PARAMS_WITHOUT_APP="%PARAMS:app=%"
@@ -58,14 +60,14 @@ goto default
 
 :build_all
     echo [ESP32] Performing build [all] command
-    REM %IDF_BUILD_TOOL% all size size-components
+    :: %IDF_BUILD_TOOL% all size size-components
     %IDF_BUILD_TOOL% all
     goto end
 
 
 :build_app
     echo [ESP32] Performing build [app] command
-    REM %IDF_BUILD_TOOL% all size size-components
+    :: %IDF_BUILD_TOOL% all size size-components
     %IDF_BUILD_TOOL% app
     goto end
 
@@ -86,55 +88,55 @@ goto default
 :end
 
 
-REM ---------------------------------------------------------------------------------
-REM Usage: idf.py.exe [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
-REM ---------------------------------------------------------------------------------
+:: ---------------------------------------------------------------------------------
+:: Usage: idf.py.exe [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
+:: ---------------------------------------------------------------------------------
 
-  REM ESP-IDF build management
+  :: ESP-IDF build management
 
-REM Options:
-  REM -C, --project-dir PATH          Project directory.
-  REM -B, --build-dir PATH            Build directory.
-  REM -n, --no-warnings               Disable Cmake warnings.
-  REM -v, --verbose                   Verbose build output.
-  REM --ccache / --no-ccache          Use ccache in build. Disabled by default.
-  REM -G, --generator [Ninja|MinGW Makefiles]
-                                  REM CMake generator.
-  REM -D, --define-cache-entry TEXT   Create a cmake cache entry. This option can
-                                  REM be used at most once either globally, or for
-                                  REM one subcommand.
+:: Options:
+  :: -C, --project-dir PATH          Project directory.
+  :: -B, --build-dir PATH            Build directory.
+  :: -n, --no-warnings               Disable Cmake warnings.
+  :: -v, --verbose                   Verbose build output.
+  :: --ccache / --no-ccache          Use ccache in build. Disabled by default.
+  :: -G, --generator [Ninja|MinGW Makefiles]
+                                  :: CMake generator.
+  :: -D, --define-cache-entry TEXT   Create a cmake cache entry. This option can
+                                  :: be used at most once either globally, or for
+                                  :: one subcommand.
 
-  REM -b, --baud INTEGER              Baud rate. This option can be used at most
-                                  REM once either globally, or for one subcommand.
+  :: -b, --baud INTEGER              Baud rate. This option can be used at most
+                                  :: once either globally, or for one subcommand.
 
-  REM -p, --port TEXT                 Serial port. This option can be used at most
-                                  REM once either globally, or for one subcommand.
+  :: -p, --port TEXT                 Serial port. This option can be used at most
+                                  :: once either globally, or for one subcommand.
 
-  REM --help                          Show this message and exit.
+  :: --help                          Show this message and exit.
 
-REM Commands:
-  REM all                    Aliases: build. Build the project.
-  REM app                    Build only the app.
-  REM app-flash              Flash the app only.
-  REM bootloader             Build only bootloader.
-  REM bootloader-flash       Flash bootloader only.
-  REM clean                  Delete build output files from the build directory.
-  REM confserver             Run JSON configuration server.
-  REM efuse_common_table     Genereate C-source for IDF's eFuse fields.
-  REM efuse_custom_table     Genereate C-source for user's eFuse fields.
-  REM encrypted-app-flash    Flash the encrypted app only.
-  REM encrypted-flash        Flash the encrypted project.
-  REM erase_flash            Erase entire flash chip.
-  REM erase_otadata          Erase otadata partition.
-  REM flash                  Flash the project.
-  REM fullclean              Delete the entire build directory contents.
-  REM menuconfig             Run "menuconfig" project configuration tool.
-  REM monitor                Display serial output.
-  REM partition_table        Build only partition table.
-  REM partition_table-flash  Flash partition table only.
-  REM read_otadata           Read otadata partition.
-  REM reconfigure            Re-run CMake.
-  REM show_efuse_table       Print eFuse table.
-  REM size                   Print basic size information about the app.
-  REM size-components        Print per-component size information.
-  REM size-files             Print per-source-file size information.
+:: Commands:
+  :: all                    Aliases: build. Build the project.
+  :: app                    Build only the app.
+  :: app-flash              Flash the app only.
+  :: bootloader             Build only bootloader.
+  :: bootloader-flash       Flash bootloader only.
+  :: clean                  Delete build output files from the build directory.
+  :: confserver             Run JSON configuration server.
+  :: efuse_common_table     Genereate C-source for IDF's eFuse fields.
+  :: efuse_custom_table     Genereate C-source for user's eFuse fields.
+  :: encrypted-app-flash    Flash the encrypted app only.
+  :: encrypted-flash        Flash the encrypted project.
+  :: erase_flash            Erase entire flash chip.
+  :: erase_otadata          Erase otadata partition.
+  :: flash                  Flash the project.
+  :: fullclean              Delete the entire build directory contents.
+  :: menuconfig             Run "menuconfig" project configuration tool.
+  :: monitor                Display serial output.
+  :: partition_table        Build only partition table.
+  :: partition_table-flash  Flash partition table only.
+  :: read_otadata           Read otadata partition.
+  :: reconfigure            Re-run CMake.
+  :: show_efuse_table       Print eFuse table.
+  :: size                   Print basic size information about the app.
+  :: size-components        Print per-component size information.
+  :: size-files             Print per-source-file size information.
