@@ -58,7 +58,10 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( void )
          /* VINRATOR 9  */ {  11.0F,  -8.0F  },
          /* VINRATOR 10 */ {  0.0F,   -16.8F },
          /* VINRATOR 11 */ {  0.0F,   -30.0F }
-        }
+        },
+
+        /* vp_size_x : */ 10.0F,
+        /* vp_size_y : */ 5.0F
     };
 
     return init( default_cfg_s );
@@ -74,6 +77,10 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( VE_GRID_CONFIG_TYPE& r_config_s )
         this->vibrator_vs[idx_u8].pwm_duty_cycle_f32 = 0.0F;
     }
 
+    /* Set default virtual point size */
+    this->virtual_point_s.size_x_f32 = r_config_s.vp_size_x_f32;
+    this->virtual_point_s.size_y_f32 = r_config_s.vp_size_y_f32;
+
     return &this->data_out_s;
 }
 
@@ -81,34 +88,21 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
 {
     U8  idx_u8;
     F32 dx_f32, dy_f32;
-    F32 max_distance_vp_vib_f32 = 0.0F;
 
     /* Set virtual vibration point */
     // this->virtual_point_s = r_data_in_s.virtual_point_s;
 
+    /* Calculate euclidean distance to each vibrator */
     for ( idx_u8 = 0U; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8 )
     {
         dx_f32 = this->virtual_point_s.x_f32 - this->vibrator_vs[idx_u8].position_s.x_f32;
         dy_f32 = this->virtual_point_s.y_f32 - this->vibrator_vs[idx_u8].position_s.y_f32;
 
-        distance_vp_to_vib_vf32[idx_u8] = sqrtf( SQUARE( dx_f32 ) + SQUARE( dy_f32 ) );
-
-        /* Find maximum distance */
-        if(distance_vp_to_vib_vf32[idx_u8] > max_distance_vp_vib_f32)
-        {
-            max_distance_vp_vib_f32 = distance_vp_to_vib_vf32[idx_u8];
-        }
+        this->virtual_point_s.dist_to_vib_vf32[idx_u8] = sqrtf( SQUARE( dx_f32 ) + SQUARE( dy_f32 ) );
     }
 
-    /* Normalize all distances to max_distance_vp_vib_f32 */
-    for ( idx_u8 = 0U; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8 )
-    {
-        distance_vp_to_vib_vf32[idx_u8] /= max_distance_vp_vib_f32;
-        distance_vp_to_vib_vf32[idx_u8]  = 1.0F - distance_vp_to_vib_vf32[idx_u8];
-
-        this->vibrator_vs[idx_u8].pwm_duty_cycle_f32 = distance_vp_to_vib_vf32[idx_u8];
-    }
-
+    this->virtual_point_s.size_x_f32 += 0.01F;
+    this->virtual_point_s.size_y_f32 -= 0.01F;
 }
 
 

@@ -86,10 +86,22 @@ typedef struct VE_GRID_VIBRATOR_TYPE_TAG
  */
 typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
 {
-    F32 x_f32;         /**< @details Vibrator x-distance to reference point within grid @unit [mm] */
-    F32 y_f32;         /**< @details Vibrator y-distance to reference point within grid @unit [mm] */
-    F32 intensity_f32; /**< @details Vibration intensity @unit % */
+    F32 x_f32;                                   /**< @details Vibrator x-distance to reference point within grid @unit [mm] */
+    F32 y_f32;                                   /**< @details Vibrator y-distance to reference point within grid @unit [mm] */
+    F32 intensity_f32;                           /**< @details Vibration intensity @unit % */
+    F32 dist_to_vib_vf32[VE_GRID_VIBRATOR_SIZE]; /**< @details Euclidean distance to each vibrator @mm % */
+    F32 size_x_f32;                              /**< @details Activation ellipse width @unit mm */
+    F32 size_y_f32;                              /**< @details Activation ellipse hight @unit mm */
 } VE_GRID_VIRTUAL_POINT_TYPE;
+
+//typedef struct VE_GRID_ELLIPSE_TYPE_TAG
+//{
+//    U8 hight_u8;
+//    U8 width_u8;
+//
+//} VE_GRID_ELLIPSE_TYPE;
+
+
 
 /**
  * @brief   Vibration grid configuration data structure
@@ -100,6 +112,8 @@ typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
 typedef struct VE_GRID_CONFIG_TYPE_TAG
 {
     VE_GRID_VIBRATOR_POS_TYPE vibrator_pos_vs[VE_GRID_VIBRATOR_SIZE];
+    F32                       vp_size_x_f32;
+    F32                       vp_size_y_f32;
 } VE_GRID_CONFIG_TYPE;
 
 /**
@@ -110,7 +124,7 @@ typedef struct VE_GRID_CONFIG_TYPE_TAG
  */
 typedef struct VE_GRID_DATA_IN_TYPE_TAG
 {
-    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;
+    // VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;
 } VE_GRID_DATA_IN_TYPE;
 
 /**
@@ -134,10 +148,12 @@ class VE_GRID_C {
   private:
     VE_GRID_DATA_OUT_TYPE      data_out_s;                                     /**< @details Unit output data structure */
     VE_GRID_VIBRATOR_TYPE      vibrator_vs[VE_GRID_VIBRATOR_SIZE];             /**< @details Internal vibrator management structure */
-    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;                                /**< @details Virtual vibration point */
-    F32                        distance_vp_to_vib_vf32[VE_GRID_VIBRATOR_SIZE]; /**< @details Distance from virtual point to each vibrator */
+
+
 
   public:
+
+    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;                                /**< @details Virtual vibration point */
 
     /**
      * @details Default constructor

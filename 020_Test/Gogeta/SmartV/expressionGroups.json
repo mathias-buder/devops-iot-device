@@ -24,5 +24,18 @@
                 "rule": "libSeWelaSim.ve_grid.virtual_point_s.y_f32"
             }
         ]
+    },
+    {
+        "name": "ve_grid_ellipse",
+        "paths": [
+            {
+                "name": "x",
+                "rule": "libSeWelaSim.hlp_ve_ellipse_x_f32[?]"
+            },
+            {
+                "name": "y",
+                "rule": "libSeWelaSim.hlp_ve_ellipse_y_f32[?]"
+            }
+        ]
     }
 ]

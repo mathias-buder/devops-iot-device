@@ -36,6 +36,8 @@ extern "C"
 
 #include "sewela_sim.h"
 
+#include "Helpers/VE/hlp_ve_grid.h"
+
 
 /*************************************************************/
 /*      GLOBAL VARIABLES                                     */
@@ -92,6 +94,8 @@ bool init()
     SENSE_C::init(); /* Initialize Sensor Processing Domain ( SENSE ) */
     VE_C::init();    /* Initialize Vibration Engine Domain ( VE ) */
 
+    hlp_ve_init();
+
     return true;
 }
 
@@ -101,6 +105,8 @@ bool runCycle( void )
 
     _sense_data_out_s = SENSE_C::main( _read_sense_data_in_s );
     _ve_data_out_s    = VE_C::main( _ve_data_in_s );
+
+    hlp_ve_main();
 
     /* copy__wrapper_s(); */
 

@@ -75,4 +75,7 @@ class VE_C {
     static VE_DATA_OUT_TYPE main( VE_DATA_IN_TYPE &r_data_in_s );
 };
 
+
+extern VE_GRID_C ve_grid;
+
 #endif /* VE_H_ */

@@ -1,16 +1,17 @@
 {
     "alignment": "horizontal",
     "subWindowSizes": [
-        23,
-        30,
-        47
+        25,
+        25,
+        50
     ],
     "subWindows": [
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                45,
-                55
+                24,
+                24,
+                52
             ],
             "subWindows": [
                 {
@@ -121,6 +122,71 @@
                     "type": "ValueTable"
                 },
                 {
+                    "firstColumnWidth": 142,
+                    "items": [
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.x_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.y_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.intensity_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.size_x_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.size_y_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "columnCount": 1,
+                            "columnWidth": 10,
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.dist_to_vib_vf32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rowCount": 11,
+                            "rules": [
+                            ]
+                        }
+                    ],
+                    "locked": false,
+                    "name": "VE",
+                    "type": "ValueTable"
+                },
+                {
                     "items": [
                         {
                             "active": true,
@@ -185,6 +251,17 @@
                             "size": 10,
                             "type": "Point",
                             "width": 1
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "ve_grid_ellipse",
+                            "outlineColor": "#ff000000",
+                            "penshape": "SOLID",
+                            "rules": [
+                            ],
+                            "size": 1,
+                            "type": "Polyline"
                         }
                     ],
                     "legend": {
@@ -450,7 +527,7 @@
                     "type": "ValueTable"
                 },
                 {
-                    "firstColumnWidth": 309,
+                    "firstColumnWidth": 262,
                     "items": [
                         {
                             "active": true,

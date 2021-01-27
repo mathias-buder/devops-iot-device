@@ -20,12 +20,16 @@
 /*************************************************************/
 /*      INCLUDES                                             */
 /*************************************************************/
-#include "../types.h"
+#include "types.h"
+
+#include "VE/VE.h"
+#include "UTIL/UTIL.h"
 
 /*************************************************************/
 /*      COMPILE TIME CONFIGURATION                           */
 /*************************************************************/
-
+extern void hlp_ve_init( void );
+extern void hlp_ve_main( void );
 
 
 #endif /* HLP_VE_GRID_H_ */
