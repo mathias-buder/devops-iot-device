@@ -80,8 +80,8 @@ typedef struct VE_GRID_VIBRATOR_TYPE_TAG
 
 /**
  * @brief   Virtual vibration point within grid
- * @details Contains all data to define the virtual vibration point
- *          within the vibration grid
+ * @details Contains position and intensity of the
+ *          virtual vibration point within the vibration grid
  * @ingroup VibrationEngineStructures
  */
 typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
@@ -89,19 +89,21 @@ typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
     F32 x_f32;                                   /**< @details Vibrator x-distance to reference point within grid @unit [mm] */
     F32 y_f32;                                   /**< @details Vibrator y-distance to reference point within grid @unit [mm] */
     F32 intensity_f32;                           /**< @details Vibration intensity @unit % */
-    F32 dist_to_vib_vf32[VE_GRID_VIBRATOR_SIZE]; /**< @details Euclidean distance to each vibrator @mm % */
-    F32 size_x_f32;                              /**< @details Activation ellipse width @unit mm */
-    F32 size_y_f32;                              /**< @details Activation ellipse hight @unit mm */
 } VE_GRID_VIRTUAL_POINT_TYPE;
 
-//typedef struct VE_GRID_ELLIPSE_TYPE_TAG
-//{
-//    U8 hight_u8;
-//    U8 width_u8;
-//
-//} VE_GRID_ELLIPSE_TYPE;
-
-
+/**
+ * @brief   Virtual vibration point properties
+ * @details Contains all data to define the virtual vibration point
+ *          within the vibration grid
+ * @ingroup VibrationEngineStructures
+ */
+typedef struct VE_GRID_VIRTUAL_POINT_PROPS_TYPE_TAG
+{
+    VE_GRID_VIRTUAL_POINT_TYPE point_s;                                 /**< @details Virtual point structure */
+    F32                        dist_to_vib_vf32[VE_GRID_VIBRATOR_SIZE]; /**< @details Euclidean distance to each vibrator @mm % */
+    F32                        size_x_f32;                              /**< @details Activation ellipse width @unit mm */
+    F32                        size_y_f32;                              /**< @details Activation ellipse hight @unit mm */
+} VE_GRID_VIRTUAL_POINT_PROPS_TYPE;
 
 /**
  * @brief   Vibration grid configuration data structure
@@ -124,7 +126,7 @@ typedef struct VE_GRID_CONFIG_TYPE_TAG
  */
 typedef struct VE_GRID_DATA_IN_TYPE_TAG
 {
-    // VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;
+    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;
 } VE_GRID_DATA_IN_TYPE;
 
 /**
@@ -146,15 +148,11 @@ typedef struct VE_GRID_DATA_OUT_TYPE_TAG
 class VE_GRID_C {
 
   private:
-    VE_GRID_DATA_OUT_TYPE      data_out_s;                                     /**< @details Unit output data structure */
-    VE_GRID_VIBRATOR_TYPE      vibrator_vs[VE_GRID_VIBRATOR_SIZE];             /**< @details Internal vibrator management structure */
-
-
+    VE_GRID_DATA_OUT_TYPE            data_out_s;                         /**< @details Unit output data structure */
+    VE_GRID_VIBRATOR_TYPE            vibrator_vs[VE_GRID_VIBRATOR_SIZE]; /**< @details Internal vibrator management structure */
+    VE_GRID_VIRTUAL_POINT_PROPS_TYPE virtual_point_props_s;              /**< @details Virtual vibration point */
 
   public:
-
-    VE_GRID_VIRTUAL_POINT_TYPE virtual_point_s;                                /**< @details Virtual vibration point */
-
     /**
      * @details Default constructor
      */
@@ -184,6 +182,12 @@ class VE_GRID_C {
      * cyclicly and will provide all data through VE_GRID_DATA_OUT_TYPE
      */
     void                   main( VE_GRID_DATA_IN_TYPE& r_data_in_s );
+
+    /**
+     * @details This function returns a reference to the virtual
+     *          point structure
+     */
+    VE_GRID_VIRTUAL_POINT_PROPS_TYPE& get_virtual_point( void );
 };
 
 #endif /* VE_GRID_H_ */

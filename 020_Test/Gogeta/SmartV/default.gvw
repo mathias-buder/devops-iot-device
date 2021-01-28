@@ -10,8 +10,8 @@
             "alignment": "vertical",
             "subWindowSizes": [
                 24,
-                24,
-                52
+                32,
+                44
             ],
             "subWindows": [
                 {
@@ -122,12 +122,12 @@
                     "type": "ValueTable"
                 },
                 {
-                    "firstColumnWidth": 142,
+                    "firstColumnWidth": 295,
                     "items": [
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.x_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.x_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -136,7 +136,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.y_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.y_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -145,7 +145,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.intensity_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.intensity_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -154,7 +154,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.size_x_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.size_x_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -163,7 +163,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.size_y_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.size_y_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -174,7 +174,7 @@
                             "alias": "",
                             "columnCount": 1,
                             "columnWidth": 10,
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_s.dist_to_vib_vf32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.dist_to_vib_vf32",
                             "precision": 4,
                             "readAsChar": false,
                             "rowCount": 11,

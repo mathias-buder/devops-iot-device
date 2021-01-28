@@ -24,7 +24,6 @@
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
 VE_DATA_OUT_TYPE VE_C::data_out_s;
-
 VE_GRID_C ve_grid;
 
 
