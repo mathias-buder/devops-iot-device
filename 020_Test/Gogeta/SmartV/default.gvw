@@ -10,8 +10,8 @@
             "alignment": "vertical",
             "subWindowSizes": [
                 24,
-                32,
-                44
+                18,
+                58
             ],
             "subWindows": [
                 {
@@ -172,12 +172,18 @@
                         {
                             "active": true,
                             "alias": "",
-                            "columnCount": 11,
-                            "columnWidth": 10,
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.dist_to_vib_vf32",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].dist_to_vp_f32",
                             "precision": 4,
                             "readAsChar": false,
-                            "rowCount": 1,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].is_inside_act_area_b",
+                            "precision": 4,
+                            "readAsChar": false,
                             "rules": [
                             ]
                         }
@@ -198,7 +204,7 @@
                             "rules": [
                                 {
                                     "active": true,
-                                    "annotationName": "",
+                                    "annotationName": "I",
                                     "annotationPath": "libSeWelaSim.ve_grid.vibrator_vs[?].pwm_duty_cycle_f32",
                                     "condition": "1",
                                     "direction": 1,
@@ -207,6 +213,29 @@
                                     "offset": 5,
                                     "precision": 1,
                                     "type": "Annotation"
+                                },
+                                {
+                                    "active": true,
+                                    "annotationName": "D",
+                                    "annotationPath": "libSeWelaSim.ve_grid.vibrator_vs[?].dist_to_vp_f32",
+                                    "condition": "1",
+                                    "direction": 1,
+                                    "fontSize": 6,
+                                    "name": "41_0_1",
+                                    "offset": 6,
+                                    "precision": 1,
+                                    "type": "Annotation"
+                                },
+                                {
+                                    "active": true,
+                                    "condition": "libSeWelaSim.ve_grid.vibrator_vs[?].is_inside_act_area_b == 1",
+                                    "fillColor": "#ff00ffff",
+                                    "fillEnabled": true,
+                                    "name": "41_0_2",
+                                    "outlineColor": "#ffff0000",
+                                    "outlineEnabled": true,
+                                    "size": 1,
+                                    "type": "Change Appearance"
                                 }
                             ],
                             "shape": "Circle",
@@ -222,6 +251,18 @@
                             "outlineColor": "#ffff00ff",
                             "penshape": "SOLID",
                             "rules": [
+                                {
+                                    "active": true,
+                                    "annotationName": "I",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.intensity_f32",
+                                    "condition": "1",
+                                    "direction": 1,
+                                    "fontSize": 6,
+                                    "name": "15_1_2",
+                                    "offset": 6,
+                                    "precision": 1,
+                                    "type": "Annotation"
+                                },
                                 {
                                     "active": true,
                                     "annotationName": "Y",

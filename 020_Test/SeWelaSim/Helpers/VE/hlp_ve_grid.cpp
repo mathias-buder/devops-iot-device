@@ -60,10 +60,15 @@ static void hlp_ve_draw_ellipse( void )
 {
     U8 idx_u8;
 
+    F32 size_x_f32 = ve_grid.get_virtual_point().size_x_f32;
+    F32 size_y_f32 = ve_grid.get_virtual_point().size_y_f32;
+    F32 offset_x   = ve_grid.get_virtual_point().point_s.x_f32;
+    F32 offset_y   = ve_grid.get_virtual_point().point_s.y_f32;
+
     for ( idx_u8 = 0U; idx_u8 <= HLP_VE_ELLIPSE_BKPS; ++idx_u8 )
     {
-        hlp_ve_ellipse_x_f32[idx_u8] = ve_grid.get_virtual_point().size_x_f32 * cosf( angle_f32 );
-        hlp_ve_ellipse_y_f32[idx_u8] = ve_grid.get_virtual_point().size_y_f32 * sinf( angle_f32 );
+        hlp_ve_ellipse_x_f32[idx_u8] = offset_x + ( size_x_f32 * cosf( angle_f32 ) );
+        hlp_ve_ellipse_y_f32[idx_u8] = offset_y + ( size_y_f32 * sinf( angle_f32 ) );
 
         angle_f32 += HLP_VE_ANGLE_RES;
     }

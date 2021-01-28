@@ -98,7 +98,7 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
         dx_f32 = this->virtual_point_props_s.point_s.x_f32 - this->vibrator_vs[idx_u8].position_s.x_f32;
         dy_f32 = this->virtual_point_props_s.point_s.y_f32 - this->vibrator_vs[idx_u8].position_s.y_f32;
 
-        this->virtual_point_props_s.dist_to_vib_vf32[idx_u8] = sqrtf( SQUARE( dx_f32 ) + SQUARE( dy_f32 ) );
+        this->vibrator_vs[idx_u8].dist_to_vp_f32 = sqrtf( SQUARE( dx_f32 ) + SQUARE( dy_f32 ) );
     }
 
     /* Check which vibrator is inside the ellipse area */
