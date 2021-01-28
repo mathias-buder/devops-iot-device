@@ -17,11 +17,11 @@
         "paths": [
             {
                 "name": "x",
-                "rule": "libSeWelaSim.ve_grid.virtual_point_s.x_f32"
+                "rule": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.x_f32"
             },
             {
                 "name": "y",
-                "rule": "libSeWelaSim.ve_grid.virtual_point_s.y_f32"
+                "rule": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.y_f32"
             }
         ]
     },

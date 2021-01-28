@@ -172,12 +172,12 @@
                         {
                             "active": true,
                             "alias": "",
-                            "columnCount": 1,
+                            "columnCount": 11,
                             "columnWidth": 10,
                             "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.dist_to_vib_vf32",
                             "precision": 4,
                             "readAsChar": false,
-                            "rowCount": 11,
+                            "rowCount": 1,
                             "rules": [
                             ]
                         }
@@ -225,7 +225,7 @@
                                 {
                                     "active": true,
                                     "annotationName": "Y",
-                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_s.y_f32",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.y_f32",
                                     "condition": "1",
                                     "direction": 1,
                                     "fontSize": 6,
@@ -237,7 +237,7 @@
                                 {
                                     "active": true,
                                     "annotationName": "X",
-                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_s.x_f32",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.x_f32",
                                     "condition": "1",
                                     "direction": 1,
                                     "fontSize": 6,
