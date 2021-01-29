@@ -93,7 +93,6 @@ typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
     F32 intensity_f32;                           /**< @details Vibration intensity @unit % */
 } VE_GRID_VIRTUAL_POINT_TYPE;
 
-
 /**
  * @brief   Virtual vibration point properties
  * @details Contains all data to define the virtual vibration point
@@ -102,10 +101,9 @@ typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
  */
 typedef struct VE_GRID_VIRTUAL_POINT_PROPS_TYPE_TAG
 {
-    VE_GRID_VIRTUAL_POINT_TYPE point_s;                                 /**< @details Virtual point structure */
-    //F32                        dist_to_vib_vf32[VE_GRID_VIBRATOR_SIZE]; /**< @details Euclidean distance to each vibrator @unit mm % */
-    F32                        size_x_f32;                              /**< @details Activation ellipse width @unit mm */
-    F32                        size_y_f32;                              /**< @details Activation ellipse hight @unit mm */
+    VE_GRID_VIRTUAL_POINT_TYPE point_s;       /**< @details Virtual point structure */
+    F32                        rx_f32;        /**< @details Ellipse radius in x direction @unit mm */
+    F32                        ry_f32;        /**< @details Ellipse radius in y direction @unit mm */
 } VE_GRID_VIRTUAL_POINT_PROPS_TYPE;
 
 /**

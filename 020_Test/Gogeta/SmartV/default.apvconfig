@@ -13,11 +13,11 @@
             "path": "libSeWelaSim.sense_ts_A.alpha_filter_coeff_a_f32"
         },
         {
-            "apvValue": 4,
+            "apvValue": 0,
             "path": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.x_f32"
         },
         {
-            "apvValue": -10,
+            "apvValue": 5,
             "path": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.y_f32"
         }
     ],

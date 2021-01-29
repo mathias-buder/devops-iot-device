@@ -4,11 +4,11 @@
         "paths": [
             {
                 "name": "x",
-                "rule": "libSeWelaSim.ve_grid.vibrator_vs[?].position_s.x_f32"
+                "rule": "libSeWelaSim.ve_grid.vibrator_vs[vibrator_idx].position_s.x_f32"
             },
             {
                 "name": "y",
-                "rule": "libSeWelaSim.ve_grid.vibrator_vs[?].position_s.y_f32"
+                "rule": "libSeWelaSim.ve_grid.vibrator_vs[vibrator_idx].position_s.y_f32"
             }
         ]
     },

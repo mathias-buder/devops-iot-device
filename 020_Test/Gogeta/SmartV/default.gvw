@@ -9,11 +9,19 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                24,
-                18,
-                58
+                5,
+                26,
+                25,
+                44
             ],
             "subWindows": [
+                {
+                    "indices": [
+                        "vibrator_idx"
+                    ],
+                    "name": "GlobalIndexView",
+                    "type": "GlobalIndexView"
+                },
                 {
                     "firstColumnWidth": 204,
                     "items": [
@@ -154,7 +162,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.size_x_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.rx_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -163,7 +171,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.size_y_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.ry_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -171,8 +179,8 @@
                         },
                         {
                             "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].dist_to_vp_f32",
+                            "alias": "vib_x_f32",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[${vibrator_idx}].position_s.x_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -180,8 +188,35 @@
                         },
                         {
                             "active": true,
-                            "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[0].is_inside_act_area_b",
+                            "alias": "vib_y_f32",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[${vibrator_idx}].position_s.y_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "vib_duty_cycle_f32",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[${vibrator_idx}].pwm_duty_cycle_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "vib_dist_to_vp_f32",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[${vibrator_idx}].dist_to_vp_f32",
+                            "precision": 4,
+                            "readAsChar": false,
+                            "rules": [
+                            ]
+                        },
+                        {
+                            "active": true,
+                            "alias": "vib_is_inside_act_area_b",
+                            "expression": "libSeWelaSim.ve_grid.vibrator_vs[${vibrator_idx}].is_inside_act_area_b",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -776,10 +811,10 @@
         {
             "alignment": "vertical",
             "subWindowSizes": [
-                22,
-                21,
-                30,
-                27
+                41,
+                16,
+                23,
+                20
             ],
             "subWindows": [
                 {
