@@ -173,7 +173,7 @@ class VE_GRID_C {
 
     /**
      * @details This function initializes the vibration grid
-     * @param[in] Reference to device configuration structure
+     * @param[in] r_config_s Reference to device configuration structure
      * @return Pointer to global device data out structure
      */
     VE_GRID_DATA_OUT_TYPE* init( VE_GRID_CONFIG_TYPE& r_config_s );
@@ -183,6 +183,36 @@ class VE_GRID_C {
      * cyclicly and will provide all data through VE_GRID_DATA_OUT_TYPE
      */
     void                   main( VE_GRID_DATA_IN_TYPE& r_data_in_s );
+
+    /**
+     * @details This function computes the euclidean distance between
+     *          a vibrator and virtual point
+     * @param[in] r_vib_pos_s Reference to vibrator position @UNIT mm
+     * @param[in] r_vp_pos_s Reference to virtual point position @UNIT mm
+     * @param[out] r_dx_square_f32 Reference to squared x-distance between
+     *                             vibrator and virtual point @UNIT mm
+     * @param[out] r_dx_square_f32 Reference to squared y-distance between
+     *                             vibrator and virtual point @UNIT mm
+     * @return Euclidean distance @UNIT mm
+     */
+    F32 compute_euclidean_distance( VE_GRID_VIBRATOR_POS_TYPE&  r_vib_pos_s,
+                                    VE_GRID_VIRTUAL_POINT_TYPE& r_vp_pos_s,
+                                    F32&                        r_dx_square_f32,
+                                    F32&                        r_dy_square_f32 );
+
+    /**
+     * @details This function checks if a vibrator is within the ellispe area.
+     * @param[in] dx_square_f32 Squared x-distance between vibrator and virtual point @unit mm
+     * @param[in] dx_square_f32 Squared y-distance between vibrator and virtual point @unit mm
+     * @param[in] rx_f32 Ellipse x-radius @unit mm
+     * @param[in] ry_f32 Ellipse y-radius @unit mm
+     * @return Flag that indicates whether the vibrator is inside the ellipse or not
+     */
+
+    BOOLEAN check_point_inisde_ellipse( F32 dx_square_f32,
+                                        F32 dy_square_f32,
+                                        F32 rx_f32,
+                                        F32 ry_f32 );
 
     /**
      * @details This function returns a reference to the virtual
