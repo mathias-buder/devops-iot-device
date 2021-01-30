@@ -153,7 +153,7 @@ BOOLEAN VE_GRID_C::check_point_inisde_ellipse( F32 dx_square_f32,
      * k  : y-coordinate of ellipse origin
      * */
 
-    rxry_square_f32 = SQUARE( this->virtual_point_props_s.rx_f32 * this->virtual_point_props_s.ry_f32 );
+    rxry_square_f32 = SQUARE( rx_f32 * ry_f32 );
     distance_f32    = ( SQUARE( ry_f32 ) * dx_square_f32 ) + ( SQUARE( rx_f32 ) * dy_square_f32 );
 
     if ( distance_f32 <= rxry_square_f32 )
