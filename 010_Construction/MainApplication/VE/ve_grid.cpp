@@ -59,9 +59,11 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( void )
          /* VINRATOR 10 */ {  0.0F,   -16.8F },
          /* VINRATOR 11 */ {  0.0F,   -30.0F }
         },
+        {
+         /* vp_size_s.x_f32 [mm] : */ 10.0F,
+         /* vp_size_s.y_f32 [mm] : */ 5.0F
+        }
 
-        /* vp_size_x [mm] : */ 10.0F,
-        /* vp_size_y [mm] : */ 5.0F
     };
 
     return init( default_cfg_s );
@@ -78,8 +80,8 @@ VE_GRID_DATA_OUT_TYPE* VE_GRID_C::init( VE_GRID_CONFIG_TYPE& r_config_s )
     }
 
     /* Set default virtual point size */
-    this->virtual_point_props_s.rx_f32 = r_config_s.vp_size_x_f32;
-    this->virtual_point_props_s.ry_f32 = r_config_s.vp_size_y_f32;
+    this->virtual_point_props_s.rx_f32 = r_config_s.vp_size_s.x_f32;
+    this->virtual_point_props_s.ry_f32 = r_config_s.vp_size_s.y_f32;
 
     return &this->data_out_s;
 }

@@ -25,7 +25,7 @@
 /*************************************************************/
 /*      COMPILE TIME CONFIGURATION                           */
 /*************************************************************/
-#define VE_GRID_LOG_MSG_TAG "VE_GRID" /**< @details Domain log message tag string */
+#define VE_GRID_LOG_MSG_TAG          "VE_GRID" /**< @details Domain log message tag string */
 
 /*************************************************************/
 /*      GLOBAL DEFINES                                       */
@@ -91,9 +91,9 @@ typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
  */
 typedef struct VE_GRID_VIRTUAL_POINT_PROPS_TYPE_TAG
 {
-    VE_GRID_VIRTUAL_POINT_TYPE point_s;       /**< @details Virtual point structure */
-    F32                        rx_f32;        /**< @details Ellipse radius in x direction @unit mm */
-    F32                        ry_f32;        /**< @details Ellipse radius in y direction @unit mm */
+    VE_GRID_VIRTUAL_POINT_TYPE point_s; /**< @details Virtual point structure */
+    F32                        rx_f32;  /**< @details Ellipse radius in x direction @unit mm */
+    F32                        ry_f32;  /**< @details Ellipse radius in y direction @unit mm */
 } VE_GRID_VIRTUAL_POINT_PROPS_TYPE;
 
 /**
@@ -104,9 +104,9 @@ typedef struct VE_GRID_VIRTUAL_POINT_PROPS_TYPE_TAG
  */
 typedef struct VE_GRID_CONFIG_TYPE_TAG
 {
-    POINT_2D_TYPE vibrator_pos_vs[VE_GRID_VIBRATOR_SIZE];
-    F32                       vp_size_x_f32;
-    F32                       vp_size_y_f32;
+    POINT_2D_TYPE vibrator_pos_vs[VE_GRID_VIBRATOR_SIZE]; /**< @details Array defining the position of
+                                                                        VE_GRID_VIBRATOR_SIZE vibrators @unit mm */
+    POINT_2D_TYPE vp_size_s;                              /**< @details Structure defining the ellipse x/y radius @unit mm */
 } VE_GRID_CONFIG_TYPE;
 
 /**
@@ -172,7 +172,7 @@ class VE_GRID_C {
      * @details This is the unit main function that shall be called
      * cyclicly and will provide all data through VE_GRID_DATA_OUT_TYPE
      */
-    void                   main( VE_GRID_DATA_IN_TYPE& r_data_in_s );
+    void main( VE_GRID_DATA_IN_TYPE& r_data_in_s );
 
     /**
      * @details This function computes the euclidean distance between
