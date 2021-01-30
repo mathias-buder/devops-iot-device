@@ -140,6 +140,12 @@ typedef struct RING_STRUCT_TAG   /* ring buffer */
     U8   max_length_u8; /* length of the buffer array. */
 } RING_STRUCT;
 
+typedef struct POINT_2D_TYPE_TAG
+{
+    F32 x_f32;
+    F32 y_f32;
+} POINT_2D_TYPE;
+
 /*
 degree + 1 = DIMENSION
 Polynoms are represented by F32 arrays of size POLY_NR_DIMENSIONS

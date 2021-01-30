@@ -16,31 +16,11 @@
 
 *********************************************************************/
 
-/**********************************/
-/* GLOBAL QAC WARNING SUPPRESSION */
-/**********************************/
-
-/*  DEVIATION:     0491
-    DESCRIPTION:   Array subscripting applied to an object of pointer type.
-    JUSTIFICATION: This file contains well used legacy code. The QAC help text (below) associated
-    with this warning also implies that it is a question of company coding standards rather than
-    outright 'bad' code:-
-
-    "This is perfectly legitimate in the C language providing the pointer addresses
-    an array element; but some coding standards recommend that if a parameter refers to an
-    array, it should be declared as an array."  */
-    /* PRQA S 0491 EOF*/
-
-/*************************************************************/
-/*      FILE DEFINITIONS                                     */
-/*************************************************************/
-
-#define SW_UTILS               /* defines this file*/
-#define FOUNDATION_SUBSYSTEM   /* defines the subsystem that this file resides in*/
-
 /*************************************************************/
 /*      INCLUDE FILES                                        */
 /*************************************************************/
+#include "util_gen.h"
+
 #include "../types.h"
 
 /*************************************************************/
@@ -50,11 +30,6 @@
 /*************************************************************/
 /*      PRIVATE FUNCTION DECLARATIONS                        */
 /*************************************************************/
-
-/*************************************************************/
-/*      CODE                                                 */
-/*************************************************************/
-
 
 /****************************************************************************/
 /*                                                                          */
@@ -73,7 +48,6 @@ F32 squaref( const F32 x_f32 )
     return ( x_f32 * x_f32 );
 }
 
-
 /****************************************************************************/
 /*                                                                          */
 /*  Function    : map_1d                                                    */
@@ -89,41 +63,39 @@ F32 squaref( const F32 x_f32 )
 /*                                                                          */
 /****************************************************************************/
 
-F32 map_1d(const MAPTYPE *mapin, F32 x)
+F32 map_1d( const MAPTYPE* mapin, F32 x )
 {
-    F32 *data = (F32*)mapin->map_pts;
-    F32 *axis = (F32*)mapin->x_bpoints;
-    U32 num_pt = mapin->num_of_x_bpoints;
-    U32 i;
-    F32 return_value;
+    F32* data   = (F32*) mapin->map_pts;
+    F32* axis   = (F32*) mapin->x_bpoints;
+    U32  num_pt = mapin->num_of_x_bpoints;
+    U32  i;
+    F32  return_value;
 
-    if(x >= axis[num_pt-1U])     /* value is greater than max def. input*/
+    if ( x >= axis[num_pt - 1U] ) /* value is greater than max def. input*/
     {
-        return_value = data[num_pt-1U]; /* output is output from max.x point*/
+        return_value = data[num_pt - 1U]; /* output is output from max.x point*/
     }
     else
     {
-        if(x <= axis[0])            /* value is below the minimum def.*/
+        if ( x <= axis[0] ) /* value is below the minimum def.*/
         {
-            return_value = data[0];        /* first of the output values*/
+            return_value = data[0]; /* first of the output values*/
         }
         else
         {
             /* find the index of the neighboured xvalue*/
-            i=num_pt-2U;
-            while( x<axis[i] )
+            i = num_pt - 2U;
+            while ( x < axis[i] )
             {
                 i--;
             }
 
-            return_value = (data[i] + (((x - axis[i]) * (data[i+1U] - data[i])) /
-                           (axis[i+1U] - axis[i])));
+            return_value = ( data[i] + ( ( ( x - axis[i] ) * ( data[i + 1U] - data[i] ) ) / ( axis[i + 1U] - axis[i] ) ) );
         }
     }
 
-    return( return_value );
+    return ( return_value );
 }
-
 
 /****************************************************************************/
 /*                                                                          */
@@ -140,82 +112,81 @@ F32 map_1d(const MAPTYPE *mapin, F32 x)
 /*                                                                          */
 /*                                                                          */
 /****************************************************************************/
-F32 map_2d(const MAPTYPE *mapin, F32 x, F32 y)
+F32 map_2d( const MAPTYPE* mapin, F32 x, F32 y )
 {
-    U32 num_ptx = mapin->num_of_x_bpoints;
-    U32 num_pty = mapin->num_of_y_bpoints;
-    F32 *xval = (F32*)mapin->x_bpoints;
-    F32 *yval = (F32*)mapin->y_bpoints;
-    F32 *zval = (F32*)mapin->map_pts;
-    U32 ix;
-    U32 iy;
-    F32 dy, dz1, dz2, dz3;
-    F32 low_x, up_x, delta_y;
+    U32  num_ptx = mapin->num_of_x_bpoints;
+    U32  num_pty = mapin->num_of_y_bpoints;
+    F32* xval    = (F32*) mapin->x_bpoints;
+    F32* yval    = (F32*) mapin->y_bpoints;
+    F32* zval    = (F32*) mapin->map_pts;
+    U32  ix;
+    U32  iy;
+    F32  dy, dz1, dz2, dz3;
+    F32  low_x, up_x, delta_y;
 
-    if(x <= xval[0]) /* xvalue is minimum*/
+    if ( x <= xval[0] ) /* xvalue is minimum*/
     {
-        x = xval[0];
+        x  = xval[0];
         ix = 0;
     }
     else
     {
-        if (x >= xval[num_ptx-1U])
+        if ( x >= xval[num_ptx - 1U] )
         {
-            x = xval[num_ptx-1U];
-            ix = num_ptx-2U;
+            x  = xval[num_ptx - 1U];
+            ix = num_ptx - 2U;
         }
         else
         {
             /* find the index of the neighboured xvalue*/
-            ix=num_ptx-2U;
-            while( x < xval[ix] )
+            ix = num_ptx - 2U;
+            while ( x < xval[ix] )
             {
                 ix--;
             }
         }
     }
 
-    if(y <= yval[0]) /* yvalue is minimum*/
+    if ( y <= yval[0] ) /* yvalue is minimum*/
     {
-        y = yval[0];
+        y  = yval[0];
         iy = 0;
     }
     else
     {
-        if (y >= yval[num_pty-1U])
+        if ( y >= yval[num_pty - 1U] )
         {
-            y = yval[num_pty-1U];
-            iy = num_pty-2U;
+            y  = yval[num_pty - 1U];
+            iy = num_pty - 2U;
         }
         else
         {
             /* find the index of the neighboured xvalue*/
-            iy=num_pty-2U;
-            while( y < yval[iy] )
+            iy = num_pty - 2U;
+            while ( y < yval[iy] )
             {
                 iy--;
             }
-        }                                               /* iy is left-low from the input value*/
+        } /* iy is left-low from the input value*/
     }
     /* ok !*/
 
-    dy = yval[iy+1U]-yval[iy];
-    delta_y = y - yval[iy];        /* difference between actual value and next lower y value (positive)*/
+    dy      = yval[iy + 1U] - yval[iy];
+    delta_y = y - yval[iy]; /* difference between actual value and next lower y value (positive)*/
 
     /* calc 1d lookup table in y for the x value below*/
-    dz1   = zval[(ix*num_pty)+iy+1U] - zval[(ix*num_pty)+iy];
-    low_x = (zval[(ix*num_pty)+iy] + ((delta_y*dz1)/dy));
+    dz1   = zval[( ix * num_pty ) + iy + 1U] - zval[( ix * num_pty ) + iy];
+    low_x = ( zval[( ix * num_pty ) + iy] + ( ( delta_y * dz1 ) / dy ) );
 
     /* now the upper table*/
-    dz2  = zval[((ix+1U)*num_pty)+iy+1U] - zval[((ix+1U)*num_pty)+iy];
-    up_x = (zval[((ix+1U)*num_pty)+iy] + ((delta_y * dz2)/dy));
+    dz2  = zval[( ( ix + 1U ) * num_pty ) + iy + 1U] - zval[( ( ix + 1U ) * num_pty ) + iy];
+    up_x = ( zval[( ( ix + 1U ) * num_pty ) + iy] + ( ( delta_y * dz2 ) / dy ) );
 
     /* interpolate between low_x and up_x :*/
     dz3 = up_x - low_x;
 
-    return(low_x + ( ((x - xval[ix])*dz3) / (xval[ix+1U] - xval[ix]) ) );
+    return ( low_x + ( ( ( x - xval[ix] ) * dz3 ) / ( xval[ix + 1U] - xval[ix] ) ) );
 }
-
 
 /****************************************************************************/
 /*                                                                          */
@@ -231,16 +202,16 @@ F32 map_2d(const MAPTYPE *mapin, F32 x, F32 y)
 /*                value with appropriate scaling and offset.                */
 /*                                                                          */
 /****************************************************************************/
-S32  convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f)
+S32 convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f )
 {
     F32 temp_var_f32;
 
-    temp_var_f32 = (value_f - offset_f) * inverse_resn_f;
+    temp_var_f32 = ( value_f - offset_f ) * inverse_resn_f;
 
     /* Inc or dec by 0.5 prior to truncation */
-    (temp_var_f32 >= 0.0F) ? (temp_var_f32 += 0.5F) : (temp_var_f32 -= 0.5F);
+    ( temp_var_f32 >= 0.0F ) ? ( temp_var_f32 += 0.5F ) : ( temp_var_f32 -= 0.5F );
 
-    return ((S32)temp_var_f32);
+    return ( (S32) temp_var_f32 );
 }
 
 /****************************************************************************/
@@ -257,17 +228,32 @@ S32  convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f)
 /*                value with appropriate scaling and offset.                */
 /*                                                                          */
 /****************************************************************************/
-U32  convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f)
+U32 convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f )
 {
     F32 temp_var_f32;
 
-    temp_var_f32 = ((value_f - offset_f) * inverse_resn_f)+ 0.5F; /*Perform scaling and rounding*/
+    temp_var_f32 = ( ( value_f - offset_f ) * inverse_resn_f ) + 0.5F; /*Perform scaling and rounding*/
 
-    if(temp_var_f32 < 0.0F)
+    if ( temp_var_f32 < 0.0F )
     {
         temp_var_f32 = 0.0F;
     }
 
-    return ((U32)temp_var_f32);
+    return ( (U32) temp_var_f32 );
 }
 
+void util_rotate_point( POINT_2D_TYPE& r_point_s,
+                        F32            angle_deg_f32 )
+{
+    F32 x_f32         = r_point_s.x_f32;
+    F32 y_f32         = r_point_s.y_f32;
+    F32 angle_rad_f32 = angle_deg_f32 * DEG_TO_RAD;
+
+    /* x´ = x * cos(angle) - y * sin(angle) */
+    r_point_s.x_f32 =   ( x_f32 * cosf( angle_rad_f32 ) )
+                      - ( y_f32 * sinf( angle_rad_f32 ) );
+
+    /* y´ = x * sin(angle) + y * cos(angle) */
+    r_point_s.y_f32 =   ( x_f32 * sinf( angle_rad_f32 ) )
+                      + ( y_f32 * cosf( angle_rad_f32 ) );
+}

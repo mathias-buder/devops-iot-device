@@ -170,9 +170,10 @@ extern F32 map_1d( const MAPTYPE* mapin, F32 x );
  *                  y     - input value to the map
  * @param[out]      F32  - the interpolated value o/p from the map
  */
-extern F32 map_2d( const MAPTYPE* mapin, F32 x, F32 y );
-extern S32 convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
-extern U32 convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
+extern F32  map_2d( const MAPTYPE* mapin, F32 x, F32 y );
+extern S32  convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
+extern U32  convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
+extern void util_rotate_point( POINT_2D_TYPE& r_point_s, F32 angle_deg_f32 );
 
 typedef struct
 {

@@ -10,9 +10,9 @@
             "alignment": "vertical",
             "subWindowSizes": [
                 5,
-                26,
+                24,
                 25,
-                44
+                46
             ],
             "subWindows": [
                 {
@@ -135,7 +135,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.x_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.position_s.x_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -144,7 +144,7 @@
                         {
                             "active": true,
                             "alias": "",
-                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.y_f32",
+                            "expression": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.position_s.y_f32",
                             "precision": 4,
                             "readAsChar": false,
                             "rules": [
@@ -264,11 +264,11 @@
                                 {
                                     "active": true,
                                     "condition": "libSeWelaSim.ve_grid.vibrator_vs[?].is_inside_act_area_b == 1",
-                                    "fillColor": "#ff00ffff",
+                                    "fillColor": "#ffff00ff",
                                     "fillEnabled": true,
                                     "name": "41_0_2",
                                     "outlineColor": "#ffff0000",
-                                    "outlineEnabled": true,
+                                    "outlineEnabled": false,
                                     "size": 1,
                                     "type": "Change Appearance"
                                 }
@@ -301,7 +301,7 @@
                                 {
                                     "active": true,
                                     "annotationName": "Y",
-                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.y_f32",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.position_s.y_f32",
                                     "condition": "1",
                                     "direction": 1,
                                     "fontSize": 6,
@@ -313,7 +313,7 @@
                                 {
                                     "active": true,
                                     "annotationName": "X",
-                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.x_f32",
+                                    "annotationPath": "libSeWelaSim.ve_grid.virtual_point_props_s.point_s.position_s.x_f32",
                                     "condition": "1",
                                     "direction": 1,
                                     "fontSize": 6,
@@ -332,8 +332,9 @@
                             "active": true,
                             "alias": "",
                             "expression": "ve_grid_ellipse",
+                            "fillColor": "#0cff00ff",
                             "outlineColor": "#ff000000",
-                            "penshape": "SOLID",
+                            "penshape": "DASH DOT DOT",
                             "rules": [
                             ],
                             "size": 1,

@@ -22,23 +22,23 @@
 #include <math.h>
 
 #include "VE/VE.h"
+#include "UTIL/UTIL.h"
 
-#define HLP_VE_ELLIPSE_BKPS     50U                                     /**< @details Number of brake points to paint ellipse */
+#define HLP_VE_ELLIPSE_BKPS     50U                          /**< @details Number of brake points to paint ellipse */
 
 /*********************************************************************/
 /*      GLOBAL VARIABLES                                             */
 /*********************************************************************/
-F32 hlp_ve_ellipse_x_f32[HLP_VE_ELLIPSE_BKPS + 1U];
-F32 hlp_ve_ellipse_y_f32[HLP_VE_ELLIPSE_BKPS + 1U];
-F32 angle_res_f32;/**< @details Angular resolution for each HLP_VE_ELLIPSE_BKPS */
-F32 angle_f32;
 
+POINT_2D_TYPE hlp_ve_ellipse_bkpt[HLP_VE_ELLIPSE_BKPS + 1U]; /**< @details Angular resolution for each HLP_VE_ELLIPSE_BKPS */
+F32           angle_res_f32;                                 /**< @details Angular resolution for each HLP_VE_ELLIPSE_BKPS */
+F32           angle_f32;                                     /**< @details Angular resolution for each HLP_VE_ELLIPSE_BKPS */
+F32           rotation_angle_deg_f32 = 0.0F;                 /**< @details Angular resolution for each HLP_VE_ELLIPSE_BKPS */
 
 /*********************************************************************/
 /*   STATIC FUNCTION PROTOTYPES                                      */
 /*********************************************************************/
 static void hlp_ve_draw_ellipse( void );
-
 
 /*********************************************************************/
 /*   FUNCTION DEFINITIONS                                            */
@@ -61,14 +61,23 @@ static void hlp_ve_draw_ellipse( void )
 
     F32 rx_f32   = ve_grid.get_virtual_point().rx_f32;
     F32 ry_f32   = ve_grid.get_virtual_point().ry_f32;
-    F32 offset_x = ve_grid.get_virtual_point().point_s.x_f32;
-    F32 offset_y = ve_grid.get_virtual_point().point_s.y_f32;
+    F32 offset_x = ve_grid.get_virtual_point().point_s.position_s.x_f32;
+    F32 offset_y = ve_grid.get_virtual_point().point_s.position_s.y_f32;
 
     for ( idx_u8 = 0U; idx_u8 <= HLP_VE_ELLIPSE_BKPS; ++idx_u8 )
     {
-        hlp_ve_ellipse_x_f32[idx_u8] = offset_x + ( rx_f32 * cosf( angle_f32 ) );
-        hlp_ve_ellipse_y_f32[idx_u8] = offset_y + ( ry_f32 * sinf( angle_f32 ) );
+        /* Generate ellipse break point */
+        hlp_ve_ellipse_bkpt[idx_u8].x_f32 =  rx_f32 * cosf( angle_f32 );
+        hlp_ve_ellipse_bkpt[idx_u8].y_f32 =  ry_f32 * sinf( angle_f32 );
 
+        /* Rotate ellipse according to rotation_angle_deg_f32 */
+        util_rotate_point( hlp_ve_ellipse_bkpt[idx_u8], rotation_angle_deg_f32 );
+
+        /* Shift ellipse according to offset_x/ offset_y */
+        hlp_ve_ellipse_bkpt[idx_u8].x_f32 += offset_x;
+        hlp_ve_ellipse_bkpt[idx_u8].y_f32 += offset_y;
+
+        /* Next break point */
         angle_f32 += angle_res_f32;
     }
 }

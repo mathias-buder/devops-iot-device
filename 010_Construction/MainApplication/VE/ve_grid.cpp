@@ -99,7 +99,7 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
     for ( idx_u8 = 0U; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8 )
     {
         this->vibrator_vs[idx_u8].dist_to_vp_f32 = compute_euclidean_distance( this->vibrator_vs[idx_u8].position_s,
-                                                                               this->virtual_point_props_s.point_s,
+                                                                               this->virtual_point_props_s.point_s.position_s,
                                                                                dx_square_f32,
                                                                                dy_square_f32 );
 
@@ -113,10 +113,10 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
      * normalize to size in this direction */
 }
 
-F32 VE_GRID_C::compute_euclidean_distance( VE_GRID_VIBRATOR_POS_TYPE&  r_vib_pos_s,
-                                           VE_GRID_VIRTUAL_POINT_TYPE& r_vp_pos_s,
-                                           F32&                        r_dx_square_f32,
-                                           F32&                        r_dy_square_f32 )
+F32 VE_GRID_C::compute_euclidean_distance( POINT_2D_TYPE& r_vib_pos_s,
+                                           POINT_2D_TYPE& r_vp_pos_s,
+                                           F32&           r_dx_square_f32,
+                                           F32&           r_dy_square_f32 )
 {
 
     F32 dx_f32, dy_f32;

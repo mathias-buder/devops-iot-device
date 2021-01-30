@@ -56,15 +56,6 @@ typedef enum VE_GRID_VIBRATOR_TAG
 /*************************************************************/
 /*      STRUCTURES                                           */
 /*************************************************************/
-/**
- * @brief   Vibrator cartesian position relative to reference point
- * @ingroup VibrationEngineStructures
- */
-typedef struct VE_GRID_VIBRATOR_POS_TYPE_TAG
-{
-    F32 x_f32; /**< @details Vibrator x-distance to reference point within grid @unit [mm] */
-    F32 y_f32; /**< @details Vibrator y-distance to reference point within grid @unit [mm] */
-} VE_GRID_VIBRATOR_POS_TYPE;
 
 /**
  * @brief   Vibration data structure
@@ -74,10 +65,10 @@ typedef struct VE_GRID_VIBRATOR_POS_TYPE_TAG
  */
 typedef struct VE_GRID_VIBRATOR_TYPE_TAG
 {
-    VE_GRID_VIBRATOR_POS_TYPE position_s;           /**< @details Vibrator x/y-distance to reference point within grid @unit [mm] */
-    F32                       pwm_duty_cycle_f32;   /**< @details PW duty cycle @unit [%] */
-    F32                       dist_to_vp_f32;       /**< @details Euclidean distance to to virtual point @unit mm % */
-    BOOLEAN                   is_inside_act_area_b; /**< @details Indicates whether it is inside the activation area */
+    POINT_2D_TYPE position_s;           /**< @details Vibrator x/y-distance to reference point within grid @unit [mm] */
+    F32           pwm_duty_cycle_f32;   /**< @details PW duty cycle @unit [%] */
+    F32           dist_to_vp_f32;       /**< @details Euclidean distance to to virtual point @unit mm % */
+    BOOLEAN       is_inside_act_area_b; /**< @details Indicates whether it is inside the activation area */
 } VE_GRID_VIBRATOR_TYPE;
 
 /**
@@ -88,9 +79,8 @@ typedef struct VE_GRID_VIBRATOR_TYPE_TAG
  */
 typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
 {
-    F32 x_f32;                                   /**< @details Vibrator x-distance to reference point within grid @unit [mm] */
-    F32 y_f32;                                   /**< @details Vibrator y-distance to reference point within grid @unit [mm] */
-    F32 intensity_f32;                           /**< @details Vibration intensity @unit % */
+    POINT_2D_TYPE position_s;    /**< @details Vibrator x/y-distance to reference point within grid @unit [mm] */
+    F32           intensity_f32; /**< @details Vibration intensity @unit % */
 } VE_GRID_VIRTUAL_POINT_TYPE;
 
 /**
@@ -114,7 +104,7 @@ typedef struct VE_GRID_VIRTUAL_POINT_PROPS_TYPE_TAG
  */
 typedef struct VE_GRID_CONFIG_TYPE_TAG
 {
-    VE_GRID_VIBRATOR_POS_TYPE vibrator_pos_vs[VE_GRID_VIBRATOR_SIZE];
+    POINT_2D_TYPE vibrator_pos_vs[VE_GRID_VIBRATOR_SIZE];
     F32                       vp_size_x_f32;
     F32                       vp_size_y_f32;
 } VE_GRID_CONFIG_TYPE;
@@ -195,10 +185,10 @@ class VE_GRID_C {
      *                             vibrator and virtual point @UNIT mm
      * @return Euclidean distance @UNIT mm
      */
-    F32 compute_euclidean_distance( VE_GRID_VIBRATOR_POS_TYPE&  r_vib_pos_s,
-                                    VE_GRID_VIRTUAL_POINT_TYPE& r_vp_pos_s,
-                                    F32&                        r_dx_square_f32,
-                                    F32&                        r_dy_square_f32 );
+    F32 compute_euclidean_distance( POINT_2D_TYPE& r_vib_pos_s,
+                                    POINT_2D_TYPE& r_vp_pos_s,
+                                    F32&           r_dx_square_f32,
+                                    F32&           r_dy_square_f32 );
 
     /**
      * @details This function checks if a vibrator is within the ellispe area.
