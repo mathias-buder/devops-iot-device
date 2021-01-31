@@ -101,7 +101,7 @@ void VE_GRID_C::main( VE_GRID_DATA_IN_TYPE& r_data_in_s )
     for ( idx_u8 = 0U; idx_u8 < VE_GRID_VIBRATOR_SIZE; ++idx_u8 )
     {
         this->vibrator_vs[idx_u8].dist_to_vp_f32 = compute_euclidean_distance( this->vibrator_vs[idx_u8].position_s,
-                                                                               this->virtual_point_props_s.point_s.position_s,
+                                                                               this->virtual_point_props_s.position_s,
                                                                                dx_square_f32,
                                                                                dy_square_f32 );
 

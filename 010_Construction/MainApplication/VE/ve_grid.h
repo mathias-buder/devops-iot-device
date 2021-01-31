@@ -91,9 +91,10 @@ typedef struct VE_GRID_VIRTUAL_POINT_TYPE_TAG
  */
 typedef struct VE_GRID_VIRTUAL_POINT_PROPS_TYPE_TAG
 {
-    VE_GRID_VIRTUAL_POINT_TYPE point_s; /**< @details Virtual point structure */
-    F32                        rx_f32;  /**< @details Ellipse radius in x direction @unit mm */
-    F32                        ry_f32;  /**< @details Ellipse radius in y direction @unit mm */
+    POINT_2D_TYPE position_s;    /**< @details Vibrator x/y-distance to reference point within grid @unit [mm] */
+    F32           intensity_f32; /**< @details Vibration intensity @unit % */
+    F32           rx_f32;        /**< @details Ellipse radius in x direction @unit mm */
+    F32           ry_f32;        /**< @details Ellipse radius in y direction @unit mm */
 } VE_GRID_VIRTUAL_POINT_PROPS_TYPE;
 
 /**

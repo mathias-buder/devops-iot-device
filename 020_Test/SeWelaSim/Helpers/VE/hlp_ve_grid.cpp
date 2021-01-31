@@ -61,8 +61,8 @@ static void hlp_ve_draw_ellipse( void )
 
     F32 rx_f32   = ve_grid.get_virtual_point().rx_f32;
     F32 ry_f32   = ve_grid.get_virtual_point().ry_f32;
-    F32 offset_x = ve_grid.get_virtual_point().point_s.position_s.x_f32;
-    F32 offset_y = ve_grid.get_virtual_point().point_s.position_s.y_f32;
+    F32 offset_x = ve_grid.get_virtual_point().position_s.x_f32;
+    F32 offset_y = ve_grid.get_virtual_point().position_s.y_f32;
 
     for ( idx_u8 = 0U; idx_u8 <= HLP_VE_ELLIPSE_BKPS; ++idx_u8 )
     {
