@@ -12,12 +12,13 @@
         (c) SEWELA 2020
 
         @file util_gen.cpp
-        @details Some detailed description
+        @details Contains the implementation of the general
+                 utility functionality.
 
 *********************************************************************/
 
 /*************************************************************/
-/*      INCLUDE FILES                                        */
+/*      INCLUDES                                             */
 /*************************************************************/
 #include "util_gen.h"
 
@@ -31,182 +32,135 @@
 /*      PRIVATE FUNCTION DECLARATIONS                        */
 /*************************************************************/
 
-/****************************************************************************/
-/*                                                                          */
-/*  Function    : squaref                                                   */
-/*                                                                          */
-/*  Parameters  : x_f32 - input value                                       */
-/*                                                                          */
-/*  Returns     : F32   - the square of input value                         */
-/*                                                                          */
-/*  Description : Returns the square of floating point value                */
-/*                                                                          */
-/*                                                                          */
-/****************************************************************************/
-F32 squaref( const F32 x_f32 )
+/*************************************************************/
+/*      FUNCTION DEFINITION                                  */
+/*************************************************************/
+F32 util_squaref( const F32 x_f32 )
 {
     return ( x_f32 * x_f32 );
 }
 
-/****************************************************************************/
-/*                                                                          */
-/*  Function    : map_1d                                                    */
-/*                                                                          */
-/*  Parameters  : *mapin - A pointer to the specified map                   */
-/*                 x     - input value to the map                           */
-/*                                                                          */
-/*  Returns     : F32  - the interpolated value o/p from the map           */
-/*                                                                          */
-/*  Description : Returns an interpolated floating point value from a 1D    */
-/*                map with floating point variable breakpoints.             */
-/*                                                                          */
-/*                                                                          */
-/****************************************************************************/
 
-F32 map_1d( const MAPTYPE* mapin, F32 x )
+F32 util_map_1d( const MAPTYPE* p_mapin_s, F32 x_f32 )
 {
-    F32* data   = (F32*) mapin->map_pts;
-    F32* axis   = (F32*) mapin->x_bpoints;
-    U32  num_pt = mapin->num_of_x_bpoints;
-    U32  i;
-    F32  return_value;
+    F32* p_data_f32 = (F32*) p_mapin_s->map_pts;
+    F32* p_axis_f32 = (F32*) p_mapin_s->x_bpoints;
+    U32  num_pt_u32 = p_mapin_s->num_of_x_bpoints;
+    U32  i_u32;
+    F32  return_value_f32;
 
-    if ( x >= axis[num_pt - 1U] ) /* value is greater than max def. input*/
+    if ( x_f32 >= p_axis_f32[num_pt_u32 - 1U] ) /* value is greater than max def. input*/
     {
-        return_value = data[num_pt - 1U]; /* output is output from max.x point*/
+        return_value_f32 = p_data_f32[num_pt_u32 - 1U]; /* output is output from max.x point*/
     }
     else
     {
-        if ( x <= axis[0] ) /* value is below the minimum def.*/
+        if ( x_f32 <= p_axis_f32[0] ) /* value is below the minimum def.*/
         {
-            return_value = data[0]; /* first of the output values*/
+            return_value_f32 = p_data_f32[0]; /* first of the output values*/
         }
         else
         {
             /* find the index of the neighboured xvalue*/
-            i = num_pt - 2U;
-            while ( x < axis[i] )
+            i_u32 = num_pt_u32 - 2U;
+            while ( x_f32 < p_axis_f32[i_u32] )
             {
-                i--;
+                i_u32--;
             }
 
-            return_value = ( data[i] + ( ( ( x - axis[i] ) * ( data[i + 1U] - data[i] ) ) / ( axis[i + 1U] - axis[i] ) ) );
+            return_value_f32 = ( p_data_f32[i_u32] + ( ( ( x_f32 - p_axis_f32[i_u32] ) * ( p_data_f32[i_u32 + 1U] - p_data_f32[i_u32] ) ) / ( p_axis_f32[i_u32 + 1U] - p_axis_f32[i_u32] ) ) );
         }
     }
 
-    return ( return_value );
+    return ( return_value_f32 );
 }
 
-/****************************************************************************/
-/*                                                                          */
-/*  Function    : map_2d                                                    */
-/*                                                                          */
-/*  Parameters  : *mapin - A pointer to the specified map                   */
-/*                 x     - input value to the map                           */
-/*                 y     - input value to the map                           */
-/*                                                                          */
-/*  Returns     : F32  - the interpolated value o/p from the map           */
-/*                                                                          */
-/*  Description : Returns an interpolated floating point value from a 2D    */
-/*                map with floating point variable breakpoints              */
-/*                                                                          */
-/*                                                                          */
-/****************************************************************************/
-F32 map_2d( const MAPTYPE* mapin, F32 x, F32 y )
+
+F32 util_map_2d( const MAPTYPE* p_mapin_s, F32 x_f32, F32 y_f32 )
 {
-    U32  num_ptx = mapin->num_of_x_bpoints;
-    U32  num_pty = mapin->num_of_y_bpoints;
-    F32* xval    = (F32*) mapin->x_bpoints;
-    F32* yval    = (F32*) mapin->y_bpoints;
-    F32* zval    = (F32*) mapin->map_pts;
-    U32  ix;
-    U32  iy;
+    U32  num_ptx_u32 = p_mapin_s->num_of_x_bpoints;
+    U32  num_pty_u32 = p_mapin_s->num_of_y_bpoints;
+    F32* p_xval_f32  = (F32*) p_mapin_s->x_bpoints;
+    F32* p_yval_f32  = (F32*) p_mapin_s->y_bpoints;
+    F32* p_zval_f32  = (F32*) p_mapin_s->map_pts;
+    U32  ix_u32, iy_u32;
     F32  dy, dz1, dz2, dz3;
     F32  low_x, up_x, delta_y;
 
-    if ( x <= xval[0] ) /* xvalue is minimum*/
+    /* xvalue is minimum */
+    if ( x_f32 <= p_xval_f32[0] )
     {
-        x  = xval[0];
-        ix = 0;
+        x_f32  = p_xval_f32[0];
+        ix_u32 = 0;
     }
     else
     {
-        if ( x >= xval[num_ptx - 1U] )
+        if ( x_f32 >= p_xval_f32[num_ptx_u32 - 1U] )
         {
-            x  = xval[num_ptx - 1U];
-            ix = num_ptx - 2U;
+            x_f32  = p_xval_f32[num_ptx_u32 - 1U];
+            ix_u32 = num_ptx_u32 - 2U;
         }
         else
         {
             /* find the index of the neighboured xvalue*/
-            ix = num_ptx - 2U;
-            while ( x < xval[ix] )
+            ix_u32 = num_ptx_u32 - 2U;
+            while ( x_f32 < p_xval_f32[ix_u32] )
             {
-                ix--;
+                ix_u32--;
             }
         }
     }
 
-    if ( y <= yval[0] ) /* yvalue is minimum*/
+    /* yvalue is minimum */
+    if ( y_f32 <= p_yval_f32[0] )
     {
-        y  = yval[0];
-        iy = 0;
+        y_f32  = p_yval_f32[0];
+        iy_u32 = 0;
     }
     else
     {
-        if ( y >= yval[num_pty - 1U] )
+        if ( y_f32 >= p_yval_f32[num_pty_u32 - 1U] )
         {
-            y  = yval[num_pty - 1U];
-            iy = num_pty - 2U;
+            y_f32  = p_yval_f32[num_pty_u32 - 1U];
+            iy_u32 = num_pty_u32 - 2U;
         }
         else
         {
             /* find the index of the neighboured xvalue*/
-            iy = num_pty - 2U;
-            while ( y < yval[iy] )
+            iy_u32 = num_pty_u32 - 2U;
+            while ( y_f32 < p_yval_f32[iy_u32] )
             {
-                iy--;
+                iy_u32--;
             }
         } /* iy is left-low from the input value*/
     }
     /* ok !*/
 
-    dy      = yval[iy + 1U] - yval[iy];
-    delta_y = y - yval[iy]; /* difference between actual value and next lower y value (positive)*/
+    dy = p_yval_f32[iy_u32 + 1U] - p_yval_f32[iy_u32];
+
+    /* difference between actual value and next lower y value (positive) */
+    delta_y = y_f32 - p_yval_f32[iy_u32];
 
     /* calc 1d lookup table in y for the x value below*/
-    dz1   = zval[( ix * num_pty ) + iy + 1U] - zval[( ix * num_pty ) + iy];
-    low_x = ( zval[( ix * num_pty ) + iy] + ( ( delta_y * dz1 ) / dy ) );
+    dz1   = p_zval_f32[( ix_u32 * num_pty_u32 ) + iy_u32 + 1U] - p_zval_f32[( ix_u32 * num_pty_u32 ) + iy_u32];
+    low_x = ( p_zval_f32[( ix_u32 * num_pty_u32 ) + iy_u32] + ( ( delta_y * dz1 ) / dy ) );
 
     /* now the upper table*/
-    dz2  = zval[( ( ix + 1U ) * num_pty ) + iy + 1U] - zval[( ( ix + 1U ) * num_pty ) + iy];
-    up_x = ( zval[( ( ix + 1U ) * num_pty ) + iy] + ( ( delta_y * dz2 ) / dy ) );
+    dz2  = p_zval_f32[( ( ix_u32 + 1U ) * num_pty_u32 ) + iy_u32 + 1U] - p_zval_f32[( ( ix_u32 + 1U ) * num_pty_u32 ) + iy_u32];
+    up_x = ( p_zval_f32[( ( ix_u32 + 1U ) * num_pty_u32 ) + iy_u32] + ( ( delta_y * dz2 ) / dy ) );
 
     /* interpolate between low_x and up_x :*/
     dz3 = up_x - low_x;
 
-    return ( low_x + ( ( ( x - xval[ix] ) * dz3 ) / ( xval[ix + 1U] - xval[ix] ) ) );
+    return ( low_x + ( ( ( x_f32 - p_xval_f32[ix_u32] ) * dz3 ) / ( p_xval_f32[ix_u32 + 1U] - p_xval_f32[ix_u32] ) ) );
 }
 
-/****************************************************************************/
-/*                                                                          */
-/*  Function    : convert_float_to_S32                                      */
-/*                                                                          */
-/*  Parameters  : value_f          F32 input value                          */
-/*                inverse_resn_f   F32 1/resolution                         */
-/*                offset_f         F32 applied offset value                 */
-/*                                                                          */
-/*  Returns     : S32  -           fixed point equivalent                   */
-/*                                                                          */
-/*  Description : Returns the fixed point equivalent of a floating point    */
-/*                value with appropriate scaling and offset.                */
-/*                                                                          */
-/****************************************************************************/
-S32 convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f )
+
+S32 util_convert_float_to_S32( F32 value_f32, F32 inverse_resn_f32, F32 offset_f32 )
 {
     F32 temp_var_f32;
 
-    temp_var_f32 = ( value_f - offset_f ) * inverse_resn_f;
+    temp_var_f32 = ( value_f32 - offset_f32 ) * inverse_resn_f32;
 
     /* Inc or dec by 0.5 prior to truncation */
     ( temp_var_f32 >= 0.0F ) ? ( temp_var_f32 += 0.5F ) : ( temp_var_f32 -= 0.5F );
@@ -214,25 +168,13 @@ S32 convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f )
     return ( (S32) temp_var_f32 );
 }
 
-/****************************************************************************/
-/*                                                                          */
-/*  Function    : convert_float_to_U32                                      */
-/*                                                                          */
-/*  Parameters  : value_f          F32 input value                          */
-/*                inverse_resn_f   F32 1/resolution                         */
-/*                offset_f         F32 applied offset value                 */
-/*                                                                          */
-/*  Returns     : U32  -           fixed point equivalent                   */
-/*                                                                          */
-/*  Description : Returns the fixed point equivalent of a floating point    */
-/*                value with appropriate scaling and offset.                */
-/*                                                                          */
-/****************************************************************************/
-U32 convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f )
+
+U32 util_convert_float_to_U32( F32 value_f32, F32 inverse_resn_f32, F32 offset_f32 )
 {
     F32 temp_var_f32;
 
-    temp_var_f32 = ( ( value_f - offset_f ) * inverse_resn_f ) + 0.5F; /*Perform scaling and rounding*/
+    /* Perform scaling and rounding */
+    temp_var_f32 = ( ( value_f32 - offset_f32 ) * inverse_resn_f32 ) + 0.5F;
 
     if ( temp_var_f32 < 0.0F )
     {
@@ -242,18 +184,19 @@ U32 convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f )
     return ( (U32) temp_var_f32 );
 }
 
-void util_rotate_point( POINT_2D_TYPE& r_point_s,
-                        F32            angle_deg_f32 )
+
+void util_rotate_point_2d( POINT_2D_TYPE& r_point_s,
+                           F32            angle_deg_f32 )
 {
     F32 x_f32         = r_point_s.x_f32;
     F32 y_f32         = r_point_s.y_f32;
     F32 angle_rad_f32 = angle_deg_f32 * DEG_TO_RAD;
 
     /* x´ = x * cos(angle) - y * sin(angle) */
-    r_point_s.x_f32 =   ( x_f32 * cosf( angle_rad_f32 ) )
+    r_point_s.x_f32 = ( x_f32 * cosf( angle_rad_f32 ) )
                       - ( y_f32 * sinf( angle_rad_f32 ) );
 
     /* y´ = x * sin(angle) + y * cos(angle) */
-    r_point_s.y_f32 =   ( x_f32 * sinf( angle_rad_f32 ) )
+    r_point_s.y_f32 = ( x_f32 * sinf( angle_rad_f32 ) )
                       + ( y_f32 * cosf( angle_rad_f32 ) );
 }

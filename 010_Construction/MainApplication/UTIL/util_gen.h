@@ -141,16 +141,22 @@
 #endif
 
 /************************************************************************************/
-/* Global function declarations */
-
-#if ( defined( simulator ) )
+/*        Global function declarations                                              */
+/************************************************************************************/
+#ifdef SIMULATOR
 extern "C" void message_logger( const char* p_expression_c,
                                 const char* p_file_path_c,
                                 int         line_s32,
                                 int         log_level_s32 );
 #endif
 
-extern F32 squaref( const F32 x_f32 );
+/**
+ * @description     Returns the square of a floating point value.
+ * @brief           util_squaref
+ * @param[in]       x_f32 - Input floating point value
+ * @param[out]      F32  - Square of x_f32
+ */
+extern F32 util_squaref( const F32 x_f32 );
 /**
  * @description     Returns an interpolated floating point value from a 1D
  *                  map with floating point variable breakpoints.
@@ -159,7 +165,7 @@ extern F32 squaref( const F32 x_f32 );
  *                  x     - input value to the map
  * @param[out]      F32  - the interpolated value o/p from the map
  */
-extern F32 map_1d( const MAPTYPE* mapin, F32 x );
+extern F32 util_map_1d( const MAPTYPE* p_mapins, F32 x_f32 );
 
 /**
  * @description     Returns an interpolated floating point value from a 2D
@@ -170,15 +176,39 @@ extern F32 map_1d( const MAPTYPE* mapin, F32 x );
  *                  y     - input value to the map
  * @param[out]      F32  - the interpolated value o/p from the map
  */
-extern F32  map_2d( const MAPTYPE* mapin, F32 x, F32 y );
-extern S32  convert_float_to_S32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
-extern U32  convert_float_to_U32( F32 value_f, F32 inverse_resn_f, F32 offset_f );
-extern void util_rotate_point( POINT_2D_TYPE& r_point_s, F32 angle_deg_f32 );
+extern F32 util_map_2d( const MAPTYPE* p_mapin_s, F32 x_f32, F32 y_32 );
 
-typedef struct
-{
-    F32* array;
-    int  length;
-} delay_str_type;
+/**
+ * @description     Convert a floating point value to its singed int
+ *                  representation with a given resolution and offset.
+ * @brief           util_convert_float_to_S32
+ * @param[in]       value_f32        - Input floating point value
+ * @param[in]       inverse_resn_f32 - Inverse resolution (1/resolution)
+ * @param[in]       offset_f32       - Offset
+
+ * @param[out]      F32  - Singed int representation
+ */
+extern S32 util_convert_float_to_S32( F32 value_f32, F32 inverse_resn_f32, F32 offset_f32 );
+
+/**
+ * @description     Convert a floating point value to its unsinged int
+ *                  representation with a given resolution and offset.
+ * @brief           util_convert_float_to_S32
+ * @param[in]       value_f32        - Input floating point value
+ * @param[in]       inverse_resn_f32 - Inverse resolution (1/resolution)
+ * @param[in]       offset_f32       - Offset
+
+ * @param[out]      F32  - Singed int representation
+ */
+extern U32 util_convert_float_to_U32( F32 value_f32, F32 inverse_resn_f32, F32 offset_f32 );
+
+/**
+ * @description     Rotate a 2D point araound a given angle.
+ * @brief           util_rotate_point
+ * @param[in/out]   r_point_s     - Input/output 2D point @unit mm
+ * @param[in]       angle_deg_f32 - Rotation angle @unit [°]
+ */
+extern void util_rotate_point_2d( POINT_2D_TYPE& r_point_s, F32 angle_deg_f32 );
+
 
 #endif /* UTIL_GENERAL_H_ */

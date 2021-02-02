@@ -71,7 +71,7 @@ static void hlp_ve_draw_ellipse( void )
         hlp_ve_ellipse_bkpt[idx_u8].y_f32 =  ry_f32 * sinf( angle_f32 );
 
         /* Rotate ellipse according to rotation_angle_deg_f32 */
-        util_rotate_point( hlp_ve_ellipse_bkpt[idx_u8], rotation_angle_deg_f32 );
+        util_rotate_point_2d( hlp_ve_ellipse_bkpt[idx_u8], rotation_angle_deg_f32 );
 
         /* Shift ellipse according to offset_x/ offset_y */
         hlp_ve_ellipse_bkpt[idx_u8].x_f32 += offset_x;
