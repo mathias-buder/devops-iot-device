@@ -7,18 +7,15 @@ setlocal EnableDelayedExpansion
 :: Set IDF_TOOLS_PATH as global environemnt variable or use varieble %userprofile%
 set IDF_TOOLS_PATH=%userprofile%\.espressif
 
-set PYTHON_PATH=C:\Anaconda3;C:\Anaconda3\Scripts
 set PERL_PATH=C:\Strawberry\perl
 set GIT_PATH=C:\Program Files\Git
-set IDF_PATH=C:\Espressif\esp-idf
-set IDF_PYTHON_ENV_PATH=%IDF_TOOLS_PATH%\python_env\idf4.0_py3.7_env
+set IDF_PATH=%userprofile%\Repositories\esp-idf
+set IDF_PYTHON_ENV_PATH=%IDF_TOOLS_PATH%\python_env\idf4.0_py3.8_env
 
 :: Don't modify
 set IDF_CCACHE_ENABLE=1
 
-
 set PATH=^
-%PYTHON_PATH%;^
 %IDF_TOOLS_PATH%\tools\xtensa-esp32-elf\esp-2019r2-8.2.0\xtensa-esp32-elf\bin;^
 %IDF_TOOLS_PATH%\tools\esp32ulp-elf\2.28.51.20170517\esp32ulp-elf-binutils\bin;^
 %IDF_TOOLS_PATH%\tools\cmake\3.13.4\bin;^
