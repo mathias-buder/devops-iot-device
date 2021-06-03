@@ -99,7 +99,7 @@ void SENSE_TS_C::main( SENSE_TS_DATA_IN_TYPE& data_in_s )
 
     LOG_D( SENSE_TS_LOG_MSG_TAG, "ALvl: %0.3f, ABLvl: %0.3f, TConf: %0.3f", data_out_s.alpha_filtered_adc_level_f32,
                                                                             data_out_s.alpha_beta_filtered_adc_level_f32,
-                                                                            data_out_s.touch_conf_s.confidence_f32 )
+                                                                            data_out_s.touch_conf_s.confidence_f32 );
 }
 
 void SENSE_TS_C::alpha_filter( F32  current_sample_f32,
