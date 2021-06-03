@@ -145,14 +145,14 @@ BOOLEAN VE_GRID_C::check_point_inisde_ellipse( F32 dx_square_f32,
      /*
      * Equation / Condition (https://math.stackexchange.com/questions/76457/check-if-a-point-is-within-an-ellipse):
      *
-     * ry^2 * ( x - h )^2 + r_x^2 * ( y - k )^2 <= r_x^2 * r_y^2
+     * ry^2 * ( x - x0 )^2 + r_x^2 * ( y - y0 )^2 <= r_x^2 * r_y^2
      *
      * rx : ellipse radius in x
      * ry : ellipse radius in y
      * x  : x-coordinate of poin to check
      * y  : y-coordinate of point to check
-     * h  : x-coordinate of ellipse origin
-     * k  : y-coordinate of ellipse origin
+     * x0 : x-coordinate of ellipse origin
+     * y0 : y-coordinate of ellipse origin
      * */
 
     rxry_square_f32 = SQUARE( rx_f32 * ry_f32 );
